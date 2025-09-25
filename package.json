@@ -1,0 +1,37 @@
+{
+  "name": "roseland-splash",
+  "version": "1.0.0",
+  "description": "A modern, responsive web application with beautiful UI and interactive features",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server .",
+    "build": "echo 'Build process not configured yet'",
+    "test": "echo 'Tests not configured yet'"
+  },
+  "keywords": [
+    "web",
+    "html5",
+    "css3",
+    "javascript",
+    "responsive",
+    "modern-ui"
+  ],
+  "author": "Jerry Richman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JERRYRICHMAN007/Roseland-Splash.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JERRYRICHMAN007/Roseland-Splash/issues"
+  },
+  "homepage": "https://github.com/JERRYRICHMAN007/Roseland-Splash#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
