@@ -50,23 +50,32 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            {/* Enhanced CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
                 size="lg"
                 onClick={scrollToCategories}
-                className="bg-primary hover:bg-primary-hover text-white text-lg px-8 py-4 h-auto font-bold rounded-full shadow-[var(--premium-shadow)] hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-105"
+                className="group bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white text-lg px-10 py-5 h-auto font-bold rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.4)] transition-all duration-300 hover:scale-105 border border-primary/50 hover:border-primary"
               >
-                Shop Categories
-                <span className="ml-2">→</span>
+                <span className="flex items-center gap-3">
+                  <span>Shop Categories</span>
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">
+                    →
+                  </span>
+                </span>
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => navigate("/track-order")}
-                className="bg-transparent text-white border-2 border-white/40 hover:bg-white/10 hover:border-white/60 text-lg px-8 py-4 h-auto font-bold rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                onClick={() => navigate("/categories")}
+                className="group bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50 text-lg px-10 py-5 h-auto font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                Track Order
+                <span className="flex items-center gap-3">
+                  <span>Browse All</span>
+                  <span className="group-hover:rotate-12 transition-transform duration-300">
+                    🔍
+                  </span>
+                </span>
               </Button>
             </div>
 

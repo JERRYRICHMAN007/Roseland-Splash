@@ -102,7 +102,7 @@ const Footer = () => {
                 <li key={category.id}>
                   <button
                     onClick={() => navigate(`/category/${category.id}`)}
-                    className="text-muted-foreground hover:text-primary transition-colors text-left font-medium hover:translate-x-1 transition-transform duration-200"
+                    className="text-muted-foreground hover:text-primary text-left font-medium hover:translate-x-1 transition-all duration-200"
                   >
                     {category.name}
                   </button>
@@ -120,7 +120,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/delivery-info")}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium hover:translate-x-1 transition-transform duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
                 >
                   Delivery Info
                 </button>
@@ -128,7 +128,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/returns")}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium hover:translate-x-1 transition-transform duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
                 >
                   Returns & Refunds
                 </button>
@@ -136,7 +136,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/faq")}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium hover:translate-x-1 transition-transform duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
                 >
                   FAQs
                 </button>
@@ -144,7 +144,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium hover:translate-x-1 transition-transform duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
                 >
                   Contact Us
                 </button>
@@ -152,7 +152,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/about")}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium hover:translate-x-1 transition-transform duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
                 >
                   About Us
                 </button>

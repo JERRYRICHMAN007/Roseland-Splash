@@ -99,22 +99,7 @@ const SubcategoryPage = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
           {subcategory.products.map((product) => {
-            // Transform the product data to match ProductCard interface
-            const transformedProduct = {
-              id: product.id.toString(),
-              name: product.name,
-              basePrice: product.price,
-              image: product.image,
-              variants: product.variants?.map((variant) => ({
-                size: variant.name,
-                price: variant.price,
-                image: variant.image,
-              })),
-            };
-
-            return (
-              <ProductCard key={product.id} product={transformedProduct} />
-            );
+            return <ProductCard key={product.id} product={product} />;
           })}
         </div>
 

@@ -13,16 +13,22 @@ import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductVariant {
-  size: string;
+  id: string;
+  name: string;
   price: number;
+  unit: string;
+  inStock: boolean;
   image: string;
 }
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
-  basePrice: number;
+  price: number;
+  unit: string;
   image: string;
+  description: string;
+  inStock: boolean;
   variants?: ProductVariant[];
 }
 
@@ -32,7 +38,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const [selectedVariant, setSelectedVariant] = useState<string>(
-    product.variants?.[0]?.size || "default"
+    product.variants?.[0]?.id || "default"
   );
   const { addItem } = useCart();
   const { toast } = useToast();
@@ -40,13 +46,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const getCurrentVariant = () => {
     if (!product.variants || selectedVariant === "default") {
       return {
-        size: "Standard",
-        price: product.basePrice,
+        name: "Standard",
+        price: product.price,
+        unit: product.unit,
         image: product.image,
       };
     }
     return (
-      product.variants.find((v) => v.size === selectedVariant) ||
+      product.variants.find((v) => v.id === selectedVariant) ||
       product.variants[0]
     );
   };
@@ -55,21 +62,21 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleAddToCart = () => {
     const cartItemId = product.variants
-      ? `${product.id}-${currentVariant.size}`
-      : product.id;
+      ? `${product.id}-${currentVariant.name}`
+      : product.id.toString();
 
     addItem({
       id: cartItemId,
       name: product.name,
       price: currentVariant.price,
       image: currentVariant.image,
-      variant: product.variants ? currentVariant.size : undefined,
+      variant: product.variants ? currentVariant.name : undefined,
     });
 
     toast({
       title: "Added to Cart",
       description: `${product.name}${
-        product.variants ? ` (${currentVariant.size})` : ""
+        product.variants ? ` (${currentVariant.name})` : ""
       } has been added to your cart`,
     });
   };
@@ -100,8 +107,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
               </SelectTrigger>
               <SelectContent>
                 {product.variants.map((variant) => (
-                  <SelectItem key={variant.size} value={variant.size}>
-                    {variant.size} - GH₵{variant.price.toFixed(2)}
+                  <SelectItem key={variant.id} value={variant.id}>
+                    {variant.name} - GH₵{variant.price.toFixed(2)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -114,11 +121,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <span className="font-bold text-lg sm:text-xl text-primary">
                 GH₵{currentVariant.price.toFixed(2)}
               </span>
-              {product.variants && (
-                <p className="text-xs text-muted-foreground">
-                  {currentVariant.size}
-                </p>
-              )}
+              <p className="text-xs text-muted-foreground">
+                {product.variants ? currentVariant.name : currentVariant.unit}
+              </p>
             </div>
           </div>
         </div>

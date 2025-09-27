@@ -32,7 +32,7 @@ const Categories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 max-w-7xl mx-auto">
           {categoriesData.map((category) => {
             const categoryProductCount = category.subcategories.reduce(
               (total, sub) => total + sub.products.length,
@@ -44,7 +44,7 @@ const Categories = () => {
                 className="group hover:shadow-[var(--card-shadow)] transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm"
                 onClick={() => navigate(`/category/${category.id}`)}
               >
-                <CardContent className="p-3 sm:p-4 lg:p-6 space-y-3 sm:space-y-4">
+                <CardContent className="p-3 sm:p-4 lg:p-5 space-y-3">
                   <div className="aspect-square rounded-lg overflow-hidden">
                     <img
                       src={category.image}
@@ -53,11 +53,11 @@ const Categories = () => {
                     />
                   </div>
 
-                  <div className="space-y-1 sm:space-y-2 text-center">
-                    <h3 className="font-bold text-sm sm:text-base lg:text-lg group-hover:text-primary transition-colors leading-tight">
+                  <div className="space-y-1 text-center">
+                    <h3 className="font-bold text-sm sm:text-base group-hover:text-primary transition-colors leading-tight">
                       {category.name}
                     </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed hidden sm:block">
+                    <p className="text-xs text-muted-foreground leading-relaxed hidden sm:block line-clamp-2">
                       {category.description}
                     </p>
                     <p className="text-xs text-primary font-medium">
@@ -68,7 +68,7 @@ const Categories = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 text-xs sm:text-sm"
+                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 text-xs"
                   >
                     Explore
                   </Button>
