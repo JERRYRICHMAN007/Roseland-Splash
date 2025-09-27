@@ -38,8 +38,8 @@ const SearchResultsPage = () => {
     console.log("Clicking result:", result); // Debug log
 
     try {
-      let targetPath = '';
-      
+      let targetPath = "";
+
       if (result.type === "category") {
         targetPath = `/category/${result.id}`;
         console.log("Navigating to category:", targetPath);
@@ -54,10 +54,10 @@ const SearchResultsPage = () => {
       if (targetPath) {
         // Try React Router navigation first
         navigate(targetPath, { replace: false });
-        
+
         // Fallback to window.location if navigate doesn't work
         setTimeout(() => {
-          if (window.location.pathname === '/search') {
+          if (window.location.pathname === "/search") {
             window.location.href = targetPath;
           }
         }, 100);

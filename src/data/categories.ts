@@ -735,6 +735,49 @@ export const categoriesData: Category[] = [
           },
         ],
       },
+      {
+        id: "frozen-yam",
+        name: "Frozen Yam",
+        description: "Fresh frozen yam in various sizes",
+        image: smoothiesImage, // Using smoothies image as placeholder
+        products: [
+          {
+            id: 31,
+            name: "Frozen Yam",
+            price: 25.0,
+            unit: "from",
+            image: smoothiesImage, // Using smoothies image as placeholder
+            description: "Fresh frozen yam",
+            inStock: true,
+            variants: [
+              {
+                id: "frozen-yam-large",
+                name: "Large",
+                price: 70.0,
+                unit: "per piece",
+                inStock: true,
+                image: smoothiesImage, // Using smoothies image as placeholder
+              },
+              {
+                id: "frozen-yam-medium",
+                name: "Medium",
+                price: 50.0,
+                unit: "per piece",
+                inStock: true,
+                image: smoothiesImage, // Using smoothies image as placeholder
+              },
+              {
+                id: "frozen-yam-small",
+                name: "Small",
+                price: 25.0,
+                unit: "per piece",
+                inStock: true,
+                image: smoothiesImage, // Using smoothies image as placeholder
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
