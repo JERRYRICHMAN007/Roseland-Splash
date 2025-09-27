@@ -41,7 +41,7 @@ const Categories = () => {
             return (
               <Card
                 key={category.id}
-                className="group hover:shadow-[var(--card-shadow)] transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm"
+                className="group hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:bg-card/80"
                 onClick={() => navigate(`/category/${category.id}`)}
               >
                 <CardContent className="p-3 sm:p-4 lg:p-5 space-y-3">
@@ -66,9 +66,9 @@ const Categories = () => {
                   </div>
 
                   <Button
-                    variant="ghost"
+                    variant="secondary"
                     size="sm"
-                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 text-xs"
+                    className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 text-xs font-medium shadow-sm hover:shadow-md"
                   >
                     Explore
                   </Button>

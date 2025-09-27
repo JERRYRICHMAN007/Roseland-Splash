@@ -37,33 +37,23 @@ const SearchResultsPage = () => {
   const handleResultClick = (result: any) => {
     console.log("Clicking result:", result); // Debug log
 
-    try {
-      let targetPath = "";
+    let targetPath = "";
 
-      if (result.type === "category") {
-        targetPath = `/category/${result.id}`;
-        console.log("Navigating to category:", targetPath);
-      } else if (result.type === "subcategory") {
-        targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
-        console.log("Navigating to subcategory:", targetPath);
-      } else if (result.type === "product" || result.type === "variant") {
-        targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
-        console.log("Navigating to product subcategory:", targetPath);
-      }
+    if (result.type === "category") {
+      targetPath = `/category/${result.id}`;
+      console.log("Navigating to category:", targetPath);
+    } else if (result.type === "subcategory") {
+      targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
+      console.log("Navigating to subcategory:", targetPath);
+    } else if (result.type === "product" || result.type === "variant") {
+      targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
+      console.log("Navigating to product subcategory:", targetPath);
+    }
 
-      if (targetPath) {
-        // Try React Router navigation first
-        navigate(targetPath, { replace: false });
-
-        // Fallback to window.location if navigate doesn't work
-        setTimeout(() => {
-          if (window.location.pathname === "/search") {
-            window.location.href = targetPath;
-          }
-        }, 100);
-      }
-    } catch (error) {
-      console.error("Navigation error:", error);
+    if (targetPath) {
+      // Use React Router navigation to maintain browser history
+      console.log("Navigating to:", targetPath);
+      navigate(targetPath);
     }
   };
 
@@ -89,6 +79,7 @@ const SearchResultsPage = () => {
       toast({
         title: "Added to Cart",
         description: `${result.name} has been added to your cart`,
+        duration: 2000, // 2 seconds instead of default 5 seconds
       });
     }
   };

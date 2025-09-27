@@ -78,6 +78,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       description: `${product.name}${
         product.variants ? ` (${currentVariant.name})` : ""
       } has been added to your cart`,
+      duration: 2000, // 2 seconds instead of default 5 seconds
     });
   };
 
