@@ -41,7 +41,7 @@ const Categories = () => {
             return (
               <Card
                 key={category.id}
-                className="group hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:bg-card/80"
+                className="group hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:bg-card/80 touch-manipulation active:scale-95"
                 onClick={() => navigate(`/category/${category.id}`)}
               >
                 <CardContent className="p-3 sm:p-4 lg:p-5 space-y-3">
@@ -68,7 +68,7 @@ const Categories = () => {
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 text-xs font-medium shadow-sm hover:shadow-md"
+                    className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md touch-manipulation active:scale-95 h-8 sm:h-9"
                   >
                     Explore
                   </Button>

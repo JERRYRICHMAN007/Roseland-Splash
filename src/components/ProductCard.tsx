@@ -83,7 +83,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Card className="group hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden">
+    <Card className="group hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95">
       <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
         {/* Product Image */}
         <div className="aspect-square rounded-xl overflow-hidden bg-accent/20">
@@ -96,14 +96,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Product Info */}
         <div className="space-y-2 sm:space-y-3">
-          <h3 className="font-semibold text-sm sm:text-base leading-tight group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="font-semibold text-sm sm:text-base leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]">
             {product.name}
           </h3>
 
           {/* Variant Selector */}
           {product.variants && product.variants.length > 1 && (
             <Select value={selectedVariant} onValueChange={setSelectedVariant}>
-              <SelectTrigger className="h-8 text-xs sm:text-sm bg-background/50">
+              <SelectTrigger className="h-9 sm:h-8 text-xs sm:text-sm bg-background/50 touch-manipulation">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -132,7 +132,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Add to Cart Button */}
         <Button
           onClick={handleAddToCart}
-          className="w-full group-hover:bg-primary-hover transition-all duration-300 font-medium rounded-lg shadow-sm hover:shadow-md"
+          className="w-full group-hover:bg-primary-hover transition-all duration-300 font-medium rounded-lg shadow-sm hover:shadow-md touch-manipulation active:scale-95 h-10 sm:h-9"
           size="sm"
         >
           <Plus size={16} className="mr-2" />

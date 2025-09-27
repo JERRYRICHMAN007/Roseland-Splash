@@ -45,7 +45,7 @@ const CategoryPage = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <div className="container mx-auto px-4 py-4 sm:py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
           <Button
@@ -93,7 +93,7 @@ const CategoryPage = () => {
           <h2 className="text-xl sm:text-2xl font-bold text-center">
             Browse Subcategories
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
             {category.subcategories.map((subcategory) => (
               <Card
                 key={subcategory.id}

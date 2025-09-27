@@ -123,7 +123,7 @@ const SearchResultsPage = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Search Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
@@ -245,10 +245,10 @@ const SearchResultsPage = () => {
               {filteredResults.map((result, index) => (
                 <Card
                   key={`${result.type}-${result.id}-${index}`}
-                  className="cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 group"
+                  className="cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 group touch-manipulation active:scale-95"
                 >
                   <CardContent
-                    className="p-4"
+                    className="p-3 sm:p-4"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -257,7 +257,7 @@ const SearchResultsPage = () => {
                   >
                     <div className="flex items-start gap-4">
                       {/* Image */}
-                      <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-200">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-200">
                         {result.image ? (
                           <img
                             src={result.image}

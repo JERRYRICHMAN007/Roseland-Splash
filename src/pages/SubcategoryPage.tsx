@@ -30,7 +30,7 @@ const SubcategoryPage = () => {
           <p className="text-muted-foreground mb-8">
             The subcategory you're looking for doesn't exist.
           </p>
-          <Button 
+          <Button
             onClick={() => navigate("/categories")}
             className="bg-secondary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
           >
@@ -46,7 +46,7 @@ const SubcategoryPage = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <div className="container mx-auto px-4 py-4 sm:py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
           <Button

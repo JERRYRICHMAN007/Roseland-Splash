@@ -42,9 +42,9 @@ const Footer = () => {
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-16">
+      <div className="relative z-10 container mx-auto px-3 sm:px-4 py-12 sm:py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
             <div className="space-y-4">
@@ -112,7 +112,7 @@ const Footer = () => {
                 <li key={category.id}>
                   <button
                     onClick={() => navigate(`/category/${category.id}`)}
-                    className="text-muted-foreground hover:text-primary text-left font-medium hover:translate-x-1 transition-all duration-200"
+                    className="text-muted-foreground hover:text-primary text-left font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                   >
                     {category.name}
                   </button>
@@ -130,7 +130,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/delivery-info")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Delivery Info
                 </button>
@@ -138,7 +138,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/returns")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Returns & Refunds
                 </button>
@@ -146,7 +146,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/faq")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   FAQs
                 </button>
@@ -154,7 +154,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Contact Us
                 </button>
@@ -162,7 +162,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/about")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200"
+                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   About Us
                 </button>
