@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Brand Colors - Fresh Green Theme */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 142 76% 32%;
+
+    /* Fresh Green Variants */
+    --green-light: 142 60% 88%;
+    --green-medium: 142 70% 45%;
+    --green-dark: 142 80% 25%;
+
+    --secondary: 45 93% 47%;
+    --secondary-foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 142 60% 88%;
+    --accent-foreground: 142 80% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142 76% 36%;
+
+    /* Enhanced Design Tokens - Better Contrast */
+    --hero-gradient-primary: linear-gradient(
+      135deg,
+      hsl(142 76% 36%),
+      hsl(142 60% 25%)
+    );
+    --hero-gradient-dark: linear-gradient(
+      135deg,
+      hsl(142 80% 20% / 0.95),
+      hsl(142 70% 15% / 0.9)
+    );
+    --hero-text-glow: 0 2px 4px hsl(0 0% 0% / 0.3);
+    --premium-shadow: 0 25px 50px -12px hsl(142 76% 36% / 0.25);
+    --elevated-shadow: 0 10px 25px -5px hsl(142 20% 20% / 0.1),
+      0 8px 10px -6px hsl(142 20% 20% / 0.1);
+    --card-shadow: 0 4px 12px -4px hsl(142 20% 20% / 0.15),
+      0 0 0 1px hsl(142 20% 20% / 0.05);
+    --glow-shadow: 0 0 20px hsl(142 76% 36% / 0.15);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 142 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 142 70% 50%;
+
+    --green-light: 142 30% 25%;
+    --green-medium: 142 60% 35%;
+    --green-dark: 142 80% 15%;
+
+    --secondary: 45 80% 40%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 142 30% 25%;
+    --accent-foreground: 142 70% 45%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142 70% 45%;
+
+    --hero-gradient-primary: linear-gradient(
+      135deg,
+      hsl(142 70% 15%),
+      hsl(142 60% 10%)
+    );
+    --hero-gradient-dark: linear-gradient(
+      135deg,
+      hsl(142 80% 12% / 0.95),
+      hsl(142 70% 8% / 0.9)
+    );
+    --hero-text-glow: 0 2px 4px hsl(0 0% 0% / 0.5);
+    --premium-shadow: 0 25px 50px -12px hsl(142 70% 45% / 0.4);
+    --elevated-shadow: 0 10px 25px -5px hsl(0 0% 0% / 0.15),
+      0 8px 10px -6px hsl(0 0% 0% / 0.1);
+    --card-shadow: 0 4px 12px -4px hsl(0 0% 0% / 0.25),
+      0 0 0 1px hsl(0 0% 0% / 0.05);
+    --glow-shadow: 0 0 20px hsl(142 70% 45% / 0.2);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,0 +1,143 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
+import { categoriesData } from "@/data/categories";
+
+const SubcategoryPage = () => {
+  const { categoryId, subcategoryId } = useParams();
+  const navigate = useNavigate();
+
+  const category = categoriesData.find((cat) => cat.id === categoryId);
+  const subcategory = category?.subcategories.find(
+    (sub) => sub.id === subcategoryId
+  );
+
+  // Scroll to top when component mounts or route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [categoryId, subcategoryId]);
+
+  if (!category || !subcategory) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-2xl font-bold mb-4">Page Not Found</h1>
+          <p className="text-muted-foreground mb-8">
+            The subcategory you're looking for doesn't exist.
+          </p>
+          <Button onClick={() => navigate("/categories")}>
+            Back to Categories
+          </Button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+
+      <div className="container mx-auto px-4 py-4 sm:py-8">
+        {/* Header */}
+        <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(`/category/${categoryId}`)}
+          >
+            <ArrowLeft size={20} />
+          </Button>
+          <div className="flex-1">
+            <nav className="text-xs sm:text-sm text-muted-foreground mb-2">
+              <span
+                className="hover:text-primary cursor-pointer"
+                onClick={() => navigate(`/category/${categoryId}`)}
+              >
+                {category.name}
+              </span>
+              <span className="mx-2">→</span>
+              <span className="text-foreground">{subcategory.name}</span>
+            </nav>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">
+              {subcategory.name}
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
+              {subcategory.description}
+            </p>
+            <p className="text-xs sm:text-sm text-primary font-medium">
+              {subcategory.products.length} products available
+            </p>
+          </div>
+        </div>
+
+        {/* Subcategory Hero Image */}
+        <div className="relative mb-8 sm:mb-12">
+          <div className="h-32 sm:h-48 rounded-xl overflow-hidden">
+            <img
+              src={subcategory.image}
+              alt={subcategory.name}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 text-white">
+              <h2 className="text-lg sm:text-xl font-bold">
+                {subcategory.name}
+              </h2>
+              <p className="text-sm text-white/90 hidden sm:block">
+                {subcategory.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+          {subcategory.products.map((product) => {
+            // Transform the product data to match ProductCard interface
+            const transformedProduct = {
+              id: product.id.toString(),
+              name: product.name,
+              basePrice: product.price,
+              image: product.image,
+              variants: product.variants?.map((variant) => ({
+                size: variant.name,
+                price: variant.price,
+                image: variant.image,
+              })),
+            };
+
+            return (
+              <ProductCard key={product.id} product={transformedProduct} />
+            );
+          })}
+        </div>
+
+        {/* Empty State */}
+        {subcategory.products.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground">
+              No products found in this subcategory.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => navigate(`/category/${categoryId}`)}
+              className="mt-4"
+            >
+              Back to {category.name}
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default SubcategoryPage;
