@@ -20,8 +20,18 @@ const Footer = () => {
     e.preventDefault();
     // Handle newsletter signup
     const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get("email");
-    console.log("Newsletter signup:", email);
+    const email = formData.get("email") as string;
+
+    if (email) {
+      // Here you would typically send this to your backend
+      console.log("Newsletter signup:", email);
+
+      // Show success message (you could use toast here)
+      alert("Thank you for subscribing to our newsletter!");
+
+      // Reset the form
+      (e.target as HTMLFormElement).reset();
+    }
   };
 
   return (
@@ -168,20 +178,26 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground group">
+              <a
+                href="tel:+233241234567"
+                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+              >
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Phone size={14} className="text-primary" />
                 </div>
                 <span>+233 24 123 4567</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground group">
+              </a>
+              <a
+                href="mailto:hello@roselandsplash.com"
+                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+              >
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Mail size={14} className="text-primary" />
                 </div>
                 <span>hello@roselandsplash.com</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground group">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+              </a>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <MapPin size={14} className="text-primary" />
                 </div>
                 <span>Accra & Kumasi, Ghana</span>
@@ -251,24 +267,30 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span>Secure payments:</span>
-                <div className="flex gap-1">
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium">
+                <div className="flex gap-1 flex-wrap justify-center">
+                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
                     Mobile Money
                   </span>
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium">
+                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
                     Visa
                   </span>
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium">
+                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
                     Mastercard
+                  </span>
+                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
+                    Bank Transfer
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="bg-green-medium/10 px-3 py-1 rounded-full text-green-medium font-medium border border-green-medium/20">
+              <div className="flex items-center gap-2 text-xs flex-wrap justify-center">
+                <span className="bg-green-500/10 px-3 py-1 rounded-full text-green-500 font-medium border border-green-500/20">
                   🔒 SSL Secured
                 </span>
                 <span className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium border border-primary/20">
                   ✓ Trusted
+                </span>
+                <span className="bg-blue-500/10 px-3 py-1 rounded-full text-blue-500 font-medium border border-blue-500/20">
+                  🚚 Fast Delivery
                 </span>
               </div>
             </div>

@@ -4,10 +4,38 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useSearch } from "@/contexts/SearchContext";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const { itemCount } = useCart();
+  const { setSearchQuery } = useSearch();
+  const [searchInput, setSearchInput] = useState("");
+  const [mobileSearchInput, setMobileSearchInput] = useState("");
+
+  const handleSearch = (query: string, isMobile = false) => {
+    if (query.trim()) {
+      setSearchQuery(query.trim());
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+      // Clear the input after search
+      if (isMobile) {
+        setMobileSearchInput("");
+      } else {
+        setSearchInput("");
+      }
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSearch(searchInput);
+  };
+
+  const handleMobileSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSearch(mobileSearchInput, true);
+  };
 
   return (
     <header className="border-b border-border sticky top-0 z-50 backdrop-blur-sm bg-background/95">
@@ -33,16 +61,18 @@ const Header = () => {
 
           {/* Search Bar - Hidden on mobile, shown in mobile menu */}
           <div className="hidden md:flex flex-1 max-w-md mx-4">
-            <div className="relative w-full">
+            <form onSubmit={handleSearchSubmit} className="relative w-full">
               <Search
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                 size={16}
               />
               <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search for fresh produce, purees, snacks..."
                 className="pl-10 bg-accent/50 border-border/50 focus:bg-background transition-colors"
               />
-            </div>
+            </form>
           </div>
 
           {/* Desktop Navigation */}
@@ -92,16 +122,21 @@ const Header = () => {
               <SheetContent side="right" className="w-full sm:w-80">
                 <div className="space-y-6 pt-6">
                   {/* Mobile Search */}
-                  <div className="relative">
+                  <form
+                    onSubmit={handleMobileSearchSubmit}
+                    className="relative"
+                  >
                     <Search
                       className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                       size={16}
                     />
                     <Input
+                      value={mobileSearchInput}
+                      onChange={(e) => setMobileSearchInput(e.target.value)}
                       placeholder="Search products..."
                       className="pl-10 bg-accent/50 border-border/50"
                     />
-                  </div>
+                  </form>
 
                   {/* Mobile Navigation */}
                   <div className="space-y-4">
