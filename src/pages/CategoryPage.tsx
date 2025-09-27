@@ -49,10 +49,10 @@ const CategoryPage = () => {
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
           <Button
-            variant="ghost"
+            variant="secondary"
             size="icon"
             onClick={() => navigate("/categories")}
-            className="flex-shrink-0"
+            className="flex-shrink-0 bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             <ArrowLeft size={20} />
           </Button>
@@ -129,9 +129,9 @@ const CategoryPage = () => {
                     </div>
 
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       size="sm"
-                      className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-300"
+                      className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
                       onClick={() =>
                         navigate(
                           `/category/${categoryId}/subcategory/${subcategory.id}`

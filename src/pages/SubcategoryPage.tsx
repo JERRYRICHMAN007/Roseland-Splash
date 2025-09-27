@@ -30,7 +30,10 @@ const SubcategoryPage = () => {
           <p className="text-muted-foreground mb-8">
             The subcategory you're looking for doesn't exist.
           </p>
-          <Button onClick={() => navigate("/categories")}>
+          <Button 
+            onClick={() => navigate("/categories")}
+            className="bg-secondary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
+          >
             Back to Categories
           </Button>
         </div>
@@ -47,9 +50,10 @@ const SubcategoryPage = () => {
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
           <Button
-            variant="ghost"
+            variant="secondary"
             size="icon"
             onClick={() => navigate(`/category/${categoryId}`)}
+            className="bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             <ArrowLeft size={20} />
           </Button>
@@ -110,9 +114,8 @@ const SubcategoryPage = () => {
               No products found in this subcategory.
             </p>
             <Button
-              variant="outline"
               onClick={() => navigate(`/category/${categoryId}`)}
-              className="mt-4"
+              className="mt-4 bg-secondary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Back to {category.name}
             </Button>
