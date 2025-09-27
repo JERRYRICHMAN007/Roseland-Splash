@@ -1,21 +1,21 @@
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useSearch } from '@/contexts/SearchContext';
-import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { 
-  Search, 
-  Package, 
-  ShoppingCart, 
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearch } from "@/contexts/SearchContext";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Search,
+  Package,
+  ShoppingCart,
   ArrowLeft,
   Filter,
-  X
-} from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+  X,
+} from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
@@ -23,11 +23,11 @@ const SearchResultsPage = () => {
   const { searchResults, isSearching, performSearch } = useSearch();
   const { addItem } = useCart();
   const { toast } = useToast();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
   useEffect(() => {
-    const query = searchParams.get('q') || '';
+    const query = searchParams.get("q") || "";
     setSearchQuery(query);
     if (query) {
       performSearch(query);
@@ -35,31 +35,55 @@ const SearchResultsPage = () => {
   }, [searchParams, performSearch]);
 
   const handleResultClick = (result: any) => {
-    if (result.type === 'category') {
-      navigate(`/category/${result.id}`);
-    } else if (result.type === 'subcategory') {
-      navigate(`/category/${result.categoryId}/subcategory/${result.id}`);
-    } else if (result.type === 'product' || result.type === 'variant') {
-      // Navigate to the subcategory page where the product is located
-      navigate(`/category/${result.categoryId}/subcategory/${result.subcategoryId}`);
+    console.log("Clicking result:", result); // Debug log
+
+    try {
+      let targetPath = '';
+      
+      if (result.type === "category") {
+        targetPath = `/category/${result.id}`;
+        console.log("Navigating to category:", targetPath);
+      } else if (result.type === "subcategory") {
+        targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
+        console.log("Navigating to subcategory:", targetPath);
+      } else if (result.type === "product" || result.type === "variant") {
+        targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
+        console.log("Navigating to product subcategory:", targetPath);
+      }
+
+      if (targetPath) {
+        // Try React Router navigation first
+        navigate(targetPath, { replace: false });
+        
+        // Fallback to window.location if navigate doesn't work
+        setTimeout(() => {
+          if (window.location.pathname === '/search') {
+            window.location.href = targetPath;
+          }
+        }, 100);
+      }
+    } catch (error) {
+      console.error("Navigation error:", error);
     }
   };
 
   const handleQuickAddToCart = (e: React.MouseEvent, result: any) => {
     e.stopPropagation(); // Prevent card click when clicking add to cart
-    
+
     // Only allow adding products and variants to cart
-    if (result.type === 'product' || result.type === 'variant') {
-      const cartItemId = result.type === 'variant' 
-        ? `${result.productId}-${result.name.split(' - ')[1] || 'variant'}`
-        : `${result.productId}`;
+    if (result.type === "product" || result.type === "variant") {
+      const cartItemId =
+        result.type === "variant"
+          ? `${result.productId}-${result.name.split(" - ")[1] || "variant"}`
+          : `${result.productId}`;
 
       addItem({
         id: cartItemId,
         name: result.name,
         price: result.price,
         image: result.image,
-        variant: result.type === 'variant' ? result.name.split(' - ')[1] : undefined,
+        variant:
+          result.type === "variant" ? result.name.split(" - ")[1] : undefined,
       });
 
       toast({
@@ -69,44 +93,45 @@ const SearchResultsPage = () => {
     }
   };
 
-  const filteredResults = selectedFilter === 'all' 
-    ? searchResults 
-    : searchResults.filter(result => result.type === selectedFilter);
+  const filteredResults =
+    selectedFilter === "all"
+      ? searchResults
+      : searchResults.filter((result) => result.type === selectedFilter);
 
   const getResultTypeColor = (type: string) => {
     switch (type) {
-      case 'category':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-      case 'subcategory':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'product':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-      case 'variant':
-        return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+      case "category":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+      case "subcategory":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "product":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+      case "variant":
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
   };
 
   const getResultTypeIcon = (type: string) => {
     switch (type) {
-      case 'category':
-        return '📁';
-      case 'subcategory':
-        return '📂';
-      case 'product':
-        return '📦';
-      case 'variant':
-        return '🏷️';
+      case "category":
+        return "📁";
+      case "subcategory":
+        return "📂";
+      case "product":
+        return "📦";
+      case "variant":
+        return "🏷️";
       default:
-        return '🔍';
+        return "🔍";
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container mx-auto px-4 py-8">
         {/* Search Header */}
         <div className="mb-8">
@@ -137,15 +162,37 @@ const SearchResultsPage = () => {
             </span>
             <div className="flex gap-2">
               {[
-                { key: 'all', label: 'All', count: searchResults.length },
-                { key: 'category', label: 'Categories', count: searchResults.filter(r => r.type === 'category').length },
-                { key: 'subcategory', label: 'Subcategories', count: searchResults.filter(r => r.type === 'subcategory').length },
-                { key: 'product', label: 'Products', count: searchResults.filter(r => r.type === 'product').length },
-                { key: 'variant', label: 'Variants', count: searchResults.filter(r => r.type === 'variant').length },
+                { key: "all", label: "All", count: searchResults.length },
+                {
+                  key: "category",
+                  label: "Categories",
+                  count: searchResults.filter((r) => r.type === "category")
+                    .length,
+                },
+                {
+                  key: "subcategory",
+                  label: "Subcategories",
+                  count: searchResults.filter((r) => r.type === "subcategory")
+                    .length,
+                },
+                {
+                  key: "product",
+                  label: "Products",
+                  count: searchResults.filter((r) => r.type === "product")
+                    .length,
+                },
+                {
+                  key: "variant",
+                  label: "Variants",
+                  count: searchResults.filter((r) => r.type === "variant")
+                    .length,
+                },
               ].map((filter) => (
                 <Button
                   key={filter.key}
-                  variant={selectedFilter === filter.key ? "default" : "outline"}
+                  variant={
+                    selectedFilter === filter.key ? "default" : "outline"
+                  }
                   size="sm"
                   onClick={() => setSelectedFilter(filter.key)}
                   className="whitespace-nowrap"
@@ -182,7 +229,7 @@ const SearchResultsPage = () => {
             <p className="text-muted-foreground mb-6">
               Try searching with different keywords or browse our categories
             </p>
-            <Button onClick={() => navigate('/categories')}>
+            <Button onClick={() => navigate("/categories")}>
               Browse Categories
             </Button>
           </div>
@@ -194,7 +241,8 @@ const SearchResultsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">
-                  {filteredResults.length} result{filteredResults.length !== 1 ? 's' : ''} found
+                  {filteredResults.length} result
+                  {filteredResults.length !== 1 ? "s" : ""} found
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   💡 Click any item to explore further or add to cart
@@ -204,23 +252,32 @@ const SearchResultsPage = () => {
 
             <div className="grid gap-4">
               {filteredResults.map((result, index) => (
-                <Card 
+                <Card
                   key={`${result.type}-${result.id}-${index}`}
                   className="cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 group"
-                  onClick={() => handleResultClick(result)}
                 >
-                  <CardContent className="p-4">
+                  <CardContent
+                    className="p-4"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleResultClick(result);
+                    }}
+                  >
                     <div className="flex items-start gap-4">
                       {/* Image */}
                       <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-200">
                         {result.image ? (
-                          <img 
-                            src={result.image} 
+                          <img
+                            src={result.image}
                             alt={result.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                           />
                         ) : (
-                          <Package size={24} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                          <Package
+                            size={24}
+                            className="text-muted-foreground group-hover:text-primary transition-colors"
+                          />
                         )}
                       </div>
 
@@ -235,9 +292,11 @@ const SearchResultsPage = () => {
                               {result.name}
                             </h3>
                           </div>
-                          <Badge 
-                            variant="secondary" 
-                            className={`text-xs ${getResultTypeColor(result.type)}`}
+                          <Badge
+                            variant="secondary"
+                            className={`text-xs ${getResultTypeColor(
+                              result.type
+                            )}`}
                           >
                             {result.type}
                           </Badge>
@@ -264,9 +323,10 @@ const SearchResultsPage = () => {
 
                       {/* Action Button */}
                       <div className="flex-shrink-0 flex flex-col gap-2">
-                        {(result.type === 'product' || result.type === 'variant') && (
-                          <Button 
-                            variant="ghost" 
+                        {(result.type === "product" ||
+                          result.type === "variant") && (
+                          <Button
+                            variant="ghost"
                             size="sm"
                             onClick={(e) => handleQuickAddToCart(e, result)}
                             className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-primary/10"
@@ -294,9 +354,10 @@ const SearchResultsPage = () => {
               Start your search
             </h3>
             <p className="text-muted-foreground mb-6">
-              Use the search bar in the header to find products, categories, and more
+              Use the search bar in the header to find products, categories, and
+              more
             </p>
-            <Button onClick={() => navigate('/categories')}>
+            <Button onClick={() => navigate("/categories")}>
               Browse All Categories
             </Button>
           </div>
