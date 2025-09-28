@@ -2239,7 +2239,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 113,
-            name: "Bonnet Pepper + Spring Onion + Bell Pepper + Spring Onion",
+            name: "Bonnet Pepper + Spring Onion + Bell Pepper",
             price: 18.0,
             unit: "from",
             image: bonnetPepperSpringOnion,

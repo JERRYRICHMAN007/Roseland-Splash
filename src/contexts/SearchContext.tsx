@@ -116,7 +116,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
                 unit: product.unit,
                 image: product.image,
                 categoryId: category.id,
-                subcategoryId: nestedSub.id,
+                subcategoryId: subcategory.id, // Use parent subcategory ID for navigation
                 productId: product.id,
               });
             }
@@ -133,7 +133,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
                   unit: variant.unit,
                   image: variant.image,
                   categoryId: category.id,
-                  subcategoryId: nestedSub.id,
+                  subcategoryId: subcategory.id, // Use parent subcategory ID for navigation
                   productId: product.id,
                 });
               }

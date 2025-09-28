@@ -27,6 +27,9 @@ const SearchResultsPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
   useEffect(() => {
+    // Scroll to top when component mounts or route changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    
     const query = searchParams.get("q") || "";
     setSearchQuery(query);
     if (query) {
@@ -35,26 +38,38 @@ const SearchResultsPage = () => {
   }, [searchParams, performSearch]);
 
   const handleResultClick = (result: any) => {
-    console.log("Clicking result:", result); // Debug log
-
+    // Determine the correct navigation path based on result type
     let targetPath = "";
 
-    if (result.type === "category") {
-      targetPath = `/category/${result.id}`;
-      console.log("Navigating to category:", targetPath);
-    } else if (result.type === "subcategory") {
-      targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
-      console.log("Navigating to subcategory:", targetPath);
-    } else if (result.type === "product" || result.type === "variant") {
-      targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
-      console.log("Navigating to product subcategory:", targetPath);
+    switch (result.type) {
+      case "category":
+        targetPath = `/category/${result.id}`;
+        break;
+      
+      case "subcategory":
+        targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
+        break;
+      
+      case "product":
+      case "variant":
+        // For products, navigate to their subcategory page where they can be added to cart
+        if (result.categoryId && result.subcategoryId) {
+          targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
+        } else {
+          // Fallback to categories if we don't have proper IDs
+          console.warn("Missing category or subcategory ID for product:", result);
+          targetPath = "/categories";
+        }
+        break;
+      
+      default:
+        console.error("Unknown result type:", result.type);
+        targetPath = "/categories";
+        break;
     }
 
-    if (targetPath) {
-      // Use React Router navigation to maintain browser history
-      console.log("Navigating to:", targetPath);
-      navigate(targetPath);
-    }
+    // Navigate using React Router to maintain history
+    navigate(targetPath);
   };
 
   const handleQuickAddToCart = (e: React.MouseEvent, result: any) => {
@@ -130,7 +145,15 @@ const SearchResultsPage = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                // Try to go back, with fallback to categories
+                try {
+                  navigate(-1);
+                } catch (error) {
+                  // If going back fails, go to categories
+                  navigate("/categories");
+                }
+              }}
               className="flex items-center gap-2"
             >
               <ArrowLeft size={16} />
@@ -249,11 +272,7 @@ const SearchResultsPage = () => {
                 >
                   <CardContent
                     className="p-3 sm:p-4"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleResultClick(result);
-                    }}
+                    onClick={() => handleResultClick(result)}
                   >
                     <div className="flex items-start gap-4">
                       {/* Image */}
