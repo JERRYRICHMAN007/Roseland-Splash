@@ -119,7 +119,15 @@ const AllProductsPage = () => {
                 size="sm"
                 onClick={() => setSelectedSubcategory(subcategory.id)}
               >
-                {subcategory.name} ({subcategory.products.length})
+                {subcategory.name} (
+                {subcategory.subcategories &&
+                subcategory.subcategories.length > 0
+                  ? subcategory.subcategories.reduce(
+                      (total, nested) => total + (nested.products?.length || 0),
+                      0
+                    )
+                  : subcategory.products?.length || 0}
+                )
               </Button>
             ))}
           </div>

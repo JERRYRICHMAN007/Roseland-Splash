@@ -36,10 +36,21 @@ const CategoryPage = () => {
     );
   }
 
-  const totalProducts = category.subcategories.reduce(
-    (total, sub) => total + sub.products.length,
-    0
-  );
+  const totalProducts = category.subcategories.reduce((total, sub) => {
+    // Handle subcategories that have nested subcategories (like Cake in Cup)
+    if (sub.subcategories && sub.subcategories.length > 0) {
+      return (
+        total +
+        sub.subcategories.reduce(
+          (nestedTotal, nestedSub) =>
+            nestedTotal + (nestedSub.products?.length || 0),
+          0
+        )
+      );
+    }
+    // Handle regular subcategories with products
+    return total + (sub.products?.length || 0);
+  }, 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -114,7 +125,15 @@ const CategoryPage = () => {
                       className="w-full h-32 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-medium">
-                      {subcategory.products.length} items
+                      {subcategory.subcategories &&
+                      subcategory.subcategories.length > 0
+                        ? subcategory.subcategories.reduce(
+                            (total, nested) =>
+                              total + (nested.products?.length || 0),
+                            0
+                          )
+                        : subcategory.products?.length || 0}{" "}
+                      items
                     </div>
                   </div>
 

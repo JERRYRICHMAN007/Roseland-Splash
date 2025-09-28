@@ -9,10 +9,21 @@ const Categories = () => {
   const totalProducts = categoriesData.reduce(
     (total, category) =>
       total +
-      category.subcategories.reduce(
-        (subtotal, sub) => subtotal + sub.products.length,
-        0
-      ),
+      category.subcategories.reduce((subtotal, sub) => {
+        // Handle subcategories that have nested subcategories (like Cake in Cup)
+        if (sub.subcategories && sub.subcategories.length > 0) {
+          return (
+            subtotal +
+            sub.subcategories.reduce(
+              (nestedTotal, nestedSub) =>
+                nestedTotal + (nestedSub.products?.length || 0),
+              0
+            )
+          );
+        }
+        // Handle regular subcategories with products
+        return subtotal + (sub.products?.length || 0);
+      }, 0),
     0
   );
 
@@ -35,7 +46,21 @@ const Categories = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 max-w-7xl mx-auto">
           {categoriesData.map((category) => {
             const categoryProductCount = category.subcategories.reduce(
-              (total, sub) => total + sub.products.length,
+              (total, sub) => {
+                // Handle subcategories that have nested subcategories (like Cake in Cup)
+                if (sub.subcategories && sub.subcategories.length > 0) {
+                  return (
+                    total +
+                    sub.subcategories.reduce(
+                      (nestedTotal, nestedSub) =>
+                        nestedTotal + (nestedSub.products?.length || 0),
+                      0
+                    )
+                  );
+                }
+                // Handle regular subcategories with products
+                return total + (sub.products?.length || 0);
+              },
               0
             );
             return (

@@ -153,8 +153,9 @@ export interface Subcategory {
   name: string;
   description: string;
   image: string;
-  products: Product[];
+  products?: Product[];
   sizes?: string[];
+  subcategories?: Subcategory[];
 }
 
 export interface Category {
@@ -507,94 +508,249 @@ export const categoriesData: Category[] = [
     image: snacksFrozenImage,
     subcategories: [
       {
-        id: "spring-rolls",
-        name: "Spring Rolls",
-        description: "Crispy spring rolls with various fillings",
+        id: "fried",
+        name: "Fried",
+        description: "Freshly fried snacks and foods",
         image: springRollsImage,
-        products: [
+        subcategories: [
           {
-            id: 21,
-            name: "Spring Rolls",
-            price: 15.0,
-            unit: "from",
+            id: "fried-spring-rolls",
+            name: "Fried Spring Rolls",
+            description: "Freshly fried crispy spring rolls",
             image: springRollsImage,
-            description: "Crispy spring rolls",
-            inStock: true,
-            variants: [
+            products: [
               {
-                id: "spring-beef",
-                name: "Beef",
-                price: 18.0,
-                unit: "per pack",
-                inStock: true,
+                id: 21,
+                name: "Fried Spring Rolls",
+                price: 2.5,
+                unit: "from",
                 image: springRollsImage,
+                description:
+                  "Freshly fried crispy spring rolls with various fillings",
+                inStock: true,
+                variants: [
+                  {
+                    id: "fried-spring-beef",
+                    name: "Beef",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "fried-spring-chicken",
+                    name: "Chicken",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "fried-spring-beans",
+                    name: "Beans",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "fried-spring-veggies",
+                    name: "Veggies",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                ],
               },
+            ],
+          },
+          {
+            id: "fried-samosa",
+            name: "Fried Samosa",
+            description: "Freshly fried traditional samosas",
+            image: samosaImage,
+            products: [
               {
-                id: "spring-chicken",
-                name: "Chicken",
-                price: 16.0,
-                unit: "per pack",
+                id: 22,
+                name: "Fried Samosa",
+                price: 2.5,
+                unit: "from",
+                image: samosaImage,
+                description:
+                  "Freshly fried traditional samosas with various fillings",
                 inStock: true,
-                image: springRollsImage,
-              },
-              {
-                id: "spring-beans",
-                name: "Beans",
-                price: 12.0,
-                unit: "per pack",
-                inStock: true,
-                image: springRollsImage,
-              },
-              {
-                id: "spring-veggies",
-                name: "Veggies",
-                price: 10.0,
-                unit: "per pack",
-                inStock: true,
-                image: springRollsImage,
+                variants: [
+                  {
+                    id: "fried-samosa-beef",
+                    name: "Beef",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                  {
+                    id: "fried-samosa-chicken",
+                    name: "Chicken",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                  {
+                    id: "fried-samosa-veggies",
+                    name: "Veggies",
+                    price: 2.5,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                ],
               },
             ],
           },
         ],
       },
       {
-        id: "samosa",
-        name: "Samosa",
-        description: "Traditional samosas with various fillings",
-        image: samosaImage,
-        products: [
+        id: "frozen",
+        name: "Frozen",
+        description: "Frozen foods ready to cook",
+        image: springRollsImage,
+        subcategories: [
           {
-            id: 22,
-            name: "Samosa",
-            price: 8.0,
-            unit: "from",
+            id: "frozen-spring-rolls",
+            name: "Frozen Spring Rolls",
+            description: "Frozen spring rolls ready to cook",
+            image: springRollsImage,
+            products: [
+              {
+                id: 23,
+                name: "Frozen Spring Rolls",
+                price: 2.0,
+                unit: "from",
+                image: springRollsImage,
+                description: "Frozen spring rolls ready to cook at home",
+                inStock: true,
+                variants: [
+                  {
+                    id: "frozen-spring-beef",
+                    name: "Beef",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "frozen-spring-chicken",
+                    name: "Chicken",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "frozen-spring-beans",
+                    name: "Beans",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                  {
+                    id: "frozen-spring-veggies",
+                    name: "Veggies",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: springRollsImage,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "frozen-samosa",
+            name: "Frozen Samosa",
+            description: "Frozen samosas ready to cook",
             image: samosaImage,
-            description: "Traditional samosas",
-            inStock: true,
-            variants: [
+            products: [
               {
-                id: "samosa-beef",
-                name: "Beef",
-                price: 10.0,
-                unit: "per piece",
-                inStock: true,
+                id: 24,
+                name: "Frozen Samosa",
+                price: 2.0,
+                unit: "from",
                 image: samosaImage,
+                description: "Frozen samosas ready to cook at home",
+                inStock: true,
+                variants: [
+                  {
+                    id: "frozen-samosa-beef",
+                    name: "Beef",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                  {
+                    id: "frozen-samosa-chicken",
+                    name: "Chicken",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                  {
+                    id: "frozen-samosa-veggies",
+                    name: "Veggies",
+                    price: 2.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: samosaImage,
+                  },
+                ],
               },
+            ],
+          },
+          {
+            id: "frozen-yam",
+            name: "Frozen Yam",
+            description: "Fresh frozen yam in various sizes",
+            image: smoothiesImage, // Using smoothies image as placeholder
+            products: [
               {
-                id: "samosa-chicken",
-                name: "Chicken",
-                price: 9.0,
-                unit: "per piece",
+                id: 25,
+                name: "Frozen Yam",
+                price: 25.0,
+                unit: "from",
+                image: smoothiesImage, // Using smoothies image as placeholder
+                description: "Fresh frozen yam",
                 inStock: true,
-                image: samosaImage,
-              },
-              {
-                id: "samosa-veggies",
-                name: "Veggies",
-                price: 7.0,
-                unit: "per piece",
-                inStock: true,
-                image: samosaImage,
+                variants: [
+                  {
+                    id: "frozen-yam-large",
+                    name: "Large",
+                    price: 70.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: smoothiesImage, // Using smoothies image as placeholder
+                  },
+                  {
+                    id: "frozen-yam-medium",
+                    name: "Medium",
+                    price: 50.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: smoothiesImage, // Using smoothies image as placeholder
+                  },
+                  {
+                    id: "frozen-yam-small",
+                    name: "Small",
+                    price: 25.0,
+                    unit: "per piece",
+                    inStock: true,
+                    image: smoothiesImage, // Using smoothies image as placeholder
+                  },
+                ],
               },
             ],
           },
@@ -605,63 +761,112 @@ export const categoriesData: Category[] = [
         name: "Cake in Cup",
         description: "Delicious cake varieties in convenient cups",
         image: cakeInCupImage,
-        products: [
+        subcategories: [
           {
-            id: 23,
-            name: "Cake in Cup",
-            price: 12.0,
-            unit: "from",
+            id: "vanilla-velvet",
+            name: "Vanilla-Velvet",
+            description: "Delicious vanilla cake with velvet texture",
             image: cakeInCupImage,
-            description: "Delicious cake varieties in convenient cups",
-            inStock: true,
-            variants: [
+            products: [
               {
-                id: "vanilla-velvet",
-                name: "Vanilla–Velvet",
+                id: 26,
+                name: "Vanilla-Velvet Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Delicious vanilla cake with velvet texture in convenient cup",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "vanilla-chocolate",
+            name: "Vanilla-Chocolate",
+            description: "Delicious vanilla and chocolate layered cake",
+            image: cakeInCupImage,
+            products: [
               {
-                id: "vanilla-chocolate",
-                name: "Vanilla–Chocolate",
+                id: 27,
+                name: "Vanilla-Chocolate Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Delicious vanilla and chocolate layered cake in convenient cup",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "vanilla-strawberry",
+            name: "Vanilla-Strawberry",
+            description: "Delicious vanilla cake with strawberry flavor",
+            image: cakeInCupImage,
+            products: [
               {
-                id: "vanilla-strawberry",
-                name: "Vanilla–Strawberry",
+                id: 28,
+                name: "Vanilla-Strawberry Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Delicious vanilla cake with strawberry flavor in convenient cup",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "chocolate-velvet",
+            name: "Chocolate-Velvet",
+            description: "Rich chocolate cake with velvet texture",
+            image: cakeInCupImage,
+            products: [
               {
-                id: "chocolate-velvet",
-                name: "Chocolate–Velvet",
+                id: 29,
+                name: "Chocolate-Velvet Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Rich chocolate cake with velvet texture in convenient cup",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "chocolate-vanilla",
+            name: "Chocolate-Vanilla",
+            description: "Rich chocolate and vanilla layered cake",
+            image: cakeInCupImage,
+            products: [
               {
-                id: "chocolate-vanilla",
-                name: "Chocolate–Vanilla",
+                id: 30,
+                name: "Chocolate-Vanilla Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Rich chocolate and vanilla layered cake in convenient cup",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "chocolate-strawberry",
+            name: "Chocolate-Strawberry",
+            description: "Rich chocolate cake with strawberry flavor",
+            image: cakeInCupImage,
+            products: [
               {
-                id: "chocolate-strawberry",
-                name: "Chocolate–Strawberry",
+                id: 31,
+                name: "Chocolate-Strawberry Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                inStock: true,
                 image: cakeInCupImage,
+                description:
+                  "Rich chocolate cake with strawberry flavor in convenient cup",
+                inStock: true,
               },
             ],
           },
@@ -672,47 +877,73 @@ export const categoriesData: Category[] = [
         name: "Juices",
         description: "Fresh and refreshing fruit juices",
         image: juicesImage,
-        products: [
+        subcategories: [
           {
-            id: 29,
-            name: "Juices",
-            price: 8.0,
-            unit: "from",
+            id: "orange-juice",
+            name: "Orange",
+            description: "Fresh orange juice",
             image: juicesImage,
-            description: "Fresh fruit juices",
-            inStock: true,
-            variants: [
+            products: [
               {
-                id: "juice-orange",
-                name: "Orange",
+                id: 32,
+                name: "Orange Juice",
                 price: 8.0,
                 unit: "per bottle",
-                inStock: true,
                 image: juicesImage,
+                description: "Fresh and refreshing orange juice",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "pineapple-juice",
+            name: "Pineapple",
+            description: "Fresh pineapple juice",
+            image: juicesImage,
+            products: [
               {
-                id: "juice-pineapple",
-                name: "Pineapple",
+                id: 33,
+                name: "Pineapple Juice",
                 price: 8.0,
                 unit: "per bottle",
-                inStock: true,
                 image: juicesImage,
+                description: "Fresh and refreshing pineapple juice",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "pineapple-ginger-juice",
+            name: "Pineapple + Ginger",
+            description: "Fresh pineapple juice with ginger",
+            image: juicesImage,
+            products: [
               {
-                id: "juice-pineapple-ginger",
-                name: "Pineapple+Ginger",
+                id: 34,
+                name: "Pineapple + Ginger Juice",
                 price: 9.0,
                 unit: "per bottle",
-                inStock: true,
                 image: juicesImage,
+                description:
+                  "Fresh pineapple juice with ginger for extra flavor",
+                inStock: true,
               },
+            ],
+          },
+          {
+            id: "mixed-fruit-juice",
+            name: "Mixed Fruit",
+            description: "Fresh mixed fruit juice",
+            image: juicesImage,
+            products: [
               {
-                id: "juice-mixed",
-                name: "Mixed Fruit",
+                id: 35,
+                name: "Mixed Fruit Juice",
                 price: 10.0,
                 unit: "per bottle",
-                inStock: true,
                 image: juicesImage,
+                description: "Fresh mixed fruit juice with various fruits",
+                inStock: true,
               },
             ],
           },
@@ -723,56 +954,73 @@ export const categoriesData: Category[] = [
         name: "Smoothies",
         description: "Nutritious and delicious smoothies",
         image: smoothiesImage,
-        products: [
+        subcategories: [
           {
-            id: 30,
-            name: "Smoothies",
-            price: 15.0,
-            unit: "from",
+            id: "banana-smoothie",
+            name: "Banana Smoothie",
+            description: "Creamy banana smoothie",
             image: smoothiesImage,
-            description: "Fresh fruit smoothies",
-            inStock: true,
+            products: [
+              {
+                id: 36,
+                name: "Banana Smoothie",
+                price: 12.0,
+                unit: "per bottle",
+                image: smoothiesImage,
+                description: "Creamy and delicious banana smoothie",
+                inStock: true,
+              },
+            ],
           },
-        ],
-      },
-      {
-        id: "frozen-yam",
-        name: "Frozen Yam",
-        description: "Fresh frozen yam in various sizes",
-        image: smoothiesImage, // Using smoothies image as placeholder
-        products: [
           {
-            id: 31,
-            name: "Frozen Yam",
-            price: 25.0,
-            unit: "from",
-            image: smoothiesImage, // Using smoothies image as placeholder
-            description: "Fresh frozen yam",
-            inStock: true,
-            variants: [
+            id: "mango-smoothie",
+            name: "Mango Smoothie",
+            description: "Tropical mango smoothie",
+            image: smoothiesImage,
+            products: [
               {
-                id: "frozen-yam-large",
-                name: "Large",
-                price: 70.0,
-                unit: "per piece",
+                id: 37,
+                name: "Mango Smoothie",
+                price: 15.0,
+                unit: "per bottle",
+                image: smoothiesImage,
+                description: "Tropical and refreshing mango smoothie",
                 inStock: true,
-                image: smoothiesImage, // Using smoothies image as placeholder
               },
+            ],
+          },
+          {
+            id: "strawberry-smoothie",
+            name: "Strawberry Smoothie",
+            description: "Sweet strawberry smoothie",
+            image: smoothiesImage,
+            products: [
               {
-                id: "frozen-yam-medium",
-                name: "Medium",
-                price: 50.0,
-                unit: "per piece",
+                id: 38,
+                name: "Strawberry Smoothie",
+                price: 14.0,
+                unit: "per bottle",
+                image: smoothiesImage,
+                description: "Sweet and tangy strawberry smoothie",
                 inStock: true,
-                image: smoothiesImage, // Using smoothies image as placeholder
               },
+            ],
+          },
+          {
+            id: "mixed-berry-smoothie",
+            name: "Mixed Berry Smoothie",
+            description: "Antioxidant-rich mixed berry smoothie",
+            image: smoothiesImage,
+            products: [
               {
-                id: "frozen-yam-small",
-                name: "Small",
-                price: 25.0,
-                unit: "per piece",
+                id: 39,
+                name: "Mixed Berry Smoothie",
+                price: 16.0,
+                unit: "per bottle",
+                image: smoothiesImage,
+                description:
+                  "Antioxidant-rich mixed berry smoothie with various berries",
                 inStock: true,
-                image: smoothiesImage, // Using smoothies image as placeholder
               },
             ],
           },
@@ -794,7 +1042,7 @@ export const categoriesData: Category[] = [
         image: lactatingSmoothiesImage,
         products: [
           {
-            id: 50,
+            id: 40,
             name: "Banana+Pawpaw+Almond Milk",
             price: 18.0,
             unit: "from",
@@ -830,7 +1078,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 51,
+            id: 41,
             name: "Apple+Carrot+Cashew",
             price: 20.0,
             unit: "from",
@@ -866,7 +1114,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 52,
+            id: 42,
             name: "Mango+Avocado+Sesame Seeds",
             price: 22.0,
             unit: "from",
@@ -911,7 +1159,7 @@ export const categoriesData: Category[] = [
         image: gymSmoothiesImage,
         products: [
           {
-            id: 60,
+            id: 43,
             name: "Banana+Dates+Peanut Butter",
             price: 25.0,
             unit: "from",
@@ -947,7 +1195,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 61,
+            id: 44,
             name: "Pineapple+Chia Seeds+Almond Milk",
             price: 24.0,
             unit: "from",
@@ -983,7 +1231,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 62,
+            id: 45,
             name: "Mixed Berries+Walnuts+Soy Milk",
             price: 28.0,
             unit: "from",
@@ -1027,7 +1275,7 @@ export const categoriesData: Category[] = [
         image: generalSmoothiesImage,
         products: [
           {
-            id: 70,
+            id: 46,
             name: "Coconut+Honey+Cashew",
             price: 22.0,
             unit: "from",
@@ -1063,7 +1311,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 71,
+            id: 47,
             name: "Chocolate+Banana+Groundnut",
             price: 24.0,
             unit: "from",
@@ -1114,7 +1362,7 @@ export const categoriesData: Category[] = [
         image: householdEssentialsImage,
         products: [
           {
-            id: 80,
+            id: 48,
             name: "Milo",
             price: 10.0,
             unit: "from",
@@ -1157,7 +1405,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 81,
+            id: 49,
             name: "Sugar",
             price: 6.0,
             unit: "from",
@@ -1200,7 +1448,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 82,
+            id: 50,
             name: "Milk",
             price: 4.5,
             unit: "from",
@@ -1243,7 +1491,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 83,
+            id: 51,
             name: "Powdered Milk",
             price: 25.0,
             unit: "from",
@@ -1286,7 +1534,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 84,
+            id: 52,
             name: "Kivo Gari",
             price: 15.0,
             unit: "from",
@@ -1321,7 +1569,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 85,
+            id: 53,
             name: "Spices & Pepper",
             price: 8.0,
             unit: "from",
@@ -1380,7 +1628,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 86,
+            id: 54,
             name: "Salt",
             price: 2.0,
             unit: "per pack",
@@ -1389,7 +1637,7 @@ export const categoriesData: Category[] = [
             inStock: true,
           },
           {
-            id: 87,
+            id: 55,
             name: "Oil",
             price: 12.0,
             unit: "from",
@@ -1416,7 +1664,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 88,
+            id: 56,
             name: "Soaps",
             price: 3.5,
             unit: "from",
@@ -1459,7 +1707,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 89,
+            id: 57,
             name: "Toothpaste & Brush",
             price: 8.0,
             unit: "from",
@@ -1476,7 +1724,7 @@ export const categoriesData: Category[] = [
         image: waterDrinksImage,
         products: [
           {
-            id: 90,
+            id: 58,
             name: "Aqua",
             price: 2.0,
             unit: "from",
@@ -1511,7 +1759,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 91,
+            id: 59,
             name: "Awake",
             price: 2.5,
             unit: "from",
@@ -1546,7 +1794,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 92,
+            id: 60,
             name: "Voltic",
             price: 2.0,
             unit: "from",
@@ -1581,7 +1829,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 93,
+            id: 61,
             name: "Mont",
             price: 2.5,
             unit: "per bottle",
@@ -1590,7 +1838,7 @@ export const categoriesData: Category[] = [
             inStock: true,
           },
           {
-            id: 94,
+            id: 62,
             name: "Verna",
             price: 2.0,
             unit: "from",
@@ -1633,7 +1881,7 @@ export const categoriesData: Category[] = [
         image: softDrinksImage,
         products: [
           {
-            id: 95,
+            id: 63,
             name: "Bel Drinks",
             price: 3.0,
             unit: "from",
@@ -1692,7 +1940,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 96,
+            id: 64,
             name: "Special Drinks",
             price: 4.0,
             unit: "from",
@@ -1735,7 +1983,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 97,
+            id: 65,
             name: "Coca-Cola",
             price: 3.5,
             unit: "from",
@@ -1778,7 +2026,7 @@ export const categoriesData: Category[] = [
         image: beveragesImage,
         products: [
           {
-            id: 98,
+            id: 66,
             name: "Hollandia",
             price: 4.0,
             unit: "per bottle",
@@ -1787,7 +2035,7 @@ export const categoriesData: Category[] = [
             inStock: true,
           },
           {
-            id: 99,
+            id: 67,
             name: "Niche Chocolate",
             price: 5.0,
             unit: "per bottle",

@@ -75,7 +75,13 @@ const SubcategoryPage = () => {
               {subcategory.description}
             </p>
             <p className="text-xs sm:text-sm text-primary font-medium">
-              {subcategory.products.length} products available
+              {subcategory.subcategories && subcategory.subcategories.length > 0
+                ? subcategory.subcategories.reduce(
+                    (total, nested) => total + (nested.products?.length || 0),
+                    0
+                  )
+                : subcategory.products?.length || 0}{" "}
+              products available
             </p>
           </div>
         </div>
@@ -102,13 +108,26 @@ const SubcategoryPage = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-          {subcategory.products.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })}
+          {subcategory.subcategories && subcategory.subcategories.length > 0
+            ? // Show products from nested subcategories (like Cake in Cup)
+              subcategory.subcategories.map((nestedSub) =>
+                nestedSub.products?.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))
+              )
+            : // Show direct products
+              subcategory.products?.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
         </div>
 
         {/* Empty State */}
-        {subcategory.products.length === 0 && (
+        {(subcategory.subcategories && subcategory.subcategories.length > 0
+          ? subcategory.subcategories.reduce(
+              (total, nested) => total + (nested.products?.length || 0),
+              0
+            )
+          : subcategory.products?.length || 0) === 0 && (
           <div className="text-center py-16">
             <p className="text-muted-foreground">
               No products found in this subcategory.
