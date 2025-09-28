@@ -1718,9 +1718,9 @@ export const categoriesData: Category[] = [
         ],
       },
       {
-        id: "water-drinks-bottled",
-        name: "Water & Drinks (Bottled)",
-        description: "Bottled water and drinks",
+        id: "bottled-water",
+        name: "Bottle Water",
+        description: "Bottle water variations",
         image: waterDrinksImage,
         products: [
           {
