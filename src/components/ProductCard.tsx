@@ -95,8 +95,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Product Info */}
-        <div className="space-y-2 sm:space-y-3">
-          <h3 className="font-semibold text-sm sm:text-base leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]">
+        <div className="space-y-1.5 sm:space-y-3">
+          <h3 className="font-semibold text-xs sm:text-base leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2rem] sm:min-h-[2.75rem]">
             {product.name}
           </h3>
 
