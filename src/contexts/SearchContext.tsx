@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { categoriesData } from "@/data/categories";
 import { Product, ProductVariant } from "@/data/categories";
 
@@ -41,7 +41,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  const performSearch = (query: string) => {
+  const performSearch = useCallback((query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
       setIsSearching(false);
@@ -116,7 +116,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
                 unit: product.unit,
                 image: product.image,
                 categoryId: category.id,
-                subcategoryId: subcategory.id, // Use parent subcategory ID for navigation
+                subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
                 productId: product.id,
               });
             }
@@ -133,7 +133,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
                   unit: variant.unit,
                   image: variant.image,
                   categoryId: category.id,
-                  subcategoryId: subcategory.id, // Use parent subcategory ID for navigation
+                  subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
                   productId: product.id,
                 });
               }
@@ -195,7 +195,7 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setSearchResults(sortedResults);
     setIsSearching(false);
-  };
+  }, []); // Empty dependency array since we don't depend on any external values
 
   const clearSearch = () => {
     setSearchQuery("");

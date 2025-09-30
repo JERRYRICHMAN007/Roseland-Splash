@@ -29,15 +29,19 @@ const SearchResultsPage = () => {
   useEffect(() => {
     // Scroll to top when component mounts or route changes
     window.scrollTo({ top: 0, behavior: "smooth" });
-    
+
     const query = searchParams.get("q") || "";
     setSearchQuery(query);
     if (query) {
       performSearch(query);
     }
-  }, [searchParams, performSearch]);
+  }, [searchParams, performSearch]); // Now safe to include performSearch since it's memoized
 
-  const handleResultClick = (result: any) => {
+  const handleResultClick = (result: any, event?: React.MouseEvent) => {
+    // Prevent any default behavior
+    event?.preventDefault();
+    event?.stopPropagation();
+
     // Determine the correct navigation path based on result type
     let targetPath = "";
 
@@ -45,11 +49,11 @@ const SearchResultsPage = () => {
       case "category":
         targetPath = `/category/${result.id}`;
         break;
-      
+
       case "subcategory":
         targetPath = `/category/${result.categoryId}/subcategory/${result.id}`;
         break;
-      
+
       case "product":
       case "variant":
         // For products, navigate to their subcategory page where they can be added to cart
@@ -57,19 +61,22 @@ const SearchResultsPage = () => {
           targetPath = `/category/${result.categoryId}/subcategory/${result.subcategoryId}`;
         } else {
           // Fallback to categories if we don't have proper IDs
-          console.warn("Missing category or subcategory ID for product:", result);
+          console.warn(
+            "Missing category or subcategory ID for product:",
+            result
+          );
           targetPath = "/categories";
         }
         break;
-      
+
       default:
         console.error("Unknown result type:", result.type);
         targetPath = "/categories";
         break;
     }
 
-    // Navigate using React Router to maintain history
-    navigate(targetPath);
+    // Navigate immediately using React Router
+    navigate(targetPath, { replace: false });
   };
 
   const handleQuickAddToCart = (e: React.MouseEvent, result: any) => {
@@ -268,11 +275,11 @@ const SearchResultsPage = () => {
               {filteredResults.map((result, index) => (
                 <Card
                   key={`${result.type}-${result.id}-${index}`}
-                  className="cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 group touch-manipulation active:scale-95"
+                  className="cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 group touch-manipulation active:scale-95 select-none"
                 >
                   <CardContent
                     className="p-3 sm:p-4"
-                    onClick={() => handleResultClick(result)}
+                    onClick={(e) => handleResultClick(result, e)}
                   >
                     <div className="flex items-start gap-4">
                       {/* Image */}
