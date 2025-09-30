@@ -200,7 +200,12 @@ const SearchResultsPage = () => {
             </span>
             <div className="flex gap-3">
               {[
-                { key: "all", label: "All", count: searchResults.length, icon: Search },
+                {
+                  key: "all",
+                  label: "All",
+                  count: searchResults.length,
+                  icon: Search,
+                },
                 {
                   key: "category",
                   label: "Categories",
@@ -244,8 +249,8 @@ const SearchResultsPage = () => {
                     <IconComponent size={16} className="mr-2" />
                     {filter.label}
                     {filter.count > 0 && (
-                      <Badge 
-                        variant="secondary" 
+                      <Badge
+                        variant="secondary"
                         className="ml-2 text-xs font-bold bg-primary/20 text-primary border-0"
                       >
                         {filter.count}
@@ -267,8 +272,12 @@ const SearchResultsPage = () => {
                 <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent absolute top-0 left-0"></div>
               </div>
               <div className="text-center">
-                <p className="text-lg font-semibold text-foreground">Searching for the best products...</p>
-                <p className="text-sm text-muted-foreground mt-1">Please wait while we find exactly what you're looking for</p>
+                <p className="text-lg font-semibold text-foreground">
+                  Searching for the best products...
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Please wait while we find exactly what you're looking for
+                </p>
               </div>
             </div>
           </div>
@@ -285,17 +294,20 @@ const SearchResultsPage = () => {
                 No results found
               </h3>
               <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
-                We couldn't find any products matching "<span className="font-semibold text-foreground">{searchQuery}</span>". 
-                Try different keywords or explore our categories.
+                We couldn't find any products matching "
+                <span className="font-semibold text-foreground">
+                  {searchQuery}
+                </span>
+                ". Try different keywords or explore our categories.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button 
+                <Button
                   onClick={() => navigate("/categories")}
                   className="h-12 px-6 text-base font-semibold"
                 >
                   Browse All Categories
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={() => window.history.back()}
                   className="h-12 px-6 text-base font-medium"
@@ -315,7 +327,8 @@ const SearchResultsPage = () => {
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <p className="text-lg font-bold text-foreground">
-                    {filteredResults.length} result{filteredResults.length !== 1 ? "s" : ""} found
+                    {filteredResults.length} result
+                    {filteredResults.length !== 1 ? "s" : ""} found
                   </p>
                 </div>
                 <p className="text-sm text-muted-foreground flex items-center gap-2">
@@ -357,7 +370,8 @@ const SearchResultsPage = () => {
                           )}
                         </div>
                         {/* Trending Badge */}
-                        {(result.type === "product" || result.type === "variant") && (
+                        {(result.type === "product" ||
+                          result.type === "variant") && (
                           <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center shadow-lg">
                             <Star size={12} className="text-white fill-white" />
                           </div>
@@ -384,7 +398,8 @@ const SearchResultsPage = () => {
                                 >
                                   {result.type}
                                 </Badge>
-                                {(result.type === "product" || result.type === "variant") && (
+                                {(result.type === "product" ||
+                                  result.type === "variant") && (
                                   <div className="flex items-center gap-1">
                                     <div className="flex">
                                       {[1, 2, 3, 4, 5].map((star) => (
@@ -395,14 +410,17 @@ const SearchResultsPage = () => {
                                         />
                                       ))}
                                     </div>
-                                    <span className="text-xs text-muted-foreground font-medium">(4.8)</span>
+                                    <span className="text-xs text-muted-foreground font-medium">
+                                      (4.8)
+                                    </span>
                                   </div>
                                 )}
                               </div>
                             </div>
                           </div>
                           <div className="flex flex-col items-end gap-2">
-                            {(result.type === "product" || result.type === "variant") && (
+                            {(result.type === "product" ||
+                              result.type === "variant") && (
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -468,17 +486,17 @@ const SearchResultsPage = () => {
                 Ready to Shop?
               </h3>
               <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
-                Use the search bar in the header to find products, categories, and more. 
-                Discover amazing deals and fresh products!
+                Use the search bar in the header to find products, categories,
+                and more. Discover amazing deals and fresh products!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   onClick={() => navigate("/categories")}
                   className="h-12 px-8 text-base font-semibold"
                 >
                   Browse All Categories
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={() => navigate("/")}
                   className="h-12 px-8 text-base font-medium"
