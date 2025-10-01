@@ -38,6 +38,8 @@ import liquidSoap250ml from "@/assets/variants/liquid-soap-250ml.jpg";
 // Using existing images as placeholders for descriptive product images
 // These can be replaced with actual product images when available
 
+// Farm Produce individual product images (imported below with subcategory images)
+
 // Water and Drinks - Using existing water images as placeholders
 const awakeWaterSmall = aquaWaterSmall;
 const awakeWaterMedium = aquaWaterMedium;
@@ -111,6 +113,30 @@ const groundnutSoupBase = soupBasesImage;
 // Subcategory images
 import farmProduceImage from "@/assets/fresh-produce.jpg";
 import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
+
+// Farm Produce individual product images
+import pepperImage from "@/assets/Pepper.jpg";
+import onionImage from "@/assets/Onion.jpg";
+import tomatoImage from "@/assets/Tomato.jpg";
+import gingerImage from "@/assets/Ginger.jpg";
+import garlicImage from "@/assets/Garlic.jpg";
+import plantainImage from "@/assets/Plantain.jpg";
+import yamImage from "@/assets/Yam.jpg";
+import carrotImage from "@/assets/Carrot.jpg";
+import springOnionImage from "@/assets/Spring Onion.jpg";
+import bellPepperImage from "@/assets/Bell Pepper.jpg";
+
+// Meat, Fish & Eggs individual product images
+import goatImage from "@/assets/Goat.jpg";
+import chickenImage from "@/assets/Chicken.jpg";
+import cowImage from "@/assets/Cow.jpg";
+import freshRedFishImage from "@/assets/Fresh Red Fish.jpg";
+import tilapiaImage from "@/assets/Tilapia.jpg";
+import dryFishImage from "@/assets/Dry Fish.jpg";
+import eggImage from "@/assets/Egg.jpg";
+import smokedFishImage from "@/assets/Smoked Fish.jpg";
+import salmonImage from "@/assets/Salmon.jpg";
+import tunaImage from "@/assets/Tuna.jpg";
 import springRollsImage from "@/assets/snacks-frozen.jpg";
 import samosaImage from "@/assets/snacks-frozen.jpg";
 import cakeInCupImage from "@/assets/snacks-frozen.jpg";
@@ -177,14 +203,14 @@ export const categoriesData: Category[] = [
         id: "farm-produce",
         name: "Farm Produce",
         description: "Fresh vegetables and produce from local farms",
-        image: farmProduceImage,
+        image: pepperImage,
         products: [
           {
             id: 1,
             name: "Pepper",
             price: 8.0,
             unit: "per kg",
-            image: farmProduceImage,
+            image: pepperImage,
             description: "Fresh bell peppers",
             inStock: true,
           },
@@ -193,7 +219,7 @@ export const categoriesData: Category[] = [
             name: "Onion",
             price: 6.0,
             unit: "per kg",
-            image: farmProduceImage,
+            image: onionImage,
             description: "Fresh red onions",
             inStock: true,
           },
@@ -202,7 +228,7 @@ export const categoriesData: Category[] = [
             name: "Tomato",
             price: 12.0,
             unit: "per kg",
-            image: farmProduceImage,
+            image: tomatoImage,
             description: "Ripe fresh tomatoes",
             inStock: true,
           },
@@ -211,7 +237,7 @@ export const categoriesData: Category[] = [
             name: "Ginger",
             price: 15.0,
             unit: "per 500g",
-            image: farmProduceImage,
+            image: gingerImage,
             description: "Fresh ginger root",
             inStock: true,
           },
@@ -220,7 +246,7 @@ export const categoriesData: Category[] = [
             name: "Garlic",
             price: 18.0,
             unit: "per 500g",
-            image: farmProduceImage,
+            image: garlicImage,
             description: "Fresh garlic bulbs",
             inStock: true,
           },
@@ -229,7 +255,7 @@ export const categoriesData: Category[] = [
             name: "Plantain",
             price: 10.0,
             unit: "per bunch",
-            image: farmProduceImage,
+            image: plantainImage,
             description: "Sweet ripe plantains",
             inStock: true,
           },
@@ -238,7 +264,7 @@ export const categoriesData: Category[] = [
             name: "Yam",
             price: 25.0,
             unit: "per tuber",
-            image: farmProduceImage,
+            image: yamImage,
             description: "Quality fresh yam",
             inStock: true,
           },
@@ -247,7 +273,7 @@ export const categoriesData: Category[] = [
             name: "Carrot",
             price: 8.0,
             unit: "per kg",
-            image: farmProduceImage,
+            image: carrotImage,
             description: "Fresh orange carrots",
             inStock: true,
           },
@@ -256,7 +282,7 @@ export const categoriesData: Category[] = [
             name: "Spring Onion",
             price: 5.0,
             unit: "per bunch",
-            image: farmProduceImage,
+            image: springOnionImage,
             description: "Fresh spring onions",
             inStock: true,
           },
@@ -265,7 +291,7 @@ export const categoriesData: Category[] = [
             name: "Bell Pepper",
             price: 8.0,
             unit: "per kg",
-            image: farmProduceImage,
+            image: bellPepperImage,
             description: "Colorful fresh bell peppers",
             inStock: true,
           },
@@ -282,7 +308,7 @@ export const categoriesData: Category[] = [
             name: "Goat",
             price: 45.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: goatImage,
             description: "Fresh goat meat",
             inStock: true,
             variants: [
@@ -292,7 +318,7 @@ export const categoriesData: Category[] = [
                 price: 45.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: goatImage,
               },
               {
                 id: "goat-1lb",
@@ -300,7 +326,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: goatImage,
               },
               {
                 id: "goat-half",
@@ -308,7 +334,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per half pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: goatImage,
               },
             ],
           },
@@ -317,7 +343,7 @@ export const categoriesData: Category[] = [
             name: "Chicken",
             price: 35.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: chickenImage,
             description: "Fresh chicken",
             inStock: true,
             variants: [
@@ -327,7 +353,7 @@ export const categoriesData: Category[] = [
                 price: 35.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: chickenImage,
               },
               {
                 id: "chicken-1lb",
@@ -335,7 +361,7 @@ export const categoriesData: Category[] = [
                 price: 16.0,
                 unit: "per pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: chickenImage,
               },
               {
                 id: "chicken-half",
@@ -343,7 +369,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per half pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: chickenImage,
               },
             ],
           },
@@ -352,7 +378,7 @@ export const categoriesData: Category[] = [
             name: "Cow",
             price: 42.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: cowImage,
             description: "Fresh beef",
             inStock: true,
             variants: [
@@ -362,7 +388,7 @@ export const categoriesData: Category[] = [
                 price: 42.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: cowImage,
               },
               {
                 id: "cow-1lb",
@@ -370,7 +396,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: cowImage,
               },
               {
                 id: "cow-half",
@@ -378,7 +404,7 @@ export const categoriesData: Category[] = [
                 price: 9.5,
                 unit: "per half pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: cowImage,
               },
             ],
           },
@@ -387,7 +413,7 @@ export const categoriesData: Category[] = [
             name: "Fresh Red Fish",
             price: 55.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: freshRedFishImage,
             description: "Fresh red fish",
             inStock: true,
             variants: [
@@ -397,7 +423,7 @@ export const categoriesData: Category[] = [
                 price: 55.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: freshRedFishImage,
               },
               {
                 id: "redfish-1lb",
@@ -405,7 +431,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: freshRedFishImage,
               },
               {
                 id: "redfish-half",
@@ -413,7 +439,7 @@ export const categoriesData: Category[] = [
                 price: 12.5,
                 unit: "per half pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: freshRedFishImage,
               },
             ],
           },
@@ -422,7 +448,7 @@ export const categoriesData: Category[] = [
             name: "Tilapia",
             price: 38.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: tilapiaImage,
             description: "Fresh tilapia",
             inStock: true,
             variants: [
@@ -432,7 +458,7 @@ export const categoriesData: Category[] = [
                 price: 38.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: tilapiaImage,
               },
               {
                 id: "tilapia-1lb",
@@ -440,7 +466,7 @@ export const categoriesData: Category[] = [
                 price: 17.0,
                 unit: "per pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: tilapiaImage,
               },
               {
                 id: "tilapia-half",
@@ -448,7 +474,7 @@ export const categoriesData: Category[] = [
                 price: 8.5,
                 unit: "per half pound",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: tilapiaImage,
               },
             ],
           },
@@ -457,7 +483,7 @@ export const categoriesData: Category[] = [
             name: "Dry Fish",
             price: 75.0,
             unit: "per 500g",
-            image: meatFishEggsImage,
+            image: dryFishImage,
             description: "Quality dried fish",
             inStock: true,
           },
@@ -466,7 +492,7 @@ export const categoriesData: Category[] = [
             name: "Egg",
             price: 12.0,
             unit: "per dozen",
-            image: meatFishEggsImage,
+            image: eggImage,
             description: "Fresh farm eggs",
             inStock: true,
           },
@@ -475,7 +501,7 @@ export const categoriesData: Category[] = [
             name: "Smoked Fish",
             price: 65.0,
             unit: "from",
-            image: meatFishEggsImage,
+            image: smokedFishImage,
             description: "Premium smoked fish",
             inStock: true,
             variants: [
@@ -485,7 +511,7 @@ export const categoriesData: Category[] = [
                 price: 80.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: salmonImage,
               },
               {
                 id: "smoked-tuna",
@@ -493,7 +519,7 @@ export const categoriesData: Category[] = [
                 price: 65.0,
                 unit: "per kg",
                 inStock: true,
-                image: meatFishEggsImage,
+                image: tunaImage,
               },
             ],
           },

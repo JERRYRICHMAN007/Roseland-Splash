@@ -51,7 +51,7 @@ const Footer = () => {
               <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-green-medium bg-clip-text text-transparent">
                 Roseland & Splash
               </h2>
-              <p className="text-muted-foreground leading-relaxed max-w-md">
+              <p className="text-white/90 leading-relaxed max-w-md">
                 Your trusted partner for fresh groceries, premium ingredients,
                 and daily essentials. Delivering quality from farm to your
                 doorstep across Ghana.
@@ -60,7 +60,7 @@ const Footer = () => {
 
             {/* Social Media */}
             <div className="space-y-3">
-              <h4 className="font-semibold text-foreground">Follow Us</h4>
+              <h4 className="font-semibold text-white">Follow Us</h4>
               <div className="flex items-center gap-3">
                 <a
                   href="#"
@@ -104,7 +104,7 @@ const Footer = () => {
 
           {/* Shop Categories */}
           <div className="space-y-6">
-            <h3 className="font-bold text-lg text-foreground border-b border-primary/20 pb-2">
+            <h3 className="font-bold text-lg text-white border-b border-primary/20 pb-2">
               Shop
             </h3>
             <ul className="space-y-3">
@@ -112,7 +112,7 @@ const Footer = () => {
                 <li key={category.id}>
                   <button
                     onClick={() => navigate(`/category/${category.id}`)}
-                    className="text-muted-foreground hover:text-primary text-left font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                    className="text-white/80 hover:text-white hover:text-primary text-left font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                   >
                     {category.name}
                   </button>
@@ -123,14 +123,14 @@ const Footer = () => {
 
           {/* Help & Support */}
           <div className="space-y-6">
-            <h3 className="font-bold text-lg text-foreground border-b border-primary/20 pb-2">
+            <h3 className="font-bold text-lg text-white border-b border-primary/20 pb-2">
               Support
             </h3>
             <ul className="space-y-3">
               <li>
                 <button
                   onClick={() => navigate("/delivery-info")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                  className="text-white/80 hover:text-white hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Delivery Info
                 </button>
@@ -138,7 +138,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/returns")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                  className="text-white/80 hover:text-white hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Returns & Refunds
                 </button>
@@ -146,7 +146,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/faq")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                  className="text-white/80 hover:text-white hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   FAQs
                 </button>
@@ -154,7 +154,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                  className="text-white/80 hover:text-white hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   Contact Us
                 </button>
@@ -162,7 +162,7 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => navigate("/about")}
-                  className="text-muted-foreground hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
+                  className="text-white/80 hover:text-white hover:text-primary font-medium hover:translate-x-1 transition-all duration-200 touch-manipulation py-1 px-1 -mx-1 -my-1 rounded"
                 >
                   About Us
                 </button>
@@ -172,7 +172,7 @@ const Footer = () => {
 
           {/* Contact & Newsletter */}
           <div className="space-y-6">
-            <h3 className="font-bold text-lg text-foreground border-b border-primary/20 pb-2">
+            <h3 className="font-bold text-lg text-white border-b border-primary/20 pb-2">
               Contact
             </h3>
 
@@ -180,7 +180,7 @@ const Footer = () => {
             <div className="space-y-4">
               <a
                 href="tel:+233241234567"
-                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group"
               >
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Phone size={14} className="text-primary" />
@@ -189,14 +189,14 @@ const Footer = () => {
               </a>
               <a
                 href="mailto:hello@roselandsplash.com"
-                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group"
               >
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Mail size={14} className="text-primary" />
                 </div>
                 <span>hello@roselandsplash.com</span>
               </a>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <div className="flex items-center gap-3 text-sm text-white/80">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <MapPin size={14} className="text-primary" />
                 </div>
@@ -206,10 +206,10 @@ const Footer = () => {
                 href="https://wa.me/233241234567"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-primary hover:text-primary-hover transition-colors group bg-primary/5 rounded-lg p-2 hover:bg-primary/10"
+                className="flex items-center gap-3 text-sm text-white hover:text-primary transition-colors group bg-primary/10 rounded-lg p-2 hover:bg-primary/20"
               >
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <MessageCircle size={14} className="text-primary" />
+                <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
+                  <MessageCircle size={14} className="text-white" />
                 </div>
                 <span className="font-medium">WhatsApp Chat</span>
               </a>
@@ -217,8 +217,8 @@ const Footer = () => {
 
             {/* Newsletter Signup */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-foreground">Newsletter</h4>
-              <p className="text-xs text-muted-foreground">
+              <h4 className="font-semibold text-white">Newsletter</h4>
+              <p className="text-xs text-white/70">
                 Get the latest deals and updates
               </p>
               <form onSubmit={handleNewsletterSubmit} className="space-y-3">
@@ -227,7 +227,7 @@ const Footer = () => {
                   name="email"
                   placeholder="Enter your email"
                   required
-                  className="h-10 bg-background/50 border-border/50 focus:border-primary"
+                  className="h-10 bg-white/90 border-border/50 focus:border-primary placeholder:text-gray-600 text-gray-900"
                 />
                 <Button
                   type="submit"
@@ -241,23 +241,23 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-border/50 mt-12 pt-8">
+        <div className="border-t border-white/20 mt-12 pt-8">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <p className="text-sm text-muted-foreground text-center">
+              <p className="text-sm text-white/80 text-center">
                 © 2024 Roseland & Splash. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => navigate("/privacy")}
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                  className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   Privacy Policy
                 </button>
-                <span className="text-muted-foreground">•</span>
+                <span className="text-white/50">•</span>
                 <button
                   onClick={() => navigate("/terms")}
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                  className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   Terms of Service
                 </button>
@@ -265,19 +265,19 @@ const Footer = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2 text-xs text-white/80">
                 <span>Secure payments:</span>
                 <div className="flex gap-1 flex-wrap justify-center">
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
+                  <span className="bg-white/10 px-3 py-1 rounded-full font-medium text-xs text-white">
                     Mobile Money
                   </span>
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
+                  <span className="bg-white/10 px-3 py-1 rounded-full font-medium text-xs text-white">
                     Visa
                   </span>
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
+                  <span className="bg-white/10 px-3 py-1 rounded-full font-medium text-xs text-white">
                     Mastercard
                   </span>
-                  <span className="bg-primary/10 px-3 py-1 rounded-full font-medium text-xs">
+                  <span className="bg-white/10 px-3 py-1 rounded-full font-medium text-xs text-white">
                     Bank Transfer
                   </span>
                 </div>
