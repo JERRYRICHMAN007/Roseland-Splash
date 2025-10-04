@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { categoriesData } from "@/data/categories";
 import { Product, ProductVariant } from "@/data/categories";
 
@@ -26,7 +32,7 @@ interface SearchContextType {
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
-const useSearch = () => {
+export const useSearch = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
     throw new Error("useSearch must be used within a SearchProvider");
@@ -34,7 +40,7 @@ const useSearch = () => {
   return context;
 };
 
-const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
+export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -224,6 +230,3 @@ const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
 };
-
-// Export at the end for Fast Refresh compatibility
-export { useSearch, SearchProvider };

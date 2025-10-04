@@ -68,7 +68,7 @@ const Hero = () => {
                 variant="outline"
                 size="lg"
                 onClick={() => navigate("/categories")}
-                className="group bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50 text-lg px-10 py-5 h-auto font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="group bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white hover:text-gray-900 hover:border-white text-lg px-10 py-5 h-auto font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <span className="flex items-center gap-3">
                   <span>Browse All</span>
