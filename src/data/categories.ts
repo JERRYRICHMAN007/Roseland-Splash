@@ -142,8 +142,8 @@ import bellPepperImage from "@/assets/Bell Pepper.jpg";
 // Meat, Fish & Eggs individual product images
 import goatImage from "@/assets/Goat.jpg";
 // Goat cut specific images
-import goatShoulderImage from "@/assets/Goat-Shoulder.png";
-import goatLegImage from "@/assets/GoatLeg.png";
+import goatShoulderImage from "@/assets/Goat Shoulder.jpg";
+import goatLegImage from "@/assets/goat-leg.jpg";
 import goatRibsImage from "@/assets/GoatRibs.png";
 import goatChopsImage from "@/assets/Goat Chops.jpg";
 import goatMixImage from "@/assets/Goat.jpg";
