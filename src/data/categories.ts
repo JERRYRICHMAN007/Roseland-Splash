@@ -165,12 +165,15 @@ import freshRedFishImage from "@/assets/fresh-fish-1pound__2_-removebg-preview.p
 // Fresh Red Fish variant specific images
 import freshRedFish1kgImage from "@/assets/fresh-fish-1kg-removebg-preview.png";
 import freshRedFishHalfPoundImage from "@/assets/fresh-fish-halfpound-removebg-preview.png";
-import tilapiaImage from "@/assets/Tilapia.jpg";
+import tilapiaImage from "@/assets/Fresh-Tilapia-1kg-Approx-weight-removebg-preview.png";
+// Tilapia variant specific images
+import tilapia1poundImage from "@/assets/fresh tilapia 1pound.jpg";
+import tilapiaHalfPoundImage from "@/assets/fresh-fish-half pound.png";
 import dryFishImage from "@/assets/Dry Fish.jpg";
 import eggImage from "@/assets/Egg.jpg";
 import smokedFishImage from "@/assets/Smoked Fish.jpg";
-import salmonImage from "@/assets/Salmon.jpg";
-import tunaImage from "@/assets/Tuna.jpg";
+import salmonImage from "@/assets/smoke salmon fish.jpg";
+import tunaImage from "@/assets/smoked_tuna_fish-removebg-preview.png";
 import springRollsImage from "@/assets/snacks-frozen.jpg";
 import samosaImage from "@/assets/snacks-frozen.jpg";
 import cakeInCupImage from "@/assets/snacks-frozen.jpg";
@@ -912,7 +915,7 @@ export const categoriesData: Category[] = [
                 price: 17.0,
                 unit: "per pound",
                 inStock: true,
-                image: tilapiaImage,
+                image: tilapia1poundImage,
               },
               {
                 id: "tilapia-half",
@@ -920,7 +923,7 @@ export const categoriesData: Category[] = [
                 price: 8.5,
                 unit: "per half pound",
                 inStock: true,
-                image: tilapiaImage,
+                image: tilapiaHalfPoundImage,
               },
             ],
           },
