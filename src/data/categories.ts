@@ -142,10 +142,10 @@ import bellPepperImage from "@/assets/Bell Pepper.jpg";
 // Meat, Fish & Eggs individual product images
 import goatImage from "@/assets/Goat.jpg";
 // Goat cut specific images
-import goatShoulderImage from "@/assets/Goat Shoulder.jpg";
+import goatShoulderImage from "@/assets/goat-shoulder-removebg-preview.png";
 import goatLegImage from "@/assets/goat-leg.jpg";
 import goatRibsImage from "@/assets/GoatRibs.png";
-import goatChopsImage from "@/assets/Goat Chops.jpg";
+import goatChopsImage from "@/assets/goat-chops-removebg-preview.png";
 import goatMixImage from "@/assets/Goat.jpg";
 import chickenImage from "@/assets/Chicken.jpg";
 // Chicken cut specific images
@@ -161,7 +161,10 @@ import cowRibsImage from "@/assets/cow ribs.jpg";
 import cowChuckImage from "@/assets/Cow Chuck.png";
 import cowRoundImage from "@/assets/Cow Round.jpg";
 import cowMixImage from "@/assets/Cow Mix meat.jpg";
-import freshRedFishImage from "@/assets/Fresh Red Fish.jpg";
+import freshRedFishImage from "@/assets/fresh-fish-1pound__2_-removebg-preview.png";
+// Fresh Red Fish variant specific images
+import freshRedFish1kgImage from "@/assets/fresh-fish-1kg-removebg-preview.png";
+import freshRedFishHalfPoundImage from "@/assets/fresh-fish-halfpound-removebg-preview.png";
 import tilapiaImage from "@/assets/Tilapia.jpg";
 import dryFishImage from "@/assets/Dry Fish.jpg";
 import eggImage from "@/assets/Egg.jpg";
@@ -866,7 +869,7 @@ export const categoriesData: Category[] = [
                 price: 55.0,
                 unit: "per kg",
                 inStock: true,
-                image: freshRedFishImage,
+                image: freshRedFish1kgImage,
               },
               {
                 id: "redfish-1lb",
@@ -882,7 +885,7 @@ export const categoriesData: Category[] = [
                 price: 12.5,
                 unit: "per half pound",
                 inStock: true,
-                image: freshRedFishImage,
+                image: freshRedFishHalfPoundImage,
               },
             ],
           },
