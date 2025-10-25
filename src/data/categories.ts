@@ -171,6 +171,9 @@ import tilapia1poundImage from "@/assets/fresh tilapia 1pound.jpg";
 import tilapiaHalfPoundImage from "@/assets/fresh-fish-half pound.png";
 import dryFishImage from "@/assets/Dry Fish.jpg";
 import eggImage from "@/assets/Egg.jpg";
+// Egg variant specific images
+import eggHalfCrateImage from "@/assets/egg_half_crate-removebg-preview.png";
+import eggFullCrateImage from "@/assets/egg_full_crate_big_image-removebg-preview.png";
 import smokedFishImage from "@/assets/Smoked Fish.jpg";
 import salmonImage from "@/assets/smoke salmon fish.jpg";
 import tunaImage from "@/assets/smoked_tuna_fish-removebg-preview.png";
@@ -954,7 +957,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per crate",
                 inStock: true,
-                image: eggImage,
+                image: eggFullCrateImage,
                 crateType: "Full Crate",
                 size: "Big",
               },
@@ -964,7 +967,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per crate",
                 inStock: true,
-                image: eggImage,
+                image: eggFullCrateImage,
                 crateType: "Full Crate",
                 size: "Medium",
               },
@@ -974,7 +977,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per crate",
                 inStock: true,
-                image: eggImage,
+                image: eggFullCrateImage,
                 crateType: "Full Crate",
                 size: "Small",
               },
@@ -985,7 +988,7 @@ export const categoriesData: Category[] = [
                 price: 13.0,
                 unit: "per half crate",
                 inStock: true,
-                image: eggImage,
+                image: eggHalfCrateImage,
                 crateType: "Half Crate",
                 size: "Big",
               },
@@ -995,7 +998,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per half crate",
                 inStock: true,
-                image: eggImage,
+                image: eggHalfCrateImage,
                 crateType: "Half Crate",
                 size: "Medium",
               },
@@ -1005,7 +1008,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per half crate",
                 inStock: true,
-                image: eggImage,
+                image: eggHalfCrateImage,
                 crateType: "Half Crate",
                 size: "Small",
               },
