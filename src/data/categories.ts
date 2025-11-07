@@ -212,6 +212,9 @@ import bananaSmoothieImage from "@/assets/fresh-banana-smoothies-in-a-glass-jar-
 import mangoSmoothieImage from "@/assets/mango-lassi-2025-01-16-12-22-02-utc.jpg";
 import strawberrySmoothieImage from "@/assets/strawberry-smoothie-or-milkshake-2025-04-01-23-32-25-utc.jpg";
 import mixedBerrySmoothieImage from "@/assets/glass-of-berry-smoothie-decorated-with-fresh-fruit-2025-08-27-06-54-23-utc.jpg";
+import mangoAvocadoSesameImage from "@/assets/mango-chia-pudding-2025-01-29-08-19-54-utc.jpg";
+import bananaPawpawAlmondImage from "@/assets/delicious-dessert-with-chia-seeds-yogurt-banana-2025-08-11-14-44-08-utc.jpg";
+import appleCarrotCashewImage from "@/assets/detox-drink-in-glass-jar-slice-of-apple-and-carro-2025-03-09-23-38-31-utc.jpg";
 
 export interface ProductVariant {
   id: string;
@@ -1644,7 +1647,7 @@ export const categoriesData: Category[] = [
             name: "Banana+Pawpaw+Almond Milk",
             price: 18.0,
             unit: "from",
-            image: lactatingSmoothiesImage,
+            image: bananaPawpawAlmondImage,
             description:
               "Gentle blend with banana, pawpaw and almond milk - perfect for nursing mothers",
             inStock: true,
@@ -1655,7 +1658,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: bananaPawpawAlmondImage,
               },
               {
                 id: "combo1-350ml",
@@ -1663,7 +1666,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: bananaPawpawAlmondImage,
               },
               {
                 id: "combo1-250ml",
@@ -1671,7 +1674,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: bananaPawpawAlmondImage,
               },
             ],
           },
@@ -1680,7 +1683,7 @@ export const categoriesData: Category[] = [
             name: "Apple+Carrot+Cashew",
             price: 20.0,
             unit: "from",
-            image: lactatingSmoothiesImage,
+            image: appleCarrotCashewImage,
             description:
               "Nutritious apple, carrot and cashew blend for healthy digestion",
             inStock: true,
@@ -1691,7 +1694,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: appleCarrotCashewImage,
               },
               {
                 id: "combo2-350ml",
@@ -1699,7 +1702,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: appleCarrotCashewImage,
               },
               {
                 id: "combo2-250ml",
@@ -1707,7 +1710,7 @@ export const categoriesData: Category[] = [
                 price: 17.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: appleCarrotCashewImage,
               },
             ],
           },
@@ -1716,7 +1719,7 @@ export const categoriesData: Category[] = [
             name: "Mango+Avocado+Sesame Seeds",
             price: 22.0,
             unit: "from",
-            image: lactatingSmoothiesImage,
+            image: mangoAvocadoSesameImage,
             description:
               "Rich mango, avocado and sesame seed smoothie packed with healthy fats",
             inStock: true,
@@ -1727,7 +1730,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: mangoAvocadoSesameImage,
               },
               {
                 id: "combo3-350ml",
@@ -1735,7 +1738,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: mangoAvocadoSesameImage,
               },
               {
                 id: "combo3-250ml",
@@ -1743,7 +1746,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: lactatingSmoothiesImage,
+                image: mangoAvocadoSesameImage,
               },
             ],
           },
