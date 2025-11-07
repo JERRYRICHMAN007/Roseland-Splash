@@ -204,6 +204,14 @@ import vanillaStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_2
 import chocolateVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_07_52 PM.png";
 import chocolateVanillaCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_18_25 PM.png";
 import chocolateStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_19_33 PM.png";
+import orangeJuiceImage from "@/assets/fresh-orange-juice-in-a-glass-jar-over-white-woode-2024-10-18-08-42-12-utc.jpg";
+import pineappleJuiceImage from "@/assets/fresh-summer-pineapple-juice-2024-10-11-07-45-36-utc.jpg";
+import pineappleGingerJuiceImage from "@/assets/pineapple-juice-and-slice-placed-on-a-wooden-table-2024-10-18-00-23-05-utc.jpg";
+import mixedFruitJuiceImage from "@/assets/plum-and-grape-fruit-juice-in-glass-bottles-2025-02-11-15-06-45-utc.jpg";
+import bananaSmoothieImage from "@/assets/fresh-banana-smoothies-in-a-glass-jar-on-a-light-c-2025-03-25-11-28-43-utc.jpg";
+import mangoSmoothieImage from "@/assets/mango-lassi-2025-01-16-12-22-02-utc.jpg";
+import strawberrySmoothieImage from "@/assets/strawberry-smoothie-or-milkshake-2025-04-01-23-32-25-utc.jpg";
+import mixedBerrySmoothieImage from "@/assets/glass-of-berry-smoothie-decorated-with-fresh-fruit-2025-08-27-06-54-23-utc.jpg";
 
 export interface ProductVariant {
   id: string;
@@ -1316,7 +1324,7 @@ export const categoriesData: Category[] = [
         id: "cake-in-cup",
         name: "Cake in Cup",
         description: "Delicious cake varieties in convenient cups",
-        image: cakeInCupImage,
+        image: loadedMiniCupcakesImage,
         subcategories: [
           {
             id: "vanilla-velvet",
@@ -1467,20 +1475,20 @@ export const categoriesData: Category[] = [
         id: "juices",
         name: "Juices",
         description: "Fresh and refreshing fruit juices",
-        image: juicesImage,
+        image: mixedFruitJuiceImage,
         subcategories: [
           {
             id: "orange-juice",
             name: "Orange",
             description: "Fresh orange juice",
-            image: juicesImage,
+            image: orangeJuiceImage,
             products: [
               {
                 id: 32,
                 name: "Orange Juice",
                 price: 8.0,
                 unit: "per bottle",
-                image: juicesImage,
+                image: orangeJuiceImage,
                 description: "Fresh and refreshing orange juice",
                 inStock: true,
               },
@@ -1490,14 +1498,14 @@ export const categoriesData: Category[] = [
             id: "pineapple-juice",
             name: "Pineapple",
             description: "Fresh pineapple juice",
-            image: juicesImage,
+            image: pineappleJuiceImage,
             products: [
               {
                 id: 33,
                 name: "Pineapple Juice",
                 price: 8.0,
                 unit: "per bottle",
-                image: juicesImage,
+                image: pineappleJuiceImage,
                 description: "Fresh and refreshing pineapple juice",
                 inStock: true,
               },
@@ -1507,14 +1515,14 @@ export const categoriesData: Category[] = [
             id: "pineapple-ginger-juice",
             name: "Pineapple + Ginger",
             description: "Fresh pineapple juice with ginger",
-            image: juicesImage,
+            image: pineappleGingerJuiceImage,
             products: [
               {
                 id: 34,
                 name: "Pineapple + Ginger Juice",
                 price: 9.0,
                 unit: "per bottle",
-                image: juicesImage,
+                image: pineappleGingerJuiceImage,
                 description:
                   "Fresh pineapple juice with ginger for extra flavor",
                 inStock: true,
@@ -1525,14 +1533,14 @@ export const categoriesData: Category[] = [
             id: "mixed-fruit-juice",
             name: "Mixed Fruit",
             description: "Fresh mixed fruit juice",
-            image: juicesImage,
+            image: mixedFruitJuiceImage,
             products: [
               {
                 id: 35,
                 name: "Mixed Fruit Juice",
                 price: 10.0,
                 unit: "per bottle",
-                image: juicesImage,
+                image: mixedFruitJuiceImage,
                 description: "Fresh mixed fruit juice with various fruits",
                 inStock: true,
               },
@@ -1544,20 +1552,20 @@ export const categoriesData: Category[] = [
         id: "smoothies",
         name: "Smoothies",
         description: "Nutritious and delicious smoothies",
-        image: smoothiesImage,
+        image: mixedBerrySmoothieImage,
         subcategories: [
           {
             id: "banana-smoothie",
             name: "Banana Smoothie",
             description: "Creamy banana smoothie",
-            image: smoothiesImage,
+            image: bananaSmoothieImage,
             products: [
               {
                 id: 36,
                 name: "Banana Smoothie",
                 price: 12.0,
                 unit: "per bottle",
-                image: smoothiesImage,
+                image: bananaSmoothieImage,
                 description: "Creamy and delicious banana smoothie",
                 inStock: true,
               },
@@ -1567,14 +1575,14 @@ export const categoriesData: Category[] = [
             id: "mango-smoothie",
             name: "Mango Smoothie",
             description: "Tropical mango smoothie",
-            image: smoothiesImage,
+            image: mangoSmoothieImage,
             products: [
               {
                 id: 37,
                 name: "Mango Smoothie",
                 price: 15.0,
                 unit: "per bottle",
-                image: smoothiesImage,
+                image: mangoSmoothieImage,
                 description: "Tropical and refreshing mango smoothie",
                 inStock: true,
               },
@@ -1584,15 +1592,15 @@ export const categoriesData: Category[] = [
             id: "strawberry-smoothie",
             name: "Strawberry Smoothie",
             description: "Sweet strawberry smoothie",
-            image: smoothiesImage,
+            image: strawberrySmoothieImage,
             products: [
               {
                 id: 38,
                 name: "Strawberry Smoothie",
-                price: 14.0,
+                price: 15.0,
                 unit: "per bottle",
-                image: smoothiesImage,
-                description: "Sweet and tangy strawberry smoothie",
+                image: strawberrySmoothieImage,
+                description: "Sweet and refreshing strawberry smoothie",
                 inStock: true,
               },
             ],
@@ -1600,17 +1608,16 @@ export const categoriesData: Category[] = [
           {
             id: "mixed-berry-smoothie",
             name: "Mixed Berry Smoothie",
-            description: "Antioxidant-rich mixed berry smoothie",
-            image: smoothiesImage,
+            description: "Mixed berry smoothie",
+            image: mixedBerrySmoothieImage,
             products: [
               {
                 id: 39,
                 name: "Mixed Berry Smoothie",
-                price: 16.0,
+                price: 15.0,
                 unit: "per bottle",
-                image: smoothiesImage,
-                description:
-                  "Antioxidant-rich mixed berry smoothie with various berries",
+                image: mixedBerrySmoothieImage,
+                description: "Mixed berry smoothie with fresh berries",
                 inStock: true,
               },
             ],
