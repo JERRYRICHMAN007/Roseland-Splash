@@ -192,6 +192,18 @@ import juicesBottledImage from "@/assets/soft-drinks.jpg";
 import biscuitsDisplayImage from "@/assets/biscuits-display.jpg";
 import spicePureeImage from "@/assets/stew-spices.jpg";
 import soupBasesImage from "@/assets/stew-base-spices.jpg";
+import friedSpringRollsImage from "@/assets/Springrolls-Fried.jpg";
+import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
+import frozenYamImage from "@/assets/High-Quality-Frozen-French-Fries-IQF-Potatoes-French-Fries-Price.jpg";
+import frozenSamosaImage from "@/assets/Samosa-Frozen.jpeg";
+import frozenSpringRollsImage from "@/assets/srpringrolls-frozen-removebg-preview.png";
+import vanillaVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 01_53_55 PM.png";
+import loadedMiniCupcakesImage from "@/assets/WhatsApp Image 2025-11-07 at 9.05.52 AM.jpeg";
+import vanillaChocolateCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 01_53_59 PM.png";
+import vanillaStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_20_56 PM.png";
+import chocolateVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_07_52 PM.png";
+import chocolateVanillaCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_18_25 PM.png";
+import chocolateStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_19_33 PM.png";
 
 export interface ProductVariant {
   id: string;
@@ -1055,20 +1067,20 @@ export const categoriesData: Category[] = [
         id: "fried",
         name: "Fried",
         description: "Freshly fried snacks and foods",
-        image: springRollsImage,
+        image: friedSpringRollsImage,
         subcategories: [
           {
             id: "fried-spring-rolls",
             name: "Fried Spring Rolls",
             description: "Freshly fried crispy spring rolls",
-            image: springRollsImage,
+            image: friedSpringRollsImage,
             products: [
               {
                 id: 21,
                 name: "Fried Spring Rolls",
                 price: 2.5,
                 unit: "from",
-                image: springRollsImage,
+                image: friedSpringRollsImage,
                 description:
                   "Freshly fried crispy spring rolls with various fillings",
                 inStock: true,
@@ -1079,7 +1091,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: friedSpringRollsImage,
                   },
                   {
                     id: "fried-spring-chicken",
@@ -1087,7 +1099,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: friedSpringRollsImage,
                   },
                   {
                     id: "fried-spring-beans",
@@ -1095,7 +1107,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: friedSpringRollsImage,
                   },
                   {
                     id: "fried-spring-veggies",
@@ -1103,7 +1115,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: friedSpringRollsImage,
                   },
                 ],
               },
@@ -1113,14 +1125,14 @@ export const categoriesData: Category[] = [
             id: "fried-samosa",
             name: "Fried Samosa",
             description: "Freshly fried traditional samosas",
-            image: samosaImage,
+            image: friedSamosaImage,
             products: [
               {
                 id: 22,
                 name: "Fried Samosa",
                 price: 2.5,
                 unit: "from",
-                image: samosaImage,
+                image: friedSamosaImage,
                 description:
                   "Freshly fried traditional samosas with various fillings",
                 inStock: true,
@@ -1131,7 +1143,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: friedSamosaImage,
                   },
                   {
                     id: "fried-samosa-chicken",
@@ -1139,7 +1151,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: friedSamosaImage,
                   },
                   {
                     id: "fried-samosa-veggies",
@@ -1147,7 +1159,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: friedSamosaImage,
                   },
                 ],
               },
@@ -1159,20 +1171,20 @@ export const categoriesData: Category[] = [
         id: "frozen",
         name: "Frozen",
         description: "Frozen foods ready to cook",
-        image: springRollsImage,
+        image: frozenSpringRollsImage,
         subcategories: [
           {
             id: "frozen-spring-rolls",
             name: "Frozen Spring Rolls",
             description: "Frozen spring rolls ready to cook",
-            image: springRollsImage,
+            image: frozenSpringRollsImage,
             products: [
               {
                 id: 23,
                 name: "Frozen Spring Rolls",
                 price: 2.0,
                 unit: "from",
-                image: springRollsImage,
+                image: frozenSpringRollsImage,
                 description: "Frozen spring rolls ready to cook at home",
                 inStock: true,
                 variants: [
@@ -1182,7 +1194,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: frozenSpringRollsImage,
                   },
                   {
                     id: "frozen-spring-chicken",
@@ -1190,7 +1202,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: frozenSpringRollsImage,
                   },
                   {
                     id: "frozen-spring-beans",
@@ -1198,7 +1210,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: frozenSpringRollsImage,
                   },
                   {
                     id: "frozen-spring-veggies",
@@ -1206,7 +1218,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: springRollsImage,
+                    image: frozenSpringRollsImage,
                   },
                 ],
               },
@@ -1216,14 +1228,14 @@ export const categoriesData: Category[] = [
             id: "frozen-samosa",
             name: "Frozen Samosa",
             description: "Frozen samosas ready to cook",
-            image: samosaImage,
+            image: frozenSamosaImage,
             products: [
               {
                 id: 24,
                 name: "Frozen Samosa",
                 price: 2.0,
                 unit: "from",
-                image: samosaImage,
+                image: frozenSamosaImage,
                 description: "Frozen samosas ready to cook at home",
                 inStock: true,
                 variants: [
@@ -1233,7 +1245,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: frozenSamosaImage,
                   },
                   {
                     id: "frozen-samosa-chicken",
@@ -1241,7 +1253,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: frozenSamosaImage,
                   },
                   {
                     id: "frozen-samosa-veggies",
@@ -1249,7 +1261,7 @@ export const categoriesData: Category[] = [
                     price: 2.0,
                     unit: "per piece",
                     inStock: true,
-                    image: samosaImage,
+                    image: frozenSamosaImage,
                   },
                 ],
               },
@@ -1259,14 +1271,14 @@ export const categoriesData: Category[] = [
             id: "frozen-yam",
             name: "Frozen Yam",
             description: "Fresh frozen yam in various sizes",
-            image: smoothiesImage, // Using smoothies image as placeholder
+            image: frozenYamImage,
             products: [
               {
                 id: 25,
                 name: "Frozen Yam",
                 price: 25.0,
                 unit: "from",
-                image: smoothiesImage, // Using smoothies image as placeholder
+                image: frozenYamImage,
                 description: "Fresh frozen yam",
                 inStock: true,
                 variants: [
@@ -1276,7 +1288,7 @@ export const categoriesData: Category[] = [
                     price: 70.0,
                     unit: "per piece",
                     inStock: true,
-                    image: smoothiesImage, // Using smoothies image as placeholder
+                    image: frozenYamImage,
                   },
                   {
                     id: "frozen-yam-medium",
@@ -1284,7 +1296,7 @@ export const categoriesData: Category[] = [
                     price: 50.0,
                     unit: "per piece",
                     inStock: true,
-                    image: smoothiesImage, // Using smoothies image as placeholder
+                    image: frozenYamImage,
                   },
                   {
                     id: "frozen-yam-small",
@@ -1292,7 +1304,7 @@ export const categoriesData: Category[] = [
                     price: 25.0,
                     unit: "per piece",
                     inStock: true,
-                    image: smoothiesImage, // Using smoothies image as placeholder
+                    image: frozenYamImage,
                   },
                 ],
               },
@@ -1310,14 +1322,14 @@ export const categoriesData: Category[] = [
             id: "vanilla-velvet",
             name: "Vanilla-Velvet",
             description: "Delicious vanilla cake with velvet texture",
-            image: cakeInCupImage,
+            image: vanillaVelvetCakeImage,
             products: [
               {
                 id: 26,
                 name: "Vanilla-Velvet Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: vanillaVelvetCakeImage,
                 description:
                   "Delicious vanilla cake with velvet texture in convenient cup",
                 inStock: true,
@@ -1328,14 +1340,14 @@ export const categoriesData: Category[] = [
             id: "vanilla-chocolate",
             name: "Vanilla-Chocolate",
             description: "Delicious vanilla and chocolate layered cake",
-            image: cakeInCupImage,
+            image: vanillaChocolateCakeImage,
             products: [
               {
                 id: 27,
                 name: "Vanilla-Chocolate Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: vanillaChocolateCakeImage,
                 description:
                   "Delicious vanilla and chocolate layered cake in convenient cup",
                 inStock: true,
@@ -1346,14 +1358,14 @@ export const categoriesData: Category[] = [
             id: "vanilla-strawberry",
             name: "Vanilla-Strawberry",
             description: "Delicious vanilla cake with strawberry flavor",
-            image: cakeInCupImage,
+            image: vanillaStrawberryCakeImage,
             products: [
               {
                 id: 28,
                 name: "Vanilla-Strawberry Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: vanillaStrawberryCakeImage,
                 description:
                   "Delicious vanilla cake with strawberry flavor in convenient cup",
                 inStock: true,
@@ -1364,14 +1376,14 @@ export const categoriesData: Category[] = [
             id: "chocolate-velvet",
             name: "Chocolate-Velvet",
             description: "Rich chocolate cake with velvet texture",
-            image: cakeInCupImage,
+            image: chocolateVelvetCakeImage,
             products: [
               {
                 id: 29,
                 name: "Chocolate-Velvet Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: chocolateVelvetCakeImage,
                 description:
                   "Rich chocolate cake with velvet texture in convenient cup",
                 inStock: true,
@@ -1382,14 +1394,14 @@ export const categoriesData: Category[] = [
             id: "chocolate-vanilla",
             name: "Chocolate-Vanilla",
             description: "Rich chocolate and vanilla layered cake",
-            image: cakeInCupImage,
+            image: chocolateVanillaCakeImage,
             products: [
               {
                 id: 30,
                 name: "Chocolate-Vanilla Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: chocolateVanillaCakeImage,
                 description:
                   "Rich chocolate and vanilla layered cake in convenient cup",
                 inStock: true,
@@ -1400,16 +1412,51 @@ export const categoriesData: Category[] = [
             id: "chocolate-strawberry",
             name: "Chocolate-Strawberry",
             description: "Rich chocolate cake with strawberry flavor",
-            image: cakeInCupImage,
+            image: chocolateStrawberryCakeImage,
             products: [
               {
                 id: 31,
                 name: "Chocolate-Strawberry Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
-                image: cakeInCupImage,
+                image: chocolateStrawberryCakeImage,
                 description:
                   "Rich chocolate cake with strawberry flavor in convenient cup",
+                inStock: true,
+              },
+            ],
+          },
+          {
+            id: "vanilla-strawberry",
+            name: "Vanilla-Strawberry",
+            description: "Delicious vanilla cake with strawberry flavor",
+            image: vanillaStrawberryCakeImage,
+            products: [
+              {
+                id: 28,
+                name: "Vanilla-Strawberry Cake in Cup",
+                price: 12.0,
+                unit: "per cup",
+                image: vanillaStrawberryCakeImage,
+                description:
+                  "Delicious vanilla cake with strawberry flavor in convenient cup",
+                inStock: true,
+              },
+            ],
+          },
+          {
+            id: "loaded-mini-cupcakes",
+            name: "Loaded Mini Cup Cakes",
+            description: "Assorted loaded mini cup cakes",
+            image: loadedMiniCupcakesImage,
+            products: [
+              {
+                id: 29,
+                name: "Loaded Mini Cup Cakes",
+                price: 15.0,
+                unit: "per pack",
+                image: loadedMiniCupcakesImage,
+                description: "Loaded mini cup cakes with assorted toppings",
                 inStock: true,
               },
             ],
