@@ -226,6 +226,7 @@ import whiteSugarProductImage from "@/assets/white-sugar-product.jpg";
 import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
 import carnationMilkProductImage from "@/assets/carnation-milk-product.jpg";
 import enapaPowderedMilkImage from "@/assets/enapa-powdered-milk.jpg";
+import nidoPowderedMilkImage from "@/assets/nido-powdered-milk.avif";
 
 export interface ProductVariant {
   id: string;
@@ -2141,7 +2142,7 @@ export const categoriesData: Category[] = [
                 price: 35.0,
                 unit: "per tin",
                 inStock: true,
-                image: nido400g,
+                image: nidoPowderedMilkImage,
               },
               {
                 id: "nido-900g",
@@ -2149,7 +2150,7 @@ export const categoriesData: Category[] = [
                 price: 70.0,
                 unit: "per tin",
                 inStock: true,
-                image: nido900g,
+                image: nidoPowderedMilkImage,
               },
             ],
           },
