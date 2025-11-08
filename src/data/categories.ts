@@ -4,6 +4,8 @@ import snacksFrozenImage from "@/assets/snacks-frozen.jpg";
 import mashedkeDelightImage from "@/assets/chocolate-banana-groundnut-variant.png";
 import householdEssentialsImage from "@/assets/household-essentials.jpg";
 import stewBaseSpicesImage from "@/assets/stew-base-spices.jpg";
+import generalSmoothiesImage from "@/assets/general-smoothies.jpg";
+import miloProductImage from "@/assets/milo-powder.jpg";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -184,7 +186,6 @@ import juicesImage from "@/assets/soft-drinks.jpg";
 import smoothiesImage from "@/assets/general-smoothies.jpg";
 import lactatingSmoothiesImage from "@/assets/lactating-smoothies.jpg";
 import gymSmoothiesImage from "@/assets/gym-smoothies.jpg";
-import generalSmoothiesImage from "@/assets/general-smoothies.jpg";
 import waterDrinksImage from "@/assets/soft-drinks.jpg";
 import softDrinksImage from "@/assets/soft-drinks.jpg";
 import beveragesImage from "@/assets/soft-drinks.jpg";
@@ -220,6 +221,11 @@ import pineappleChiaAlmondImage from "@/assets/pineapple-chia-seeds-almond-milk.
 import mixedBerriesWalnutsSoyImage from "@/assets/mixed-berries-walnuts-soy-milk.jpg";
 import coconutHoneyCashewImage from "@/assets/coconut-honey-cashew.jpg";
 import chocolateBananaGroundnutImage from "@/assets/chocolate-banana-groundnut.png";
+import brownSugarProductImage from "@/assets/brown-sugar-product.jpg";
+import whiteSugarProductImage from "@/assets/white-sugar-product.jpg";
+import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
+import carnationMilkProductImage from "@/assets/carnation-milk-product.jpg";
+import enapaPowderedMilkImage from "@/assets/enapa-powdered-milk.jpg";
 
 export interface ProductVariant {
   id: string;
@@ -1972,7 +1978,7 @@ export const categoriesData: Category[] = [
             name: "Milo",
             price: 10.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: miloProductImage,
             description: "Nutritious chocolate drink",
             inStock: true,
             variants: [
@@ -1982,7 +1988,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: milo100g,
+                image: miloProductImage,
               },
               {
                 id: "milo-200g",
@@ -1990,7 +1996,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per pack",
                 inStock: true,
-                image: milo200g,
+                image: miloProductImage,
               },
               {
                 id: "milo-400g",
@@ -1998,7 +2004,7 @@ export const categoriesData: Category[] = [
                 price: 35.0,
                 unit: "per pack",
                 inStock: true,
-                image: milo400g,
+                image: miloProductImage,
               },
               {
                 id: "milo-1kg",
@@ -2006,7 +2012,7 @@ export const categoriesData: Category[] = [
                 price: 80.0,
                 unit: "per pack",
                 inStock: true,
-                image: milo1kg,
+                image: miloProductImage,
               },
             ],
           },
@@ -2015,7 +2021,7 @@ export const categoriesData: Category[] = [
             name: "Sugar",
             price: 6.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: whiteSugarProductImage,
             description: "Brown and White sugar varieties",
             inStock: true,
             variants: [
@@ -2025,7 +2031,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: brownSugar500g,
+                image: brownSugarProductImage,
               },
               {
                 id: "brown-1kg",
@@ -2033,23 +2039,31 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per pack",
                 inStock: true,
-                image: brownSugar1kg,
+                image: brownSugarProductImage,
               },
               {
                 id: "white-500g",
                 name: "White Sugar 500g",
-                price: 6.0,
+                price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: whiteSugar500g,
+                image: whiteSugarProductImage,
               },
               {
                 id: "white-1kg",
                 name: "White Sugar 1kg",
-                price: 10.0,
+                price: 13.0,
                 unit: "per pack",
                 inStock: true,
-                image: whiteSugar1kg,
+                image: whiteSugarProductImage,
+              },
+              {
+                id: "white-5kg",
+                name: "White Sugar 5kg",
+                price: 60.0,
+                unit: "per bag",
+                inStock: true,
+                image: whiteSugarProductImage,
               },
             ],
           },
@@ -2058,7 +2072,7 @@ export const categoriesData: Category[] = [
             name: "Milk",
             price: 4.5,
             unit: "from",
-            image: householdEssentialsImage,
+            image: idealMilkProductImage,
             description: "Ideal and Carnation milk varieties",
             inStock: true,
             variants: [
@@ -2068,7 +2082,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per tin",
                 inStock: true,
-                image: idealMilk170g,
+                image: idealMilkProductImage,
               },
               {
                 id: "ideal-385g",
@@ -2076,7 +2090,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per tin",
                 inStock: true,
-                image: idealMilk385g,
+                image: idealMilkProductImage,
               },
               {
                 id: "carnation-170g",
@@ -2084,7 +2098,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per tin",
                 inStock: true,
-                image: carnationMilk170g,
+                image: carnationMilkProductImage,
               },
               {
                 id: "carnation-385g",
@@ -2092,7 +2106,7 @@ export const categoriesData: Category[] = [
                 price: 9.0,
                 unit: "per tin",
                 inStock: true,
-                image: carnationMilk385g,
+                image: carnationMilkProductImage,
               },
             ],
           },
@@ -2101,7 +2115,7 @@ export const categoriesData: Category[] = [
             name: "Powdered Milk",
             price: 25.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: enapaPowderedMilkImage,
             description: "Enapa and Non-Dairy powdered milk varieties",
             inStock: true,
             variants: [
@@ -2111,7 +2125,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per tin",
                 inStock: true,
-                image: enapaPowdered400g,
+                image: enapaPowderedMilkImage,
               },
               {
                 id: "enapa-900g",
@@ -2119,7 +2133,7 @@ export const categoriesData: Category[] = [
                 price: 55.0,
                 unit: "per tin",
                 inStock: true,
-                image: enapaPowdered900g,
+                image: enapaPowderedMilkImage,
               },
               {
                 id: "nido-400g",
