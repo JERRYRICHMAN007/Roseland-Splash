@@ -1,7 +1,7 @@
 // Main category images
 import freshFoodsImage from "@/assets/fresh-produce.jpg";
 import snacksFrozenImage from "@/assets/snacks-frozen.jpg";
-import mashedkeDelightImage from "@/assets/mashedke-delight.jpg";
+import mashedkeDelightImage from "@/assets/chocolate-banana-groundnut-variant.png";
 import householdEssentialsImage from "@/assets/household-essentials.jpg";
 import stewBaseSpicesImage from "@/assets/stew-base-spices.jpg";
 
@@ -215,6 +215,11 @@ import mixedBerrySmoothieImage from "@/assets/glass-of-berry-smoothie-decorated-
 import mangoAvocadoSesameImage from "@/assets/mango-chia-pudding-2025-01-29-08-19-54-utc.jpg";
 import bananaPawpawAlmondImage from "@/assets/delicious-dessert-with-chia-seeds-yogurt-banana-2025-08-11-14-44-08-utc.jpg";
 import appleCarrotCashewImage from "@/assets/detox-drink-in-glass-jar-slice-of-apple-and-carro-2025-03-09-23-38-31-utc.jpg";
+import bananaDatesPeanutButterImage from "@/assets/banana-dates-peanut-butter.jpg";
+import pineappleChiaAlmondImage from "@/assets/pineapple-chia-seeds-almond-milk.jpg";
+import mixedBerriesWalnutsSoyImage from "@/assets/mixed-berries-walnuts-soy-milk.jpg";
+import coconutHoneyCashewImage from "@/assets/coconut-honey-cashew.jpg";
+import chocolateBananaGroundnutImage from "@/assets/chocolate-banana-groundnut.png";
 
 export interface ProductVariant {
   id: string;
@@ -1764,7 +1769,7 @@ export const categoriesData: Category[] = [
             name: "Banana+Dates+Peanut Butter",
             price: 25.0,
             unit: "from",
-            image: gymSmoothiesImage,
+            image: bananaDatesPeanutButterImage,
             description:
               "High-protein blend with banana, dates and peanut butter for muscle building",
             inStock: true,
@@ -1775,7 +1780,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: bananaDatesPeanutButterImage,
               },
               {
                 id: "gym1-350ml",
@@ -1783,7 +1788,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: bananaDatesPeanutButterImage,
               },
               {
                 id: "gym1-250ml",
@@ -1791,7 +1796,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: bananaDatesPeanutButterImage,
               },
             ],
           },
@@ -1800,7 +1805,7 @@ export const categoriesData: Category[] = [
             name: "Pineapple+Chia Seeds+Almond Milk",
             price: 24.0,
             unit: "from",
-            image: gymSmoothiesImage,
+            image: pineappleChiaAlmondImage,
             description:
               "Energy-boosting pineapple with chia seeds and almond milk",
             inStock: true,
@@ -1811,7 +1816,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: pineappleChiaAlmondImage,
               },
               {
                 id: "gym2-350ml",
@@ -1819,7 +1824,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: pineappleChiaAlmondImage,
               },
               {
                 id: "gym2-250ml",
@@ -1827,7 +1832,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: pineappleChiaAlmondImage,
               },
             ],
           },
@@ -1836,7 +1841,7 @@ export const categoriesData: Category[] = [
             name: "Mixed Berries+Walnuts+Soy Milk",
             price: 28.0,
             unit: "from",
-            image: gymSmoothiesImage,
+            image: mixedBerriesWalnutsSoyImage,
             description:
               "Antioxidant-rich berries with walnuts and soy milk for recovery",
             inStock: true,
@@ -1847,7 +1852,7 @@ export const categoriesData: Category[] = [
                 price: 33.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: mixedBerriesWalnutsSoyImage,
               },
               {
                 id: "gym3-350ml",
@@ -1855,7 +1860,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: mixedBerriesWalnutsSoyImage,
               },
               {
                 id: "gym3-250ml",
@@ -1863,7 +1868,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per bottle",
                 inStock: true,
-                image: gymSmoothiesImage,
+                image: mixedBerriesWalnutsSoyImage,
               },
             ],
           },
@@ -1880,7 +1885,7 @@ export const categoriesData: Category[] = [
             name: "Coconut+Honey+Cashew",
             price: 22.0,
             unit: "from",
-            image: generalSmoothiesImage,
+            image: coconutHoneyCashewImage,
             description:
               "Tropical coconut with honey and cashew - a crowd favorite",
             inStock: true,
@@ -1891,7 +1896,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: coconutHoneyCashewImage,
               },
               {
                 id: "general1-350ml",
@@ -1899,7 +1904,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: coconutHoneyCashewImage,
               },
               {
                 id: "general1-250ml",
@@ -1907,7 +1912,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: coconutHoneyCashewImage,
               },
             ],
           },
@@ -1916,7 +1921,7 @@ export const categoriesData: Category[] = [
             name: "Chocolate+Banana+Groundnut",
             price: 24.0,
             unit: "from",
-            image: generalSmoothiesImage,
+            image: chocolateBananaGroundnutImage,
             description: "Indulgent chocolate banana smoothie with groundnuts",
             inStock: true,
             variants: [
@@ -1926,7 +1931,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: chocolateBananaGroundnutImage,
               },
               {
                 id: "general2-350ml",
@@ -1934,7 +1939,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: chocolateBananaGroundnutImage,
               },
               {
                 id: "general2-250ml",
@@ -1942,7 +1947,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per bottle",
                 inStock: true,
-                image: generalSmoothiesImage,
+                image: chocolateBananaGroundnutImage,
               },
             ],
           },
