@@ -86,11 +86,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <Card className="group hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95">
       <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
         {/* Product Image */}
-        <div className="aspect-square rounded-xl overflow-hidden bg-accent/20">
+        <div className="aspect-square rounded-xl overflow-hidden bg-accent/20 p-2 sm:p-3">
           <img
             src={currentVariant.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
           />
         </div>
 

@@ -6,6 +6,28 @@ import householdEssentialsImage from "@/assets/household-essentials.jpg";
 import stewBaseSpicesImage from "@/assets/stew-base-spices.jpg";
 import generalSmoothiesImage from "@/assets/general-smoothies.jpg";
 import miloProductImage from "@/assets/milo-powder.jpg";
+import kivoGariStrawberryImage from "@/assets/53d124_121e6059d4ca445994939368d60ef45f~mv2.png";
+import kivoGariCoconutImage from "@/assets/kivo gari coconut.png";
+import kivoGariGroundnutImage from "@/assets/kivo gari groundnut.png";
+import kivoPepperImage from "@/assets/kivo pepper.jpg";
+import maggiCubeImage from "@/assets/maggi.jpeg";
+import ongaMaggiImage from "@/assets/onga maggi.jpg";
+import onga3MixImage from "@/assets/Onga 3-Mix.png";
+import curryPowderImage from "@/assets/images.jpg";
+import garlicGingerMixImage from "@/assets/Remie-Gingger-and-Garlic-Seasoning-Powder-square_jpg.jpg";
+import tableSaltImage from "@/assets/salt.jpg";
+import frytolPouch900mlImage from "@/assets/900ml-frytol.jpg";
+import frytolBottleImage from "@/assets/images (1).jpg";
+import unoil1LImage from "@/assets/unoli-soyabean-oil-1l-1-box.jpg";
+import leleOilImage from "@/assets/Lele-Sunflower-Oil-1L.png";
+import sultanOilImage from "@/assets/images (2).jpg";
+import leleKetchupImage from "@/assets/94430a.jpg";
+import alfaKetchupImage from "@/assets/images (3).jpg";
+import leleSardineImage from "@/assets/30921_1a.jpg";
+import enapaKetchupImage from "@/assets/23129a.jpg";
+import delayKetchupImage from "@/assets/images (4).jpg";
+import belmaKetchupImage from "@/assets/belma.jpg";
+import titusSardineImage from "@/assets/x612_1a.jpg";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -96,16 +118,16 @@ const digestiveBiscuit = biscuitsDisplayImage;
 const chocolateCookies = biscuitsDisplayImage;
 
 // Household Items - Using existing images as placeholders
-const kivoGariStrawberry = householdEssentialsImage;
-const kivoGariCoconut = householdEssentialsImage;
-const kivoGariGroundnut = householdEssentialsImage;
-const kivoPepper = householdEssentialsImage;
-const maggiCube = householdEssentialsImage;
-const ongaSeasoning = householdEssentialsImage;
-const onga3Mix = householdEssentialsImage;
-const curryPowder = householdEssentialsImage;
-const garlicGingerMix = householdEssentialsImage;
-const tableSalt = householdEssentialsImage;
+const kivoGariStrawberry = kivoGariStrawberryImage;
+const kivoGariCoconut = kivoGariCoconutImage;
+const kivoGariGroundnut = kivoGariGroundnutImage;
+const kivoPepper = kivoPepperImage;
+const maggiCube = maggiCubeImage;
+const ongaSeasoning = ongaMaggiImage;
+const onga3Mix = onga3MixImage;
+const curryPowder = curryPowderImage;
+const garlicGingerMix = garlicGingerMixImage;
+const tableSalt = tableSaltImage;
 const palmOil = householdEssentialsImage;
 const cookingOil = householdEssentialsImage;
 const handSoap = liquidSoap250ml;
@@ -2272,7 +2294,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pouch",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolPouch900mlImage,
                 item: "Frytol",
               },
               {
@@ -2281,7 +2303,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pouch",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolPouch900mlImage,
                 item: "Frytol",
               },
               {
@@ -2290,7 +2312,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pouch",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolPouch900mlImage,
                 item: "Frytol",
               },
               {
@@ -2299,7 +2321,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per pouch",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolPouch900mlImage,
                 item: "Frytol",
               },
               {
@@ -2308,7 +2330,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per pouch",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolPouch900mlImage,
                 item: "Frytol",
               },
               {
@@ -2317,7 +2339,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolBottleImage,
                 item: "Frytol",
               },
               {
@@ -2326,7 +2348,7 @@ export const categoriesData: Category[] = [
                 price: 38.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolBottleImage,
                 item: "Frytol",
               },
               {
@@ -2335,7 +2357,7 @@ export const categoriesData: Category[] = [
                 price: 70.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolBottleImage,
                 item: "Frytol",
               },
               {
@@ -2344,7 +2366,7 @@ export const categoriesData: Category[] = [
                 price: 140.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: frytolBottleImage,
                 item: "Frytol",
               },
               {
@@ -2353,7 +2375,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: unoil1LImage,
                 item: "Unoil",
               },
               {
@@ -2362,7 +2384,7 @@ export const categoriesData: Category[] = [
                 price: 32.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: unoil1LImage,
                 item: "Unoil",
               },
               {
@@ -2371,7 +2393,7 @@ export const categoriesData: Category[] = [
                 price: 85.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: unoil1LImage,
                 item: "Unoil",
               },
               {
@@ -2380,7 +2402,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleOilImage,
                 item: "Lele",
               },
               {
@@ -2389,7 +2411,7 @@ export const categoriesData: Category[] = [
                 price: 32.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleOilImage,
                 item: "Lele",
               },
               {
@@ -2398,7 +2420,7 @@ export const categoriesData: Category[] = [
                 price: 60.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleOilImage,
                 item: "Lele",
               },
               {
@@ -2407,7 +2429,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per sachet",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: sultanOilImage,
                 item: "Sultan",
               },
               {
@@ -2416,7 +2438,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per sachet",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: sultanOilImage,
                 item: "Sultan",
               },
               {
@@ -2425,7 +2447,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per sachet",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: sultanOilImage,
                 item: "Sultan",
               },
             ],
@@ -2445,7 +2467,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleKetchupImage,
                 item: "Lele",
               },
               {
@@ -2454,7 +2476,7 @@ export const categoriesData: Category[] = [
                 price: 45.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleKetchupImage,
                 item: "Lele",
               },
               {
@@ -2463,7 +2485,7 @@ export const categoriesData: Category[] = [
                 price: 3.8,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: alfaKetchupImage,
                 item: "Alfa",
               },
               {
@@ -2472,7 +2494,7 @@ export const categoriesData: Category[] = [
                 price: 42.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: alfaKetchupImage,
                 item: "Alfa",
               },
             ],
@@ -2492,7 +2514,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleSardineImage,
                 item: "Lele",
               },
               {
@@ -2501,7 +2523,7 @@ export const categoriesData: Category[] = [
                 price: 65.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleSardineImage,
                 item: "Lele",
               },
               {
@@ -2510,7 +2532,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaKetchupImage,
                 item: "Enapa",
               },
               {
@@ -2519,7 +2541,7 @@ export const categoriesData: Category[] = [
                 price: 68.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaKetchupImage,
                 item: "Enapa",
               },
               {
@@ -2528,7 +2550,7 @@ export const categoriesData: Category[] = [
                 price: 6.2,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: delayKetchupImage,
                 item: "Delay",
               },
               {
@@ -2537,7 +2559,7 @@ export const categoriesData: Category[] = [
                 price: 66.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: delayKetchupImage,
                 item: "Delay",
               },
               {
@@ -2546,7 +2568,7 @@ export const categoriesData: Category[] = [
                 price: 6.3,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: belmaKetchupImage,
                 item: "Belma",
               },
               {
@@ -2555,7 +2577,7 @@ export const categoriesData: Category[] = [
                 price: 67.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: belmaKetchupImage,
                 item: "Belma",
               },
               {
@@ -2564,7 +2586,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: titusSardineImage,
                 item: "Titus",
               },
               {
@@ -2573,7 +2595,7 @@ export const categoriesData: Category[] = [
                 price: 70.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: titusSardineImage,
                 item: "Titus",
               },
             ],
