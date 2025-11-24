@@ -28,6 +28,26 @@ import enapaKetchupImage from "@/assets/23129a.jpg";
 import delayKetchupImage from "@/assets/images (4).jpg";
 import belmaKetchupImage from "@/assets/belma.jpg";
 import titusSardineImage from "@/assets/x612_1a.jpg";
+import hollandiaImage from "@/assets/hollandia.jpg";
+import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
+import belColaImage from "@/assets/0009490_bel-cola-350ml_510.png";
+import belSqueezeImage from "@/assets/02397a.jpg";
+import belTamarindaImage from "@/assets/tamarinda.jpg";
+import belBreezeImage from "@/assets/breeze.jpg";
+import belAppleImage from "@/assets/FMT-IMG-1754433123.jpg";
+import belTropicalImage from "@/assets/Bel-Tropical-Splash-350ml-1-1.png";
+import specialColaImage from "@/assets/6-3.png";
+import specialTangerineImage from "@/assets/tangerine.jpg";
+import specialAppleImage from "@/assets/special apple.png";
+import cokeImage from "@/assets/n800_1_1.jpg";
+import fantaImage from "@/assets/fantat.jpg";
+import spriteImage from "@/assets/JTQMVX...jpg";
+import specialGrapeImage from "@/assets/envato-labs-image-edit.png";
+import aquaImage from "@/assets/hygienically-packed-leak-proof-ground-mineral-drinking-water-008.jpg";
+import awakeImage from "@/assets/awake.jpg";
+import volticImage from "@/assets/VOLTIC WATER 750ML-228x228.jpg";
+import montImage from "@/assets/149364.png";
+import vernaImage from "@/assets/53304a.jpg";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -97,8 +117,8 @@ const fantaBottle = softDrinksImage;
 const spriteBottle = softDrinksImage;
 
 // Beverages - Using existing images as placeholders
-const hollandiaBottle = beveragesImage;
-const nicheChocolate = beveragesImage;
+const hollandiaBottle = hollandiaImage;
+const nicheChocolate = nicheChocolateImage;
 
 // Juices - Using existing images as placeholders
 const kalypoJuice = juicesBottledImage;
@@ -3041,7 +3061,7 @@ export const categoriesData: Category[] = [
             name: "Aqua",
             price: 2.0,
             unit: "from",
-            image: waterDrinksImage,
+            image: aquaImage,
             description: "Bottled water",
             inStock: true,
             variants: [
@@ -3051,7 +3071,7 @@ export const categoriesData: Category[] = [
                 price: 2.0,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterSmall,
+                image: aquaImage,
               },
               {
                 id: "aqua-medium",
@@ -3059,7 +3079,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterMedium,
+                image: aquaImage,
               },
               {
                 id: "aqua-large",
@@ -3067,7 +3087,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterLarge,
+                image: aquaImage,
               },
             ],
           },
@@ -3076,7 +3096,7 @@ export const categoriesData: Category[] = [
             name: "Awake",
             price: 2.5,
             unit: "from",
-            image: waterDrinksImage,
+            image: awakeImage,
             description: "Bottled water",
             inStock: true,
             variants: [
@@ -3086,7 +3106,7 @@ export const categoriesData: Category[] = [
                 price: 2.5,
                 unit: "per bottle",
                 inStock: true,
-                image: awakeWaterSmall,
+                image: awakeImage,
               },
               {
                 id: "awake-medium",
@@ -3094,7 +3114,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bottle",
                 inStock: true,
-                image: awakeWaterMedium,
+                image: awakeImage,
               },
               {
                 id: "awake-large",
@@ -3102,7 +3122,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per bottle",
                 inStock: true,
-                image: awakeWaterLarge,
+                image: awakeImage,
               },
             ],
           },
@@ -3111,7 +3131,7 @@ export const categoriesData: Category[] = [
             name: "Voltic",
             price: 2.0,
             unit: "from",
-            image: waterDrinksImage,
+            image: volticImage,
             description: "Bottled water",
             inStock: true,
             variants: [
@@ -3121,7 +3141,7 @@ export const categoriesData: Category[] = [
                 price: 2.0,
                 unit: "per bottle",
                 inStock: true,
-                image: volticWaterSmall,
+                image: volticImage,
               },
               {
                 id: "voltic-medium",
@@ -3129,7 +3149,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: volticWaterMedium,
+                image: volticImage,
               },
               {
                 id: "voltic-large",
@@ -3137,7 +3157,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: volticWaterLarge,
+                image: volticImage,
               },
             ],
           },
@@ -3146,7 +3166,7 @@ export const categoriesData: Category[] = [
             name: "Mont",
             price: 2.5,
             unit: "from",
-            image: montWater,
+            image: montImage,
             description: "Bottled water",
             inStock: true,
             variants: [
@@ -3156,7 +3176,7 @@ export const categoriesData: Category[] = [
                 price: 2.5,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterSmall,
+                image: montImage,
               },
               {
                 id: "mont-medium",
@@ -3164,7 +3184,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterMedium,
+                image: montImage,
               },
               {
                 id: "mont-large",
@@ -3172,7 +3192,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaWaterLarge,
+                image: montImage,
               },
             ],
           },
@@ -3181,7 +3201,7 @@ export const categoriesData: Category[] = [
             name: "Verna",
             price: 2.0,
             unit: "from",
-            image: waterDrinksImage,
+            image: vernaImage,
             description: "Bottled water",
             inStock: true,
             variants: [
@@ -3191,7 +3211,7 @@ export const categoriesData: Category[] = [
                 price: 2.0,
                 unit: "per bottle",
                 inStock: true,
-                image: vernaWaterSmall,
+                image: vernaImage,
               },
               {
                 id: "verna-medium",
@@ -3199,7 +3219,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: vernaWaterMedium,
+                image: vernaImage,
               },
               {
                 id: "verna-large",
@@ -3207,7 +3227,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: vernaWaterLarge,
+                image: vernaImage,
               },
             ],
           },
@@ -3234,7 +3254,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belColaImage,
               },
               {
                 id: "bel-squeeze",
@@ -3242,7 +3262,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belSqueezeImage,
               },
               {
                 id: "bel-tamarinda",
@@ -3250,7 +3270,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belTamarindaImage,
               },
               {
                 id: "bel-breeze",
@@ -3258,7 +3278,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belBreezeImage,
               },
               {
                 id: "bel-apple",
@@ -3266,7 +3286,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belAppleImage,
               },
               {
                 id: "bel-tropical",
@@ -3274,7 +3294,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per bottle",
                 inStock: true,
-                image: belDrinks,
+                image: belTropicalImage,
               },
             ],
           },
@@ -3293,7 +3313,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bottle",
                 inStock: true,
-                image: specialDrinks,
+                image: specialColaImage,
               },
               {
                 id: "special-grape",
@@ -3301,7 +3321,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bottle",
                 inStock: true,
-                image: specialDrinks,
+                image: specialGrapeImage,
               },
               {
                 id: "special-tangerine",
@@ -3309,7 +3329,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bottle",
                 inStock: true,
-                image: specialDrinks,
+                image: specialTangerineImage,
               },
               {
                 id: "special-apple",
@@ -3317,7 +3337,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bottle",
                 inStock: true,
-                image: specialDrinks,
+                image: specialAppleImage,
               },
             ],
           },
@@ -3336,7 +3356,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bottle",
                 inStock: true,
-                image: cocaColaBottle,
+                image: cokeImage,
               },
               {
                 id: "fanta",
@@ -3344,7 +3364,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bottle",
                 inStock: true,
-                image: fantaBottle,
+                image: fantaImage,
               },
               {
                 id: "sprite",
@@ -3352,7 +3372,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bottle",
                 inStock: true,
-                image: spriteBottle,
+                image: spriteImage,
               },
             ],
           },
