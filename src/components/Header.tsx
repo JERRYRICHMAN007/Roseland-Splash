@@ -53,7 +53,7 @@ const Header = () => {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-base lg:text-lg font-bold">
-                <span className="text-primary">Roseland</span> &
+                <span className="text-primary">Rollsland</span> &
                 <span className="text-secondary"> Splash</span>
               </h1>
             </div>
@@ -136,7 +136,7 @@ const Header = () => {
                       </div>
                       <div>
                         <h2 className="text-lg font-bold">
-                          <span className="text-primary">Roseland</span> &{" "}
+                          <span className="text-primary">Rollsland</span> &{" "}
                           <span className="text-secondary">Splash</span>
                         </h2>
                         <p className="text-xs text-muted-foreground">

@@ -1,4 +1,4 @@
-// Main JavaScript file for Roseland & Splash
+// Main JavaScript file for Rollsland & Splash
 // Author: Jerry Richman
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -363,7 +363,7 @@ if (document.querySelectorAll('img[data-src]').length > 0) {
 
 // Console welcome message
 console.log(`
-🎨 Welcome to Roseland & Splash!
+🎨 Welcome to Rollsland & Splash!
 Built with ❤️ by Jerry Richman
 
 Features:
@@ -373,11 +373,11 @@ Features:
 ✅ Interactive Components
 ✅ Performance Optimized
 
-GitHub: https://github.com/JERRYRICHMAN007/Roseland-Splash
+GitHub: https://github.com/JERRYRICHMAN007/Rollsland-Splash
 `);
 
 // Export functions for potential external use
-window.RoselandSplash = {
+window.RollslandSplash = {
     showNotification,
     debounce,
     throttle

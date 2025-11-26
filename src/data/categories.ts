@@ -48,6 +48,32 @@ import awakeImage from "@/assets/awake.jpg";
 import volticImage from "@/assets/VOLTIC WATER 750ML-228x228.jpg";
 import montImage from "@/assets/149364.png";
 import vernaImage from "@/assets/53304a.jpg";
+import turmericImage from "@/assets/turmeric-powder2.jpg";
+import garlicPowderImage from "@/assets/Garlic-Powder-500-g.jpg";
+import gingerPowderImage from "@/assets/ginger-powder.jpg";
+import rosemaryImage from "@/assets/f4c17afb20950df597203fb3b29e100af4992fddf07540b1a0fdea4db256fede.jpg";
+import bayLeafImage from "@/assets/Bay Leaf.jpg";
+import cinnamonImage from "@/assets/Cinnamon.jpg";
+import fenugreekPowderImage from "@/assets/fenugreek-powder.jpeg";
+import fenugreekSeedImage from "@/assets/Fenugreek.jpg";
+import clovesSeedImage from "@/assets/A1PjxnKmF+L._AC_UF894,1000_QL80_.jpg";
+import clovesPowderImage from "@/assets/cloves.jpg";
+import corianderSeedImage from "@/assets/coriander.jpg";
+import corianderPowderImage from "@/assets/coriander p.jpg";
+import blackPepperSeedImage from "@/assets/keralaspicesmysore-10-1.png";
+import blackPepperPowderImage from "@/assets/Bp powder.jpg";
+import chilliSeedImage from "@/assets/raw-organic-100-percent-natural-pure-red-chilli-seeds-for-cooking-uses-025.jpg";
+import chilliPowderImage from "@/assets/22055_-_IG_-_CHILLI_POWDER_-_1KG__22367.jpg";
+import aniseSeedImage from "@/assets/Anise.jpg";
+import anisePowderImage from "@/assets/Anise Powder.jpg";
+import chiaPowderImage from "@/assets/ch-500x500.jpg";
+import chiaSeedImage from "@/assets/chia.webp";
+import mustardSeedImage from "@/assets/mustard-seeds-yellow-1.jpg";
+import mustardPowderImage from "@/assets/1720606306.webp";
+import sesamePowderImage from "@/assets/Sesame .png";
+import sesameSeedImage from "@/assets/SS S.jpg";
+import nutmegPowderImage from "@/assets/Nutmeg.jpg";
+import nutmegSeedImage from "@/assets/He94db293471746ba9047be1e575ea174M.png";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -4360,7 +4386,7 @@ export const categoriesData: Category[] = [
             name: "Rosemary",
             price: 5.5,
             unit: "per pack",
-            image: spicePureeImage,
+            image: rosemaryImage,
             description: "Fragrant dried rosemary",
             inStock: true,
             variants: [
@@ -4370,7 +4396,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: rosemaryImage,
               },
             ],
           },
@@ -4379,7 +4405,7 @@ export const categoriesData: Category[] = [
             name: "Bay Leaf",
             price: 4.5,
             unit: "per pack",
-            image: spicePureeImage,
+            image: bayLeafImage,
             description: "Whole dried bay leaves",
             inStock: true,
             variants: [
@@ -4389,7 +4415,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: bayLeafImage,
               },
             ],
           },
@@ -4398,7 +4424,7 @@ export const categoriesData: Category[] = [
             name: "Ginger Powder",
             price: 6.5,
             unit: "per pack",
-            image: spicePureeImage,
+            image: gingerPowderImage,
             description: "Finely ground ginger powder",
             inStock: true,
             variants: [
@@ -4408,7 +4434,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: gingerPowderImage,
               },
             ],
           },
@@ -4417,7 +4443,7 @@ export const categoriesData: Category[] = [
             name: "Garlic Powder",
             price: 6.0,
             unit: "per pack",
-            image: spicePureeImage,
+            image: garlicPowderImage,
             description: "Savory garlic powder",
             inStock: true,
             variants: [
@@ -4427,7 +4453,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: garlicPowderImage,
               },
             ],
           },
@@ -4436,7 +4462,7 @@ export const categoriesData: Category[] = [
             name: "Turmeric",
             price: 6.0,
             unit: "per pack",
-            image: spicePureeImage,
+            image: turmericImage,
             description: "Golden turmeric powder",
             inStock: true,
             variants: [
@@ -4446,7 +4472,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: turmericImage,
               },
             ],
           },
@@ -4455,7 +4481,7 @@ export const categoriesData: Category[] = [
             name: "Cinnamon",
             price: 7.5,
             unit: "from",
-            image: spicePureeImage,
+            image: cinnamonImage,
             description: "Cinnamon sticks and powder",
             inStock: true,
             variants: [
@@ -4465,7 +4491,7 @@ export const categoriesData: Category[] = [
                 price: 7.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: cinnamonImage,
                 item: "Stick",
               },
               {
@@ -4474,7 +4500,7 @@ export const categoriesData: Category[] = [
                 price: 8.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: cinnamonImage,
                 item: "Powder",
               },
             ],
@@ -4492,7 +4518,7 @@ export const categoriesData: Category[] = [
             name: "Fenugreek",
             price: 6.0,
             unit: "from",
-            image: spicePureeImage,
+            image: fenugreekPowderImage,
             description: "Aromatic fenugreek seeds and powder",
             inStock: true,
             variants: [
@@ -4502,7 +4528,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: fenugreekSeedImage,
                 item: "Seed",
               },
               {
@@ -4511,7 +4537,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: fenugreekPowderImage,
                 item: "Powder",
               },
             ],
@@ -4531,7 +4557,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: clovesSeedImage,
                 item: "Whole",
               },
               {
@@ -4540,7 +4566,7 @@ export const categoriesData: Category[] = [
                 price: 9.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: clovesPowderImage,
                 item: "Powder",
               },
             ],
@@ -4560,7 +4586,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: corianderSeedImage,
                 item: "Seed",
               },
               {
@@ -4569,7 +4595,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: corianderPowderImage,
                 item: "Powder",
               },
             ],
@@ -4589,7 +4615,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: blackPepperSeedImage,
                 item: "Seed",
               },
               {
@@ -4598,7 +4624,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: blackPepperPowderImage,
                 item: "Powder",
               },
             ],
@@ -4618,7 +4644,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: chilliSeedImage,
                 item: "Seed",
               },
               {
@@ -4627,7 +4653,7 @@ export const categoriesData: Category[] = [
                 price: 7.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: chilliPowderImage,
                 item: "Powder",
               },
             ],
@@ -4647,7 +4673,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: aniseSeedImage,
                 item: "Seed",
               },
               {
@@ -4656,7 +4682,7 @@ export const categoriesData: Category[] = [
                 price: 7.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: anisePowderImage,
                 item: "Powder",
               },
             ],
@@ -4676,7 +4702,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: chiaSeedImage,
                 item: "Seed",
               },
               {
@@ -4685,7 +4711,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: chiaPowderImage,
                 item: "Powder",
               },
             ],
@@ -4705,7 +4731,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: mustardSeedImage,
                 item: "Seed",
               },
               {
@@ -4714,7 +4740,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: mustardPowderImage,
                 item: "Powder",
               },
             ],
@@ -4734,7 +4760,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: sesameSeedImage,
                 item: "Seed",
               },
               {
@@ -4743,7 +4769,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: sesamePowderImage,
                 item: "Powder",
               },
             ],
@@ -4763,7 +4789,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: nutmegSeedImage,
                 item: "Seed",
               },
               {
@@ -4772,7 +4798,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: spicePureeImage,
+                image: nutmegPowderImage,
                 item: "Powder",
               },
             ],

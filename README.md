@@ -1,4 +1,4 @@
-# Roseland & Splash
+# Rollsland & Splash
 
 A modern, responsive web application built with HTML5, CSS3, and JavaScript.
 
@@ -13,7 +13,7 @@ A modern, responsive web application built with HTML5, CSS3, and JavaScript.
 ## 📁 Project Structure
 
 ```
-Roseland-Splash/
+Rollsland-Splash/
 ├── src/
 │   ├── css/           # Stylesheets
 │   ├── js/            # JavaScript files
@@ -36,8 +36,8 @@ Roseland-Splash/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/JERRYRICHMAN007/Roseland-Splash.git
-   cd Roseland-Splash
+   git clone https://github.com/JERRYRICHMAN007/Rollsland-Splash.git
+   cd Rollsland-Splash
    ```
 
 2. Open `index.html` in your web browser or use a local server:

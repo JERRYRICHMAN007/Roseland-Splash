@@ -37,7 +37,7 @@ const Hero = () => {
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
                 <span className="bg-gradient-to-r from-green-light via-green-medium to-primary bg-clip-text text-transparent drop-shadow-lg">
-                  Roseland & Splash
+                  Rollsland & Splash
                 </span>
                 <br />
                 <span className="text-white drop-shadow-[var(--hero-text-glow)]">

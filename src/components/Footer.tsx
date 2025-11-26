@@ -49,7 +49,7 @@ const Footer = () => {
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
             <div className="space-y-4">
               <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-green-medium bg-clip-text text-transparent">
-                Roseland & Splash
+                Rollsland & Splash
               </h2>
               <p className="text-white/90 leading-relaxed max-w-md">
                 Your trusted partner for fresh groceries, premium ingredients,
@@ -188,13 +188,13 @@ const Footer = () => {
                 <span>+233 24 123 4567</span>
               </a>
               <a
-                href="mailto:hello@roselandsplash.com"
+                href="mailto:hello@rollslandsplash.com"
                 className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group"
               >
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Mail size={14} className="text-primary" />
                 </div>
-                <span>hello@roselandsplash.com</span>
+                <span>hello@rollslandsplash.com</span>
               </a>
               <div className="flex items-center gap-3 text-sm text-white/80">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -245,7 +245,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <p className="text-sm text-white/80 text-center">
-                © 2024 Roseland & Splash. All rights reserved.
+                © 2024 Rollsland & Splash. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
                 <button

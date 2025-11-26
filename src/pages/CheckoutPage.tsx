@@ -57,7 +57,7 @@ const CheckoutPage = () => {
       try {
         // Mock Yango API call
         const yangoOrder = {
-          pickup_address: "Roseland & Splash Store, Accra, Ghana",
+          pickup_address: "Rollsland & Splash Store, Accra, Ghana",
           delivery_address: `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`,
           customer_phone: customerInfo.phone,
           items: items.map((item) => ({
