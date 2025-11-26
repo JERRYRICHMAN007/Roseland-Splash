@@ -28,6 +28,18 @@ import enapaKetchupImage from "@/assets/23129a.jpg";
 import delayKetchupImage from "@/assets/images (4).jpg";
 import belmaKetchupImage from "@/assets/belma.jpg";
 import titusSardineImage from "@/assets/x612_1a.jpg";
+import donSimonImage from "@/assets/Don Simon.jpg";
+import ceresImage from "@/assets/Ceres.jpg";
+import ekumfiImage from "@/assets/EKUMFI JUICE BY 24 - PACK.png";
+import kalypoImage from "@/assets/Kalypo_Multifruta.jpg";
+import chocolateCookiesImage from "@/assets/Munchee-Chocolate-Chip-Cookies-100g.jpg";
+import digestiveBiscuitImage from "@/assets/mcvities.jpg";
+import funOBiscuitImage from "@/assets/images.png";
+import nutriSnackImage from "@/assets/86918a.jpg";
+import simplyGoodImage from "@/assets/Simply Good.jpg";
+import sodaBiscuitImage from "@/assets/soda_biscuit_.jpg";
+import kingCrackerImage from "@/assets/king cracker.jpg";
+import oreoImage from "@/assets/oreo.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
 import belColaImage from "@/assets/0009490_bel-cola-350ml_510.png";
@@ -51,7 +63,7 @@ import vernaImage from "@/assets/53304a.jpg";
 import turmericImage from "@/assets/turmeric-powder2.jpg";
 import garlicPowderImage from "@/assets/Garlic-Powder-500-g.jpg";
 import gingerPowderImage from "@/assets/ginger-powder.jpg";
-import rosemaryImage from "@/assets/f4c17afb20950df597203fb3b29e100af4992fddf07540b1a0fdea4db256fede.jpg";
+import rosemaryImage from "@/assets/DriedRosemaryLeaves_471e0513-29fc-4c4b-9166-ab619d3d63d0.webp";
 import bayLeafImage from "@/assets/Bay Leaf.jpg";
 import cinnamonImage from "@/assets/Cinnamon.jpg";
 import fenugreekPowderImage from "@/assets/fenugreek-powder.jpeg";
@@ -147,21 +159,21 @@ const hollandiaBottle = hollandiaImage;
 const nicheChocolate = nicheChocolateImage;
 
 // Juices - Using existing images as placeholders
-const kalypoJuice = juicesBottledImage;
-const ekumfiJuice = juicesBottledImage;
-const ceresJuice = juicesBottledImage;
-const donSimonJuice = juicesBottledImage;
+const kalypoJuice = kalypoImage;
+const ekumfiJuice = ekumfiImage;
+const ceresJuice = ceresImage;
+const donSimonJuice = donSimonImage;
 
 // Biscuits - Using existing images as placeholders
-const oreoCookies = biscuitsDisplayImage;
-const kingCrackerSmall = biscuitsDisplayImage;
-const kingCrackerLarge = biscuitsDisplayImage;
-const sodaBiscuit = biscuitsDisplayImage;
-const simplyGood = biscuitsDisplayImage;
-const nutriSnack = biscuitsDisplayImage;
-const funOBiscuit = biscuitsDisplayImage;
-const digestiveBiscuit = biscuitsDisplayImage;
-const chocolateCookies = biscuitsDisplayImage;
+const oreoCookies = oreoImage;
+const kingCrackerSmall = kingCrackerImage;
+const kingCrackerLarge = kingCrackerImage;
+const sodaBiscuit = sodaBiscuitImage;
+const simplyGood = simplyGoodImage;
+const nutriSnack = nutriSnackImage;
+const funOBiscuit = funOBiscuitImage;
+const digestiveBiscuit = digestiveBiscuitImage;
+const chocolateCookies = chocolateCookiesImage;
 
 // Household Items - Using existing images as placeholders
 const kivoGariStrawberry = kivoGariStrawberryImage;
@@ -3494,7 +3506,7 @@ export const categoriesData: Category[] = [
             name: "King Cracker",
             price: 6.0,
             unit: "from",
-            image: biscuitsDisplayImage,
+            image: kingCrackerImage,
             description: "King Cracker biscuits",
             inStock: true,
             variants: [
