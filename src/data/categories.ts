@@ -40,6 +40,27 @@ import simplyGoodImage from "@/assets/Simply Good.jpg";
 import sodaBiscuitImage from "@/assets/soda_biscuit_.jpg";
 import kingCrackerImage from "@/assets/king cracker.jpg";
 import oreoImage from "@/assets/oreo.jpg";
+import abenaRiceImage from "@/assets/Abena.jpg";
+import leleRiceImage from "@/assets/lele.jpg";
+import dubaiRiceImage from "@/assets/Dubai.jpg";
+import ginoRiceImage from "@/assets/Gino.jpg";
+import basmatiRiceImage from "@/assets/basmati.png";
+import ginoPasteImage from "@/assets/Gino paste.jpg";
+import pomoPasteImage from "@/assets/Pomo Paste.jpg";
+import tastyPasteImage from "@/assets/Tasty Paste.jpg";
+import indomieImage from "@/assets/indomie.jpg";
+import obaSpaghettiImage from "@/assets/Oba.jpg";
+import lelePasteImage from "@/assets/lele paste.png";
+import enapaSpaghettiImage from "@/assets/enapa.png";
+import enapaMackerelImage from "@/assets/enapa mackerel.jpg";
+import leleMackerelImage from "@/assets/lele mackerel.jpg";
+import tinapaMackerelImage from "@/assets/Tinapa mackerel.jpg";
+import libertyMackerelImage from "@/assets/Liberty Mackerel.webp";
+import ginnyMayonnaiseImage from "@/assets/ginny mayonnaise.jpg";
+import unoilMayonnaiseImage from "@/assets/unoil mayonnaise.png";
+import blueBandImage from "@/assets/blue brand.jpg";
+import topChocoImage from "@/assets/Top Choco.jpg";
+import laughingCowImage from "@/assets/The laughing Cheese.jpeg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
 import belColaImage from "@/assets/0009490_bel-cola-350ml_510.png";
@@ -2673,7 +2694,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per kg",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: abenaRiceImage,
               },
               {
                 id: "rice-lele",
@@ -2681,7 +2702,7 @@ export const categoriesData: Category[] = [
                 price: 9.0,
                 unit: "per kg",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleRiceImage,
               },
               {
                 id: "rice-gino",
@@ -2689,7 +2710,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per kg",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: ginoRiceImage,
               },
               {
                 id: "rice-dubai",
@@ -2697,7 +2718,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per kg",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: dubaiRiceImage,
               },
               {
                 id: "rice-basmati",
@@ -2705,7 +2726,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per kg",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: basmatiRiceImage,
               },
             ],
           },
@@ -2724,7 +2745,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: ginoPasteImage,
               },
               {
                 id: "tomato-paste-pomo",
@@ -2732,7 +2753,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: pomoPasteImage,
               },
               {
                 id: "tomato-paste-lele",
@@ -2740,7 +2761,7 @@ export const categoriesData: Category[] = [
                 price: 2.5,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: lelePasteImage,
               },
               {
                 id: "tomato-paste-tasty-tom",
@@ -2748,7 +2769,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: tastyPasteImage,
               },
             ],
           },
@@ -2757,7 +2778,7 @@ export const categoriesData: Category[] = [
             name: "Indomie",
             price: 5.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: indomieImage,
             description: "Indomie noodle packs",
             inStock: true,
             variants: [
@@ -2767,7 +2788,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Small",
               },
               {
@@ -2776,7 +2797,7 @@ export const categoriesData: Category[] = [
                 price: 55.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Small",
               },
               {
@@ -2785,7 +2806,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Super Pack",
               },
               {
@@ -2794,7 +2815,7 @@ export const categoriesData: Category[] = [
                 price: 70.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Super Pack",
               },
               {
@@ -2803,7 +2824,7 @@ export const categoriesData: Category[] = [
                 price: 9.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Hungry Man",
               },
               {
@@ -2812,7 +2833,7 @@ export const categoriesData: Category[] = [
                 price: 90.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Hungry Man",
               },
               {
@@ -2821,7 +2842,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Belle Full",
               },
               {
@@ -2830,7 +2851,7 @@ export const categoriesData: Category[] = [
                 price: 100.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: indomieImage,
                 item: "Belle Full",
               },
             ],
@@ -2850,7 +2871,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: obaSpaghettiImage,
                 item: "Oba Small",
               },
               {
@@ -2859,7 +2880,7 @@ export const categoriesData: Category[] = [
                 price: 80.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: obaSpaghettiImage,
                 item: "Oba Small",
               },
               {
@@ -2868,7 +2889,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: obaSpaghettiImage,
                 item: "Oba Large",
               },
               {
@@ -2877,7 +2898,7 @@ export const categoriesData: Category[] = [
                 price: 95.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: obaSpaghettiImage,
                 item: "Oba Large",
               },
               {
@@ -2886,7 +2907,7 @@ export const categoriesData: Category[] = [
                 price: 8.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaSpaghettiImage,
                 item: "Enapa Small",
               },
               {
@@ -2895,7 +2916,7 @@ export const categoriesData: Category[] = [
                 price: 85.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaSpaghettiImage,
                 item: "Enapa Small",
               },
               {
@@ -2904,7 +2925,7 @@ export const categoriesData: Category[] = [
                 price: 11.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaSpaghettiImage,
                 item: "Enapa Large",
               },
               {
@@ -2913,7 +2934,7 @@ export const categoriesData: Category[] = [
                 price: 105.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaSpaghettiImage,
                 item: "Enapa Large",
               },
             ],
@@ -2933,7 +2954,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaMackerelImage,
                 item: "ENAPA",
               },
               {
@@ -2942,7 +2963,7 @@ export const categoriesData: Category[] = [
                 price: 72.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: enapaMackerelImage,
                 item: "ENAPA",
               },
               {
@@ -2951,7 +2972,7 @@ export const categoriesData: Category[] = [
                 price: 7.2,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleMackerelImage,
                 item: "Lele",
               },
               {
@@ -2960,7 +2981,7 @@ export const categoriesData: Category[] = [
                 price: 74.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: leleMackerelImage,
                 item: "Lele",
               },
               {
@@ -2969,7 +2990,7 @@ export const categoriesData: Category[] = [
                 price: 7.5,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: tinapaMackerelImage,
                 item: "Tinapa",
               },
               {
@@ -2978,7 +2999,7 @@ export const categoriesData: Category[] = [
                 price: 77.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: tinapaMackerelImage,
                 item: "Tinapa",
               },
               {
@@ -2987,7 +3008,7 @@ export const categoriesData: Category[] = [
                 price: 7.3,
                 unit: "per tin",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: libertyMackerelImage,
                 item: "Liberty",
               },
               {
@@ -2996,7 +3017,7 @@ export const categoriesData: Category[] = [
                 price: 75.0,
                 unit: "per box",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: libertyMackerelImage,
                 item: "Liberty",
               },
             ],
@@ -3016,7 +3037,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per jar",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: ginnyMayonnaiseImage,
                 item: "Ginny",
               },
               {
@@ -3025,7 +3046,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per jar",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: unoilMayonnaiseImage,
                 item: "Unoil",
               },
             ],
@@ -3045,7 +3066,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per tub",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: blueBandImage,
                 item: "Blue Band Small",
               },
               {
@@ -3054,7 +3075,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per tub",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: blueBandImage,
                 item: "Blue Band Medium",
               },
               {
@@ -3063,7 +3084,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per sachet",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: topChocoImage,
                 item: "Top Choco Sachet",
               },
               {
@@ -3072,7 +3093,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per container",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: topChocoImage,
                 item: "Top Choco Container",
               },
               {
@@ -3081,7 +3102,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: laughingCowImage,
                 item: "Laughing Cow",
               },
             ],
