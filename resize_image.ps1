@@ -24,3 +24,6 @@ Write-Host "Image resized to 80% of original size (${newWidth}x${newHeight})"
 
 
 
+
+
+

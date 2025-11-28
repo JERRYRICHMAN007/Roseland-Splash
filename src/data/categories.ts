@@ -61,6 +61,49 @@ import unoilMayonnaiseImage from "@/assets/unoil mayonnaise.png";
 import blueBandImage from "@/assets/blue brand.jpg";
 import topChocoImage from "@/assets/Top Choco.jpg";
 import laughingCowImage from "@/assets/The laughing Cheese.jpeg";
+import whiteSugar500gImage from "@/assets/white-sugar-350g-YbN9va0Do0TX2V0w.png";
+import whiteSugar1kgImage from "@/assets/Sugar 1kg.jpg";
+import brownSugar500gImage from "@/assets/Sunny-Gold-Brown-Sugar-500g-square_jpg.jpg";
+import brownSugar1kgImage from "@/assets/brown sugar 1kg .jpg";
+import aquaWaterSmallImage from "@/assets/500ml-aqua-water-bottle.jpg";
+import aquaWaterLargeImage from "@/assets/aqua_aqua_mineral_water_1-5lt_btl_full01_botk9yn4.jpg";
+import doveRollon50mlImage from "@/assets/dove-invisible-dry-50ml__60273.jpg";
+import doveRollon100mlImage from "@/assets/1.jpg";
+import doveSpray50mlImage from "@/assets/Dove 50ml.jpg";
+import doveSpray100mlImage from "@/assets/dove spray 100ml.jpg";
+import sureRollon100mlImage from "@/assets/711pBKfcS1L.jpg";
+import sureSpray50mlImage from "@/assets/index.jpg";
+import sureSpray100mlImage from "@/assets/129991312.png";
+import pepsodentImage from "@/assets/39477_1a.jpg";
+import closeUpImage from "@/assets/images (8).jpg";
+import colgateImage from "@/assets/Colgate-Cavity-Protection-Toothpaste.jpeg";
+import pepsodentToothbrushImage from "@/assets/56712397.png";
+import yazzToothbrushImage from "@/assets/yazz.png";
+import smokersToothbrushImage from "@/assets/sb.jpg";
+import powerZone500mlImage from "@/assets/png.png";
+import powerZone950mlImage from "@/assets/24920861-scaled.jpg";
+import madarZone500mlImage from "@/assets/madar zone 500ml.jpg";
+import madarZone1lImage from "@/assets/madar zone !l.png";
+import dettolImage from "@/assets/x890_1_1.jpg";
+import camelImage from "@/assets/camel.jpg";
+import savlonImage from "@/assets/salvon dettol revise.jpg";
+import softcareTissueImage from "@/assets/softcare-facial-tissue-1.jpg";
+import tRollImage from "@/assets/T-Roll.jpg";
+import floraTissueImage from "@/assets/Flora Tissue.png";
+import belpackTissueImage from "@/assets/Belpack.jpg";
+import yazzPinkSanitaryPadImage from "@/assets/yazzpinksanitarypad.jpg";
+import yazzGreenSanitaryPadImage from "@/assets/Yazz-sanitary-pad-green.jpg";
+import yazzPurpleSanitaryPadImage from "@/assets/yazzpurplesnaitarypad.jpg";
+import yazzBlueSanitaryPadImage from "@/assets/yazzbluesnaitarypad.jpg";
+import softcareYellowSanitaryPadImage from "@/assets/softcare yellow snaitary pad.jpg";
+import softcarePurpleSanitaryPadImage from "@/assets/softcare purple snaitary pad.jpg";
+import bathingSoapMoisturizingImage from "@/assets/1 (1).jpg";
+import bathingSoapAntibacterialImage from "@/assets/bathing soap antibacterial.jpg";
+import washingSoapDetergentImage from "@/assets/washing soap detergent.png";
+import washingSoapBleachImage from "@/assets/washing soap bleach.jpg";
+import liquidSoapMoisturizingImage from "@/assets/liquid soap moisturizing.jpg";
+import handSoapAntibacterialImage from "@/assets/handsoapantibacterial.png";
+import sureSpray150mlImage from "@/assets/Sure Deodorant spray 150ml.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
 import belColaImage from "@/assets/0009490_bel-cola-350ml_510.png";
@@ -2133,7 +2176,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: brownSugarProductImage,
+                image: brownSugar500gImage,
               },
               {
                 id: "brown-1kg",
@@ -2141,7 +2184,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per pack",
                 inStock: true,
-                image: brownSugarProductImage,
+                image: brownSugar1kgImage,
               },
               {
                 id: "white-500g",
@@ -2149,7 +2192,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: whiteSugarProductImage,
+                image: whiteSugar500gImage,
               },
               {
                 id: "white-1kg",
@@ -2157,7 +2200,7 @@ export const categoriesData: Category[] = [
                 price: 13.0,
                 unit: "per pack",
                 inStock: true,
-                image: whiteSugarProductImage,
+                image: whiteSugar1kgImage,
               },
               {
                 id: "white-5kg",
@@ -2165,7 +2208,7 @@ export const categoriesData: Category[] = [
                 price: 60.0,
                 unit: "per bag",
                 inStock: true,
-                image: whiteSugarProductImage,
+                image: whiteSugar1kgImage,
               },
             ],
           },
@@ -3130,7 +3173,7 @@ export const categoriesData: Category[] = [
                 price: 2.0,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaImage,
+                image: aquaWaterSmallImage,
               },
               {
                 id: "aqua-medium",
@@ -3146,7 +3189,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: aquaImage,
+                image: aquaWaterLargeImage,
               },
             ],
           },
@@ -3626,7 +3669,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per bottle",
                 inStock: true,
-                image: doveRollon50ml,
+                image: doveRollon50mlImage,
               },
               {
                 id: "dove-rollon-100ml",
@@ -3634,7 +3677,15 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per bottle",
                 inStock: true,
-                image: doveRollon100ml,
+                image: doveRollon100mlImage,
+              },
+              {
+                id: "dove-spray-50ml",
+                name: "Spray 50ml",
+                price: 18.0,
+                unit: "per bottle",
+                inStock: true,
+                image: doveSpray50mlImage,
               },
               {
                 id: "dove-spray-100ml",
@@ -3642,7 +3693,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per bottle",
                 inStock: true,
-                image: doveSpray100ml,
+                image: doveSpray100mlImage,
               },
               {
                 id: "dove-spray-150ml",
@@ -3669,7 +3720,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per bottle",
                 inStock: true,
-                image: sureRollon100ml,
+                image: sureRollon100mlImage,
               },
               {
                 id: "sure-spray-50ml",
@@ -3677,7 +3728,15 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per bottle",
                 inStock: true,
-                image: sureSpray50ml,
+                image: sureSpray50mlImage,
+              },
+              {
+                id: "sure-spray-100ml",
+                name: "Spray 100ml",
+                price: 15.0,
+                unit: "per bottle",
+                inStock: true,
+                image: sureSpray100mlImage,
               },
               {
                 id: "sure-spray-150ml",
@@ -3685,7 +3744,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: sureSpray150ml,
+                image: sureSpray150mlImage,
               },
             ],
           },
@@ -3704,7 +3763,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: softcare8pcs,
+                image: softcareTissueImage,
               },
               {
                 id: "t-roll",
@@ -3712,7 +3771,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per roll",
                 inStock: true,
-                image: softcare16pcs,
+                image: tRollImage,
               },
               {
                 id: "flora-tissue",
@@ -3720,7 +3779,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: softcare32pcs,
+                image: floraTissueImage,
               },
               {
                 id: "belpack-tissue",
@@ -3728,7 +3787,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per pack",
                 inStock: true,
-                image: softcare8pcs,
+                image: belpackTissueImage,
               },
             ],
           },
@@ -3747,7 +3806,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz8pcs,
+                image: yazzPinkSanitaryPadImage,
               },
               {
                 id: "yazz-green",
@@ -3755,7 +3814,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz16pcs,
+                image: yazzGreenSanitaryPadImage,
               },
               {
                 id: "yazz-purple",
@@ -3763,7 +3822,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz32pcs,
+                image: yazzPurpleSanitaryPadImage,
               },
               {
                 id: "yazz-blue",
@@ -3771,7 +3830,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz8pcs,
+                image: yazzBlueSanitaryPadImage,
               },
               {
                 id: "yazz-panty-liner",
@@ -3783,11 +3842,11 @@ export const categoriesData: Category[] = [
               },
               {
                 id: "software-yellow",
-                name: "Software (yellow)",
+                name: "Softcare (yellow)",
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz32pcs,
+                image: softcareYellowSanitaryPadImage,
               },
               {
                 id: "softcare-purple",
@@ -3795,7 +3854,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per pack",
                 inStock: true,
-                image: yazz8pcs,
+                image: softcarePurpleSanitaryPadImage,
               },
             ],
           },
@@ -3821,7 +3880,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapSmall,
+                image: bathingSoapMoisturizingImage,
                 soapType: "Bathing Soap",
                 item: "Moisturizing",
               },
@@ -3831,7 +3890,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapSmall,
+                image: bathingSoapAntibacterialImage,
                 soapType: "Bathing Soap",
                 item: "Antibacterial",
               },
@@ -3842,7 +3901,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapSmall,
+                image: washingSoapDetergentImage,
                 soapType: "Washing Soap",
                 item: "Detergent",
               },
@@ -3852,7 +3911,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapSmall,
+                image: washingSoapBleachImage,
                 soapType: "Washing Soap",
                 item: "Bleach",
               },
@@ -3873,7 +3932,7 @@ export const categoriesData: Category[] = [
                 price: 9.0,
                 unit: "per bottle",
                 inStock: true,
-                image: liquidSoap250ml,
+                image: liquidSoapMoisturizingImage,
                 soapType: "Liquid Soap",
                 item: "Moisturizing",
               },
@@ -3884,7 +3943,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: handSoap,
+                image: handSoapAntibacterialImage,
                 soapType: "Hand Soap",
                 item: "Antibacterial",
               },
@@ -3915,7 +3974,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per tube",
                 inStock: true,
-                image: toothpasteBrush,
+                image: pepsodentImage,
               },
               {
                 id: "toothpaste-closeup",
@@ -3923,7 +3982,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per tube",
                 inStock: true,
-                image: toothpasteBrush,
+                image: closeUpImage,
               },
               {
                 id: "toothpaste-colgate",
@@ -3931,7 +3990,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per tube",
                 inStock: true,
-                image: toothpasteBrush,
+                image: colgateImage,
               },
             ],
           },
@@ -3950,7 +4009,7 @@ export const categoriesData: Category[] = [
                 price: 3.0,
                 unit: "per brush",
                 inStock: true,
-                image: toothpasteBrush,
+                image: smokersToothbrushImage,
               },
               {
                 id: "brush-yazz",
@@ -3958,7 +4017,7 @@ export const categoriesData: Category[] = [
                 price: 3.5,
                 unit: "per brush",
                 inStock: true,
-                image: toothpasteBrush,
+                image: yazzToothbrushImage,
               },
               {
                 id: "brush-pepsodent",
@@ -3966,7 +4025,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per brush",
                 inStock: true,
-                image: toothpasteBrush,
+                image: pepsodentToothbrushImage,
               },
             ],
           },
@@ -3985,7 +4044,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: powerZone500mlImage,
                 item: "Power Zone",
               },
               {
@@ -3994,7 +4053,7 @@ export const categoriesData: Category[] = [
                 price: 9.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: powerZone950mlImage,
                 item: "Power Zone",
               },
               {
@@ -4003,7 +4062,7 @@ export const categoriesData: Category[] = [
                 price: 6.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: madarZone500mlImage,
                 item: "Madar Zone",
               },
               {
@@ -4012,7 +4071,7 @@ export const categoriesData: Category[] = [
                 price: 11.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: madarZone1lImage,
                 item: "Madar Zone",
               },
             ],
@@ -4032,7 +4091,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: dettolImage,
                 item: "Dettol",
               },
               {
@@ -4041,7 +4100,7 @@ export const categoriesData: Category[] = [
                 price: 7.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: dettolImage,
                 item: "Dettol",
               },
               {
@@ -4050,7 +4109,7 @@ export const categoriesData: Category[] = [
                 price: 9.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: dettolImage,
                 item: "Dettol",
               },
               {
@@ -4059,7 +4118,7 @@ export const categoriesData: Category[] = [
                 price: 14.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: dettolImage,
                 item: "Dettol",
               },
               {
@@ -4068,7 +4127,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: camelImage,
                 item: "Camel",
               },
               {
@@ -4077,7 +4136,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: camelImage,
                 item: "Camel",
               },
               {
@@ -4086,7 +4145,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: camelImage,
                 item: "Camel",
               },
               {
@@ -4095,7 +4154,7 @@ export const categoriesData: Category[] = [
                 price: 5.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: savlonImage,
                 item: "Savlon",
               },
               {
@@ -4104,7 +4163,7 @@ export const categoriesData: Category[] = [
                 price: 7.8,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: savlonImage,
                 item: "Savlon",
               },
               {
@@ -4113,7 +4172,7 @@ export const categoriesData: Category[] = [
                 price: 9.8,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: savlonImage,
                 item: "Savlon",
               },
               {
@@ -4122,7 +4181,7 @@ export const categoriesData: Category[] = [
                 price: 14.5,
                 unit: "per bottle",
                 inStock: true,
-                image: householdEssentialsImage,
+                image: savlonImage,
                 item: "Savlon",
               },
             ],
