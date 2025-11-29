@@ -3,6 +3,12 @@
  * This actually sends emails without needing EmailJS setup
  */
 
+// Email addresses to receive order notifications
+const ORDER_EMAILS = [
+  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
+  "sussanbrown644@gmail.com"
+];
+
 interface OrderDetails {
   customerName: string;
   customerPhone: string;
@@ -29,8 +35,9 @@ interface OrderDetails {
  */
 export const sendEmailSimple = async (
   orderDetails: OrderDetails,
-  recipientEmail: string = "jerryrichman07@gmail.com"
+  recipientEmail?: string
 ): Promise<boolean> => {
+  const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
   try {
     // Format products list
     const productsList = orderDetails.products
@@ -105,54 +112,68 @@ Track Order: ${orderDetails.trackingUrl || ""}
     // Method 1: Try webhook if configured
     const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || "";
     if (webhookUrl) {
-      try {
-        const response = await fetch(webhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            to: recipientEmail,
-            subject: subject,
-            body: emailBody,
-            orderNumber: orderDetails.orderNumber,
-            startProcessingUrl: startProcessingUrl,
-          }),
-        });
-        
-        if (response.ok) {
-          console.log("Email sent via webhook");
-          return true;
+      let webhookSuccess = false;
+      for (const email of emailsToSend) {
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              to: email,
+              subject: subject,
+              body: emailBody,
+              orderNumber: orderDetails.orderNumber,
+              startProcessingUrl: startProcessingUrl,
+            }),
+          });
+          
+          if (response.ok) {
+            webhookSuccess = true;
+          }
+        } catch (error) {
+          console.error(`Webhook error for ${email}:`, error);
         }
-      } catch (error) {
-        console.error("Webhook error:", error);
+      }
+      
+      if (webhookSuccess) {
+        console.log(`Email sent via webhook to ${emailsToSend.length} recipient(s)`);
+        return true;
       }
     }
 
     // Method 2: Use FormSubmit (free, works automatically)
-    try {
-      const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`;
-      
-      const response = await fetch(formSubmitUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: "Roseland & Splash Orders",
-          subject: subject,
-          message: emailBody,
-          _captcha: false,
-        }),
-      });
+    let formSubmitSuccess = false;
+    for (const email of emailsToSend) {
+      try {
+        const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(email)}`;
+        
+        const response = await fetch(formSubmitUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: "Roseland & Splash Orders",
+            subject: subject,
+            message: emailBody,
+            _captcha: false,
+          }),
+        });
 
-      if (response.ok) {
-        console.log("Email sent via FormSubmit");
-        return true;
+        if (response.ok) {
+          formSubmitSuccess = true;
+        }
+      } catch (error) {
+        console.error(`FormSubmit error for ${email}:`, error);
       }
-    } catch (error) {
-      console.error("FormSubmit error:", error);
+    }
+
+    if (formSubmitSuccess) {
+      console.log(`Email sent via FormSubmit to ${emailsToSend.length} recipient(s)`);
+      return true;
     }
 
     // Method 3: Use EmailJS if configured
@@ -165,36 +186,42 @@ Track Order: ${orderDetails.trackingUrl || ""}
         const { default: emailjs } = await import("@emailjs/browser");
         emailjs.init(publicKey);
 
-        const templateParams = {
-          to_email: recipientEmail,
-          customer_name: orderDetails.customerName,
-          customer_phone: orderDetails.customerPhone,
-          customer_email: orderDetails.email || "Not provided",
-          products: productsList,
-          location: orderDetails.location,
-          total_amount: `GH₵${orderDetails.totalAmount.toFixed(2)}`,
-          payment_method: orderDetails.paymentMethod,
-          delivery_method: orderDetails.deliveryMethod,
-          special_instructions: orderDetails.specialInstructions || "None",
-          order_number: orderDetails.orderNumber || "N/A",
-          tracking_url: orderDetails.trackingUrl || "",
-          start_processing_url: startProcessingUrl,
-          order_date: new Date().toLocaleString("en-GB", {
-            dateStyle: "full",
-            timeStyle: "long",
-          }),
-        };
+        // Send to all recipient emails
+        const emailPromises = emailsToSend.map(async (email) => {
+          const templateParams = {
+            to_email: email,
+            customer_name: orderDetails.customerName,
+            customer_phone: orderDetails.customerPhone,
+            customer_email: orderDetails.email || "Not provided",
+            products: productsList,
+            location: orderDetails.location,
+            total_amount: `GH₵${orderDetails.totalAmount.toFixed(2)}`,
+            payment_method: orderDetails.paymentMethod,
+            delivery_method: orderDetails.deliveryMethod,
+            special_instructions: orderDetails.specialInstructions || "None",
+            order_number: orderDetails.orderNumber || "N/A",
+            tracking_url: orderDetails.trackingUrl || "",
+            start_processing_url: startProcessingUrl,
+            order_date: new Date().toLocaleString("en-GB", {
+              dateStyle: "full",
+              timeStyle: "long",
+            }),
+          };
 
-        await emailjs.send(serviceId, templateId, templateParams);
-        console.log("Email sent via EmailJS");
+          return emailjs.send(serviceId, templateId, templateParams);
+        });
+
+        await Promise.all(emailPromises);
+        console.log(`Email sent via EmailJS to ${emailsToSend.length} recipient(s):`, emailsToSend);
         return true;
       } catch (error) {
         console.error("EmailJS error:", error);
       }
     }
 
-    // Method 4: Fallback - mailto link
-    const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+    // Method 4: Fallback - mailto link (comma-separated for multiple recipients)
+    const mailtoEmails = emailsToSend.join(",");
+    const mailtoLink = `mailto:${mailtoEmails}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     const link = document.createElement("a");
     link.href = mailtoLink;
     link.style.display = "none";

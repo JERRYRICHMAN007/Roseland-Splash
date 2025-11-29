@@ -5,6 +5,12 @@
 
 import emailjs from "@emailjs/browser";
 
+// Email addresses to receive order notifications
+const ORDER_EMAILS = [
+  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
+  "sussanbrown644@gmail.com"
+];
+
 interface OrderDetails {
   customerName: string;
   customerPhone: string;
@@ -50,10 +56,7 @@ export const createOwnerEmailHTML = (orderDetails: OrderDetails): string => {
     })
     .join("");
 
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const startProcessingUrl = orderDetails.orderId 
-    ? `${baseUrl}/order/${orderDetails.orderId}/start-processing`
-    : "";
+  const startProcessingUrl = getProcessingUrl(orderDetails);
 
   return `
 <!DOCTYPE html>
@@ -102,13 +105,16 @@ export const createOwnerEmailHTML = (orderDetails: OrderDetails): string => {
               <p style="margin: 0; color: #856404; font-size: 14px; line-height: 1.6;">
                 Click the button below to start processing this order. The customer will receive a confirmation email once you start processing.
               </p>
-              ${startProcessingUrl ? `
               <div style="margin-top: 20px; text-align: center;">
-                <a href="${startProcessingUrl}" style="display: inline-block; padding: 14px 28px; background-color: #25D366; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px;">
+                <a href="${startProcessingUrl || '#'}" style="display: inline-block; padding: 18px 36px; background-color: #25D366; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
                   ✅ START PROCESSING ORDER
                 </a>
+                ${startProcessingUrl ? `
+                <p style="margin: 15px 0 0 0; color: #856404; font-size: 12px;">
+                  Or copy this link: ${startProcessingUrl}
+                </p>
+                ` : ''}
               </div>
-              ` : ''}
             </td>
           </tr>
 
@@ -428,9 +434,10 @@ export const createCustomerEmailHTML = (orderDetails: OrderDetails, status: stri
  */
 export const sendProfessionalOrderEmail = async (
   orderDetails: OrderDetails,
-  recipientEmail: string = "jerryrichman07@gmail.com"
+  recipientEmail?: string
 ): Promise<boolean> => {
   try {
+    const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
     const htmlContent = createOwnerEmailHTML(orderDetails);
     const plainText = createPlainTextEmail(orderDetails);
 
@@ -442,43 +449,59 @@ export const sendProfessionalOrderEmail = async (
     if (serviceId && templateId && publicKey) {
       try {
         emailjs.init(publicKey);
-        await emailjs.send(serviceId, templateId, {
-          to_email: recipientEmail,
-          subject: `🛒 New Order #${orderDetails.orderNumber} - Rollsland & Splash`,
-          html_content: htmlContent,
-          plain_text: plainText,
-          ...getEmailParams(orderDetails),
+        
+        // Send to all recipient emails
+        const emailPromises = emailsToSend.map(async (email) => {
+          return emailjs.send(serviceId, templateId, {
+            to_email: email,
+            subject: `🛒 New Order #${orderDetails.orderNumber} - ${orderDetails.customerName}`,
+            html_content: htmlContent,
+            plain_text: plainText,
+            from_name: orderDetails.customerName,
+            ...getEmailParams(orderDetails),
+          });
         });
-        console.log("Professional email sent via EmailJS");
+
+        await Promise.all(emailPromises);
+        console.log(`Professional email sent via EmailJS to ${emailsToSend.length} recipient(s):`, emailsToSend);
         return true;
       } catch (error) {
         console.error("EmailJS error:", error);
       }
     }
 
-    // Fallback to FormSubmit with HTML
-    try {
-      const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`;
-      const response = await fetch(formSubmitUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: "Rollsland & Splash",
-          subject: `🛒 New Order #${orderDetails.orderNumber} - ${orderDetails.customerName}`,
-          message: plainText,
-          _captcha: false,
-        }),
-      });
+    // Fallback to FormSubmit with HTML - send to all emails
+    let formSubmitSuccess = false;
+    for (const email of emailsToSend) {
+      try {
+        const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(email)}`;
+        const response = await fetch(formSubmitUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: orderDetails.customerName,
+            subject: `🛒 New Order #${orderDetails.orderNumber} - ${orderDetails.customerName}`,
+            message: plainText,
+            _html: htmlContent,
+            _captcha: false,
+            _template: "box",
+          }),
+        });
 
-      if (response.ok) {
-        console.log("Email sent via FormSubmit");
-        return true;
+        if (response.ok) {
+          formSubmitSuccess = true;
+        }
+      } catch (error) {
+        console.error(`FormSubmit error for ${email}:`, error);
       }
-    } catch (error) {
-      console.error("FormSubmit error:", error);
+    }
+
+    if (formSubmitSuccess) {
+      console.log(`Email sent via FormSubmit to ${emailsToSend.length} recipient(s)`);
+      return true;
     }
 
     // Final fallback
@@ -534,6 +557,30 @@ export const sendProfessionalCustomerEmail = async (
   }
 };
 
+// Helper function to get base URL
+function getBaseUrl(orderDetails: OrderDetails): string {
+  if (typeof window !== 'undefined' && window.location) {
+    return window.location.origin;
+  }
+  if (orderDetails.trackingUrl) {
+    try {
+      const url = new URL(orderDetails.trackingUrl);
+      return url.origin;
+    } catch (e) {
+      // Fall through
+    }
+  }
+  // Fallback - should be replaced with actual production domain
+  return 'https://rollsland-splash.vercel.app';
+}
+
+// Helper function to generate processing URL
+function getProcessingUrl(orderDetails: OrderDetails): string {
+  if (!orderDetails.orderId) return '';
+  const baseUrl = getBaseUrl(orderDetails);
+  return `${baseUrl}/order/${orderDetails.orderId}/start-processing`;
+}
+
 // Helper functions
 function createPlainTextEmail(orderDetails: OrderDetails): string {
   const productsList = orderDetails.products
@@ -543,11 +590,19 @@ function createPlainTextEmail(orderDetails: OrderDetails): string {
     })
     .join("\n");
 
+  const startProcessingUrl = getProcessingUrl(orderDetails);
+
   return `
 ROLLSLAND & SPLASH - NEW ORDER RECEIVED
 
 Order Number: ${orderDetails.orderNumber}
 Date: ${new Date().toLocaleString("en-GB", { dateStyle: "full", timeStyle: "long" })}
+
+⚠️ ACTION REQUIRED ⚠️
+Please click the link below to start processing this order:
+${startProcessingUrl || "Link will be available in HTML version"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 CUSTOMER INFORMATION:
 Name: ${orderDetails.customerName}
@@ -565,6 +620,11 @@ ORDER SUMMARY:
 Total Amount: GH₵${orderDetails.totalAmount.toFixed(2)}
 Payment Method: ${orderDetails.paymentMethod}
 Payment Status: ${orderDetails.paymentStatus || "Pending"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+START PROCESSING ORDER:
+${startProcessingUrl || "N/A"}
 
 Track Order: ${orderDetails.trackingUrl || ""}
   `.trim();
@@ -604,10 +664,7 @@ function getEmailParams(orderDetails: OrderDetails) {
     })
     .join("\n");
 
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const startProcessingUrl = orderDetails.orderId 
-    ? `${baseUrl}/order/${orderDetails.orderId}/start-processing`
-    : "";
+  const startProcessingUrl = getProcessingUrl(orderDetails);
 
   return {
     customer_name: orderDetails.customerName,

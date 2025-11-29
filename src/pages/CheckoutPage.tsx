@@ -21,8 +21,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { sendOrderToWhatsApp } from "@/services/whatsappService";
-import { sendOrderViaEmail } from "@/services/emailService";
-import { sendEmailSimple } from "@/services/simpleEmailService";
 import { sendProfessionalOrderEmail } from "@/services/professionalEmailService";
 
 const CheckoutPage = () => {
@@ -127,11 +125,8 @@ const CheckoutPage = () => {
       };
 
       // Send professional branded email to owner (Rollsland & Splash)
+      // Only send one email to avoid duplicates
       await sendProfessionalOrderEmail(orderData);
-      // Fallback to simple email service
-      await sendEmailSimple(orderData);
-      // Also try EmailJS if configured
-      await sendOrderViaEmail(orderData);
       
       // Integrate with Yango delivery API (mock implementation)
       if (deliveryMethod === "yango") {

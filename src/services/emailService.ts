@@ -25,16 +25,23 @@ interface OrderDetails {
   trackingUrl?: string;
 }
 
+// Email addresses to receive order notifications
+const ORDER_EMAILS = [
+  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
+  "sussanbrown644@gmail.com"
+];
+
 /**
  * Sends order notification via EmailJS
  * @param orderDetails - Order information
- * @param recipientEmail - Email address to send notification to
+ * @param recipientEmail - Email address to send notification to (optional, defaults to both addresses)
  * @returns Promise<boolean> - Success status
  */
 export const sendOrderViaEmail = async (
   orderDetails: OrderDetails,
-  recipientEmail: string = import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com"
+  recipientEmail?: string
 ): Promise<boolean> => {
+  const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
   try {
     // Format products list for email
     const productsList = orderDetails.products
@@ -56,32 +63,37 @@ export const sendOrderViaEmail = async (
         // Initialize EmailJS
         emailjs.init(publicKey);
 
-        const templateParams = {
-          to_email: recipientEmail,
-          customer_name: orderDetails.customerName,
-          customer_phone: orderDetails.customerPhone,
-          customer_email: orderDetails.email || "Not provided",
-          products: productsList,
-          location: orderDetails.location,
-          total_amount: `GH₵${orderDetails.totalAmount.toFixed(2)}`,
-          payment_method: orderDetails.paymentMethod,
-          delivery_method: orderDetails.deliveryMethod,
-          special_instructions: orderDetails.specialInstructions || "None",
-          order_number: orderDetails.orderNumber || "N/A",
-          tracking_url: orderDetails.trackingUrl || "",
-          start_processing_url: orderDetails.orderId && orderDetails.trackingUrl
-            ? `${orderDetails.trackingUrl.split('/track-order/')[0]}/order/${orderDetails.orderId}/start-processing`
-            : orderDetails.orderId
-            ? `/order/${orderDetails.orderId}/start-processing`
-            : "",
-          order_date: new Date().toLocaleString("en-GB", {
-            dateStyle: "full",
-            timeStyle: "long",
-          }),
-        };
+        // Send to all recipient emails
+        const emailPromises = emailsToSend.map(async (email) => {
+          const templateParams = {
+            to_email: email,
+            customer_name: orderDetails.customerName,
+            customer_phone: orderDetails.customerPhone,
+            customer_email: orderDetails.email || "Not provided",
+            products: productsList,
+            location: orderDetails.location,
+            total_amount: `GH₵${orderDetails.totalAmount.toFixed(2)}`,
+            payment_method: orderDetails.paymentMethod,
+            delivery_method: orderDetails.deliveryMethod,
+            special_instructions: orderDetails.specialInstructions || "None",
+            order_number: orderDetails.orderNumber || "N/A",
+            tracking_url: orderDetails.trackingUrl || "",
+            start_processing_url: orderDetails.orderId && orderDetails.trackingUrl
+              ? `${orderDetails.trackingUrl.split('/track-order/')[0]}/order/${orderDetails.orderId}/start-processing`
+              : orderDetails.orderId
+              ? `/order/${orderDetails.orderId}/start-processing`
+              : "",
+            order_date: new Date().toLocaleString("en-GB", {
+              dateStyle: "full",
+              timeStyle: "long",
+            }),
+          };
 
-        const response = await emailjs.send(serviceId, templateId, templateParams);
-        console.log("Email sent successfully via EmailJS:", response);
+          return emailjs.send(serviceId, templateId, templateParams);
+        });
+
+        await Promise.all(emailPromises);
+        console.log(`Email sent successfully via EmailJS to ${emailsToSend.length} recipient(s):`, emailsToSend);
         return true;
       } catch (emailjsError) {
         console.error("EmailJS error:", emailjsError);
@@ -146,7 +158,9 @@ ${orderDetails.orderId
   : "Link will be available in EmailJS template"}
     `.trim();
 
-    const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    // For mailto fallback, use comma-separated list
+    const mailtoEmails = emailsToSend.join(",");
+    const mailtoLink = `mailto:${mailtoEmails}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
     
     const link = document.createElement("a");
     link.href = mailtoLink;

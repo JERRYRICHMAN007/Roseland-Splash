@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 
-export type OrderStatus = "processing" | "delivering" | "delivered";
+export type OrderStatus = "processing" | "delivering" | "delivered" | "cancelled";
 
 export interface Order {
   id: string;
@@ -32,7 +32,9 @@ interface OrderState {
 type OrderAction =
   | { type: "ADD_ORDER"; payload: Order }
   | { type: "UPDATE_ORDER_STATUS"; payload: { id: string; status: OrderStatus } }
-  | { type: "LOAD_ORDERS"; payload: Order[] };
+  | { type: "LOAD_ORDERS"; payload: Order[] }
+  | { type: "CLEAR_ALL_ORDERS" }
+  | { type: "CANCEL_ORDER"; payload: { id: string } };
 
 const initialState: OrderState = {
   orders: [],
@@ -65,6 +67,21 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
     case "LOAD_ORDERS": {
       return { orders: action.payload };
     }
+    case "CLEAR_ALL_ORDERS": {
+      return { orders: [] };
+    }
+    case "CANCEL_ORDER": {
+      // Only cancel orders that are in "processing" status
+      // Remove cancelled orders from the list (cleared)
+      return {
+        orders: state.orders.filter((order) => {
+          if (order.id === action.payload.id && order.status === "processing") {
+            return false; // Remove this order (cancelled and cleared)
+          }
+          return true; // Keep all other orders
+        }),
+      };
+    }
     default:
       return state;
   }
@@ -75,6 +92,9 @@ interface OrderContextType extends OrderState {
   updateOrderStatus: (id: string, status: OrderStatus) => void;
   getOrder: (id: string) => Order | undefined;
   getOrdersByPhone: (phone: string) => Order[];
+  getOrdersByUser: (phone?: string, email?: string) => Order[];
+  clearAllOrders: () => void;
+  cancelOrder: (id: string) => boolean;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -133,6 +153,34 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
     return state.orders.filter((order) => order.customerPhone === phone);
   };
 
+  const getOrdersByUser = (phone?: string, email?: string): Order[] => {
+    if (!phone && !email) return [];
+    return state.orders.filter((order) => {
+      const phoneMatch = phone ? order.customerPhone === phone : false;
+      const emailMatch = email && order.customerEmail ? order.customerEmail.toLowerCase() === email.toLowerCase() : false;
+      return phoneMatch || emailMatch;
+    });
+  };
+
+  const clearAllOrders = () => {
+    // Remove from localStorage first
+    localStorage.removeItem("orders");
+    // Then clear the state
+    dispatch({ type: "CLEAR_ALL_ORDERS" });
+    // Ensure localStorage stays cleared
+    localStorage.setItem("orders", JSON.stringify([]));
+  };
+
+  const cancelOrder = (id: string): boolean => {
+    const order = state.orders.find((o) => o.id === id);
+    // Only allow cancellation if order is in "processing" status
+    if (order && order.status === "processing") {
+      dispatch({ type: "CANCEL_ORDER", payload: { id } });
+      return true;
+    }
+    return false;
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -141,6 +189,9 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
         updateOrderStatus,
         getOrder,
         getOrdersByPhone,
+        getOrdersByUser,
+        clearAllOrders,
+        cancelOrder,
       }}
     >
       {children}

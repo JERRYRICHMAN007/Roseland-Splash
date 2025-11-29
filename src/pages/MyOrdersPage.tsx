@@ -5,20 +5,54 @@ import { useOrders, OrderStatus } from "@/contexts/OrderContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Package, CheckCircle, Truck, ArrowRight } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Clock, Package, CheckCircle, Truck, ArrowRight, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useToast } from "@/hooks/use-toast";
 
 const MyOrdersPage = () => {
   const { user } = useAuth();
-  const { orders } = useOrders();
+  const { orders, cancelOrder } = useOrders();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
 
-  // Get orders for logged-in user
+  // Get orders for logged-in user (excluding cancelled orders which are already removed)
   const myOrders = orders.filter(
     (order) => order.customerPhone === user?.phone || order.customerEmail === user?.email
   );
+
+  const handleCancelOrder = (orderId: string, orderNumber: string) => {
+    setCancellingOrderId(orderId);
+    const success = cancelOrder(orderId);
+    
+    if (success) {
+      toast({
+        title: "Order Cancelled",
+        description: `Order #${orderNumber} has been cancelled and removed.`,
+        variant: "default",
+      });
+    } else {
+      toast({
+        title: "Cannot Cancel Order",
+        description: "This order cannot be cancelled. Only pending orders can be cancelled.",
+        variant: "destructive",
+      });
+    }
+    setCancellingOrderId(null);
+  };
 
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
@@ -177,6 +211,38 @@ const MyOrdersPage = () => {
                             View Details
                             <ArrowRight className="ml-2" size={16} />
                           </Button>
+                          {order.status === "processing" && (
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button
+                                  variant="destructive"
+                                  className="w-full"
+                                  disabled={cancellingOrderId === order.id}
+                                >
+                                  <X className="mr-2" size={16} />
+                                  Cancel Order
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Cancel Order?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to cancel order #{order.orderNumber}? 
+                                    This action cannot be undone. The order will be removed from your orders list.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Keep Order</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleCancelOrder(order.id, order.orderNumber)}
+                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  >
+                                    Yes, Cancel Order
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          )}
                         </div>
                       </div>
                     </CardContent>

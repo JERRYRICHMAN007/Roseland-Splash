@@ -14,15 +14,24 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useSearch } from "@/contexts/SearchContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
+import { useOrders } from "@/contexts/OrderContext";
+import { useState, useMemo } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const { itemCount } = useCart();
   const { setSearchQuery } = useSearch();
   const { isAuthenticated, user, logout } = useAuth();
+  const { getOrdersByUser, orders } = useOrders();
   const [searchInput, setSearchInput] = useState("");
   const [mobileSearchInput, setMobileSearchInput] = useState("");
+
+  // Get user's orders count
+  const userOrdersCount = useMemo(() => {
+    if (!isAuthenticated || !user) return 0;
+    const userOrders = getOrdersByUser(user.phone, user.email);
+    return userOrders.length;
+  }, [isAuthenticated, user, getOrdersByUser, orders]);
 
   const handleSearch = (query: string, isMobile = false) => {
     if (query.trim()) {
@@ -94,6 +103,21 @@ const Header = () => {
             >
               Categories
             </Button>
+            {isAuthenticated && (
+              <Button
+                variant="ghost"
+                onClick={() => navigate("/my-orders")}
+                className="text-foreground hover:text-primary relative"
+              >
+                <Package className="mr-2" size={18} />
+                My Orders
+                {userOrdersCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {userOrdersCount > 99 ? "99+" : userOrdersCount}
+                  </span>
+                )}
+              </Button>
+            )}
           </nav>
 
           {/* Auth Buttons - Desktop */}
@@ -240,6 +264,25 @@ const Header = () => {
                           <span>Categories</span>
                         </div>
                       </Button>
+                      {isAuthenticated && (
+                        <Button
+                          variant="ghost"
+                          onClick={() => navigate("/my-orders")}
+                          className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center relative">
+                              <Package size={16} className="text-primary" />
+                              {userOrdersCount > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                                  {userOrdersCount > 99 ? "99+" : userOrdersCount}
+                                </span>
+                              )}
+                            </div>
+                            <span>My Orders ({userOrdersCount})</span>
+                          </div>
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         onClick={() => navigate("/cart")}
