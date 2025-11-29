@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useOrders } from "@/contexts/OrderContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,18 +20,37 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { sendOrderToWhatsApp } from "@/services/whatsappService";
+import { sendOrderViaEmail } from "@/services/emailService";
+import { sendEmailSimple } from "@/services/simpleEmailService";
+import { sendProfessionalOrderEmail } from "@/services/professionalEmailService";
 
 const CheckoutPage = () => {
   const { items, total, clearCart } = useCart();
+  const { addOrder } = useOrders();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  // Pre-fill customer info from authenticated user
   const [customerInfo, setCustomerInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
   });
+
+  // Update customer info when user changes
+  useEffect(() => {
+    if (user) {
+      setCustomerInfo({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+      });
+    }
+  }, [user]);
 
   const [deliveryInfo, setDeliveryInfo] = useState({
     address: "",
@@ -45,6 +66,7 @@ const CheckoutPage = () => {
   const deliveryFee = total >= 100 ? 0 : 15;
   const finalTotal = total + deliveryFee;
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
@@ -52,9 +74,67 @@ const CheckoutPage = () => {
     // Simulate order processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Integrate with Yango delivery API (mock implementation)
-    if (deliveryMethod === "yango") {
-      try {
+    // Create and save order
+    try {
+      const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
+      const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
+      
+      // Create order in the system
+      const order = addOrder({
+        customerName: customerName,
+        customerPhone: customerInfo.phone,
+        customerEmail: customerInfo.email || undefined,
+        products: items.map((item) => ({
+          name: item.name,
+          variant: item.variant,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        location: location,
+        totalAmount: finalTotal,
+        paymentMethod:
+          paymentMethod === "mobile_money" ? "Mobile Money" : "Cash on Delivery",
+        deliveryMethod:
+          deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
+        specialInstructions: deliveryInfo.instructions || undefined,
+      });
+
+      // Generate tracking URL
+      const baseUrl = window.location.origin;
+      const trackingUrl = `${baseUrl}/track-order/${order.id}`;
+
+      // Prepare order data for email
+      const orderData = {
+        customerName: customerName,
+        customerPhone: customerInfo.phone,
+        email: customerInfo.email || undefined,
+        products: items.map((item) => ({
+          name: item.name,
+          variant: item.variant,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        location: location,
+        totalAmount: finalTotal,
+        paymentMethod:
+          paymentMethod === "mobile_money" ? "Mobile Money" : "Cash on Delivery",
+        deliveryMethod:
+          deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
+        specialInstructions: deliveryInfo.instructions || undefined,
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        trackingUrl: trackingUrl,
+      };
+
+      // Send professional branded email to owner (Rollsland & Splash)
+      await sendProfessionalOrderEmail(orderData);
+      // Fallback to simple email service
+      await sendEmailSimple(orderData);
+      // Also try EmailJS if configured
+      await sendOrderViaEmail(orderData);
+      
+      // Integrate with Yango delivery API (mock implementation)
+      if (deliveryMethod === "yango") {
         // Mock Yango API call
         const yangoOrder = {
           pickup_address: "Rollsland & Splash Store, Accra, Ghana",
@@ -70,24 +150,24 @@ const CheckoutPage = () => {
         };
 
         console.log("Yango delivery order:", yangoOrder);
-
-        toast({
-          title: "Order Placed Successfully!",
-          description:
-            "Your order has been confirmed and a Yango driver will be assigned shortly.",
-        });
-      } catch (error) {
-        console.error("Yango API error:", error);
-        toast({
-          title: "Order Placed",
-          description:
-            "Your order has been received. We'll contact you for delivery arrangements.",
-        });
       }
+
+      toast({
+        title: "✅ Order Placed Successfully!",
+        description: `Order #${order.orderNumber} - Status: ⏳ PENDING PROCESSING. Email sent to owner.`,
+        duration: 8000,
+      });
+    } catch (error) {
+      console.error("Error sending order:", error);
+      toast({
+        title: "Order Placed",
+        description:
+          "Your order has been received. We'll contact you for delivery arrangements.",
+      });
     }
 
     clearCart();
-    navigate("/order-confirmation");
+    navigate(`/order-confirmation/${order.id}`);
     setIsProcessing(false);
   };
 

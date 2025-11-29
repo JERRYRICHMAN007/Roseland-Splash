@@ -1,16 +1,26 @@
-import { Search, ShoppingCart, MapPin, Menu } from "lucide-react";
+import { Search, ShoppingCart, MapPin, Menu, User, LogOut, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/drowpdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useSearch } from "@/contexts/SearchContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const { itemCount } = useCart();
   const { setSearchQuery } = useSearch();
+  const { isAuthenticated, user, logout } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const [mobileSearchInput, setMobileSearchInput] = useState("");
 
@@ -85,6 +95,58 @@ const Header = () => {
               Categories
             </Button>
           </nav>
+
+          {/* Auth Buttons - Desktop */}
+          <div className="hidden lg:flex items-center gap-2">
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="gap-2">
+                    <User size={18} />
+                    <span className="max-w-[120px] truncate">
+                      {user?.firstName || "Account"}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div>
+                      <p className="font-medium">{user?.firstName} {user?.lastName}</p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/my-orders")}>
+                    <Package className="mr-2" size={16} />
+                    My Orders
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2" size={16} />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate("/login")}
+                  className="text-foreground hover:text-primary"
+                >
+                  Log In
+                </Button>
+                <Button
+                  onClick={() => navigate("/signup")}
+                  size="sm"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </div>
 
           {/* Location - Desktop only */}
           <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground">
@@ -195,6 +257,50 @@ const Header = () => {
                           <span>Cart ({itemCount})</span>
                         </div>
                       </Button>
+                    </div>
+
+                    {/* Mobile Auth */}
+                    <div className="space-y-2 pt-4 border-t">
+                      {isAuthenticated ? (
+                        <>
+                          <div className="p-3 bg-accent/30 rounded-lg">
+                            <p className="font-medium text-sm">{user?.firstName} {user?.lastName}</p>
+                            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              logout();
+                              navigate("/");
+                            }}
+                            className="w-full justify-start text-foreground hover:text-destructive h-12 text-base font-medium"
+                          >
+                            <div className="flex items-center gap-3">
+                              <LogOut size={16} />
+                              <span>Log out</span>
+                            </div>
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="ghost"
+                            onClick={() => navigate("/login")}
+                            className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
+                          >
+                            <div className="flex items-center gap-3">
+                              <User size={16} />
+                              <span>Log In</span>
+                            </div>
+                          </Button>
+                          <Button
+                            onClick={() => navigate("/signup")}
+                            className="w-full h-12 text-base font-medium"
+                          >
+                            Sign Up
+                          </Button>
+                        </>
+                      )}
                     </div>
 
                     {/* Mobile Location */}

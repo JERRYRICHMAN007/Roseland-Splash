@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Truck, Clock, Phone } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useOrders } from "@/contexts/OrderContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const OrderConfirmationPage = () => {
   const navigate = useNavigate();
+  const { orderId } = useParams<{ orderId: string }>();
+  const { getOrder } = useOrders();
 
-  // Generate a mock order ID
-  const orderId = `RS${Date.now().toString().slice(-6)}`;
+  const order = orderId ? getOrder(orderId) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,9 +28,45 @@ const OrderConfirmationPage = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-green-medium">
               Order Confirmed!
             </h1>
+
+            {/* PROMINENT Processing Status Banner */}
+            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 border-4 border-yellow-600 rounded-xl p-6 max-w-lg mx-auto shadow-lg">
+              <div className="flex items-center gap-4">
+                <div className="bg-white rounded-full p-3">
+                  <Clock className="text-yellow-600" size={32} />
+                </div>
+                <div className="text-left flex-1">
+                  <p className="font-black text-yellow-900 text-2xl mb-1">
+                    ⏳ PROCESSING
+                  </p>
+                  <p className="font-bold text-yellow-900 text-base">
+                    Your order is pending confirmation
+                  </p>
+                  <p className="text-yellow-800 text-sm mt-1">
+                    Expected delivery: 1-3 days
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Status Card */}
+            <Card className="bg-blue-50 border-2 border-blue-300">
+              <CardContent className="pt-6">
+                <div className="text-center space-y-2">
+                  <p className="font-bold text-blue-900 text-lg">
+                    📧 You'll receive an email when we start processing
+                  </p>
+                  <p className="text-blue-700 text-sm">
+                    Current Status:{" "}
+                    <span className="font-bold">PENDING PROCESSING</span>
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
             <p className="text-xl text-muted-foreground max-w-lg mx-auto">
-              Thank you for your order. We've received your request and are
-              preparing your fresh groceries.
+              Thank you for your order! We've received your request and will
+              begin processing shortly.
             </p>
           </div>
 
@@ -39,14 +77,26 @@ const OrderConfirmationPage = () => {
             </CardHeader>
             <CardContent className="space-y-4 text-left">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Order ID:</span>
-                <span className="font-mono font-bold">{orderId}</span>
+                <span className="text-muted-foreground">Order Number:</span>
+                <span className="font-mono font-bold">
+                  {order?.orderNumber || "N/A"}
+                </span>
               </div>
+              {order && (
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Status:</span>
+                  <span className="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full text-sm uppercase">
+                    {order.status === "processing"
+                      ? "⏳ PENDING PROCESSING"
+                      : order.status.toUpperCase()}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-muted-foreground">
                   Estimated Delivery:
                 </span>
-                <span className="font-medium">30-60 minutes</span>
+                <span className="font-medium">1-3 days</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Delivery Method:</span>
@@ -118,14 +168,16 @@ const OrderConfirmationPage = () => {
             <Button onClick={() => navigate("/")} size="lg" className="px-8">
               Continue Shopping
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => navigate("/track-order")}
-              size="lg"
-              className="px-8"
-            >
-              Track Your Order
-            </Button>
+            {orderId && (
+              <Button
+                variant="outline"
+                onClick={() => navigate(`/track-order/${orderId}`)}
+                size="lg"
+                className="px-8"
+              >
+                Track Your Order
+              </Button>
+            )}
           </div>
         </div>
       </main>
