@@ -57,10 +57,10 @@ const LoginPage = () => {
         const returnTo = new URLSearchParams(window.location.search).get("returnTo") || "/";
         navigate(returnTo);
       } else {
-        setError("Invalid email or password. Please try again.");
+        setError("Invalid email or password. Please try again or sign up if you don't have an account.");
         toast({
           title: "Login Failed",
-          description: "Invalid email or password.",
+          description: "Invalid email or password. Please check your credentials and try again.",
           variant: "destructive",
         });
       }
@@ -156,6 +156,15 @@ const LoginPage = () => {
                 >
                   {isSubmitting ? "Logging in..." : "Log In"}
                 </Button>
+
+                <div className="text-center">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-primary hover:underline font-medium"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
 
                 <div className="text-center text-sm text-muted-foreground">
                   Don't have an account?{" "}

@@ -73,12 +73,14 @@ const CheckoutPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Create and save order
+    let order: any = null; // Declare order outside try block so it's accessible later
+    
     try {
       const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
       
-      // Create order in the system
-      const order = addOrder({
+      // Create order in the system (now async - saves to database)
+      order = await addOrder({
         customerName: customerName,
         customerPhone: customerInfo.phone,
         customerEmail: customerInfo.email || undefined,
@@ -162,12 +164,23 @@ const CheckoutPage = () => {
     }
 
     clearCart();
-    navigate(`/order-confirmation/${order.id}`);
+    if (order) {
+      navigate(`/order-confirmation/${order.id}`);
+    } else {
+      // If order creation failed, navigate to cart or home
+      navigate("/cart");
+    }
     setIsProcessing(false);
   };
 
+  // Redirect to cart if cart is empty
+  useEffect(() => {
+    if (items.length === 0) {
+      navigate("/cart");
+    }
+  }, [items.length, navigate]);
+
   if (items.length === 0) {
-    navigate("/cart");
     return null;
   }
 

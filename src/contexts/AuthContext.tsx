@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { getSupabaseClient } from "@/lib/supabase";
+import * as authService from "@/services/authService";
 
 export interface User {
   id: string;
@@ -24,8 +26,9 @@ interface AuthContextType extends AuthState {
     phone: string;
     password: string;
   }) => Promise<boolean>;
-  logout: () => void;
-  updateUser: (userData: Partial<User>) => void;
+  logout: () => Promise<void>;
+  updateUser: (userData: Partial<User>) => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error: string | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,56 +42,82 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     isLoading: true,
   });
 
-  // Load user from localStorage on mount
+  // Load user from Supabase session on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
+    const loadUser = async () => {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        setState((prev) => ({ ...prev, isLoading: false }));
+        return;
+      }
+
       try {
-        const user = JSON.parse(savedUser);
-        setState({
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-        });
+        // Get current session
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          // Get user profile
+          const user = await authService.getUserProfile(session.user.id);
+          if (user) {
+            setState({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            });
+          } else {
+            setState((prev) => ({ ...prev, isLoading: false }));
+          }
+        } else {
+          setState((prev) => ({ ...prev, isLoading: false }));
+        }
       } catch (error) {
-        console.error("Error loading user from localStorage:", error);
+        console.error("Error loading user session:", error);
         setState((prev) => ({ ...prev, isLoading: false }));
       }
-    } else {
-      setState((prev) => ({ ...prev, isLoading: false }));
+    };
+
+    loadUser();
+
+    // Listen for auth state changes
+    const supabase = getSupabaseClient();
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (event === "SIGNED_IN" && session?.user) {
+            const user = await authService.getUserProfile(session.user.id);
+            if (user) {
+              setState({
+                user,
+                isAuthenticated: true,
+                isLoading: false,
+              });
+            }
+          } else if (event === "SIGNED_OUT") {
+            setState({
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+            });
+          }
+        }
+      );
+
+      return () => {
+        subscription.unsubscribe();
+      };
     }
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // Get users from localStorage
-      const usersStr = localStorage.getItem("users");
-      const users: Array<User & { password: string }> = usersStr
-        ? JSON.parse(usersStr)
-        : [];
+      const { user, error } = await authService.signIn({ email, password });
 
-      // Find user by email
-      const user = users.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase()
-      );
-
-      if (!user) {
-        return false; // User not found
+      if (error || !user) {
+        return false;
       }
-
-      // Simple password check (in production, use proper password hashing)
-      if (user.password !== password) {
-        return false; // Wrong password
-      }
-
-      // Remove password before storing user
-      const { password: _, ...userWithoutPassword } = user;
-
-      // Save user to localStorage
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
 
       setState({
-        user: userWithoutPassword,
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -108,75 +137,70 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string;
   }): Promise<boolean> => {
     try {
-      // Get existing users
-      const usersStr = localStorage.getItem("users");
-      const users: Array<User & { password: string }> = usersStr
-        ? JSON.parse(usersStr)
-        : [];
+      console.log("🔐 Starting signup process...");
+      const { user, error } = await authService.signUp(userData);
 
-      // Check if email already exists
-      const emailExists = users.some(
-        (u) => u.email.toLowerCase() === userData.email.toLowerCase()
-      );
-
-      if (emailExists) {
-        return false; // Email already registered
+      if (error) {
+        console.error("❌ Signup error:", error);
+        return false;
       }
 
-      // Create new user
-      const newUser: User & { password: string } = {
-        id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
-        phone: userData.phone,
-        password: userData.password, // In production, hash this!
-        createdAt: new Date().toISOString(),
-      };
+      if (!user) {
+        console.error("❌ Signup failed - no user returned");
+        return false;
+      }
 
-      // Add to users array
-      users.push(newUser);
-
-      // Save users to localStorage
-      localStorage.setItem("users", JSON.stringify(users));
-
-      // Remove password before storing user
-      const { password: _, ...userWithoutPassword } = newUser;
-
-      // Save user to localStorage (auto-login)
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
-
+      console.log("✅ Signup successful - setting user state");
       setState({
-        user: userWithoutPassword,
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
 
       return true;
-    } catch (error) {
-      console.error("Signup error:", error);
+    } catch (error: any) {
+      console.error("❌ Signup exception:", error);
       return false;
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    setState({
-      user: null,
-      isAuthenticated: false,
-      isLoading: false,
-    });
+  const logout = async (): Promise<void> => {
+    try {
+      await authService.signOut();
+      setState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
-  const updateUser = (userData: Partial<User>) => {
+  const updateUser = async (userData: Partial<User>): Promise<void> => {
     if (!state.user) return;
 
-    const updatedUser = { ...state.user, ...userData };
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    setState((prev) => ({
-      ...prev,
-      user: updatedUser,
-    }));
+    try {
+      const updates: any = {};
+      if (userData.firstName) updates.firstName = userData.firstName;
+      if (userData.lastName) updates.lastName = userData.lastName;
+      if (userData.phone) updates.phone = userData.phone;
+
+      const { user, error } = await authService.updateUserProfile(state.user.id, updates);
+
+      if (!error && user) {
+        setState((prev) => ({
+          ...prev,
+          user,
+        }));
+      }
+    } catch (error) {
+      console.error("Update user error:", error);
+    }
+  };
+
+  const resetPassword = async (email: string): Promise<{ error: string | null }> => {
+    return await authService.sendPasswordResetEmail(email);
   };
 
   return (
@@ -187,6 +211,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         signup,
         logout,
         updateUser,
+        resetPassword,
       }}
     >
       {children}
@@ -201,4 +226,3 @@ export const useAuth = () => {
   }
   return context;
 };
-

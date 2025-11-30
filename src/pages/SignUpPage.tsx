@@ -94,16 +94,20 @@ const SignUpPage = () => {
       if (success) {
         toast({
           title: "Account Created!",
-          description: "Welcome! You've successfully signed up.",
+          description: "Welcome! You've successfully signed up. Redirecting...",
         });
-        navigate("/");
+        // Small delay to show toast, then navigate
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       } else {
+        // Get more specific error from auth context if available
         setErrors({
-          email: "This email is already registered. Please use a different email or log in.",
+          email: "Failed to create account. Please check your information and try again.",
         });
         toast({
           title: "Sign Up Failed",
-          description: "This email is already registered.",
+          description: "Unable to create account. Please try again or contact support.",
           variant: "destructive",
         });
       }

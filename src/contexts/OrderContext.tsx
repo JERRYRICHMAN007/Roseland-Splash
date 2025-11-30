@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, { createContext, useContext, useReducer, useEffect, useState } from "react";
+import * as db from "@/services/databaseService";
 
 export type OrderStatus = "processing" | "delivering" | "delivered" | "cancelled";
 
@@ -88,13 +89,15 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
 };
 
 interface OrderContextType extends OrderState {
-  addOrder: (order: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">) => Order;
-  updateOrderStatus: (id: string, status: OrderStatus) => void;
+  addOrder: (order: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">) => Promise<Order>;
+  updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
   getOrder: (id: string) => Order | undefined;
   getOrdersByPhone: (phone: string) => Order[];
   getOrdersByUser: (phone?: string, email?: string) => Order[];
   clearAllOrders: () => void;
-  cancelOrder: (id: string) => boolean;
+  cancelOrder: (id: string) => Promise<boolean>;
+  isLoading: boolean;
+  refreshOrders: () => Promise<void>;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -103,46 +106,81 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(orderReducer, initialState);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load orders from localStorage on mount
+  // Load orders from database on mount
   useEffect(() => {
-    const savedOrders = localStorage.getItem("orders");
-    if (savedOrders) {
-      try {
-        const orders = JSON.parse(savedOrders);
-        dispatch({ type: "LOAD_ORDERS", payload: orders });
-      } catch (error) {
-        console.error("Error loading orders from localStorage:", error);
-      }
-    }
+    loadOrders();
   }, []);
 
-  // Save orders to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(state.orders));
-  }, [state.orders]);
+  // Function to load orders from database
+  const loadOrders = async () => {
+    setIsLoading(true);
+    try {
+      console.log("📦 Loading orders from database...");
+      const orders = await db.getAllOrders();
+      if (orders && orders.length > 0) {
+        console.log(`✅ Loaded ${orders.length} orders from database`);
+        dispatch({ type: "LOAD_ORDERS", payload: orders });
+      } else {
+        console.log("ℹ️ No orders found in database");
+        dispatch({ type: "LOAD_ORDERS", payload: [] });
+      }
+    } catch (error) {
+      console.error("❌ Error loading orders from database:", error);
+      // Don't fallback to localStorage - show empty state
+      dispatch({ type: "LOAD_ORDERS", payload: [] });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Refresh orders from database
+  const refreshOrders = async () => {
+    await loadOrders();
+  };
 
   const generateOrderNumber = (): string => {
     return `RS${Date.now().toString().slice(-8)}`;
   };
 
-  const addOrder = (
+  const addOrder = async (
     orderData: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">
-  ): Order => {
-    const newOrder: Order = {
-      ...orderData,
-      id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      orderNumber: generateOrderNumber(),
-      status: "processing",
-      createdAt: new Date().toISOString(),
-    };
-
-    dispatch({ type: "ADD_ORDER", payload: newOrder });
-    return newOrder;
+  ): Promise<Order> => {
+    console.log("💾 Saving order to database...", orderData);
+    try {
+      // Save to database
+      const newOrder = await db.createOrder(orderData);
+      console.log("✅ Order saved to database successfully:", newOrder.id);
+      
+      // Update local state
+      dispatch({ type: "ADD_ORDER", payload: newOrder });
+      
+      return newOrder;
+    } catch (error: any) {
+      console.error("❌ Error creating order in database:", error);
+      throw new Error(`Failed to save order: ${error.message || "Unknown error"}`);
+    }
   };
 
-  const updateOrderStatus = (id: string, status: OrderStatus) => {
-    dispatch({ type: "UPDATE_ORDER_STATUS", payload: { id, status } });
+  const updateOrderStatus = async (id: string, status: OrderStatus) => {
+    console.log(`🔄 Updating order ${id} status to ${status}...`);
+    try {
+      // Update in database
+      const updatedOrder = await db.updateOrderStatus(id, status);
+      
+      if (updatedOrder) {
+        console.log(`✅ Order ${id} status updated successfully`);
+        // Update local state
+        dispatch({ type: "UPDATE_ORDER_STATUS", payload: { id, status } });
+      } else {
+        console.error(`❌ Failed to update order ${id} status`);
+        throw new Error("Failed to update order status in database");
+      }
+    } catch (error: any) {
+      console.error("❌ Error updating order status in database:", error);
+      throw new Error(`Failed to update order status: ${error.message || "Unknown error"}`);
+    }
   };
 
   const getOrder = (id: string): Order | undefined => {
@@ -163,22 +201,30 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const clearAllOrders = () => {
-    // Remove from localStorage first
-    localStorage.removeItem("orders");
-    // Then clear the state
+    // Clear the state only (orders remain in database)
+    // Note: This only clears local state, not database records
     dispatch({ type: "CLEAR_ALL_ORDERS" });
-    // Ensure localStorage stays cleared
-    localStorage.setItem("orders", JSON.stringify([]));
   };
 
-  const cancelOrder = (id: string): boolean => {
-    const order = state.orders.find((o) => o.id === id);
-    // Only allow cancellation if order is in "processing" status
-    if (order && order.status === "processing") {
-      dispatch({ type: "CANCEL_ORDER", payload: { id } });
-      return true;
+  const cancelOrder = async (id: string): Promise<boolean> => {
+    console.log(`🚫 Cancelling order ${id}...`);
+    try {
+      // Cancel in database
+      const success = await db.cancelOrder(id);
+      
+      if (success) {
+        console.log(`✅ Order ${id} cancelled successfully`);
+        // Update local state
+        dispatch({ type: "CANCEL_ORDER", payload: { id } });
+        return true;
+      } else {
+        console.error(`❌ Failed to cancel order ${id}`);
+        return false;
+      }
+    } catch (error: any) {
+      console.error("❌ Error cancelling order in database:", error);
+      throw new Error(`Failed to cancel order: ${error.message || "Unknown error"}`);
     }
-    return false;
   };
 
   return (
@@ -192,6 +238,8 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
         getOrdersByUser,
         clearAllOrders,
         cancelOrder,
+        isLoading,
+        refreshOrders,
       }}
     >
       {children}

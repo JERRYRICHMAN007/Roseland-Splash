@@ -44,10 +44,10 @@ const OrderTrackingPage = () => {
     );
   }
 
-  const handleStatusUpdate = (newStatus: OrderStatus) => {
+  const handleStatusUpdate = async (newStatus: OrderStatus) => {
     if (!orderId) return;
 
-    updateOrderStatus(orderId, newStatus);
+    await updateOrderStatus(orderId, newStatus);
     setOrder({ ...order, status: newStatus });
 
     toast({

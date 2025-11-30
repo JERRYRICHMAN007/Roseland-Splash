@@ -56,8 +56,8 @@ const ManagerDashboard = () => {
     }
   };
 
-  const handleStatusUpdate = (orderId: string, newStatus: OrderStatus) => {
-    updateOrderStatus(orderId, newStatus);
+  const handleStatusUpdate = async (orderId: string, newStatus: OrderStatus) => {
+    await updateOrderStatus(orderId, newStatus);
     toast({
       title: "Status Updated",
       description: `Order status updated to ${newStatus}`,
