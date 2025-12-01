@@ -111,30 +111,66 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
 export const signIn = async (data: LoginData): Promise<{ user: User | null; error: string | null }> => {
   const supabase = getSupabaseClient();
   if (!supabase) {
+    console.error("❌ Supabase client not available");
     return { user: null, error: "Database not configured" };
   }
 
   try {
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+    console.log("🔐 Calling Supabase signInWithPassword...", {
+      email: data.email.toLowerCase().trim(),
+      hasPassword: !!data.password,
+    });
+
+    // Wrap in Promise to catch any hanging issues
+    const authPromise = supabase.auth.signInWithPassword({
       email: data.email.toLowerCase().trim(),
       password: data.password,
     });
 
+    // Add a timeout to detect if the request hangs
+    const timeoutId = setTimeout(() => {
+      console.error("❌ Login request is taking too long (>10 seconds)");
+    }, 10000);
+
+    const { data: authData, error: authError } = await authPromise;
+    clearTimeout(timeoutId);
+
+    console.log("🔐 signInWithPassword response:", {
+      hasUser: !!authData?.user,
+      hasError: !!authError,
+      errorMessage: authError?.message,
+    });
+
     if (authError) {
+      console.error("❌ Auth error:", authError);
       return { user: null, error: authError.message };
     }
 
     if (!authData.user) {
+      console.error("❌ No user returned from signInWithPassword");
       return { user: null, error: "Failed to sign in" };
     }
 
-    // Get or create user profile
+    console.log("🔐 Login successful, fetching user profile...", {
+      userId: authData.user.id,
+      email: authData.user.email,
+    });
+
+    // Get user profile (trigger should have created it, but wait a moment if needed)
     let user = await getUserProfile(authData.user.id);
 
-    // If profile doesn't exist, try to create it from auth metadata
+    // If profile doesn't exist, wait a moment and retry (trigger might still be processing)
+    if (!user) {
+      console.log("⏳ Profile not found, waiting for trigger...");
+      await new Promise(resolve => setTimeout(resolve, 500));
+      user = await getUserProfile(authData.user.id);
+    }
+
+    // If profile still doesn't exist, try to create it from auth metadata
     if (!user && authData.user.user_metadata) {
       const { first_name, last_name, phone } = authData.user.user_metadata;
       if (first_name && last_name && phone) {
+        console.log("📝 Attempting to create profile from metadata...");
         const { error: profileError } = await supabase
           .from("user_profiles")
           .insert({
@@ -146,11 +182,13 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
           });
 
         if (!profileError) {
+          console.log("✅ Profile created successfully");
           user = await getUserProfile(authData.user.id);
         } else {
-          console.warn("Could not create user profile (table may not exist yet):", profileError);
+          console.warn("⚠️ Could not create user profile:", profileError);
           // Return user with metadata as fallback
           if (authData.user.email) {
+            console.log("⚠️ Using fallback user from auth metadata");
             user = {
               id: authData.user.id,
               firstName: first_name || "",
@@ -164,8 +202,9 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
       }
     }
 
-    // If still no user, try to create minimal profile from email
+    // If still no user, create minimal profile from email
     if (!user && authData.user.email) {
+      console.log("⚠️ Creating minimal user from email only");
       user = {
         id: authData.user.id,
         firstName: authData.user.user_metadata?.first_name || "",
@@ -176,6 +215,12 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
       };
     }
 
+    if (!user) {
+      console.error("❌ Failed to get or create user profile");
+      return { user: null, error: "Failed to load user profile" };
+    }
+
+    console.log("✅ Login complete - user loaded:", user.email);
     return { user, error: null };
   } catch (error: any) {
     console.error("Login error:", error);
@@ -210,6 +255,7 @@ export const signOut = async (): Promise<{ error: string | null }> => {
 export const getUserProfile = async (userId: string): Promise<User | null> => {
   const supabase = getSupabaseClient();
   if (!supabase) {
+    console.warn("⚠️ Supabase client not available");
     return null;
   }
 
@@ -220,10 +266,22 @@ export const getUserProfile = async (userId: string): Promise<User | null> => {
       .eq("id", userId)
       .single();
 
-    if (error || !data) {
+    if (error) {
+      // 404 (not found) is expected if profile doesn't exist yet
+      if (error.code === 'PGRST116') {
+        console.log("ℹ️ User profile not found in database (may not exist yet)");
+      } else {
+        console.error("❌ Error fetching user profile:", error);
+      }
       return null;
     }
 
+    if (!data) {
+      console.log("ℹ️ No user profile data returned");
+      return null;
+    }
+
+    console.log("✅ User profile found:", data.email);
     return {
       id: data.id,
       firstName: data.first_name,
@@ -233,7 +291,7 @@ export const getUserProfile = async (userId: string): Promise<User | null> => {
       createdAt: data.created_at,
     };
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("❌ Exception fetching user profile:", error);
     return null;
   }
 };

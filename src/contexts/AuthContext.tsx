@@ -110,12 +110,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
+      console.log("🔐 Starting login process...");
       const { user, error } = await authService.signIn({ email, password });
 
-      if (error || !user) {
+      if (error) {
+        console.error("❌ Login error:", error);
         return false;
       }
 
+      if (!user) {
+        console.error("❌ Login failed - no user returned");
+        return false;
+      }
+
+      console.log("✅ Login successful - setting user state");
       setState({
         user,
         isAuthenticated: true,
@@ -123,8 +131,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       return true;
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch (error: any) {
+      console.error("❌ Login exception:", error);
       return false;
     }
   };
