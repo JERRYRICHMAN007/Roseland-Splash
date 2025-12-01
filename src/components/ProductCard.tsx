@@ -7,10 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart, Plus } from "lucide-react";
-import { useState } from "react";
+import { ShoppingCart, Plus, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  addToGeneralWishlist,
+  isProductInWishlist,
+  removeFromGeneralWishlistByProduct,
+} from "@/services/generalWishlistService";
 
 interface ProductVariant {
   id: string;
@@ -40,8 +46,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [selectedVariant, setSelectedVariant] = useState<string>(
     product.variants?.[0]?.id || "default"
   );
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const { addItem } = useCart();
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
 
   const getCurrentVariant = () => {
     if (!product.variants || selectedVariant === "default") {
@@ -59,6 +68,109 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const currentVariant = getCurrentVariant();
+
+  // Check if product is in wishlist when component mounts or variant changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      checkWishlistStatus();
+    } else {
+      setIsInWishlist(false);
+    }
+  }, [isAuthenticated, selectedVariant, product.id]);
+
+  const checkWishlistStatus = async () => {
+    if (!isAuthenticated) return;
+    
+    setIsWishlistLoading(true);
+    try {
+      const variantName = product.variants ? currentVariant.name : undefined;
+      const result = await isProductInWishlist(
+        product.id,
+        variantName !== "Standard" ? variantName : undefined
+      );
+      if (result.success) {
+        setIsInWishlist(result.isInWishlist);
+      }
+    } catch (error) {
+      console.error("Error checking wishlist status:", error);
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
+
+  const handleToggleWishlist = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "Login required",
+        description: "Please log in to add items to your wishlist.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsWishlistLoading(true);
+    try {
+      const variantName = product.variants ? currentVariant.name : undefined;
+      const variant = variantName !== "Standard" ? variantName : undefined;
+
+      if (isInWishlist) {
+        // Remove from wishlist
+        const result = await removeFromGeneralWishlistByProduct(product.id, variant);
+        if (result.success) {
+          setIsInWishlist(false);
+          toast({
+            title: "Removed from Wishlist",
+            description: `${product.name}${
+              variant ? ` (${variant})` : ""
+            } has been removed from your wishlist`,
+            duration: 2000,
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: result.error || "Failed to remove from wishlist",
+            variant: "destructive",
+          });
+        }
+      } else {
+        // Add to wishlist
+        const result = await addToGeneralWishlist(
+          product.id,
+          product.name,
+          currentVariant.price,
+          currentVariant.image,
+          variant
+        );
+
+        if (result.success) {
+          setIsInWishlist(true);
+          toast({
+            title: "Added to Wishlist",
+            description: `${product.name}${
+              variant ? ` (${variant})` : ""
+            } has been added to your wishlist`,
+            duration: 2000,
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: result.error || "Failed to add to wishlist",
+            variant: "destructive",
+          });
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update wishlist",
+        variant: "destructive",
+      });
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   const handleAddToCart = () => {
     const cartItemId = product.variants
@@ -86,12 +198,27 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <Card className="group hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95">
       <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
         {/* Product Image */}
-        <div className="aspect-square rounded-xl overflow-hidden bg-accent/20 p-2 sm:p-3">
+        <div className="relative aspect-square rounded-xl overflow-hidden bg-accent/20 p-2 sm:p-3">
           <img
             src={currentVariant.image}
             alt={product.name}
             className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
           />
+          {/* Wishlist Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleToggleWishlist}
+            disabled={isWishlistLoading}
+            className="absolute top-3 right-3 h-8 w-8 rounded-full bg-background/80 hover:bg-background shadow-md hover:shadow-lg transition-all"
+            aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <Heart
+              className={`h-4 w-4 ${
+                isInWishlist ? "text-primary fill-primary" : "text-muted-foreground"
+              }`}
+            />
+          </Button>
         </div>
 
         {/* Product Info */}

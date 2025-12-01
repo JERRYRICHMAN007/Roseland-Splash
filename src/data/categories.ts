@@ -364,7 +364,15 @@ import bananaDatesPeanutButterImage from "@/assets/banana-dates-peanut-butter.jp
 import pineappleChiaAlmondImage from "@/assets/pineapple-chia-seeds-almond-milk.jpg";
 import mixedBerriesWalnutsSoyImage from "@/assets/mixed-berries-walnuts-soy-milk.jpg";
 import coconutHoneyCashewImage from "@/assets/coconut-honey-cashew.jpg";
+import coconutHoneyCashewNewImage from "@/assets/Coconut+Honey+Cashew.jpg";
 import chocolateBananaGroundnutImage from "@/assets/chocolate-banana-groundnut.png";
+import chocolateBananaGroundnutNewImage from "@/assets/Chocolate+Banana+Groundnut.png";
+import coconutBananaMashedkeImage from "@/assets/Coconut + Banana Flavoured MashedKe.png";
+import coconutMashedkeImage from "@/assets/Coconut Flavoured MashedKe.png";
+import bananaMashedkeImage from "@/assets/Banana Flavoured MashedKe.png";
+import strawberryMashedkeImage from "@/assets/Strawberry Flavoured MashedKe.png";
+import peanutMashedkeImage from "@/assets/Peanut Flavoured MashedKe.png";
+import tigernutMashedkeImage from "@/assets/Tigernut Flavoured MashedKe.png";
 import brownSugarProductImage from "@/assets/brown-sugar-product.jpg";
 import whiteSugarProductImage from "@/assets/white-sugar-product.jpg";
 import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
@@ -2036,7 +2044,7 @@ export const categoriesData: Category[] = [
             name: "Coconut+Honey+Cashew",
             price: 22.0,
             unit: "from",
-            image: coconutHoneyCashewImage,
+            image: coconutHoneyCashewNewImage,
             description:
               "Tropical coconut with honey and cashew - a crowd favorite",
             inStock: true,
@@ -2047,7 +2055,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutHoneyCashewNewImage,
               },
               {
                 id: "general1-350ml",
@@ -2055,7 +2063,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutHoneyCashewNewImage,
               },
               {
                 id: "general1-250ml",
@@ -2063,7 +2071,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutHoneyCashewNewImage,
               },
             ],
           },
@@ -2072,7 +2080,7 @@ export const categoriesData: Category[] = [
             name: "Chocolate+Banana+Groundnut",
             price: 24.0,
             unit: "from",
-            image: chocolateBananaGroundnutImage,
+            image: chocolateBananaGroundnutNewImage,
             description: "Indulgent chocolate banana smoothie with groundnuts",
             inStock: true,
             variants: [
@@ -2082,7 +2090,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: chocolateBananaGroundnutNewImage,
               },
               {
                 id: "general2-350ml",
@@ -2090,7 +2098,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: chocolateBananaGroundnutNewImage,
               },
               {
                 id: "general2-250ml",
@@ -2098,7 +2106,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: chocolateBananaGroundnutNewImage,
               },
             ],
           },
@@ -2107,7 +2115,7 @@ export const categoriesData: Category[] = [
             name: "Coconut Flavoured MashedKe",
             price: 22.0,
             unit: "from",
-            image: coconutHoneyCashewImage,
+            image: coconutMashedkeImage,
             description: "Refreshing coconut flavored mashedke",
             inStock: true,
             variants: [
@@ -2117,7 +2125,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutMashedkeImage,
               },
               {
                 id: "mashedke-coconut-350ml",
@@ -2125,7 +2133,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutMashedkeImage,
               },
               {
                 id: "mashedke-coconut-250ml",
@@ -2133,7 +2141,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutMashedkeImage,
               },
             ],
           },
@@ -2142,7 +2150,7 @@ export const categoriesData: Category[] = [
             name: "Tigernut Flavoured MashedKe",
             price: 22.0,
             unit: "from",
-            image: mashedkeDelightImage,
+            image: tigernutMashedkeImage,
             description: "Nutritious tigernut flavored mashedke",
             inStock: true,
             variants: [
@@ -2152,7 +2160,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: mashedkeDelightImage,
+                image: tigernutMashedkeImage,
               },
               {
                 id: "mashedke-tigernut-350ml",
@@ -2160,7 +2168,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: mashedkeDelightImage,
+                image: tigernutMashedkeImage,
               },
               {
                 id: "mashedke-tigernut-250ml",
@@ -2168,7 +2176,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: mashedkeDelightImage,
+                image: tigernutMashedkeImage,
               },
             ],
           },
@@ -2177,7 +2185,7 @@ export const categoriesData: Category[] = [
             name: "Peanut Flavoured MashedKe",
             price: 24.0,
             unit: "from",
-            image: chocolateBananaGroundnutImage,
+            image: peanutMashedkeImage,
             description: "Rich and creamy peanut flavored mashedke",
             inStock: true,
             variants: [
@@ -2187,7 +2195,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: peanutMashedkeImage,
               },
               {
                 id: "mashedke-peanut-350ml",
@@ -2195,7 +2203,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: peanutMashedkeImage,
               },
               {
                 id: "mashedke-peanut-250ml",
@@ -2203,7 +2211,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per bottle",
                 inStock: true,
-                image: chocolateBananaGroundnutImage,
+                image: peanutMashedkeImage,
               },
             ],
           },
@@ -2212,7 +2220,7 @@ export const categoriesData: Category[] = [
             name: "Strawberry Flavoured MashedKe",
             price: 22.0,
             unit: "from",
-            image: strawberrySmoothieImage,
+            image: strawberryMashedkeImage,
             description: "Sweet and fruity strawberry flavored mashedke",
             inStock: true,
             variants: [
@@ -2222,7 +2230,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: strawberrySmoothieImage,
+                image: strawberryMashedkeImage,
               },
               {
                 id: "mashedke-strawberry-350ml",
@@ -2230,7 +2238,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: strawberrySmoothieImage,
+                image: strawberryMashedkeImage,
               },
               {
                 id: "mashedke-strawberry-250ml",
@@ -2238,7 +2246,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: strawberrySmoothieImage,
+                image: strawberryMashedkeImage,
               },
             ],
           },
@@ -2247,7 +2255,7 @@ export const categoriesData: Category[] = [
             name: "Banana Flavoured MashedKe",
             price: 22.0,
             unit: "from",
-            image: bananaSmoothieImage,
+            image: bananaMashedkeImage,
             description: "Creamy and delicious banana flavored mashedke",
             inStock: true,
             variants: [
@@ -2257,7 +2265,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per bottle",
                 inStock: true,
-                image: bananaSmoothieImage,
+                image: bananaMashedkeImage,
               },
               {
                 id: "mashedke-banana-350ml",
@@ -2265,7 +2273,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per bottle",
                 inStock: true,
-                image: bananaSmoothieImage,
+                image: bananaMashedkeImage,
               },
               {
                 id: "mashedke-banana-250ml",
@@ -2273,7 +2281,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per bottle",
                 inStock: true,
-                image: bananaSmoothieImage,
+                image: bananaMashedkeImage,
               },
             ],
           },
@@ -2282,7 +2290,7 @@ export const categoriesData: Category[] = [
             name: "Coconut + Banana Flavoured MashedKe",
             price: 24.0,
             unit: "from",
-            image: coconutHoneyCashewImage,
+            image: coconutBananaMashedkeImage,
             description: "Tropical blend of coconut and banana flavored mashedke",
             inStock: true,
             variants: [
@@ -2292,7 +2300,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutBananaMashedkeImage,
               },
               {
                 id: "mashedke-coconut-banana-350ml",
@@ -2300,7 +2308,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutBananaMashedkeImage,
               },
               {
                 id: "mashedke-coconut-banana-250ml",
@@ -2308,7 +2316,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per bottle",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: coconutBananaMashedkeImage,
               },
             ],
           },

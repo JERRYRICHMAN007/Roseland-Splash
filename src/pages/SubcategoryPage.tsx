@@ -1,20 +1,31 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import { ArrowLeft, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { categoriesData } from "@/data/categories";
+import WishlistButton from "@/components/WishlistButton";
+import WishlistModal from "@/components/WishlistModal";
 
 const SubcategoryPage = () => {
   const { categoryId, subcategoryId } = useParams();
   const navigate = useNavigate();
+  const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
 
   const category = categoriesData.find((cat) => cat.id === categoryId);
   const subcategory = category?.subcategories.find(
     (sub) => sub.id === subcategoryId
   );
+
+  // Check if this subcategory has wishlist feature enabled
+  const wishlistEnabledSubcategories = [
+    "lactating-mothers-kids",
+    "gym-enthusiasts",
+    "mashedke-lovers",
+  ];
+  const hasWishlistFeature = subcategoryId && wishlistEnabledSubcategories.includes(subcategoryId);
 
   // Scroll to top when component mounts or route changes
   useEffect(() => {
@@ -106,6 +117,41 @@ const SubcategoryPage = () => {
           </div>
         </div>
 
+        {/* Wishlist Feature Section - Only for specific subcategories */}
+        {hasWishlistFeature && (
+          <div className="mb-8 sm:mb-12 p-4 sm:p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg border border-primary/20">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+              <div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-primary" />
+                  Wishlist Feature
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Suggest items or flavors you'd like to see in this category!
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => setWishlistModalOpen(true)}
+                className="gap-2"
+              >
+                <Heart className="h-4 w-4" />
+                View Wishlist
+              </Button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <WishlistButton
+                categoryId={subcategoryId!}
+                categoryName={subcategory.name}
+              />
+              <p className="text-xs text-muted-foreground flex items-center">
+                Share your ideas for new products or flavors you'd love to see here!
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Products Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
           {subcategory.subcategories && subcategory.subcategories.length > 0
@@ -143,6 +189,16 @@ const SubcategoryPage = () => {
       </div>
 
       <Footer />
+
+      {/* Wishlist Modal */}
+      {hasWishlistFeature && (
+        <WishlistModal
+          isOpen={wishlistModalOpen}
+          onClose={() => setWishlistModalOpen(false)}
+          categoryId={subcategoryId!}
+          categoryName={subcategory.name}
+        />
+      )}
     </div>
   );
 };

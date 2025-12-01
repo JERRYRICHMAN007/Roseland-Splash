@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, MapPin, Menu, User, LogOut, Package } from "lucide-react";
+import { Search, ShoppingCart, MapPin, Menu, User, LogOut, Package, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,7 +15,9 @@ import { useCart } from "@/contexts/CartContext";
 import { useSearch } from "@/contexts/SearchContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders } from "@/contexts/OrderContext";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { getGeneralWishlistItems } from "@/services/generalWishlistService";
+import GeneralWishlistModal from "./GeneralWishlistModal";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ const Header = () => {
   const { getOrdersByUser, orders } = useOrders();
   const [searchInput, setSearchInput] = useState("");
   const [mobileSearchInput, setMobileSearchInput] = useState("");
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
 
   // Get user's orders count
   const userOrdersCount = useMemo(() => {
@@ -32,6 +36,27 @@ const Header = () => {
     const userOrders = getOrdersByUser(user.phone, user.email);
     return userOrders.length;
   }, [isAuthenticated, user, getOrdersByUser, orders]);
+
+  // Load wishlist count
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadWishlistCount();
+    } else {
+      setWishlistCount(0);
+    }
+  }, [isAuthenticated]);
+
+  const loadWishlistCount = async () => {
+    if (!isAuthenticated) return;
+    try {
+      const result = await getGeneralWishlistItems();
+      if (result.success && result.data) {
+        setWishlistCount(result.data.length);
+      }
+    } catch (error) {
+      console.error("Error loading wishlist count:", error);
+    }
+  };
 
   const handleSearch = (query: string, isMobile = false) => {
     if (query.trim()) {
@@ -141,6 +166,15 @@ const Header = () => {
                       </p>
                     </div>
                   </DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => setWishlistModalOpen(true)}>
+                    <Heart className="mr-2" size={16} />
+                    Wishlist
+                    {wishlistCount > 0 && (
+                      <span className="ml-auto bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5">
+                        {wishlistCount > 99 ? "99+" : wishlistCount}
+                      </span>
+                    )}
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/my-orders")}>
                     <Package className="mr-2" size={16} />
@@ -178,8 +212,26 @@ const Header = () => {
             <span>Accra & Kumasi</span>
           </div>
 
-          {/* Cart and Mobile Menu */}
+          {/* Cart, Wishlist and Mobile Menu */}
           <div className="flex items-center gap-2">
+            {/* Wishlist */}
+            {isAuthenticated && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setWishlistModalOpen(true)}
+                className="relative hover:bg-accent"
+                aria-label="Wishlist"
+              >
+                <Heart size={20} />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {wishlistCount > 99 ? "99+" : wishlistCount}
+                  </span>
+                )}
+              </Button>
+            )}
+
             {/* Cart */}
             <Button
               variant="ghost"
@@ -265,23 +317,44 @@ const Header = () => {
                         </div>
                       </Button>
                       {isAuthenticated && (
-                        <Button
-                          variant="ghost"
-                          onClick={() => navigate("/my-orders")}
-                          className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center relative">
-                              <Package size={16} className="text-primary" />
-                              {userOrdersCount > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                                  {userOrdersCount > 99 ? "99+" : userOrdersCount}
-                                </span>
-                              )}
+                        <>
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              setWishlistModalOpen(true);
+                            }}
+                            className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center relative">
+                                <Heart size={16} className="text-primary" />
+                                {wishlistCount > 0 && (
+                                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                                    {wishlistCount > 99 ? "99+" : wishlistCount}
+                                  </span>
+                                )}
+                              </div>
+                              <span>Wishlist ({wishlistCount})</span>
                             </div>
-                            <span>My Orders ({userOrdersCount})</span>
-                          </div>
-                        </Button>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            onClick={() => navigate("/my-orders")}
+                            className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center relative">
+                                <Package size={16} className="text-primary" />
+                                {userOrdersCount > 0 && (
+                                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                                    {userOrdersCount > 99 ? "99+" : userOrdersCount}
+                                  </span>
+                                )}
+                              </div>
+                              <span>My Orders ({userOrdersCount})</span>
+                            </div>
+                          </Button>
+                        </>
                       )}
                       <Button
                         variant="ghost"
@@ -358,6 +431,16 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Wishlist Modal */}
+      <GeneralWishlistModal
+        isOpen={wishlistModalOpen}
+        onClose={() => {
+          setWishlistModalOpen(false);
+          loadWishlistCount(); // Refresh count when modal closes
+        }}
+        onItemRemoved={loadWishlistCount}
+      />
     </header>
   );
 };
