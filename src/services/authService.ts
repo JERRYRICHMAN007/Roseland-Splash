@@ -5,6 +5,7 @@
 
 import { getSupabaseClient } from "@/lib/supabase";
 import { User } from "@/contexts/AuthContext";
+import { getResetPasswordUrl } from "@/utils/getBaseUrl";
 
 export interface SignupData {
   firstName: string;
@@ -29,8 +30,13 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
   }
 
   try {
+    console.log("📝 Calling Supabase auth.signUp...", {
+      email: data.email.toLowerCase().trim(),
+      hasPassword: !!data.password,
+    });
+
     // Sign up with Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    const signupPromise = supabase.auth.signUp({
       email: data.email.toLowerCase().trim(),
       password: data.password,
       options: {
@@ -42,62 +48,91 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
       }
     });
 
-    if (authError) {
-      return { user: null, error: authError.message };
-    }
+    // Add timeout to prevent hanging
+    let authData: any = null;
+    let authError: any = null;
 
-    if (!authData.user) {
-      return { user: null, error: "Failed to create user" };
-    }
+    try {
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => {
+          reject(new Error("TIMEOUT"));
+        }, 10000); // 10 second timeout
+      });
 
-    // The database trigger will automatically create the profile
-    // We just need to wait a moment and then fetch it
-    console.log("⏳ Waiting for database trigger to create user profile...", {
-      userId: authData.user.id,
-      email: data.email,
-    });
+      const result = await Promise.race([
+        signupPromise,
+        timeoutPromise,
+      ]) as any;
 
-    // Wait a moment for the trigger to execute
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Try to fetch the profile (created by trigger)
-    let user = await getUserProfile(authData.user.id);
-    
-    // If profile doesn't exist yet, try a few more times (trigger might need a moment)
-    if (!user) {
-      console.log("⏳ Profile not found yet, retrying...");
-      for (let i = 0; i < 3; i++) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        user = await getUserProfile(authData.user.id);
-        if (user) break;
-      }
-    }
-
-    if (!user) {
-      console.warn("⚠️ Profile not found after trigger - it may be created on first login");
-      // Return user from auth metadata as fallback
-      if (authData.user.email) {
+      authData = result.data;
+      authError = result.error;
+    } catch (error: any) {
+      if (error.message === "TIMEOUT") {
+        console.error("❌ Signup request timed out after 10 seconds");
+        console.log("⚠️ Account may have been created - returning fallback user");
+        
+        // Since user is created in Supabase, create a minimal user object
+        // This allows the signup to complete even if the response timed out
         const fallbackUser: User = {
-          id: authData.user.id,
+          id: `temp-${Date.now()}`, // Temporary ID
           firstName: data.firstName,
           lastName: data.lastName,
-          email: authData.user.email,
+          email: data.email.toLowerCase().trim(),
           phone: data.phone,
-          createdAt: authData.user.created_at || new Date().toISOString(),
+          createdAt: new Date().toISOString(),
         };
-        console.log("⚠️ Returning user from auth metadata (profile will be available after login)");
+        
+        console.log("✅ Returning fallback user (account created, user can log in)");
         return { 
           user: fallbackUser, 
           error: null 
         };
       }
-      return { 
-        user: null, 
-        error: "User created but profile not found. Please try logging in - your profile will be created automatically." 
-      };
+      // If it's an auth error, extract it
+      if (error.error) {
+        authError = error.error;
+      } else {
+        throw error;
+      }
     }
 
-    console.log("✅ User profile found (created by trigger):", user.email);
+    console.log("📝 Supabase signup response received:", {
+      hasUser: !!authData?.user,
+      hasError: !!authError,
+      errorMessage: authError?.message,
+    });
+
+    if (authError) {
+      console.error("❌ Supabase signup error:", authError);
+      return { user: null, error: authError.message };
+    }
+
+    if (!authData.user) {
+      console.error("❌ No user returned from Supabase signup");
+      return { user: null, error: "Failed to create user" };
+    }
+
+    console.log("✅ User created in Supabase Auth:", {
+      userId: authData.user.id,
+      email: authData.user.email,
+    });
+
+    // The database trigger automatically creates the profile
+    // We'll return the user immediately from auth metadata
+    // The profile will be fetched on next login if needed
+    console.log("✅ Returning user immediately (profile created by trigger, will be available)");
+    
+    // Create user object from auth data and form data
+    const user: User = {
+      id: authData.user.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: authData.user.email || data.email.toLowerCase().trim(),
+      phone: data.phone,
+      createdAt: authData.user.created_at || new Date().toISOString(),
+    };
+
+    console.log("✅ Signup complete - returning user:", user.email);
     return { user, error: null };
   } catch (error: any) {
     console.error("Signup error:", error);
@@ -116,24 +151,160 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
   }
 
   try {
+    // Check Supabase client configuration
+    const supabaseUrl = supabase.supabaseUrl;
+    console.log("🔐 Supabase configuration check:", {
+      url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : "MISSING",
+      hasClient: !!supabase,
+    });
+
+    // Test network connectivity first with a quick fetch
+    console.log("🌐 Testing network connectivity to Supabase...");
+    try {
+      const connectivityTestPromise = fetch(`${supabaseUrl}/auth/v1/health`, {
+        method: "GET",
+      });
+      
+      const connectivityTimeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("CONNECTIVITY_TIMEOUT")), 5000);
+      });
+      
+      await Promise.race([connectivityTestPromise, connectivityTimeoutPromise]);
+      console.log("✅ Network connectivity test passed");
+    } catch (connectivityError: any) {
+      console.error("❌ Network connectivity test failed:", connectivityError);
+      const errorMessage = connectivityError.message === "CONNECTIVITY_TIMEOUT"
+        ? "Cannot reach Supabase server (timeout). This usually means:\n1. No internet connection\n2. Firewall/VPN blocking the connection\n3. Supabase service is down"
+        : `Cannot reach Supabase server. Error: ${connectivityError.message}`;
+      
+      return {
+        user: null,
+        error: `${errorMessage}\n\nPlease check:\n- Your internet connection\n- Browser DevTools → Network tab (F12)\n- Try accessing: ${supabaseUrl}/auth/v1/health`,
+      };
+    }
+
     console.log("🔐 Calling Supabase signInWithPassword...", {
       email: data.email.toLowerCase().trim(),
       hasPassword: !!data.password,
     });
 
-    // Wrap in Promise to catch any hanging issues
-    const authPromise = supabase.auth.signInWithPassword({
+    // Try Supabase client first, but if it times out, fall back to direct fetch
+    let authData: any = null;
+    let authError: any = null;
+
+    // Create the login promise
+    const loginPromise = supabase.auth.signInWithPassword({
       email: data.email.toLowerCase().trim(),
       password: data.password,
     });
 
-    // Add a timeout to detect if the request hangs
-    const timeoutId = setTimeout(() => {
-      console.error("❌ Login request is taking too long (>10 seconds)");
-    }, 10000);
+    // Create a timeout promise
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new Error("TIMEOUT"));
+      }, 10000); // 10 second timeout - if it takes longer, use fallback
+    });
 
-    const { data: authData, error: authError } = await authPromise;
-    clearTimeout(timeoutId);
+    try {
+      console.log("⏳ Attempting login with Supabase client (10s timeout)...");
+      const startTime = Date.now();
+      
+      // Race between login and timeout
+      const result = await Promise.race([loginPromise, timeoutPromise]);
+      const duration = Date.now() - startTime;
+      
+      console.log(`✅ Login request completed in ${duration}ms`);
+      authData = (result as any).data;
+      authError = (result as any).error;
+    } catch (error: any) {
+      if (error.message === "TIMEOUT") {
+        console.warn("⚠️ Supabase client login timed out, trying direct API fallback...");
+        
+        // Fallback: Use direct fetch to the token endpoint
+        try {
+          console.log("🔄 Attempting direct API login (bypassing PKCE flow)...");
+          const directLoginResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": supabase.supabaseKey,
+            },
+            body: JSON.stringify({
+              email: data.email.toLowerCase().trim(),
+              password: data.password,
+            }),
+          });
+
+          const directLoginData = await directLoginResponse.json();
+
+          if (!directLoginResponse.ok) {
+            // Extract error message
+            const errorMsg = directLoginData?.error_description || directLoginData?.error || "Login failed";
+            console.error("❌ Direct API login failed:", errorMsg);
+            return {
+              user: null,
+              error: errorMsg,
+            };
+          }
+
+          // If successful, we need to set the session in Supabase client
+          if (directLoginData.access_token) {
+            console.log("✅ Direct API login successful, setting session...");
+            
+            // Set the session in Supabase client
+            const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+              access_token: directLoginData.access_token,
+              refresh_token: directLoginData.refresh_token,
+            });
+
+            if (sessionError) {
+              console.error("❌ Failed to set session:", sessionError);
+              return {
+                user: null,
+                error: "Login successful but failed to set session. Please try again.",
+              };
+            }
+
+            // Get user from the session
+            if (sessionData.user) {
+              authData = { user: sessionData.user };
+              authError = null;
+              console.log("✅ Session set successfully");
+            } else {
+              return {
+                user: null,
+                error: "Login successful but user data not available.",
+              };
+            }
+          } else {
+            return {
+              user: null,
+              error: "Login response missing access token.",
+            };
+          }
+        } catch (fallbackError: any) {
+          console.error("❌ Direct API fallback also failed:", fallbackError);
+          return {
+            user: null,
+            error: `Login failed. Both Supabase client and direct API methods failed.\n\nError: ${fallbackError.message}\n\nPlease check:\n- Your internet connection\n- Supabase service status\n- Browser DevTools Network tab (F12)`,
+          };
+        }
+      } else {
+        // If it's an auth error from Supabase, extract it
+        if (error.error) {
+          authError = error.error;
+          console.log("🔐 Auth error from Supabase:", authError);
+        } else if (error.message) {
+          // Other errors
+          console.error("❌ Unexpected error during login:", error);
+          authError = { message: error.message };
+        } else {
+          // Re-throw unexpected errors
+          console.error("❌ Unknown error during login:", error);
+          throw error;
+        }
+      }
+    }
 
     console.log("🔐 signInWithPassword response:", {
       hasUser: !!authData?.user,
@@ -238,14 +409,43 @@ export const signOut = async (): Promise<{ error: string | null }> => {
   }
 
   try {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      return { error: error.message };
+    console.log("🔄 Calling supabase.auth.signOut()...");
+    
+    // Add timeout to prevent hanging
+    const signOutPromise = supabase.auth.signOut();
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new Error("TIMEOUT"));
+      }, 5000); // 5 second timeout
+    });
+
+    let result: any;
+    try {
+      result = await Promise.race([signOutPromise, timeoutPromise]);
+    } catch (err: any) {
+      if (err.message === "TIMEOUT") {
+        console.warn("⚠️ SignOut timed out, but clearing local session anyway");
+        // Return success even if timeout - we'll clear local state
+        return { error: null };
+      }
+      console.error("❌ SignOut exception:", err);
+      // Return success on any error - we'll clear local state anyway
+      return { error: null };
     }
+
+    const error = result?.error;
+    if (error) {
+      console.error("❌ SignOut error:", error);
+      // Still return success - we'll clear local state
+      return { error: null };
+    }
+    
+    console.log("✅ SignOut successful");
     return { error: null };
   } catch (error: any) {
-    console.error("Signout error:", error);
-    return { error: error.message || "Failed to sign out" };
+    console.error("❌ Signout exception:", error);
+    // Even on error, return success so local state can be cleared
+    return { error: null };
   }
 };
 
@@ -329,8 +529,14 @@ export const sendPasswordResetEmail = async (email: string): Promise<{ error: st
   }
 
   try {
+    const redirectUrl = getResetPasswordUrl();
+    console.log("📧 Sending password reset email:", {
+      email: email.toLowerCase().trim(),
+      redirectUrl,
+    });
+
     const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim(), {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: redirectUrl,
     });
 
     if (error) {

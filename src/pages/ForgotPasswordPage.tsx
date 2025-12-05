@@ -12,8 +12,19 @@ import { useToast } from "@/hooks/use-toast";
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
-  const { resetPassword } = useAuth();
   const { toast } = useToast();
+  
+  // Always call hook (React rules), but handle errors gracefully
+  let authContext;
+  try {
+    authContext = useAuth();
+  } catch (error) {
+    // Context not available - show error
+    console.error("Auth context not available:", error);
+    authContext = null;
+  }
+  
+  const resetPassword = authContext?.resetPassword;
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -37,6 +48,12 @@ const ForgotPasswordPage = () => {
     setIsSubmitting(true);
 
     try {
+      if (!resetPassword) {
+        setError("Authentication service is not available. Please refresh the page.");
+        setIsSubmitting(false);
+        return;
+      }
+      
       const { error: resetError } = await resetPassword(email.trim().toLowerCase());
 
       if (resetError) {

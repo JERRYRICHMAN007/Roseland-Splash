@@ -145,12 +145,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string;
   }): Promise<boolean> => {
     try {
-      console.log("🔐 Starting signup process...");
-      const { user, error } = await authService.signUp(userData);
+      console.log("🔐 Starting signup process...", { email: userData.email });
+      console.log("📞 Calling authService.signUp...");
+      
+      const result = await authService.signUp(userData);
+      console.log("📞 authService.signUp returned:", { 
+        hasUser: !!result.user, 
+        hasError: !!result.error,
+        error: result.error 
+      });
+
+      const { user, error } = result;
 
       if (error) {
         console.error("❌ Signup error:", error);
-        return false;
+        // Throw error so it can be caught and handled by the UI
+        throw new Error(error);
       }
 
       if (!user) {
@@ -158,30 +168,76 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return false;
       }
 
-      console.log("✅ Signup successful - setting user state");
+      console.log("✅ Signup successful - setting user state", { userId: user.id, email: user.email });
+      
+      // Set user state - even if profile isn't fully loaded, we have the user
       setState({
         user,
         isAuthenticated: true,
         isLoading: false,
       });
 
+      console.log("✅ User state updated, returning success");
       return true;
     } catch (error: any) {
       console.error("❌ Signup exception:", error);
+      console.error("❌ Exception details:", {
+        message: error?.message,
+        stack: error?.stack,
+      });
       return false;
     }
   };
 
   const logout = async (): Promise<void> => {
     try {
-      await authService.signOut();
+      console.log("🔄 Starting logout process...");
+      
+      // Add timeout to logout to prevent hanging
+      const logoutPromise = authService.signOut();
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("TIMEOUT")), 6000);
+      });
+
+      let signOutResult: any = { error: null };
+      try {
+        signOutResult = await Promise.race([logoutPromise, timeoutPromise]) as any;
+        console.log("📞 signOut result:", signOutResult);
+      } catch (err: any) {
+        if (err.message === "TIMEOUT") {
+          console.warn("⚠️ Logout timed out, clearing local state anyway");
+          signOutResult = { error: null };
+        } else {
+          console.error("❌ Logout promise error:", err);
+          signOutResult = { error: null }; // Still clear state
+        }
+      }
+      
+      if (signOutResult?.error) {
+        console.error("❌ Logout error:", signOutResult.error);
+        // Still clear local state even if signOut had an error
+      } else {
+        console.log("✅ Logout successful");
+      }
+      
+      // Always clear local state
+      console.log("🔄 Clearing user state...");
       setState({
         user: null,
         isAuthenticated: false,
         isLoading: false,
       });
+      
+      console.log("✅ User state cleared");
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error("❌ Logout exception:", error);
+      // Still clear local state on error
+      setState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      console.log("✅ User state cleared (after exception)");
     }
   };
 
@@ -230,7 +286,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    // Return a default context instead of throwing to handle hot reload gracefully
+    console.warn("useAuth called outside AuthProvider, returning default context");
+    return {
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+      login: async () => false,
+      signup: async () => false,
+      logout: async () => {},
+      updateUser: async () => {},
+      resetPassword: async () => ({ error: "Not available" }),
+    };
   }
   return context;
 };

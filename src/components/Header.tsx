@@ -15,7 +15,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useSearch } from "@/contexts/SearchContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders } from "@/contexts/OrderContext";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { getGeneralWishlistItems } from "@/services/generalWishlistService";
 import GeneralWishlistModal from "./GeneralWishlistModal";
 
@@ -23,6 +23,8 @@ const Header = () => {
   const navigate = useNavigate();
   const { itemCount } = useCart();
   const { setSearchQuery } = useSearch();
+  
+  // useAuth now returns defaults if context is unavailable, so we can safely use it
   const { isAuthenticated, user, logout } = useAuth();
   const { getOrdersByUser, orders } = useOrders();
   const [searchInput, setSearchInput] = useState("");
@@ -37,16 +39,8 @@ const Header = () => {
     return userOrders.length;
   }, [isAuthenticated, user, getOrdersByUser, orders]);
 
-  // Load wishlist count
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadWishlistCount();
-    } else {
-      setWishlistCount(0);
-    }
-  }, [isAuthenticated]);
-
-  const loadWishlistCount = async () => {
+  // Load wishlist count - use useCallback to prevent hooks order issues
+  const loadWishlistCount = useCallback(async () => {
     if (!isAuthenticated) return;
     try {
       const result = await getGeneralWishlistItems();
@@ -56,7 +50,15 @@ const Header = () => {
     } catch (error) {
       console.error("Error loading wishlist count:", error);
     }
-  };
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadWishlistCount();
+    } else {
+      setWishlistCount(0);
+    }
+  }, [isAuthenticated, loadWishlistCount]);
 
   const handleSearch = (query: string, isMobile = false) => {
     if (query.trim()) {
@@ -181,7 +183,11 @@ const Header = () => {
                     My Orders
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>
+                  <DropdownMenuItem onClick={async () => {
+                    console.log("🔄 Logging out from dropdown...");
+                    await logout();
+                    navigate("/", { replace: true });
+                  }}>
                     <LogOut className="mr-2" size={16} />
                     Log out
                   </DropdownMenuItem>
@@ -385,9 +391,10 @@ const Header = () => {
                           </div>
                           <Button
                             variant="ghost"
-                            onClick={() => {
-                              logout();
-                              navigate("/");
+                            onClick={async () => {
+                              console.log("🔄 Logging out from mobile menu...");
+                              await logout();
+                              navigate("/", { replace: true });
                             }}
                             className="w-full justify-start text-foreground hover:text-destructive h-12 text-base font-medium"
                           >

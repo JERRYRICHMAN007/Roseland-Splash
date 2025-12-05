@@ -72,17 +72,36 @@ const ResetPasswordPage = () => {
       }
 
       // If no tokens in URL hash, check for existing session (might have been processed already)
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      
-      if (mounted) {
-        if (sessionData?.session) {
-          setIsValidSession(true);
-          // Clear the hash from URL for security
-          window.history.replaceState(null, '', window.location.pathname + window.location.search);
-        } else {
-          // No tokens and no session - invalid link
-          setIsValidSession(false);
-          setError(sessionError?.message || "Invalid or expired reset link. Please request a new password reset.");
+      try {
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (mounted) {
+          if (sessionData?.session) {
+            setIsValidSession(true);
+            // Clear the hash from URL for security
+            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          } else {
+            // Check if error is specifically about expired token
+            if (sessionError?.message?.includes('expired') || sessionError?.message?.includes('invalid')) {
+              setIsValidSession(false);
+              setError("This password reset link has expired. Please request a new one.");
+            } else {
+              // No tokens and no session - invalid link
+              setIsValidSession(false);
+              setError("Invalid or expired reset link. Please request a new password reset.");
+            }
+          }
+        }
+      } catch (sessionErr: any) {
+        // Handle expired token errors gracefully
+        if (mounted) {
+          if (sessionErr.message?.includes('expired') || sessionErr.message?.includes('otp_expired')) {
+            setIsValidSession(false);
+            setError("This password reset link has expired. Please request a new one.");
+          } else {
+            setIsValidSession(false);
+            setError("Invalid reset link. Please request a new password reset.");
+          }
         }
       }
     };
@@ -140,6 +159,15 @@ const ResetPasswordPage = () => {
       // DO NOT clear the hash before updating password!
       
       console.log("Calling Supabase updateUser with new password...");
+      
+      // First, ensure we have a valid session by processing the hash
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        console.log("Processing URL hash to establish session...");
+        // Supabase will automatically process the hash when we call getSession
+        await supabase.auth.getSession();
+      }
+
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       });
@@ -148,10 +176,18 @@ const ResetPasswordPage = () => {
       
       if (updateError) {
         console.error("❌ Password update failed:", updateError);
-        setError(updateError.message || "Failed to reset password. Please try again or request a new reset link.");
+        
+        // Handle specific error cases
+        let errorMessage = updateError.message || "Failed to reset password. Please try again or request a new reset link.";
+        
+        if (updateError.message?.includes('expired') || updateError.message?.includes('otp_expired') || updateError.message?.includes('invalid')) {
+          errorMessage = "This password reset link has expired. Please request a new one from the forgot password page.";
+        }
+        
+        setError(errorMessage);
         toast({
           title: "Error",
-          description: updateError.message || "Failed to reset password. Please try again.",
+          description: errorMessage,
           variant: "destructive",
         });
       } else {

@@ -23,10 +23,17 @@ if (supabaseUrl && supabaseKey && supabaseUrl !== '' && supabaseKey !== '') {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
-        detectSessionInUrl: true
+        detectSessionInUrl: true,
+        flowType: 'pkce' // Use PKCE flow for better security
+      },
+      global: {
+        headers: {
+          'x-client-info': 'rollsland-splash'
+        }
       }
     });
     console.log('✅ Supabase client initialized successfully');
+    console.log('🔍 Supabase URL:', supabaseUrl.substring(0, 30) + '...');
   } catch (error) {
     console.warn('⚠️ Failed to initialize Supabase client:', error);
     supabase = null;

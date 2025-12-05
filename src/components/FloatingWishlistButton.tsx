@@ -9,6 +9,8 @@ const FloatingWishlistButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // useAuth now returns defaults if context is unavailable, so we can safely use it
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {

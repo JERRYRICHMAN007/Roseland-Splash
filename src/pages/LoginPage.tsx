@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,12 @@ const LoginPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Redirect if already logged in
-  if (isAuthenticated) {
-    navigate("/");
-    return null;
-  }
+  // Redirect if already logged in - use useEffect to avoid render-time navigation
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,10 +43,17 @@ const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      const success = await login(
-        formData.email.trim().toLowerCase(),
-        formData.password
-      );
+      // Add timeout wrapper
+      const loginWithTimeout = Promise.race([
+        login(formData.email.trim().toLowerCase(), formData.password),
+        new Promise<boolean>((_, reject) => {
+          setTimeout(() => {
+            reject(new Error("Login request timed out. Please check your internet connection."));
+          }, 20000); // 20 second timeout
+        }),
+      ]);
+
+      const success = await loginWithTimeout;
 
       if (success) {
         toast({
@@ -64,12 +72,13 @@ const LoginPage = () => {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
-      setError("Something went wrong. Please try again.");
+      const errorMessage = error.message || "Something went wrong. Please try again.";
+      setError(errorMessage);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

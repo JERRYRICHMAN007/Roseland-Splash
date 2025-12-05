@@ -36,6 +36,7 @@ const GeneralWishlistModal = ({
       loadWishlistItems();
     } else if (isOpen && !isAuthenticated) {
       setWishlistItems([]);
+      setIsLoading(false);
     }
   }, [isOpen, isAuthenticated]);
 
@@ -118,7 +119,7 @@ const GeneralWishlistModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-background rounded-lg shadow-lg max-w-4xl w-full max-h-[80vh] flex flex-col">
+      <div className="bg-background rounded-lg shadow-lg max-w-4xl w-full max-h-[85vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <div>
@@ -136,11 +137,11 @@ const GeneralWishlistModal = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 flex items-center justify-center min-h-0">
           {!isAuthenticated ? (
-            <div className="text-center py-12">
+            <div className="flex flex-col items-center justify-center py-12 w-full min-h-[300px]">
               <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">
+              <p className="text-muted-foreground mb-4 text-center">
                 Please log in to view your wishlist.
               </p>
               <Button onClick={() => {
@@ -151,13 +152,13 @@ const GeneralWishlistModal = ({
               </Button>
             </div>
           ) : isLoading ? (
-            <div className="flex items-center justify-center py-12">
+            <div className="flex items-center justify-center py-12 w-full">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           ) : wishlistItems.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="flex flex-col items-center justify-center py-12 w-full min-h-[300px]">
               <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-center">
                 Your wishlist is empty. Start adding products you love!
               </p>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,11 @@ const SignUpPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Redirect if already logged in
-  if (isAuthenticated) {
-    navigate("/");
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -92,16 +93,29 @@ const SignUpPage = () => {
       });
 
       if (success) {
+        console.log("✅ Signup successful, showing toast and redirecting...");
         toast({
           title: "Account Created!",
-          description: "Welcome! You've successfully signed up. Redirecting...",
+          description: "Welcome! You've successfully signed up. Redirecting to login...",
+        });
+        // Clear form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          password: "",
+          confirmPassword: "",
         });
         // Small delay to show toast, then navigate
         setTimeout(() => {
-          navigate("/login");
-        }, 1000);
+          console.log("🔄 Navigating to login page...");
+          navigate("/login", { replace: true });
+        }, 1500);
       } else {
-        // Get more specific error from auth context if available
+        console.error("❌ Signup returned false");
+        // Signup returned false - this means an error occurred
+        // The error should have been thrown, but if not, show generic message
         setErrors({
           email: "Failed to create account. Please check your information and try again.",
         });
@@ -111,13 +125,39 @@ const SignUpPage = () => {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Signup error:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Check for specific error messages
+      const errorMessage = error?.message || error?.toString() || "Failed to create account";
+      
+      // Handle "User already registered" error
+      if (errorMessage.toLowerCase().includes("already registered") || 
+          errorMessage.toLowerCase().includes("user already exists") ||
+          errorMessage.toLowerCase().includes("email already")) {
+        setErrors({
+          email: "This email is already registered. Please log in instead or use a different email.",
+        });
+        toast({
+          title: "Account Already Exists",
+          description: "This email is already registered. Please log in instead.",
+          variant: "destructive",
+        });
+        // Redirect to login after a delay
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } else {
+        // Generic error
+        setErrors({
+          email: errorMessage || "Failed to create account. Please check your information and try again.",
+        });
+        toast({
+          title: "Sign Up Failed",
+          description: errorMessage || "Unable to create account. Please try again or contact support.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }

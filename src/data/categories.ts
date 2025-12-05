@@ -256,18 +256,18 @@ const handSoap = liquidSoap250ml;
 const toothpasteBrush = householdEssentialsImage;
 
 // Spice Purees - Using existing images as placeholders
-const garlicGingerOnionParsley = spicePureeImage;
-const bonnetPepperSpringOnion = spicePureeImage;
-const tomatoesRedBellPepper = spicePureeImage;
-const onionPuree = spicePureeImage;
-const freshTomatoes = spicePureeImage;
-const freshBonnetPepper = spicePureeImage;
+const garlicGingerOnionParsley = garlicGingerOnionParsleyImage;
+const bonnetPepperSpringOnion = bonnetPepperSpringOnionImage;
+const tomatoesRedBellPepper = tomatoesRedBellPepperImage;
+const onionPuree = onionBlendImage;
+const freshTomatoes = freshTomatoesImage;
+const freshBonnetPepper = freshBonnetPepperImage;
 
 // Stew Bases - Using existing images as placeholders
-const jollofRiceBase = soupBasesImage;
-const palmNutSoupBase = soupBasesImage;
-const lightSoupBase = soupBasesImage;
-const groundnutSoupBase = soupBasesImage;
+const jollofRiceBase = jollofRiceBaseImage;
+const palmNutSoupBase = palmNutSoupBaseImage;
+const lightSoupBase = lightSoupBaseImage;
+const groundnutSoupBase = groundnutSoupBaseImage;
 
 // Subcategory images
 import farmProduceImage from "@/assets/fresh-produce.jpg";
@@ -275,7 +275,7 @@ import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
 
 // Farm Produce individual product images
 import pepperImage from "@/assets/Pepper.jpg";
-import onionImage from "@/assets/Onion.jpg";
+import onionImage from "@/assets/Onion blend.jpg"; // Using Onion blend.jpg as Onion.jpg doesn't exist
 import tomatoImage from "@/assets/Tomato.jpg";
 import gingerImage from "@/assets/Ginger.jpg";
 import garlicImage from "@/assets/Garlic.jpg";
@@ -336,7 +336,17 @@ import beveragesImage from "@/assets/soft-drinks.jpg";
 import juicesBottledImage from "@/assets/soft-drinks.jpg";
 import biscuitsDisplayImage from "@/assets/biscuits-display.jpg";
 import spicePureeImage from "@/assets/stew-spices.jpg";
+import garlicGingerOnionParsleyImage from "@/assets/Garlic + Ginger + Onion + Parsley.png";
+import tomatoesRedBellPepperImage from "@/assets/Tomatoes + Red Bell Pepper.jpg";
+import onionBlendImage from "@/assets/Onion blend.jpg";
+import freshTomatoesImage from "@/assets/Fresh Tomatoes.jpg";
+import freshBonnetPepperImage from "@/assets/Fresh Bonnet Pepper.jpg";
+import bonnetPepperSpringOnionImage from "@/assets/Bonnet Pepper + Spring Onion + Bell Pepper.jpg";
 import soupBasesImage from "@/assets/stew-base-spices.jpg";
+import groundnutSoupBaseImage from "@/assets/Groundnut Soup Base.jpg";
+import jollofRiceBaseImage from "@/assets/Jollof Rice Base.png";
+import lightSoupBaseImage from "@/assets/Light Soup Base.jpg";
+import palmNutSoupBaseImage from "@/assets/Palm Nut Soup Base.png";
 import friedSpringRollsImage from "@/assets/Springrolls-Fried.jpg";
 import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
 import frozenYamImage from "@/assets/High-Quality-Frozen-French-Fries-IQF-Potatoes-French-Fries-Price.jpg";
@@ -2291,7 +2301,8 @@ export const categoriesData: Category[] = [
             price: 24.0,
             unit: "from",
             image: coconutBananaMashedkeImage,
-            description: "Tropical blend of coconut and banana flavored mashedke",
+            description:
+              "Tropical blend of coconut and banana flavored mashedke",
             inStock: true,
             variants: [
               {
@@ -4436,7 +4447,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: garlicGingerOnionParsley,
               },
               {
                 id: "garlic-ginger-medium",
@@ -4444,7 +4455,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per 250ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: garlicGingerOnionParsley,
               },
               {
                 id: "garlic-ginger-small",
@@ -4452,7 +4463,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per 150ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: garlicGingerOnionParsley,
               },
             ],
           },
@@ -4471,7 +4482,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: tomatoesRedBellPepper,
               },
               {
                 id: "tomato-red-medium",
@@ -4479,7 +4490,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per 300ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: tomatoesRedBellPepper,
               },
               {
                 id: "tomato-red-small",
@@ -4487,7 +4498,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per 200ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: tomatoesRedBellPepper,
               },
             ],
           },
@@ -4506,7 +4517,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: onionPuree,
               },
               {
                 id: "onion-medium",
@@ -4514,7 +4525,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per 250ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: onionPuree,
               },
               {
                 id: "onion-small",
@@ -4522,7 +4533,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per 150ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: onionPuree,
               },
             ],
           },
@@ -4541,7 +4552,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshTomatoes,
               },
               {
                 id: "fresh-tomato-medium",
@@ -4549,7 +4560,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per 250ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshTomatoes,
               },
               {
                 id: "fresh-tomato-small",
@@ -4557,7 +4568,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per 150ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshTomatoes,
               },
             ],
           },
@@ -4576,7 +4587,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshBonnetPepper,
               },
               {
                 id: "fresh-bonnet-medium",
@@ -4584,7 +4595,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per 250ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshBonnetPepper,
               },
               {
                 id: "fresh-bonnet-small",
@@ -4592,7 +4603,7 @@ export const categoriesData: Category[] = [
                 price: 7.0,
                 unit: "per 150ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: freshBonnetPepper,
               },
             ],
           },
@@ -4611,7 +4622,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per 400ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: bonnetPepperSpringOnion,
               },
               {
                 id: "bonnet-pepper-medium",
@@ -4619,7 +4630,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per 250ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: bonnetPepperSpringOnion,
               },
               {
                 id: "bonnet-pepper-small",
@@ -4627,7 +4638,7 @@ export const categoriesData: Category[] = [
                 price: 12.0,
                 unit: "per 150ml",
                 inStock: true,
-                image: spicePureeImage,
+                image: bonnetPepperSpringOnion,
               },
             ],
           },

@@ -97,19 +97,54 @@ export const getGeneralWishlistItems = async (): Promise<{
   }
 
   try {
-    // Get current user
-    const { data: { user } } = await supabase.auth.getUser();
+    // Get current user with timeout
+    const getUserPromise = supabase.auth.getUser();
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error("TIMEOUT")), 5000);
+    });
+
+    let user;
+    try {
+      const result = await Promise.race([getUserPromise, timeoutPromise]) as any;
+      user = result.data?.user;
+    } catch (error: any) {
+      if (error.message === "TIMEOUT") {
+        console.warn("⚠️ getUser timed out, returning empty wishlist");
+        return { success: true, data: [] };
+      }
+      throw error;
+    }
+
     if (!user) {
+      console.log("ℹ️ No user found, returning empty wishlist");
       return { success: true, data: [] }; // No user, return empty array
     }
 
     console.log("📋 Fetching general wishlist items for user:", user.id);
 
-    const { data, error } = await supabase
+    // Add timeout to the query as well
+    const queryPromise = supabase
       .from("general_wishlist")
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
+
+    const queryTimeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error("QUERY_TIMEOUT")), 10000);
+    });
+
+    let data, error;
+    try {
+      const result = await Promise.race([queryPromise, queryTimeoutPromise]) as any;
+      data = result.data;
+      error = result.error;
+    } catch (err: any) {
+      if (err.message === "QUERY_TIMEOUT") {
+        console.error("❌ Wishlist query timed out");
+        return { success: false, error: "Request timed out. Please try again." };
+      }
+      throw err;
+    }
 
     if (error) {
       console.error("❌ Error fetching wishlist items:", error);

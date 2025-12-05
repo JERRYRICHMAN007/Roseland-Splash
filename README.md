@@ -35,16 +35,18 @@ Rollsland-Splash/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/JERRYRICHMAN007/Rollsland-Splash.git
    cd Rollsland-Splash
    ```
 
 2. Open `index.html` in your web browser or use a local server:
+
    ```bash
    # Using Python
    python -m http.server 8000
-   
+
    # Using Node.js
    npx serve .
    ```
@@ -70,6 +72,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Jerry Richman**
+
 - GitHub: [@JERRYRICHMAN007](https://github.com/JERRYRICHMAN007)
 
 ## 🙏 Acknowledgments
