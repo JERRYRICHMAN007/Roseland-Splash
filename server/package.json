@@ -1,26 +1,21 @@
 {
-  "name": "whatsapp-server",
+  "name": "roseland-splash-backend",
   "version": "1.0.0",
-  "description": "Backend server for sending WhatsApp messages",
-  "main": "whatsapp-server.js",
+  "description": "Backend server for Roseland Splash e-commerce application",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node whatsapp-server.js",
-    "dev": "nodemon whatsapp-server.js"
+    "dev": "node --watch index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "keywords": [
-    "whatsapp",
-    "api",
-    "server"
-  ],
+  "keywords": ["express", "supabase", "backend", "api"],
   "author": "",
-  "license": "MIT"
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.86.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
 }
-

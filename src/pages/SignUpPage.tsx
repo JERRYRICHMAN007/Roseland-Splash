@@ -114,8 +114,8 @@ const SignUpPage = () => {
         }, 1500);
       } else {
         console.error("❌ Signup returned false");
-        // Signup returned false - this means an error occurred
-        // The error should have been thrown, but if not, show generic message
+        // This shouldn't happen if error handling is working correctly
+        // But handle it gracefully
         setErrors({
           email: "Failed to create account. Please check your information and try again.",
         });
@@ -130,22 +130,44 @@ const SignUpPage = () => {
       
       // Check for specific error messages
       const errorMessage = error?.message || error?.toString() || "Failed to create account";
+      const errorLower = errorMessage.toLowerCase();
       
-      // Handle "User already registered" error
-      if (errorMessage.toLowerCase().includes("already registered") || 
-          errorMessage.toLowerCase().includes("user already exists") ||
-          errorMessage.toLowerCase().includes("email already")) {
+      // Handle "Email signups disabled" error
+      if (errorLower.includes("email signups are disabled") || 
+          errorLower.includes("signups are disabled") ||
+          errorLower.includes("email provider disabled")) {
         setErrors({
-          email: "This email is already registered. Please log in instead or use a different email.",
+          email: "Email signups are currently disabled. Please contact support or check your Supabase settings.",
+        });
+        toast({
+          title: "Signup Disabled",
+          description: "Email signups are disabled in your Supabase project. Please enable email authentication in Supabase Dashboard → Authentication → Providers → Email",
+          variant: "destructive",
+        });
+      }
+      // Handle "User already registered" error - check multiple variations
+      else if (errorLower.includes("already exists") || 
+          errorLower.includes("already registered") || 
+          errorLower.includes("user already exists") ||
+          errorLower.includes("email already") ||
+          errorLower.includes("account already") ||
+          errorLower.includes("already have an account")) {
+        setErrors({
+          email: "This email address is already registered. Please log in instead or use a different email address.",
         });
         toast({
           title: "Account Already Exists",
-          description: "This email is already registered. Please log in instead.",
+          description: "An account with this email already exists. Please log in instead.",
           variant: "destructive",
         });
         // Redirect to login after a delay
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login", { 
+            state: { 
+              email: formData.email,
+              message: "This email is already registered. Please log in." 
+            } 
+          });
         }, 3000);
       } else {
         // Generic error
