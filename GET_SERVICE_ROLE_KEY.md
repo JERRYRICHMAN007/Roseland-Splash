@@ -41,8 +41,8 @@ Your `server/.env` should look like:
 
 ```env
 SUPABASE_URL=https://lmxyeucnyevoxqbyxpzb.supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxteHlldWNueWV2b3FieHlwZ3piIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDQ0NjQxOCwiZXhwIjoyMDgwMDIyNDE4fQ.xxxxx
+SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 PORT=3001
 FRONTEND_URL=http://localhost:8080
 ```

@@ -8,7 +8,7 @@
 2. Verify it contains:
    ```
    VITE_SUPABASE_URL=https://lmxyeucnyevoqbxypgzb.supabase.co
-   VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   VITE_SUPABASE_ANON_KEY=your_anon_key_here
    ```
 3. **Restart your dev server** after checking/changing `.env`
 

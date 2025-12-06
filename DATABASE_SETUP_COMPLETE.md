@@ -19,7 +19,7 @@ You need to manually create the `.env` file (it's protected, so I couldn't creat
 
 ```env
 VITE_SUPABASE_URL=https://lmxyeucnyevoqbxypgzb.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxteHlldWNueWV2b3FieHlwZ3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NDY0MTgsImV4cCI6MjA4MDAyMjQxOH0.-fkPhRmmbIsu8xLgBb0eEjChAaL3f3NOX4uHo3prEDU
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
 ```
 
 ## 📊 Next Step: Create Database Tables

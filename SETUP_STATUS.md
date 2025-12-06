@@ -46,7 +46,7 @@ SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY_HERE
 
 With your actual service_role key:
 ```
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxteHlldWNueWV2b3FieHlwZ3piIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDQ0NjQxOCwiZXhwIjoyMDgwMDIyNDE4fQ.xxxxx
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 ```
 
 ### Step 3: Start Backend Server

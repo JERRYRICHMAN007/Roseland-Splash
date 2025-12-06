@@ -45,8 +45,8 @@ Check your `server/.env` file:
 
 ```env
 SUPABASE_URL=https://lmxyeucnyevoxqbyxpzb.supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-SUPABASE_SERVICE_ROLE_KEY=sb_secret_XtYnIM99875PCVYPiGHGOA_rAdoCPji
+SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 ```
 
 **Important:** Make sure:
