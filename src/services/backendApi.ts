@@ -14,40 +14,26 @@ const isProduction = import.meta.env.PROD ||
     window.location.hostname.includes('vercel.com') ||
     window.location.hostname.includes('roseland-splash')));
 
-// Debug logging (only in production to help diagnose)
-if (typeof window !== 'undefined') {
-  console.log('🌍 Environment Detection:', {
-    hostname: window.location.hostname,
-    isProduction,
-    viteProd: import.meta.env.PROD,
-    viteMode: import.meta.env.MODE
-  });
-}
+// Debug logging removed in production - users won't see console messages
 
 // Get API URL from environment or use defaults
 const getApiBaseUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL;
   
-  // If explicitly set, use it (but warn if it's localhost in production)
+  // If explicitly set, use it
   if (envUrl) {
-    if (isProduction && envUrl.includes('localhost')) {
-      console.warn('⚠️ WARNING: VITE_API_URL is set to localhost in production! This will not work.');
-    }
-    console.log('🔧 Using VITE_API_URL from environment:', envUrl);
     return envUrl;
   }
   
   // In production on Vercel, ALWAYS use relative paths (same domain)
   // Backend and frontend are served from the same domain
   if (isProduction) {
-    console.log('✅ Production detected - using relative paths for API');
     // Return empty string to use relative paths
     // This means API calls will go to /api/... on the same domain
     return '';
   }
   
   // Development default
-  console.log('🛠️ Development mode - using localhost:3002');
   return 'http://localhost:3002';
 };
 
@@ -97,7 +83,6 @@ async function apiRequest<T>(
   // In production, empty string means use relative paths (same domain)
   if (!API_BASE_URL && !isProduction) {
     const errorMsg = 'Backend API URL is not configured. Please set VITE_API_URL in your .env file';
-    console.error(`❌ ${errorMsg}`);
     return {
       success: false,
       error: errorMsg,
@@ -112,14 +97,12 @@ async function apiRequest<T>(
          window.location.hostname.includes('vercel.com') ||
          window.location.hostname.includes('roseland-splash')) &&
         API_BASE_URL && API_BASE_URL.includes('localhost')) {
-      console.warn('⚠️ Overriding localhost API URL - using relative path for Vercel production');
       finalBaseUrl = '';
     }
     
     // If API_BASE_URL is empty, use relative path (same domain)
     // Otherwise, use the full URL
     const url = finalBaseUrl ? `${finalBaseUrl}${endpoint}` : endpoint;
-    console.log(`📡 API Request: ${options.method || 'GET'} ${url}`);
 
     const response = await fetch(url, {
       ...options,
@@ -135,18 +118,15 @@ async function apiRequest<T>(
     
     try {
       data = await response.json();
-      console.log(`📥 API Response (${response.status}):`, JSON.stringify(data).substring(0, 200));
     } catch (jsonError) {
       // If response is not JSON, get text instead
       try {
         const text = await responseClone.text();
-        console.error(`❌ API Error (${response.status}): Non-JSON response:`, text);
         return {
           success: false,
           error: text || `Request failed with status ${response.status}`,
         };
       } catch (textError) {
-        console.error(`❌ API Error (${response.status}): Could not read response:`, textError);
         return {
           success: false,
           error: `Request failed with status ${response.status}`,
@@ -155,16 +135,12 @@ async function apiRequest<T>(
     }
 
     if (!response.ok) {
-      console.error(`❌ API Error (${response.status}):`, data);
       const errorMessage = data.error || data.message || `Request failed with status ${response.status}`;
-      console.error(`❌ Error message:`, errorMessage);
       return {
         success: false,
         error: errorMessage,
       };
     }
-
-    console.log(`✅ API Success: ${endpoint}`, data);
     
     // Backend returns { success: true, user: {...}, session: {...} } for signup/login
     // Return it in the expected format: { success: true, data: { user: {...}, session: {...} } }
@@ -186,12 +162,6 @@ async function apiRequest<T>(
       ...data,
     };
   } catch (error: any) {
-    console.error(`❌ API Exception: ${endpoint}`, error);
-    console.error(`❌ Error details:`, {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    });
     
     // Provide more specific error messages
     let errorMessage = 'Network error. Please check if the backend server is running.';

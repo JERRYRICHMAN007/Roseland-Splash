@@ -275,7 +275,7 @@ import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
 
 // Farm Produce individual product images
 import pepperImage from "@/assets/Pepper.jpg";
-import onionImage from "@/assets/Onion blend.jpg"; // Using Onion blend.jpg as Onion.jpg doesn't exist
+import onionImage from "@/assets/Onion.jpg";
 import tomatoImage from "@/assets/Tomato.jpg";
 import gingerImage from "@/assets/Ginger.jpg";
 import garlicImage from "@/assets/Garlic.jpg";

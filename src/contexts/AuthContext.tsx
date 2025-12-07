@@ -71,7 +71,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setState((prev) => ({ ...prev, isLoading: false }));
         }
       } catch (error) {
-        console.error("Error loading user session:", error);
         setState((prev) => ({ ...prev, isLoading: false }));
       }
     };
@@ -110,20 +109,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      console.log("🔐 Starting login process...");
       const { user, error } = await authService.signIn({ email, password });
 
       if (error) {
-        console.error("❌ Login error:", error);
         return false;
       }
 
       if (!user) {
-        console.error("❌ Login failed - no user returned");
         return false;
       }
-
-      console.log("✅ Login successful - setting user state");
       setState({
         user,
         isAuthenticated: true,
@@ -132,7 +126,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return true;
     } catch (error: any) {
-      console.error("❌ Login exception:", error);
       return false;
     }
   };
@@ -145,30 +138,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string;
   }): Promise<boolean> => {
     try {
-      console.log("🔐 Starting signup process...", { email: userData.email });
-      console.log("📞 Calling authService.signUp...");
-      
       const result = await authService.signUp(userData);
-      console.log("📞 authService.signUp returned:", { 
-        hasUser: !!result.user, 
-        hasError: !!result.error,
-        error: result.error 
-      });
-
       const { user, error } = result;
 
       if (error) {
-        console.error("❌ Signup error:", error);
         // Throw error so it can be caught and handled by the UI
         throw new Error(error);
       }
 
       if (!user) {
-        console.error("❌ Signup failed - no user returned");
         return false;
       }
-
-      console.log("✅ Signup successful - setting user state", { userId: user.id, email: user.email });
       
       // Set user state - even if profile isn't fully loaded, we have the user
       setState({
@@ -177,22 +157,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading: false,
       });
 
-      console.log("✅ User state updated, returning success");
       return true;
     } catch (error: any) {
-      console.error("❌ Signup exception:", error);
-      console.error("❌ Exception details:", {
-        message: error?.message,
-        stack: error?.stack,
-      });
       return false;
     }
   };
 
   const logout = async (): Promise<void> => {
     try {
-      console.log("🔄 Starting logout process...");
-      
       // Add timeout to logout to prevent hanging
       const logoutPromise = authService.signOut();
       const timeoutPromise = new Promise((_, reject) => {
@@ -202,42 +174,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       let signOutResult: any = { error: null };
       try {
         signOutResult = await Promise.race([logoutPromise, timeoutPromise]) as any;
-        console.log("📞 signOut result:", signOutResult);
       } catch (err: any) {
         if (err.message === "TIMEOUT") {
-          console.warn("⚠️ Logout timed out, clearing local state anyway");
           signOutResult = { error: null };
         } else {
-          console.error("❌ Logout promise error:", err);
           signOutResult = { error: null }; // Still clear state
         }
       }
       
-      if (signOutResult?.error) {
-        console.error("❌ Logout error:", signOutResult.error);
-        // Still clear local state even if signOut had an error
-      } else {
-        console.log("✅ Logout successful");
-      }
-      
       // Always clear local state
-      console.log("🔄 Clearing user state...");
       setState({
         user: null,
         isAuthenticated: false,
         isLoading: false,
       });
-      
-      console.log("✅ User state cleared");
     } catch (error) {
-      console.error("❌ Logout exception:", error);
       // Still clear local state on error
       setState({
         user: null,
         isAuthenticated: false,
         isLoading: false,
       });
-      console.log("✅ User state cleared (after exception)");
     }
   };
 
@@ -259,7 +216,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }));
       }
     } catch (error) {
-      console.error("Update user error:", error);
+      // Silent error handling
     }
   };
 
@@ -287,7 +244,6 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     // Return a default context instead of throwing to handle hot reload gracefully
-    console.warn("useAuth called outside AuthProvider, returning default context");
     return {
       user: null,
       isAuthenticated: false,

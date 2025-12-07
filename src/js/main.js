@@ -361,20 +361,7 @@ if (document.querySelectorAll('img[data-src]').length > 0) {
     initLazyLoading();
 }
 
-// Console welcome message
-console.log(`
-🎨 Welcome to Rollsland & Splash!
-Built with ❤️ by Jerry Richman
-
-Features:
-✅ Responsive Design
-✅ Modern UI/UX
-✅ Smooth Animations
-✅ Interactive Components
-✅ Performance Optimized
-
-GitHub: https://github.com/JERRYRICHMAN007/Rollsland-Splash
-`);
+// Console welcome message removed in production
 
 // Export functions for potential external use
 window.RollslandSplash = {

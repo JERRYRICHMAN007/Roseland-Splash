@@ -17,4 +17,12 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Remove console statements in production using esbuild
+    minify: "esbuild",
+    target: "es2015",
+  },
+  esbuild: {
+    drop: mode === "production" ? ["console", "debugger"] : [],
+  },
 }));

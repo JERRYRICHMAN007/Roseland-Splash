@@ -4,14 +4,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Debug logging (remove after confirming it works)
-if (import.meta.env.MODE === 'development') {
-  console.log('[DEBUG] Environment check:', {
-    url: supabaseUrl ? 'SET' : 'MISSING',
-    key: supabaseKey ? 'SET' : 'MISSING',
-    allEnv: Object.keys(import.meta.env).filter(key => key.startsWith('VITE_'))
-  });
-}
+// Debug logging removed in production
 
 // Create Supabase client only if environment variables are available
 // This prevents the app from crashing if .env is missing or not loaded
@@ -32,19 +25,10 @@ if (supabaseUrl && supabaseKey && supabaseUrl !== '' && supabaseKey !== '') {
         }
       }
     });
-    console.log('✅ Supabase client initialized successfully');
-    console.log('🔍 Supabase URL:', supabaseUrl.substring(0, 30) + '...');
   } catch (error) {
-    console.warn('⚠️ Failed to initialize Supabase client:', error);
+    // Silent error in production
     supabase = null;
   }
-} else {
-  console.warn(
-    '⚠️ Supabase environment variables not found. Database features will not work.\n' +
-    'To enable database: \n' +
-    '1. Ensure .env file exists with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY\n' +
-    '2. Restart your dev server (npm run dev)'
-  );
 }
 
 // Export a function that returns the client or null
