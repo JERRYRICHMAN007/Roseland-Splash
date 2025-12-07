@@ -525,10 +525,15 @@ app.get('/api/auth/user', async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Backend server running on http://localhost:${PORT}`);
-  console.log(`📡 Health check: http://localhost:${PORT}/health`);
-});
+// Export for Vercel serverless functions
+export default app;
+
+// Only start server if running locally (not on Vercel)
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend server running on http://localhost:${PORT}`);
+    console.log(`📡 Health check: http://localhost:${PORT}/health`);
+  });
+}
 
 
