@@ -280,7 +280,7 @@ import tomatoImage from "@/assets/Tomato.jpg";
 import gingerImage from "@/assets/Ginger.jpg";
 import garlicImage from "@/assets/Garlic.jpg";
 import plantainImage from "@/assets/Plantain.jpg";
-import yamImage from "@/assets/Yam.jpg";
+import yamImage from "@/assets/VS2_3358_e2cc6377-faf1-4cde-ac8c-3b68b601f036_600x.jpg";
 import carrotImage from "@/assets/Carrot.jpg";
 import springOnionImage from "@/assets/Spring Onion.jpg";
 import bellPepperImage from "@/assets/Bell Pepper.jpg";
@@ -389,6 +389,7 @@ import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
 import carnationMilkProductImage from "@/assets/carnation-milk-product.jpg";
 import enapaPowderedMilkImage from "@/assets/enapa-powdered-milk.jpg";
 import nidoPowderedMilkImage from "@/assets/nido-powdered-milk.avif";
+import proteinPowderBoostImage from "@/assets/Protein Powder Boost.jpg";
 
 export interface ProductVariant {
   id: string;
@@ -2038,6 +2039,42 @@ export const categoriesData: Category[] = [
                 unit: "per bottle",
                 inStock: true,
                 image: mixedBerriesWalnutsSoyImage,
+              },
+            ],
+          },
+          {
+            id: 100,
+            name: "Protein Powder Boost",
+            price: 5.0,
+            unit: "from",
+            image: proteinPowderBoostImage,
+            description:
+              "Add premium protein powder boost to any gym smoothie for enhanced muscle recovery and growth",
+            inStock: true,
+            variants: [
+              {
+                id: "protein-boost-500ml",
+                name: "500ml Protein Boost",
+                price: 8.0,
+                unit: "per serving",
+                inStock: true,
+                image: proteinPowderBoostImage,
+              },
+              {
+                id: "protein-boost-350ml",
+                name: "350ml Protein Boost",
+                price: 6.0,
+                unit: "per serving",
+                inStock: true,
+                image: proteinPowderBoostImage,
+              },
+              {
+                id: "protein-boost-250ml",
+                name: "250ml Protein Boost",
+                price: 5.0,
+                unit: "per serving",
+                inStock: true,
+                image: proteinPowderBoostImage,
               },
             ],
           },
