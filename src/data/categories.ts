@@ -363,6 +363,12 @@ import orangeJuiceImage from "@/assets/fresh-orange-juice-in-a-glass-jar-over-wh
 import pineappleJuiceImage from "@/assets/fresh-summer-pineapple-juice-2024-10-11-07-45-36-utc.jpg";
 import pineappleGingerJuiceImage from "@/assets/pineapple-juice-and-slice-placed-on-a-wooden-table-2024-10-18-00-23-05-utc.jpg";
 import mixedFruitJuiceImage from "@/assets/plum-and-grape-fruit-juice-in-glass-bottles-2025-02-11-15-06-45-utc.jpg";
+import juicesCategoryImage from "@/assets/Juices Cat.png";
+import toiletriesCategoryImage from "@/assets/toileteries cat.png";
+import beveragesCategoryImage from "@/assets/Beverages Cat.png";
+import bottleCategoryImage from "@/assets/bottle cat.jpg";
+import softDrinksCategoryImage from "@/assets/Soft Drinks.png";
+import foodEssentialsCategoryImage from "@/assets/Food Essentials.jpg";
 import bananaSmoothieImage from "@/assets/fresh-banana-smoothies-in-a-glass-jar-on-a-light-c-2025-03-25-11-28-43-utc.jpg";
 import mangoSmoothieImage from "@/assets/mango-lassi-2025-01-16-12-22-02-utc.jpg";
 import strawberrySmoothieImage from "@/assets/strawberry-smoothie-or-milkshake-2025-04-01-23-32-25-utc.jpg";
@@ -1653,7 +1659,7 @@ export const categoriesData: Category[] = [
         id: "juices",
         name: "Juices",
         description: "Fresh and refreshing fruit juices",
-        image: mixedFruitJuiceImage,
+        image: juicesCategoryImage,
         subcategories: [
           {
             id: "orange-juice",
@@ -2382,7 +2388,7 @@ export const categoriesData: Category[] = [
         id: "food-essentials",
         name: "Food Essentials",
         description: "Basic food items and cooking essentials",
-        image: householdEssentialsImage,
+        image: foodEssentialsCategoryImage,
         products: [
           {
             id: 48,
@@ -3422,7 +3428,7 @@ export const categoriesData: Category[] = [
         id: "bottled-water",
         name: "Bottle Water",
         description: "Bottle water variations",
-        image: waterDrinksImage,
+        image: bottleCategoryImage,
         products: [
           {
             id: 61,
@@ -3605,7 +3611,7 @@ export const categoriesData: Category[] = [
         id: "soft-drinks",
         name: "Soft Drinks",
         description: "Refreshing soft drinks and sodas",
-        image: softDrinksImage,
+        image: softDrinksCategoryImage,
         products: [
           {
             id: 66,
@@ -3750,7 +3756,7 @@ export const categoriesData: Category[] = [
         id: "beverages",
         name: "Beverages",
         description: "Hot and cold beverages",
-        image: beveragesImage,
+        image: beveragesCategoryImage,
         products: [
           {
             id: 69,
@@ -3776,7 +3782,7 @@ export const categoriesData: Category[] = [
         id: "juices-bottled",
         name: "Juices",
         description: "Fresh fruit juices",
-        image: juicesBottledImage,
+        image: juicesCategoryImage,
         products: [
           {
             id: 100,
@@ -3918,7 +3924,7 @@ export const categoriesData: Category[] = [
         id: "toiletries",
         name: "Toiletries",
         description: "Personal care and hygiene products",
-        image: householdEssentialsImage,
+        image: toiletriesCategoryImage,
         products: [
           {
             id: 200,
