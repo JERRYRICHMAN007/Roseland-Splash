@@ -128,7 +128,8 @@ const GeneralWishlistModal = ({
               My Wishlist
             </h3>
             <p className="text-sm text-muted-foreground">
-              {wishlistItems.length} {wishlistItems.length === 1 ? "item" : "items"} saved
+              {wishlistItems.length}{" "}
+              {wishlistItems.length === 1 ? "item" : "items"} saved
             </p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -144,10 +145,12 @@ const GeneralWishlistModal = ({
               <p className="text-muted-foreground mb-4 text-center">
                 Please log in to view your wishlist.
               </p>
-              <Button onClick={() => {
-                onClose();
-                navigate("/login");
-              }}>
+              <Button
+                onClick={() => {
+                  onClose();
+                  navigate("/login");
+                }}
+              >
                 Log In
               </Button>
             </div>
@@ -165,15 +168,17 @@ const GeneralWishlistModal = ({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {wishlistItems.map((item) => (
-                <Card key={item.id} className="hover:shadow-md transition-shadow">
+                <Card key={item.id} className="transition-shadow shadow-none">
                   <CardContent className="p-4">
                     <div className="space-y-3">
-                      <div className="aspect-square rounded-lg overflow-hidden bg-accent/20">
-                        <img
-                          src={item.product_image}
-                          alt={item.product_name}
-                          className="w-full h-full object-cover"
-                        />
+                      <div className="aspect-square rounded-lg overflow-visible bg-gray-100 p-2">
+                        <div className="w-full h-full bg-white rounded-lg flex items-center justify-center">
+                          <img
+                            src={item.product_image}
+                            alt={item.product_name}
+                            className="w-full h-full object-contain p-2"
+                          />
+                        </div>
                       </div>
                       <div>
                         <h4 className="font-semibold text-sm mb-1 line-clamp-2">
@@ -230,4 +235,3 @@ const GeneralWishlistModal = ({
 };
 
 export default GeneralWishlistModal;
-

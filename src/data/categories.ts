@@ -59,8 +59,17 @@ import libertyMackerelImage from "@/assets/Liberty Mackerel.webp";
 import ginnyMayonnaiseImage from "@/assets/ginny mayonnaise.jpg";
 import unoilMayonnaiseImage from "@/assets/unoil mayonnaise.png";
 import blueBandImage from "@/assets/blue brand.jpg";
+import blueBandSachetImage from "@/assets/Blue-Band-Original-Sachet-25g.png";
 import topChocoImage from "@/assets/Top Choco.jpg";
+import topChocoSachetImage from "@/assets/Top choco sachet.png";
 import laughingCowImage from "@/assets/The laughing Cheese.jpeg";
+import laughingCowSachetImage from "@/assets/Laughing_Cow_Rs_10_sachet.avif";
+import alaskaCondensedMilkImage from "@/assets/Alaska Condensed Milk.jpg";
+import jagoCondensedMilkMediumImage from "@/assets/jago condensed milk big.jpeg";
+import jagoCondensedMilkBigImage from "@/assets/jago condensed milk big.jpg";
+import belAquaSmallImage from "@/assets/330ml-300x300.png";
+import belAquaMediumImage from "@/assets/500ml-300x300.png";
+import belAquaLargeImage from "@/assets/750ml-300x300.png";
 import whiteSugar500gImage from "@/assets/white-sugar-350g-YbN9va0Do0TX2V0w.png";
 import whiteSugar1kgImage from "@/assets/Sugar 1kg.jpg";
 import brownSugar500gImage from "@/assets/Sunny-Gold-Brown-Sugar-500g-square_jpg.jpg";
@@ -106,6 +115,21 @@ import handSoapAntibacterialImage from "@/assets/handsoapantibacterial.png";
 import sureSpray150mlImage from "@/assets/Sure Deodorant spray 150ml.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
+import vitamilkImage from "@/assets/vitamilk.jpg";
+import wheatMilkImage from "@/assets/wheat milk.jpg";
+import cerelac125gImage from "@/assets/Cerelac 125g.jpg";
+import cerelac250gImage from "@/assets/Cerelac 250g.jpg";
+import cerelac400gImage from "@/assets/Cerelac 400g.jpg";
+import kalypoPackImage from "@/assets/Kalypo Pack.png";
+import kalypoMediumImage from "@/assets/Kalypo Medium.jpg";
+import ekumfiPackImage from "@/assets/Ekumfi Pack.jpg";
+import ekumfiMediumImage from "@/assets/Ekumfi Medium.jpg";
+import ceresPackImage from "@/assets/Ceres Pack.jpg";
+import ceresSmallImage from "@/assets/Ceres Small.png";
+import ceresMediumImage from "@/assets/Ceres Medium.png";
+import donSimonSmallImage from "@/assets/Don Simon Small.png";
+import donSimonMediumImage from "@/assets/Don Simon Medium.png";
+import donSimonPackImage from "@/assets/Don Simon Pack.jpg";
 import belColaImage from "@/assets/0009490_bel-cola-350ml_510.png";
 import belSqueezeImage from "@/assets/02397a.jpg";
 import belTamarindaImage from "@/assets/tamarinda.jpg";
@@ -221,6 +245,8 @@ const spriteBottle = softDrinksImage;
 // Beverages - Using existing images as placeholders
 const hollandiaBottle = hollandiaImage;
 const nicheChocolate = nicheChocolateImage;
+const vitamilkBottle = vitamilkImage;
+const wheatMilkBottle = wheatMilkImage;
 
 // Juices - Using existing images as placeholders
 const kalypoJuice = kalypoImage;
@@ -254,6 +280,7 @@ const palmOil = householdEssentialsImage;
 const cookingOil = householdEssentialsImage;
 const handSoap = liquidSoap250ml;
 const toothpasteBrush = householdEssentialsImage;
+const cerelacProduct = cerelac125gImage;
 
 // Spice Purees - Using existing images as placeholders
 const garlicGingerOnionParsley = garlicGingerOnionParsleyImage;
@@ -3394,22 +3421,22 @@ export const categoriesData: Category[] = [
                 item: "Blue Band Medium",
               },
               {
-                id: "breadspread-topchoco-sachet",
-                name: "Top Choco - Sachet",
+                id: "breadspread-topchoco-medium",
+                name: "Top Choco - Medium",
                 price: 4.0,
-                unit: "per sachet",
+                unit: "per pack",
                 inStock: true,
                 image: topChocoImage,
-                item: "Top Choco Sachet",
+                item: "Top Choco Medium",
               },
               {
-                id: "breadspread-topchoco-container",
-                name: "Top Choco - Container",
+                id: "breadspread-topchoco-big",
+                name: "Top Choco - Big",
                 price: 7.0,
-                unit: "per container",
+                unit: "per pack",
                 inStock: true,
                 image: topChocoImage,
-                item: "Top Choco Container",
+                item: "Top Choco Big",
               },
               {
                 id: "breadspread-laughing-cow-single",
@@ -3419,6 +3446,120 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: laughingCowImage,
                 item: "Laughing Cow",
+              },
+            ],
+          },
+          {
+            id: 67,
+            name: "Blue Band Sachet",
+            price: 5.0,
+            unit: "from",
+            image: blueBandImage,
+            description: "Blue Band spread in sachet",
+            inStock: true,
+            variants: [
+              {
+                id: "blueband-sachet",
+                name: "Blue Band Sachet",
+                price: 5.0,
+                unit: "per sachet",
+                inStock: true,
+                image: blueBandSachetImage,
+                item: "Blue Band Sachet",
+              },
+              {
+                id: "topchoco-sachet",
+                name: "Top Choco",
+                price: 4.0,
+                unit: "per sachet",
+                inStock: true,
+                image: topChocoSachetImage,
+                item: "Top Choco",
+              },
+              {
+                id: "laughing-cow-cheese",
+                name: "The Laughing Cow Cheese",
+                price: 6.5,
+                unit: "per pack",
+                inStock: true,
+                image: laughingCowSachetImage,
+                item: "Laughing Cow",
+              },
+            ],
+          },
+          {
+            id: 68,
+            name: "Condensed Milk",
+            price: 4.5,
+            unit: "from",
+            image: idealMilkProductImage,
+            description: "Condensed milk in various sizes",
+            inStock: true,
+            variants: [
+              {
+                id: "condensed-milk-sachet",
+                name: "Alaska Condensed Milk Sachet",
+                price: 4.5,
+                unit: "per sachet",
+                inStock: true,
+                image: alaskaCondensedMilkImage,
+                item: "Alaska Condensed Milk Sachet",
+              },
+              {
+                id: "condensed-milk-medium",
+                name: "Jago Condensed Milk - Medium",
+                price: 8.0,
+                unit: "per tin",
+                inStock: true,
+                image: jagoCondensedMilkMediumImage,
+                item: "Jago Condensed Milk Medium",
+              },
+              {
+                id: "condensed-milk-big",
+                name: "Jago Condensed Milk - Big",
+                price: 12.0,
+                unit: "per tin",
+                inStock: true,
+                image: jagoCondensedMilkBigImage,
+                item: "Jago Condensed Milk Big",
+              },
+            ],
+          },
+          {
+            id: 73,
+            name: "Cerelac",
+            price: 25.0,
+            unit: "from",
+            image: cerelacProduct,
+            description: "Nutritious baby cereal",
+            inStock: true,
+            variants: [
+              {
+                id: "cerelac-125g",
+                name: "125g",
+                price: 25.0,
+                unit: "per pack",
+                inStock: true,
+                image: cerelac125gImage,
+                item: "Cerelac 125g",
+              },
+              {
+                id: "cerelac-250g",
+                name: "250g",
+                price: 45.0,
+                unit: "per pack",
+                inStock: true,
+                image: cerelac250gImage,
+                item: "Cerelac 250g",
+              },
+              {
+                id: "cerelac-400g",
+                name: "400g",
+                price: 70.0,
+                unit: "per pack",
+                inStock: true,
+                image: cerelac400gImage,
+                item: "Cerelac 400g",
               },
             ],
           },
@@ -3605,6 +3746,41 @@ export const categoriesData: Category[] = [
               },
             ],
           },
+          {
+            id: 66,
+            name: "Bel Aqua",
+            price: 2.0,
+            unit: "from",
+            image: aquaImage,
+            description: "Bel Aqua bottled water",
+            inStock: true,
+            variants: [
+              {
+                id: "bel-aqua-small",
+                name: "Small",
+                price: 2.0,
+                unit: "per bottle",
+                inStock: true,
+                image: belAquaSmallImage,
+              },
+              {
+                id: "bel-aqua-medium",
+                name: "Medium",
+                price: 3.0,
+                unit: "per bottle",
+                inStock: true,
+                image: belAquaMediumImage,
+              },
+              {
+                id: "bel-aqua-large",
+                name: "Large",
+                price: 5.0,
+                unit: "per bottle",
+                inStock: true,
+                image: belAquaLargeImage,
+              },
+            ],
+          },
         ],
       },
       {
@@ -3762,19 +3938,153 @@ export const categoriesData: Category[] = [
             id: 69,
             name: "Hollandia",
             price: 4.0,
-            unit: "per bottle",
+            unit: "from",
             image: hollandiaBottle,
             description: "Hollandia beverages",
             inStock: true,
+            variants: [
+              {
+                id: "hollandia-small",
+                name: "Small",
+                price: 4.0,
+                unit: "per pack",
+                inStock: true,
+                image: hollandiaBottle,
+                item: "Hollandia Small",
+              },
+              {
+                id: "hollandia-medium",
+                name: "Medium",
+                price: 7.0,
+                unit: "per pack",
+                inStock: true,
+                image: hollandiaBottle,
+                item: "Hollandia Medium",
+              },
+              {
+                id: "hollandia-big",
+                name: "Big",
+                price: 12.0,
+                unit: "per pack",
+                inStock: true,
+                image: hollandiaBottle,
+                item: "Hollandia Big",
+              },
+            ],
           },
           {
             id: 70,
             name: "Niche Chocolate",
             price: 5.0,
-            unit: "per bottle",
+            unit: "from",
             image: nicheChocolate,
             description: "Chocolate drinks",
             inStock: true,
+            variants: [
+              {
+                id: "niche-chocolate-small",
+                name: "Small",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: nicheChocolate,
+                item: "Niche Chocolate Small",
+              },
+              {
+                id: "niche-chocolate-medium",
+                name: "Medium",
+                price: 9.0,
+                unit: "per pack",
+                inStock: true,
+                image: nicheChocolate,
+                item: "Niche Chocolate Medium",
+              },
+              {
+                id: "niche-chocolate-big",
+                name: "Big",
+                price: 15.0,
+                unit: "per pack",
+                inStock: true,
+                image: nicheChocolate,
+                item: "Niche Chocolate Big",
+              },
+            ],
+          },
+          {
+            id: 71,
+            name: "Vitamilk",
+            price: 4.0,
+            unit: "from",
+            image: vitamilkBottle,
+            description: "Vitamilk beverages",
+            inStock: true,
+            variants: [
+              {
+                id: "vitamilk-small",
+                name: "Small",
+                price: 4.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkBottle,
+                item: "Vitamilk Small",
+              },
+              {
+                id: "vitamilk-medium",
+                name: "Medium",
+                price: 7.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkBottle,
+                item: "Vitamilk Medium",
+              },
+              {
+                id: "vitamilk-big",
+                name: "Big",
+                price: 12.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkBottle,
+                item: "Vitamilk Big",
+              },
+            ],
+          },
+          {
+            id: 72,
+            name: "Wheat Milk",
+            price: 4.0,
+            unit: "from",
+            image: wheatMilkBottle,
+            description: "Wheat milk beverages",
+            inStock: true,
+            variants: [
+              {
+                id: "wheat-milk-small",
+                name: "Small",
+                price: 4.0,
+                unit: "per pack",
+                inStock: true,
+                image: wheatMilkBottle,
+                item: "Wheat Milk Small",
+              },
+              {
+                id: "wheat-milk-medium",
+                name: "Medium",
+                price: 7.0,
+                unit: "per pack",
+                inStock: true,
+                image: wheatMilkBottle,
+                item: "Wheat Milk Medium",
+              },
+              {
+                id: "wheat-milk-big",
+                name: "Big",
+                price: 12.0,
+                unit: "per pack",
+                inStock: true,
+                image: wheatMilkBottle,
+                item: "Wheat Milk Big",
+              },
+            ],
           },
         ],
       },
@@ -3788,37 +4098,153 @@ export const categoriesData: Category[] = [
             id: 100,
             name: "Kalypo",
             price: 4.0,
-            unit: "per bottle",
+            unit: "from",
             image: kalypoJuice,
             description: "Kalypo fruit juice",
             inStock: true,
+            variants: [
+              {
+                id: "kalypo-small",
+                name: "Small",
+                price: 4.0,
+                unit: "per bottle",
+                inStock: true,
+                image: kalypoJuice,
+                item: "Kalypo Small",
+              },
+              {
+                id: "kalypo-medium",
+                name: "Medium",
+                price: 7.0,
+                unit: "per bottle",
+                inStock: true,
+                image: kalypoMediumImage,
+                item: "Kalypo Medium",
+              },
+              {
+                id: "kalypo-pack",
+                name: "Pack",
+                price: 45.0,
+                unit: "per pack",
+                inStock: true,
+                image: kalypoPackImage,
+                item: "Kalypo Pack",
+              },
+            ],
           },
           {
             id: 101,
             name: "Ekumfi",
             price: 3.5,
-            unit: "per bottle",
+            unit: "from",
             image: ekumfiJuice,
             description: "Ekumfi fruit juice",
             inStock: true,
+            variants: [
+              {
+                id: "ekumfi-small",
+                name: "Small",
+                price: 3.5,
+                unit: "per bottle",
+                inStock: true,
+                image: ekumfiJuice,
+                item: "Ekumfi Small",
+              },
+              {
+                id: "ekumfi-medium",
+                name: "Medium",
+                price: 6.5,
+                unit: "per bottle",
+                inStock: true,
+                image: ekumfiMediumImage,
+                item: "Ekumfi Medium",
+              },
+              {
+                id: "ekumfi-pack",
+                name: "Pack",
+                price: 40.0,
+                unit: "per pack",
+                inStock: true,
+                image: ekumfiPackImage,
+                item: "Ekumfi Pack",
+              },
+            ],
           },
           {
             id: 102,
             name: "Ceres",
             price: 4.5,
-            unit: "per bottle",
+            unit: "from",
             image: ceresJuice,
             description: "Ceres fruit juice",
             inStock: true,
+            variants: [
+              {
+                id: "ceres-small",
+                name: "Small",
+                price: 4.5,
+                unit: "per bottle",
+                inStock: true,
+                image: ceresSmallImage,
+                item: "Ceres Small",
+              },
+              {
+                id: "ceres-medium",
+                name: "Medium",
+                price: 8.0,
+                unit: "per bottle",
+                inStock: true,
+                image: ceresMediumImage,
+                item: "Ceres Medium",
+              },
+              {
+                id: "ceres-pack",
+                name: "Pack",
+                price: 50.0,
+                unit: "per pack",
+                inStock: true,
+                image: ceresPackImage,
+                item: "Ceres Pack",
+              },
+            ],
           },
           {
             id: 103,
             name: "Don Simon",
             price: 5.0,
-            unit: "per bottle",
+            unit: "from",
             image: donSimonJuice,
             description: "Don Simon fruit juice",
             inStock: true,
+            variants: [
+              {
+                id: "don-simon-small",
+                name: "Small",
+                price: 5.0,
+                unit: "per bottle",
+                inStock: true,
+                image: donSimonSmallImage,
+                item: "Don Simon Small",
+              },
+              {
+                id: "don-simon-medium",
+                name: "Medium",
+                price: 9.0,
+                unit: "per bottle",
+                inStock: true,
+                image: donSimonMediumImage,
+                item: "Don Simon Medium",
+              },
+              {
+                id: "don-simon-pack",
+                name: "Pack",
+                price: 55.0,
+                unit: "per pack",
+                inStock: true,
+                image: donSimonPackImage,
+                item: "Don Simon Pack",
+              },
+            ],
           },
         ],
       },

@@ -138,22 +138,24 @@ const AllProductsPage = () => {
           {filteredProducts.map((product) => (
             <Card
               key={product.id}
-              className="group hover:shadow-[var(--card-shadow)] transition-all duration-300"
+              className="group transition-all duration-300 shadow-none"
             >
               <CardContent className="p-4 space-y-4">
-                <div className="aspect-square bg-accent/20 rounded-lg overflow-hidden relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {!product.inStock && (
-                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                      <span className="text-white font-semibold">
-                        Out of Stock
-                      </span>
-                    </div>
-                  )}
+                <div className="aspect-square bg-gray-100 rounded-lg overflow-visible relative p-2">
+                  <div className="w-full h-full bg-white rounded-lg flex items-center justify-center relative">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {!product.inStock && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                        <span className="text-white font-semibold">
+                          Out of Stock
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-2">

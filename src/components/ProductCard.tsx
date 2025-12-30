@@ -80,7 +80,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const checkWishlistStatus = async () => {
     if (!isAuthenticated) return;
-    
+
     setIsWishlistLoading(true);
     try {
       const variantName = product.variants ? currentVariant.name : undefined;
@@ -100,7 +100,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleToggleWishlist = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (!isAuthenticated) {
       toast({
         title: "Login required",
@@ -117,7 +117,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       if (isInWishlist) {
         // Remove from wishlist
-        const result = await removeFromGeneralWishlistByProduct(product.id, variant);
+        const result = await removeFromGeneralWishlistByProduct(
+          product.id,
+          variant
+        );
         if (result.success) {
           setIsInWishlist(false);
           toast({
@@ -195,30 +198,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Card className="group hover:shadow-[var(--elevated-shadow)] transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95">
+    <Card className="group transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95 shadow-none">
       <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
         {/* Product Image */}
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-accent/20 p-2 sm:p-3">
-          <img
-            src={currentVariant.image}
-            alt={product.name}
-            className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-          />
-          {/* Wishlist Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleToggleWishlist}
-            disabled={isWishlistLoading}
-            className="absolute top-3 right-3 h-8 w-8 rounded-full bg-background/80 hover:bg-background shadow-md hover:shadow-lg transition-all"
-            aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
-          >
-            <Heart
-              className={`h-4 w-4 ${
-                isInWishlist ? "text-primary fill-primary" : "text-muted-foreground"
-              }`}
+        <div className="relative aspect-square rounded-xl overflow-visible bg-gray-100 p-2 sm:p-3">
+          <div className="w-full h-full bg-white rounded-lg flex items-center justify-center relative">
+            <img
+              src={currentVariant.image}
+              alt={product.name}
+              className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
             />
-          </Button>
+            {/* Wishlist Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleToggleWishlist}
+              disabled={isWishlistLoading}
+              className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/80 hover:bg-background shadow-md hover:shadow-lg transition-all z-10"
+              aria-label={
+                isInWishlist ? "Remove from wishlist" : "Add to wishlist"
+              }
+            >
+              <Heart
+                className={`h-4 w-4 ${
+                  isInWishlist
+                    ? "text-primary fill-primary"
+                    : "text-muted-foreground"
+                }`}
+              />
+            </Button>
+          </div>
         </div>
 
         {/* Product Info */}
