@@ -319,16 +319,16 @@ import farmProduceImage from "@/assets/fresh-produce.jpg";
 import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
 
 // Farm Produce individual product images
-import pepperImage from "@/assets/Pepper.jpg";
+import pepperImage from "@/assets/pepper.webp";
 import onionImage from "@/assets/Onion.jpg";
-import tomatoImage from "@/assets/Tomato.jpg";
+import tomatoImage from "@/assets/tomaotoes.jpg";
 import gingerImage from "@/assets/Ginger.jpg";
 import garlicImage from "@/assets/Garlic.jpg";
-import plantainImage from "@/assets/Plantain.jpg";
-import yamImage from "@/assets/VS2_3358_e2cc6377-faf1-4cde-ac8c-3b68b601f036_600x.jpg";
+import plantainImage from "@/assets/plantain.webp";
+import yamImage from "@/assets/yam.webp";
 import carrotImage from "@/assets/Carrot.jpg";
-import springOnionImage from "@/assets/Spring Onion.jpg";
-import bellPepperImage from "@/assets/Bell Pepper.jpg";
+import springOnionImage from "@/assets/Spring Onion.webp";
+import bellPepperImage from "@/assets/bell pepper.webp";
 
 // Meat, Fish & Eggs individual product images
 import goatImage from "@/assets/Goat.jpg";
