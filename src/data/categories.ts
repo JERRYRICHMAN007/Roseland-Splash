@@ -319,6 +319,7 @@ import farmProduceImage from "@/assets/fresh-produce.jpg";
 import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
 
 // Farm Produce individual product images
+import farmProduceSubcategoryImage from "@/assets/Pepper.jpg";
 import pepperImage from "@/assets/pepper.webp";
 import onionImage from "@/assets/Onion.jpg";
 import tomatoImage from "@/assets/tomaotoes.jpg";
@@ -505,7 +506,7 @@ export const categoriesData: Category[] = [
         id: "farm-produce",
         name: "Farm Produce",
         description: "Fresh vegetables and produce from local farms",
-        image: pepperImage,
+        image: farmProduceSubcategoryImage,
         products: [
           {
             id: 1,
