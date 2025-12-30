@@ -7,7 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart, Plus, Heart } from "lucide-react";
+import { ShoppingCart, Plus, Heart, Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
@@ -59,6 +60,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         price: product.price,
         unit: product.unit,
         image: product.image,
+        inStock: product.inStock,
       };
     }
     return (
@@ -197,33 +199,44 @@ const ProductCard = ({ product }: ProductCardProps) => {
     });
   };
 
+  const isOutOfStock = !currentVariant.inStock || !product.inStock;
+
   return (
-    <Card className="group transition-all duration-300 hover:scale-[1.02] bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/20 overflow-hidden touch-manipulation active:scale-95 shadow-none">
-      <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
-        {/* Product Image */}
-        <div className="relative aspect-square rounded-xl overflow-visible bg-gray-100 p-2 sm:p-3">
-          <div className="w-full h-full bg-white rounded-lg flex items-center justify-center relative">
+    <Card className="group transition-all duration-300 hover:shadow-lg hover:border-primary/30 bg-white border border-gray-200 overflow-hidden touch-manipulation active:scale-[0.98] h-full flex flex-col">
+      <CardContent className="p-0 flex flex-col h-full">
+        {/* Product Image Container */}
+        <div className="relative aspect-square bg-gray-50 overflow-hidden">
+          <div className="w-full h-full bg-white flex items-center justify-center relative">
             <img
               src={currentVariant.image}
               alt={product.name}
-              className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
+              className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
             />
+
+            {/* Stock Badge */}
+            {isOutOfStock && (
+              <div className="absolute top-2 left-2 z-10">
+                <Badge variant="destructive" className="text-xs font-semibold">
+                  Out of Stock
+                </Badge>
+              </div>
+            )}
+
             {/* Wishlist Button */}
             <Button
               variant="ghost"
               size="icon"
               onClick={handleToggleWishlist}
               disabled={isWishlistLoading}
-              className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/80 hover:bg-background shadow-md hover:shadow-lg transition-all z-10"
+              className="absolute top-2 right-2 h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md hover:shadow-lg transition-all z-10 border border-gray-200"
               aria-label={
                 isInWishlist ? "Remove from wishlist" : "Add to wishlist"
               }
             >
               <Heart
                 className={`h-4 w-4 ${
-                  isInWishlist
-                    ? "text-primary fill-primary"
-                    : "text-muted-foreground"
+                  isInWishlist ? "text-red-500 fill-red-500" : "text-gray-600"
                 }`}
               />
             </Button>
@@ -231,15 +244,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Product Info */}
-        <div className="space-y-1.5 sm:space-y-3">
-          <h3 className="font-semibold text-xs sm:text-base leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2rem] sm:min-h-[2.75rem] break-words">
+        <div className="p-4 flex flex-col flex-1 space-y-3">
+          {/* Product Name */}
+          <h3 className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] text-gray-900">
             {product.name}
           </h3>
+
+          {/* Rating Stars (Placeholder - can be replaced with real ratings later) */}
+          <div className="flex items-center gap-1">
+            <div className="flex items-center">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={12}
+                  className="text-yellow-400 fill-yellow-400"
+                />
+              ))}
+            </div>
+            <span className="text-xs text-gray-500 ml-1">(4.8)</span>
+          </div>
 
           {/* Variant Selector */}
           {product.variants && product.variants.length > 1 && (
             <Select value={selectedVariant} onValueChange={setSelectedVariant}>
-              <SelectTrigger className="h-9 sm:h-8 text-xs sm:text-sm bg-background/50 touch-manipulation">
+              <SelectTrigger className="h-9 text-xs bg-gray-50 border-gray-200">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -252,28 +280,34 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </Select>
           )}
 
-          {/* Price */}
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <span className="font-bold text-lg sm:text-xl text-primary">
-                GH₵{currentVariant.price.toFixed(2)}
+          {/* Price Section */}
+          <div className="flex items-baseline gap-2 mt-auto">
+            <span className="font-bold text-xl text-primary">
+              GH₵{currentVariant.price.toFixed(2)}
+            </span>
+            {product.variants && (
+              <span className="text-xs text-gray-500">
+                {currentVariant.name}
               </span>
-              <p className="text-xs text-muted-foreground">
-                {product.variants ? currentVariant.name : currentVariant.unit}
-              </p>
-            </div>
+            )}
           </div>
-        </div>
 
-        {/* Add to Cart Button */}
-        <Button
-          onClick={handleAddToCart}
-          className="w-full group-hover:bg-primary-hover transition-all duration-300 font-medium rounded-lg shadow-sm hover:shadow-md touch-manipulation active:scale-95 h-10 sm:h-9"
-          size="sm"
-        >
-          <Plus size={16} className="mr-2" />
-          Add to Cart
-        </Button>
+          {/* Unit Info */}
+          {!product.variants && (
+            <p className="text-xs text-gray-500">{currentVariant.unit}</p>
+          )}
+
+          {/* Add to Cart Button */}
+          <Button
+            onClick={handleAddToCart}
+            disabled={isOutOfStock}
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-md shadow-sm hover:shadow-md transition-all duration-200 h-10 mt-2"
+            size="sm"
+          >
+            <ShoppingCart size={16} className="mr-2" />
+            {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

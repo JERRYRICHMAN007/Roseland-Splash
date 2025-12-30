@@ -104,65 +104,68 @@ const CategoryPage = () => {
           <h2 className="text-xl sm:text-2xl font-bold text-center">
             Browse Subcategories
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-            {category.subcategories.map((subcategory) => (
-              <Card
-                key={subcategory.id}
-                className="group hover:shadow-[var(--card-shadow)] transition-all duration-300 cursor-pointer"
-              >
-                <CardContent className="p-0">
-                  <div
-                    className="relative overflow-hidden rounded-t-lg"
-                    onClick={() =>
-                      navigate(
-                        `/category/${categoryId}/subcategory/${subcategory.id}`
-                      )
-                    }
-                  >
-                    <img
-                      src={subcategory.image}
-                      alt={subcategory.name}
-                      className="w-full h-32 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-medium">
-                      {subcategory.subcategories &&
-                      subcategory.subcategories.length > 0
-                        ? subcategory.subcategories.reduce(
-                            (total, nested) =>
-                              total + (nested.products?.length || 0),
-                            0
-                          )
-                        : subcategory.products?.length || 0}{" "}
-                      items
-                    </div>
-                  </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+            {category.subcategories.map((subcategory) => {
+              const productCount =
+                subcategory.subcategories &&
+                subcategory.subcategories.length > 0
+                  ? subcategory.subcategories.reduce(
+                      (total, nested) => total + (nested.products?.length || 0),
+                      0
+                    )
+                  : subcategory.products?.length || 0;
 
-                  <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
-                    <div>
-                      <h3 className="font-semibold text-base sm:text-lg group-hover:text-primary transition-colors">
-                        {subcategory.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        {subcategory.description}
-                      </p>
+              return (
+                <Card
+                  key={subcategory.id}
+                  className="group hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 bg-white hover:border-primary/40 h-full flex flex-col"
+                  onClick={() =>
+                    navigate(
+                      `/category/${categoryId}/subcategory/${subcategory.id}`
+                    )
+                  }
+                >
+                  <CardContent className="p-0 flex flex-col h-full">
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={subcategory.image}
+                        alt={subcategory.name}
+                        className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 right-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-md">
+                        {productCount} {productCount === 1 ? "item" : "items"}
+                      </div>
                     </div>
 
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
-                      onClick={() =>
-                        navigate(
-                          `/category/${categoryId}/subcategory/${subcategory.id}`
-                        )
-                      }
-                    >
-                      Shop {subcategory.name}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    <div className="p-4 sm:p-5 space-y-3 flex-1 flex flex-col">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-base sm:text-lg group-hover:text-primary transition-colors mb-2">
+                          {subcategory.name}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                          {subcategory.description}
+                        </p>
+                      </div>
+
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-200 h-10"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(
+                            `/category/${categoryId}/subcategory/${subcategory.id}`
+                          );
+                        }}
+                      >
+                        Shop Now
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
 
@@ -171,9 +174,9 @@ const CategoryPage = () => {
           <Button
             size="lg"
             onClick={() => navigate(`/category/${categoryId}/all-products`)}
-            className="px-6 sm:px-8"
+            className="px-8 h-12 bg-primary hover:bg-primary/90 text-white font-semibold shadow-md hover:shadow-lg"
           >
-            Shop All {category.name} Products
+            View All {category.name} Products
           </Button>
         </div>
       </div>

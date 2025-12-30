@@ -25,7 +25,8 @@ const SubcategoryPage = () => {
     "gym-enthusiasts",
     "mashedke-lovers",
   ];
-  const hasWishlistFeature = subcategoryId && wishlistEnabledSubcategories.includes(subcategoryId);
+  const hasWishlistFeature =
+    subcategoryId && wishlistEnabledSubcategories.includes(subcategoryId);
 
   // Scroll to top when component mounts or route changes
   useEffect(() => {
@@ -146,14 +147,15 @@ const SubcategoryPage = () => {
                 categoryName={subcategory.name}
               />
               <p className="text-xs text-muted-foreground flex items-center">
-                Share your ideas for new products or flavors you'd love to see here!
+                Share your ideas for new products or flavors you'd love to see
+                here!
               </p>
             </div>
           </div>
         )}
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5 lg:gap-6">
           {subcategory.subcategories && subcategory.subcategories.length > 0
             ? // Show products from nested subcategories (like Cake in Cup)
               subcategory.subcategories.map((nestedSub) =>

@@ -43,7 +43,7 @@ const Categories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-6xl mx-auto">
           {categoriesData.map((category) => {
             const categoryProductCount = category.subcategories.reduce(
               (total, sub) => {
@@ -66,36 +66,40 @@ const Categories = () => {
             return (
               <Card
                 key={category.id}
-                className="group hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:bg-card/80 touch-manipulation active:scale-95"
+                className="group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-200 bg-white hover:border-primary/40 touch-manipulation active:scale-[0.98] h-full flex flex-col"
                 onClick={() => navigate(`/category/${category.id}`)}
               >
-                <CardContent className="p-3 sm:p-4 lg:p-5 space-y-3">
-                  <div className="aspect-square rounded-lg overflow-hidden">
+                <CardContent className="p-4 sm:p-5 lg:p-6 space-y-4 flex flex-col flex-1">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-gray-50">
                     <img
                       src={category.image}
                       alt={category.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
                     />
                   </div>
 
-                  <div className="space-y-1 text-center">
-                    <h3 className="font-bold text-sm sm:text-base group-hover:text-primary transition-colors leading-tight">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed hidden sm:block line-clamp-2">
-                      {category.description}
-                    </p>
-                    <p className="text-xs text-primary font-medium">
-                      {categoryProductCount} products
+                  <div className="space-y-2 text-center flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-base sm:text-lg group-hover:text-primary transition-colors leading-tight mb-2">
+                        {category.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2 mb-3">
+                        {category.description}
+                      </p>
+                    </div>
+                    <p className="text-xs sm:text-sm text-primary font-semibold">
+                      {categoryProductCount}{" "}
+                      {categoryProductCount === 1 ? "product" : "products"}
                     </p>
                   </div>
 
                   <Button
-                    variant="secondary"
+                    variant="default"
                     size="sm"
-                    className="w-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md touch-manipulation active:scale-95 h-8 sm:h-9"
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-200 h-10 mt-auto"
                   >
-                    Explore
+                    Shop Now
                   </Button>
                 </CardContent>
               </Card>
