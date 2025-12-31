@@ -366,8 +366,8 @@ import eggImage from "@/assets/Egg.jpg";
 // Egg variant specific images
 import eggHalfCrateImage from "@/assets/egg_half_crate-removebg-preview.png";
 import eggFullCrateImage from "@/assets/egg_full_crate_big_image-removebg-preview.png";
-import smokedFishImage from "@/assets/Smoked Fish.jpg";
-import salmonImage from "@/assets/smoke salmon fish.jpg";
+import smokedFishImage from "@/assets/smoked fishh.jpg";
+import salmonImage from "@/assets/salmon fish.jpg";
 import tunaImage from "@/assets/smoked_tuna_fish-removebg-preview.png";
 import springRollsImage from "@/assets/snacks-frozen.jpg";
 import samosaImage from "@/assets/snacks-frozen.jpg";
