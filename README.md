@@ -1,6 +1,6 @@
 # Rollsland & Splash
 
-A modern, responsive web application built with HTML5, CSS3, and JavaScript.
+A modern, responsive web application built with HTML5, CSS3, and TypeScript.
 
 ## 🚀 Features
 
