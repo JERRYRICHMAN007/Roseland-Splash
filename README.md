@@ -13,17 +13,17 @@ A modern, responsive web application built with HTML5, CSS3, and TypeScript.
 ## 📁 Project Structure
 
 ```
-Rollsland-Splash/
-├── src/
-│   ├── css/           # Stylesheets
-│   ├── js/            # JavaScript files
-│   └── images/        # Image assets
-├── assets/            # Additional assets
-├── docs/              # Documentation
+Roseland-Splash/
+├── src/               # Source code
+├── docs/              # Setup guides, troubleshooting & deployment docs
+├── sql/               # Database setup scripts
+├── scripts/           # Utility scripts
 ├── index.html         # Main HTML file
 ├── package.json       # Project dependencies
 └── README.md          # This file
 ```
+
+> **Documentation**: All setup guides (Auth, Backend, Database, Email), troubleshooting notes, and deployment instructions are in the [`docs/`](docs/) folder.
 
 ## 🛠️ Getting Started
 
