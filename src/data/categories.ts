@@ -70,6 +70,7 @@ import jagoCondensedMilkBigImage from "@/assets/jago condensed milk big.jpg";
 import belAquaSmallImage from "@/assets/330ml-300x300.png";
 import belAquaMediumImage from "@/assets/500ml-300x300.png";
 import belAquaLargeImage from "@/assets/750ml-300x300.png";
+import belAquaPackImage from "@/assets/Bela Aqua Pack.png";
 import whiteSugar500gImage from "@/assets/white-sugar-350g-YbN9va0Do0TX2V0w.png";
 import whiteSugar1kgImage from "@/assets/Sugar 1kg.jpg";
 import brownSugar500gImage from "@/assets/Sunny-Gold-Brown-Sugar-500g-square_jpg.jpg";
@@ -138,6 +139,8 @@ import wheatImage from "@/assets/Wheat.webp";
 import tomBrownImage from "@/assets/Tom Brown.jpg";
 import custardsImage from "@/assets/Custards.jpg";
 import oatsImage from "@/assets/Oats.jpg";
+import quakerOatsImage from "@/assets/0010_Quaker-Instant-Oatmeal-800g-2.jpg";
+import goodMorningOatsImage from "@/assets/65079_2_1.jpg";
 import kalypoPackImage from "@/assets/Kalypo Pack.png";
 import kalypoMediumImage from "@/assets/Kalypo Medium.jpg";
 import ekumfiPackImage from "@/assets/Ekumfi Pack.jpg";
@@ -163,9 +166,13 @@ import spriteImage from "@/assets/JTQMVX...jpg";
 import specialGrapeImage from "@/assets/envato-labs-image-edit.png";
 import aquaImage from "@/assets/hygienically-packed-leak-proof-ground-mineral-drinking-water-008.jpg";
 import awakeImage from "@/assets/awake.jpg";
+import awakePackImage from "@/assets/Awake Pack.jpg";
 import volticImage from "@/assets/VOLTIC WATER 750ML-228x228.jpg";
+import volticPackImage from "@/assets/Voltic pack.png";
 import montImage from "@/assets/149364.png";
+import montPackImage from "@/assets/mont pack.jpg";
 import vernaImage from "@/assets/53304a.jpg";
+import vernaPackImage from "@/assets/verna pack.png";
 import turmericImage from "@/assets/turmeric-powder2.jpg";
 import garlicPowderImage from "@/assets/Garlic-Powder-500-g.jpg";
 import gingerPowderImage from "@/assets/ginger-powder.jpg";
@@ -3702,31 +3709,22 @@ export const categoriesData: Category[] = [
             inStock: true,
             variants: [
               {
-                id: "oats-small",
-                name: "Small",
+                id: "oats-good-morning",
+                name: "Good Morning Oats",
                 price: 12.0,
                 unit: "per pack",
                 inStock: true,
-                image: oatsImage,
-                item: "Oats Small",
+                image: goodMorningOatsImage,
+                item: "Good Morning Oats",
               },
               {
-                id: "oats-medium",
-                name: "Medium",
-                price: 22.0,
+                id: "oats-quaker",
+                name: "Quaker Oats",
+                price: 18.0,
                 unit: "per pack",
                 inStock: true,
-                image: oatsImage,
-                item: "Oats Medium",
-              },
-              {
-                id: "oats-big",
-                name: "Big",
-                price: 35.0,
-                unit: "per pack",
-                inStock: true,
-                image: oatsImage,
-                item: "Oats Big",
+                image: quakerOatsImage,
+                item: "Quaker Oats",
               },
             ],
           },
@@ -3891,41 +3889,6 @@ export const categoriesData: Category[] = [
         image: bottleCategoryImage,
         products: [
           {
-            id: 61,
-            name: "Aqua",
-            price: 2.0,
-            unit: "from",
-            image: aquaImage,
-            description: "Bottled water",
-            inStock: true,
-            variants: [
-              {
-                id: "aqua-small",
-                name: "Small",
-                price: 2.0,
-                unit: "per bottle",
-                inStock: true,
-                image: aquaWaterSmallImage,
-              },
-              {
-                id: "aqua-medium",
-                name: "Medium",
-                price: 3.0,
-                unit: "per bottle",
-                inStock: true,
-                image: aquaImage,
-              },
-              {
-                id: "aqua-large",
-                name: "Large",
-                price: 5.0,
-                unit: "per bottle",
-                inStock: true,
-                image: aquaWaterLargeImage,
-              },
-            ],
-          },
-          {
             id: 62,
             name: "Awake",
             price: 2.5,
@@ -3957,6 +3920,14 @@ export const categoriesData: Category[] = [
                 unit: "per bottle",
                 inStock: true,
                 image: awakeImage,
+              },
+              {
+                id: "awake-pack",
+                name: "Pack",
+                price: 14.0,
+                unit: "per pack (6 bottles)",
+                inStock: true,
+                image: awakePackImage,
               },
             ],
           },
@@ -3993,6 +3964,14 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: volticImage,
               },
+              {
+                id: "voltic-pack",
+                name: "Pack",
+                price: 11.0,
+                unit: "per pack (6 bottles)",
+                inStock: true,
+                image: volticPackImage,
+              },
             ],
           },
           {
@@ -4027,6 +4006,14 @@ export const categoriesData: Category[] = [
                 unit: "per bottle",
                 inStock: true,
                 image: montImage,
+              },
+              {
+                id: "mont-pack",
+                name: "Pack",
+                price: 14.0,
+                unit: "per pack (6 bottles)",
+                inStock: true,
+                image: montPackImage,
               },
             ],
           },
@@ -4063,6 +4050,14 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: vernaImage,
               },
+              {
+                id: "verna-pack",
+                name: "Pack",
+                price: 11.0,
+                unit: "per pack (6 bottles)",
+                inStock: true,
+                image: vernaPackImage,
+              },
             ],
           },
           {
@@ -4097,6 +4092,14 @@ export const categoriesData: Category[] = [
                 unit: "per bottle",
                 inStock: true,
                 image: belAquaLargeImage,
+              },
+              {
+                id: "bel-aqua-pack",
+                name: "Pack",
+                price: 11.0,
+                unit: "per pack (6 bottles)",
+                inStock: true,
+                image: belAquaPackImage,
               },
             ],
           },
