@@ -281,7 +281,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
 
           {/* Price Section */}
-          <div className="flex items-baseline gap-2 mt-auto">
+          <div className="flex flex-col gap-1 mt-auto items-center text-center">
             <span className="font-bold text-xl text-primary">
               GH₵{currentVariant.price.toFixed(2)}
             </span>
@@ -290,12 +290,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 {currentVariant.name}
               </span>
             )}
+            {!product.variants && product.description && (
+              <p className="text-xs text-gray-500 line-clamp-2">
+                {product.description}
+              </p>
+            )}
+            {!product.variants && (
+              <p className="text-xs text-gray-500">{currentVariant.unit}</p>
+            )}
           </div>
-
-          {/* Unit Info */}
-          {!product.variants && (
-            <p className="text-xs text-gray-500">{currentVariant.unit}</p>
-          )}
 
           {/* Add to Cart Button */}
           <Button

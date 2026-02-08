@@ -6,6 +6,8 @@ import householdEssentialsImage from "@/assets/household-essentials.jpg";
 import stewBaseSpicesImage from "@/assets/stew-base-spices.jpg";
 import generalSmoothiesImage from "@/assets/general-smoothies.jpg";
 import miloProductImage from "@/assets/milo-powder.jpg";
+import miloDrinkImage from "@/assets/Milo Drink.jpg";
+import miloDrinkPackImage from "@/assets/Milo Drink-pack.png";
 import kivoGariStrawberryImage from "@/assets/53d124_121e6059d4ca445994939368d60ef45f~mv2.png";
 import kivoGariCoconutImage from "@/assets/kivo gari coconut.png";
 import kivoGariGroundnutImage from "@/assets/kivo gari groundnut.png";
@@ -98,12 +100,23 @@ import dettolImage from "@/assets/x890_1_1.jpg";
 import camelImage from "@/assets/camel.jpg";
 import savlonImage from "@/assets/salvon dettol revise.jpg";
 import softcareTissueImage from "@/assets/softcare-facial-tissue-1.jpg";
+import softcareTissuePackImage from "@/assets/Softcare Tissue Pack.webp";
 import tRollImage from "@/assets/T-Roll.jpg";
 import tRollSingleImage from "@/assets/T roll SIngle.jpg";
+import fluffyTRollImage from "@/assets/Fluffy T-roll.png";
+import fluffyTRollPackImage from "@/assets/Fluffy TR pack.jpg";
+import floraTRollImage from "@/assets/Flora T roll.png";
+import floraTRollPackImage from "@/assets/Flora Troll pack.png";
+import yangoTRollPackImage from "@/assets/Yango Troll Pack.png";
+import yangoTRollImage from "@/assets/Yango Troll.png";
+import belpakTRollPackImage from "@/assets/Belpak-Pack.jpg";
+import belpakTRollImage from "@/assets/Belpak T-roll.png";
 import bathingTowelImage from "@/assets/bathing towel.webp";
 import handTowelImage from "@/assets/Hand-Towel.webp";
 import floraTissueImage from "@/assets/Flora Tissue.png";
+import floraPackImage from "@/assets/flora pack.jpeg";
 import belpackTissueImage from "@/assets/Belpack.jpg";
+import belpackPocketTissuePackImage from "@/assets/BElpak Pocket Tissue.jpg";
 import yazzPinkSanitaryPadImage from "@/assets/yazzpinksanitarypad.jpg";
 import yazzGreenSanitaryPadImage from "@/assets/Yazz-sanitary-pad-green.jpg";
 import yazzPurpleSanitaryPadImage from "@/assets/yazzpurplesnaitarypad.jpg";
@@ -118,9 +131,19 @@ import liquidSoapMoisturizingImage from "@/assets/liquid soap moisturizing.jpg";
 import handSoapAntibacterialImage from "@/assets/handsoapantibacterial.png";
 import sureSpray150mlImage from "@/assets/Sure Deodorant spray 150ml.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
+import hollandiaPackImage from "@/assets/Holandia-pack.png";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
+import nicheChocolatePackImage from "@/assets/NICHE DARK CHOCOLATE-pack.png";
 import vitamilkImage from "@/assets/vitamilk.jpg";
+import vitamilkChampImage from "@/assets/Vitamilk Champ.png";
+import vitamilkChampPackImage from "@/assets/Vitamilk Champ Pack.png";
+import vitamilkPackImage from "@/assets/Vitamilk-Pack.png";
+import vitamilkEnergyImage from "@/assets/Vitamilk-Energy.png";
+import vitamilkEnergyPackImage from "@/assets/Vitamilk-Energy pack.png";
+import vitamilkBananaImage from "@/assets/Vitamilk-Banana.png";
+import vitamilkBananaPackImage from "@/assets/Vitamilk-Banana Pack.png";
 import wheatMilkImage from "@/assets/wheat milk.jpg";
+import wheatMilkPackImage from "@/assets/Wheat Milk- Pack.png";
 import cerelac125gImage from "@/assets/Cerelac 125g.jpg";
 import cerelac250gImage from "@/assets/Cerelac 250g.jpg";
 import cerelac400gImage from "@/assets/Cerelac 400g.jpg";
@@ -4266,31 +4289,22 @@ export const categoriesData: Category[] = [
             inStock: true,
             variants: [
               {
-                id: "hollandia-small",
-                name: "Small",
+                id: "hollandia-single",
+                name: "Single",
                 price: 4.0,
-                unit: "per pack",
+                unit: "per bottle",
                 inStock: true,
                 image: hollandiaBottle,
-                item: "Hollandia Small",
+                item: "Hollandia Single",
               },
               {
-                id: "hollandia-medium",
-                name: "Medium",
-                price: 7.0,
+                id: "hollandia-pack",
+                name: "Pack",
+                price: 22.0,
                 unit: "per pack",
                 inStock: true,
-                image: hollandiaBottle,
-                item: "Hollandia Medium",
-              },
-              {
-                id: "hollandia-big",
-                name: "Big",
-                price: 12.0,
-                unit: "per pack",
-                inStock: true,
-                image: hollandiaBottle,
-                item: "Hollandia Big",
+                image: hollandiaPackImage,
+                item: "Hollandia Pack",
               },
             ],
           },
@@ -4304,31 +4318,22 @@ export const categoriesData: Category[] = [
             inStock: true,
             variants: [
               {
-                id: "niche-chocolate-small",
-                name: "Small",
+                id: "niche-chocolate-single",
+                name: "Single",
                 price: 5.0,
-                unit: "per pack",
+                unit: "per bottle",
                 inStock: true,
                 image: nicheChocolate,
-                item: "Niche Chocolate Small",
+                item: "Niche Chocolate Single",
               },
               {
-                id: "niche-chocolate-medium",
-                name: "Medium",
-                price: 9.0,
+                id: "niche-chocolate-pack",
+                name: "Pack",
+                price: 25.0,
                 unit: "per pack",
                 inStock: true,
-                image: nicheChocolate,
-                item: "Niche Chocolate Medium",
-              },
-              {
-                id: "niche-chocolate-big",
-                name: "Big",
-                price: 15.0,
-                unit: "per pack",
-                inStock: true,
-                image: nicheChocolate,
-                item: "Niche Chocolate Big",
+                image: nicheChocolatePackImage,
+                item: "Niche Chocolate Pack",
               },
             ],
           },
@@ -4342,31 +4347,76 @@ export const categoriesData: Category[] = [
             inStock: true,
             variants: [
               {
-                id: "vitamilk-small",
-                name: "Small",
+                id: "vitamilk-energy",
+                name: "Vitamilk Energy",
+                price: 5.0,
+                unit: "per bottle",
+                inStock: true,
+                image: vitamilkEnergyImage,
+                item: "Vitamilk Energy",
+              },
+              {
+                id: "vitamilk-energy-pack",
+                name: "Vitamilk Energy Pack",
+                price: 25.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkEnergyPackImage,
+                item: "Vitamilk Energy Pack",
+              },
+              {
+                id: "vitamilk-banana",
+                name: "Vitamilk Banana",
+                price: 5.0,
+                unit: "per bottle",
+                inStock: true,
+                image: vitamilkBananaImage,
+                item: "Vitamilk Banana",
+              },
+              {
+                id: "vitamilk-banana-pack",
+                name: "Vitamilk Banana Pack",
+                price: 25.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkBananaPackImage,
+                item: "Vitamilk Banana Pack",
+              },
+              {
+                id: "vitamilk-regular",
+                name: "Vitamilk",
                 price: 4.0,
-                unit: "per pack",
+                unit: "per bottle",
                 inStock: true,
                 image: vitamilkBottle,
-                item: "Vitamilk Small",
+                item: "Vitamilk",
               },
               {
-                id: "vitamilk-medium",
-                name: "Medium",
-                price: 7.0,
+                id: "vitamilk-pack",
+                name: "Vitamilk Pack",
+                price: 20.0,
                 unit: "per pack",
                 inStock: true,
-                image: vitamilkBottle,
-                item: "Vitamilk Medium",
+                image: vitamilkPackImage,
+                item: "Vitamilk Pack",
               },
               {
-                id: "vitamilk-big",
-                name: "Big",
-                price: 12.0,
+                id: "vitamilk-champ",
+                name: "Vitamilk Champ",
+                price: 15.0,
                 unit: "per pack",
                 inStock: true,
-                image: vitamilkBottle,
-                item: "Vitamilk Big",
+                image: vitamilkChampImage,
+                item: "Vitamilk Champ",
+              },
+              {
+                id: "vitamilk-champ-pack",
+                name: "Vitamilk Champ Pack",
+                price: 45.0,
+                unit: "per pack",
+                inStock: true,
+                image: vitamilkChampPackImage,
+                item: "Vitamilk Champ Pack",
               },
             ],
           },
@@ -4380,31 +4430,51 @@ export const categoriesData: Category[] = [
             inStock: true,
             variants: [
               {
-                id: "wheat-milk-small",
-                name: "Small",
+                id: "wheat-milk-single",
+                name: "Single",
                 price: 4.0,
-                unit: "per pack",
+                unit: "per bottle",
                 inStock: true,
                 image: wheatMilkBottle,
-                item: "Wheat Milk Small",
+                item: "Wheat Milk Single",
               },
               {
-                id: "wheat-milk-medium",
-                name: "Medium",
-                price: 7.0,
+                id: "wheat-milk-pack",
+                name: "Pack",
+                price: 22.0,
                 unit: "per pack",
                 inStock: true,
-                image: wheatMilkBottle,
-                item: "Wheat Milk Medium",
+                image: wheatMilkPackImage,
+                item: "Wheat Milk Pack",
+              },
+            ],
+          },
+          {
+            id: 73,
+            name: "Milo Drink",
+            price: 5.0,
+            unit: "from",
+            image: miloDrinkImage,
+            description: "Ready-to-drink Milo beverage",
+            inStock: true,
+            variants: [
+              {
+                id: "milo-drink-single",
+                name: "Single",
+                price: 5.0,
+                unit: "per bottle",
+                inStock: true,
+                image: miloDrinkImage,
+                item: "Milo Drink Single",
               },
               {
-                id: "wheat-milk-big",
-                name: "Big",
-                price: 12.0,
+                id: "milo-drink-pack",
+                name: "Pack",
+                price: 28.0,
                 unit: "per pack",
                 inStock: true,
-                image: wheatMilkBottle,
-                item: "Wheat Milk Big",
+                image: miloDrinkPackImage,
+                item: "Milo Drink Pack",
               },
             ],
           },
@@ -4895,43 +4965,67 @@ export const categoriesData: Category[] = [
           {
             id: 202,
             name: "Tissue",
-            price: 8.0,
+            price: 3.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: floraTissueImage,
             description: "Tissue paper varieties",
             inStock: true,
             variants: [
               {
-                id: "softcare-tissue",
-                name: "Softcare tissue",
-                price: 8.0,
-                unit: "per pack",
-                inStock: true,
-                image: softcareTissueImage,
-              },
-              {
-                id: "t-roll",
-                name: "T-roll",
-                price: 15.0,
-                unit: "per roll",
-                inStock: true,
-                image: tRollImage,
-              },
-              {
-                id: "flora-tissue",
-                name: "Flora",
-                price: 10.0,
-                unit: "per pack",
+                id: "floral-pocket-tissue-single",
+                name: "Floral pocket tissue single",
+                price: 3.0,
+                unit: "per piece",
                 inStock: true,
                 image: floraTissueImage,
               },
               {
-                id: "belpack-tissue",
-                name: "Belpack",
+                id: "floral-pocket-tissue-pack",
+                name: "Floral pocket tissue pack",
+                price: 10.0,
+                unit: "per pack",
+                inStock: true,
+                image: floraPackImage,
+              },
+              {
+                id: "belpack-pocket-tissue-single",
+                name: "Bel pack pocket tissue single",
+                price: 4.0,
+                unit: "per piece",
+                inStock: true,
+                image: belpackTissueImage,
+              },
+              {
+                id: "belpack-pocket-tissue-pack",
+                name: "Bel pack pocket tissue pack",
                 price: 12.0,
                 unit: "per pack",
                 inStock: true,
-                image: belpackTissueImage,
+                image: belpackPocketTissuePackImage,
+              },
+              {
+                id: "softcare-pocket-tissue-single",
+                name: "Soft care pocket tissue single",
+                price: 3.0,
+                unit: "per piece",
+                inStock: true,
+                image: softcareTissueImage,
+              },
+              {
+                id: "softcare-pocket-tissue-pack",
+                name: "Soft care pocket tissue pack",
+                price: 8.0,
+                unit: "per pack",
+                inStock: true,
+                image: softcareTissuePackImage,
+              },
+              {
+                id: "jumbo-tissue-single",
+                name: "Jumbo tissue single",
+                price: 5.0,
+                unit: "per piece",
+                inStock: true,
+                image: softcareTissueImage,
               },
             ],
           },
@@ -5206,29 +5300,83 @@ export const categoriesData: Category[] = [
           {
             id: 206,
             name: "T-roll",
-            price: 15.0,
+            price: 3.0,
             unit: "from",
             image: tRollImage,
             description: "Toilet paper roll",
             inStock: true,
             variants: [
               {
-                id: "t-roll-single",
-                name: "Single",
-                price: 15.0,
+                id: "t-roll-fluffy-single",
+                name: "Fluffy Single",
+                price: 4.5,
                 unit: "per roll",
                 inStock: true,
-                image: tRollSingleImage,
-                item: "T-roll Single",
+                image: fluffyTRollImage,
+                item: "T-roll Fluffy Single",
               },
               {
-                id: "t-roll-pack",
-                name: "Pack",
-                price: 140.0,
-                unit: "per pack",
+                id: "t-roll-fluffy-pack",
+                name: "Fluffy Pack",
+                price: 45.0,
+                unit: "per pack (10 rolls)",
                 inStock: true,
-                image: tRollImage,
-                item: "T-roll Pack",
+                image: fluffyTRollPackImage,
+                item: "T-roll Fluffy Pack",
+              },
+              {
+                id: "t-roll-belpack-single",
+                name: "Belpack Single",
+                price: 3.0,
+                unit: "per roll",
+                inStock: true,
+                image: belpakTRollImage,
+                item: "T-roll Belpack Single",
+              },
+              {
+                id: "t-roll-belpack-pack",
+                name: "Belpack Pack",
+                price: 30.0,
+                unit: "per pack (10 rolls)",
+                inStock: true,
+                image: belpakTRollPackImage,
+                item: "T-roll Belpack Pack",
+              },
+              {
+                id: "t-roll-tango-single",
+                name: "Tango Single",
+                price: 3.0,
+                unit: "per roll",
+                inStock: true,
+                image: yangoTRollImage,
+                item: "T-roll Tango Single",
+              },
+              {
+                id: "t-roll-tango-pack",
+                name: "Tango Pack",
+                price: 30.0,
+                unit: "per pack (10 rolls)",
+                inStock: true,
+                image: yangoTRollPackImage,
+                item: "T-roll Tango Pack",
+              },
+              {
+                id: "t-roll-floral-single",
+                name: "Flora Single",
+                price: 3.0,
+                unit: "per roll",
+                inStock: true,
+                image: floraTRollImage,
+                item: "T-roll Flora Single",
+              },
+              {
+                id: "t-roll-floral-pack",
+                name: "Flora Pack",
+                price: 30.0,
+                unit: "per pack (10 rolls)",
+                inStock: true,
+                image: floraTRollPackImage,
+                item: "T-roll Flora Pack",
               },
             ],
           },
