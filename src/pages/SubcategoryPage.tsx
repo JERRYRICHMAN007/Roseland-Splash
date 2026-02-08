@@ -19,14 +19,8 @@ const SubcategoryPage = () => {
     (sub) => sub.id === subcategoryId
   );
 
-  // Check if this subcategory has wishlist feature enabled
-  const wishlistEnabledSubcategories = [
-    "lactating-mothers-kids",
-    "gym-enthusiasts",
-    "mashedke-lovers",
-  ];
-  const hasWishlistFeature =
-    subcategoryId && wishlistEnabledSubcategories.includes(subcategoryId);
+  // Wishlist feature enabled for all subcategories
+  const hasWishlistFeature = !!subcategoryId;
 
   // Scroll to top when component mounts or route changes
   useEffect(() => {

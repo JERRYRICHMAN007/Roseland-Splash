@@ -435,6 +435,7 @@ import bananaMashedkeImage from "@/assets/Banana Flavoured MashedKe.png";
 import strawberryMashedkeImage from "@/assets/Strawberry Flavoured MashedKe.png";
 import peanutMashedkeImage from "@/assets/Peanut Flavoured MashedKe.png";
 import tigernutMashedkeImage from "@/assets/Tigernut Flavoured MashedKe.png";
+import kenkeyMilkSugarImage from "@/assets/Kenkey + milk + sugar.png";
 import brownSugarProductImage from "@/assets/brown-sugar-product.jpg";
 import whiteSugarProductImage from "@/assets/white-sugar-product.jpg";
 import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
@@ -2138,6 +2139,41 @@ export const categoriesData: Category[] = [
         description: "Fun, refreshing, indulgent flavors for everyone to enjoy",
         image: generalSmoothiesImage,
         products: [
+          {
+            id: 56,
+            name: "Kenkey + Milk + Sugar",
+            price: 19.0,
+            unit: "from",
+            image: kenkeyMilkSugarImage,
+            description: "Classic kenkey blended with milk and sugar - our original mashedke flavour",
+            inStock: true,
+            variants: [
+              {
+                id: "mashedke-original-500ml",
+                name: "500ml",
+                price: 24.0,
+                unit: "per bottle",
+                inStock: true,
+                image: kenkeyMilkSugarImage,
+              },
+              {
+                id: "mashedke-original-350ml",
+                name: "350ml",
+                price: 19.0,
+                unit: "per bottle",
+                inStock: true,
+                image: kenkeyMilkSugarImage,
+              },
+              {
+                id: "mashedke-original-250ml",
+                name: "250ml",
+                price: 16.0,
+                unit: "per bottle",
+                inStock: true,
+                image: kenkeyMilkSugarImage,
+              },
+            ],
+          },
           {
             id: 46,
             name: "Coconut+Honey+Cashew",

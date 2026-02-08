@@ -1,10 +1,9 @@
 # Wishlist Feature Guide
 
 ## Overview
-A wishlist feature has been added to allow customers to suggest items or flavors they'd like to see in three specific categories:
-- **Lactating Mothers & Kids (6 months+)**
-- **Gym Enthusiasts**
-- **MashedKe Lovers (General Audience)**
+A wishlist feature allows customers to suggest items or flavors they'd like to see in any category and subcategory:
+- **All categories** (Fresh Foods, Snacks & Frozen, MashedKe Delight, Household Essentials, etc.)
+- **All subcategories** within each category
 
 ## Setup Instructions
 
@@ -54,13 +53,14 @@ This will create:
 - `src/components/WishlistModal.tsx` - Modal component for viewing/managing wishlist
 
 ### Pages
-- `src/pages/CategoryPage.tsx` - Updated to include wishlist feature for "mashedke-delight" category
+- `src/pages/CategoryPage.tsx` - Wishlist section with cards for each subcategory (all categories)
+- `src/pages/SubcategoryPage.tsx` - Wishlist feature on every subcategory page
 
 ## How It Works
 
-1. **Category Page**: When viewing the "MashedKe Delight" category page, a wishlist section appears at the top
-2. **Three Subcategories**: The section shows cards for each of the three wishlist-enabled subcategories
-3. **Add Items**: Each card has a "Suggest an Item" button that opens a form
+1. **Category Page**: When viewing any category (e.g. MashedKe Delight, Fresh Foods), a wishlist section appears with cards for each subcategory
+2. **Subcategory Page**: Every subcategory page has a "Suggest an Item" and "View Wishlist" section at the top
+3. **Add Items**: Each card/section has a "Suggest an Item" button that opens a form
 4. **View Wishlist**: Users can view all suggested items for each subcategory
 5. **Data Storage**: All items are stored in Supabase `category_wishlist` table
 
@@ -85,9 +85,9 @@ category_wishlist
 
 ## Usage Example
 
-1. Navigate to `/category/mashedke-delight`
+1. Navigate to any category (e.g. `/category/mashedke-delight`, `/category/fresh-foods`)
 2. Scroll to the "Wishlist Feature" section
-3. Click "Suggest an Item" on any of the three category cards
+3. Click "Suggest an Item" on any subcategory card, or navigate to a subcategory and use the wishlist section there
 4. Fill in the item name (required) and description (optional)
 5. Click "Add to Wishlist"
 6. View all suggestions by clicking "View Wishlist"

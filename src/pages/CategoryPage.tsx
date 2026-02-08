@@ -1,15 +1,22 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import { ArrowLeft, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { categoriesData } from "@/data/categories";
+import WishlistButton from "@/components/WishlistButton";
+import WishlistModal from "@/components/WishlistModal";
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
   const navigate = useNavigate();
+  const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const category = categoriesData.find((cat) => cat.id === categoryId);
 
@@ -99,6 +106,60 @@ const CategoryPage = () => {
           </div>
         </div>
 
+        {/* Wishlist Feature Section - For all subcategories */}
+        <div className="mb-8 sm:mb-12 p-4 sm:p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg border border-primary/20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 flex items-center gap-2">
+                <Heart className="h-5 w-5 text-primary" />
+                Wishlist Feature
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Suggest items you'd like to see in any subcategory!
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            {category.subcategories.map((sub) => (
+              <Card
+                key={sub.id}
+                className="p-4 border border-primary/20 bg-white/80"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <img
+                    src={sub.image}
+                    alt={sub.name}
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-sm truncate">
+                      {sub.name}
+                    </h4>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <WishlistButton
+                    categoryId={sub.id}
+                    categoryName={sub.name}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedSubcategory({ id: sub.id, name: sub.name });
+                      setWishlistModalOpen(true);
+                    }}
+                    className="shrink-0"
+                  >
+                    View
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         {/* Subcategories Grid */}
         <div className="space-y-6 sm:space-y-8">
           <h2 className="text-xl sm:text-2xl font-bold text-center">
@@ -182,6 +243,19 @@ const CategoryPage = () => {
       </div>
 
       <Footer />
+
+      {/* Wishlist Modal */}
+      {selectedSubcategory && (
+        <WishlistModal
+          isOpen={wishlistModalOpen}
+          onClose={() => {
+            setWishlistModalOpen(false);
+            setSelectedSubcategory(null);
+          }}
+          categoryId={selectedSubcategory.id}
+          categoryName={selectedSubcategory.name}
+        />
+      )}
     </div>
   );
 };
