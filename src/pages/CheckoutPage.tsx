@@ -93,7 +93,7 @@ const CheckoutPage = () => {
         location: location,
         totalAmount: finalTotal,
         paymentMethod:
-          paymentMethod === "mobile_money" ? "Mobile Money" : "Cash on Delivery",
+          paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
         deliveryMethod:
           deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
         specialInstructions: deliveryInfo.instructions || undefined,
@@ -117,7 +117,7 @@ const CheckoutPage = () => {
         location: location,
         totalAmount: finalTotal,
         paymentMethod:
-          paymentMethod === "mobile_money" ? "Mobile Money" : "Cash on Delivery",
+          paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
         deliveryMethod:
           deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
         specialInstructions: deliveryInfo.instructions || undefined,
@@ -406,9 +406,9 @@ const CheckoutPage = () => {
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="mobile_money" id="mobile_money" />
                       <Label htmlFor="mobile_money" className="flex-1">
-                        <p className="font-medium">Mobile Money</p>
+                        <p className="font-medium">MoMo</p>
                         <p className="text-sm text-muted-foreground">
-                          Pay with MTN/Vodafone/AirtelTigo
+                          Pay with MTN / Vodafone / AirtelTigo
                         </p>
                       </Label>
                     </div>
@@ -418,7 +418,7 @@ const CheckoutPage = () => {
                         id="cash_on_delivery"
                       />
                       <Label htmlFor="cash_on_delivery" className="flex-1">
-                        <p className="font-medium">Cash on Delivery</p>
+                        <p className="font-medium">Payment on Delivery</p>
                         <p className="text-sm text-muted-foreground">
                           Pay when your order arrives
                         </p>
@@ -452,6 +452,9 @@ const CheckoutPage = () => {
                           )}
                           <p className="text-muted-foreground">
                             Qty: {item.quantity}
+                            {item.bundleQuantity
+                              ? ` (${item.bundleQuantity} for GH₵${item.price.toFixed(2)})`
+                              : ""}
                           </p>
                         </div>
                         <p className="font-medium">

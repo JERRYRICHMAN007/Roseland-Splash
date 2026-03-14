@@ -394,7 +394,7 @@ import tilapiaHalfPoundImage from "@/assets/fresh-fish-half pound.png";
 import dryFishImage from "@/assets/Dry Fish.jpg";
 import eggImage from "@/assets/Egg.jpg";
 // Egg variant specific images
-import eggHalfCrateImage from "@/assets/egg_half_crate-removebg-preview.png";
+import eggHalfCrateImage from "@/assets/egg half crate.jpg";
 import eggFullCrateImage from "@/assets/egg_full_crate_big_image-removebg-preview.png";
 import smokedFishImage from "@/assets/smoked fishh.jpg";
 import salmonImage from "@/assets/salmon fish.jpg";
@@ -474,6 +474,17 @@ import enapaPowderedMilkImage from "@/assets/enapa-powdered-milk.jpg";
 import nidoPowderedMilkImage from "@/assets/nido-powdered-milk.avif";
 import proteinPowderBoostImage from "@/assets/Protein Powder Boost.jpg";
 
+/**
+ * Ghana-style bundle pricing: e.g. "3 peppers for 5 cedis".
+ * When set, price is the per-unit fallback; bundleQuantity + bundlePrice define the deal.
+ */
+export interface BundlePricing {
+  /** Number of items in the bundle (e.g. 3) */
+  bundleQuantity: number;
+  /** Total price for that quantity in GHS (e.g. 5) */
+  bundlePrice: number;
+}
+
 export interface ProductVariant {
   id: string;
   name: string;
@@ -488,6 +499,9 @@ export interface ProductVariant {
   toothpasteType?: string;
   soapType?: string;
   item?: string;
+  /** Ghana-style: e.g. 3 for 5 cedis */
+  bundleQuantity?: number;
+  bundlePrice?: number;
 }
 
 export interface Product {
@@ -506,6 +520,9 @@ export interface Product {
   brushTypes?: string[];
   toothpasteTypes?: string[];
   soapTypes?: string[];
+  /** Ghana-style: e.g. 3 for 5 cedis (when no variants) */
+  bundleQuantity?: number;
+  bundlePrice?: number;
 }
 
 export interface Subcategory {
@@ -543,28 +560,34 @@ export const categoriesData: Category[] = [
             id: 1,
             name: "Pepper",
             price: 8.0,
-            unit: "per kg",
+            unit: "per piece",
             image: pepperImage,
-            description: "Fresh bell peppers",
+            description: "Fresh bell peppers — sold in bundles like at the market",
             inStock: true,
+            bundleQuantity: 3,
+            bundlePrice: 5.0,
           },
           {
             id: 2,
             name: "Onion",
             price: 6.0,
-            unit: "per kg",
+            unit: "per piece",
             image: onionImage,
-            description: "Fresh red onions",
+            description: "Fresh red onions — bundle deal",
             inStock: true,
+            bundleQuantity: 4,
+            bundlePrice: 5.0,
           },
           {
             id: 3,
             name: "Tomato",
             price: 12.0,
-            unit: "per kg",
+            unit: "per piece",
             image: tomatoImage,
-            description: "Ripe fresh tomatoes",
+            description: "Ripe fresh tomatoes — market-style pricing",
             inStock: true,
+            bundleQuantity: 5,
+            bundlePrice: 8.0,
           },
           {
             id: 4,
@@ -583,15 +606,19 @@ export const categoriesData: Category[] = [
             image: garlicImage,
             description: "Fresh garlic bulbs",
             inStock: true,
+            bundleQuantity: 3,
+            bundlePrice: 10.0,
           },
           {
             id: 6,
             name: "Plantain",
             price: 10.0,
-            unit: "per bunch",
+            unit: "per finger",
             image: plantainImage,
-            description: "Sweet ripe plantains",
+            description: "Sweet ripe plantains — market-style bundle",
             inStock: true,
+            bundleQuantity: 3,
+            bundlePrice: 8.0,
           },
           {
             id: 7,
@@ -599,17 +626,21 @@ export const categoriesData: Category[] = [
             price: 25.0,
             unit: "per tuber",
             image: yamImage,
-            description: "Quality fresh yam",
+            description: "Quality fresh yam — bundle deal",
             inStock: true,
+            bundleQuantity: 2,
+            bundlePrice: 45.0,
           },
           {
             id: 8,
             name: "Carrot",
             price: 8.0,
-            unit: "per kg",
+            unit: "per piece",
             image: carrotImage,
             description: "Fresh orange carrots",
             inStock: true,
+            bundleQuantity: 4,
+            bundlePrice: 6.0,
           },
           {
             id: 9,
@@ -617,17 +648,21 @@ export const categoriesData: Category[] = [
             price: 5.0,
             unit: "per bunch",
             image: springOnionImage,
-            description: "Fresh spring onions",
+            description: "Fresh spring onions — bundle deal",
             inStock: true,
+            bundleQuantity: 3,
+            bundlePrice: 12.0,
           },
           {
             id: 10,
             name: "Bell Pepper",
             price: 8.0,
-            unit: "per kg",
+            unit: "per piece",
             image: bellPepperImage,
-            description: "Colorful fresh bell peppers",
+            description: "Colorful fresh bell peppers — bundle deal",
             inStock: true,
+            bundleQuantity: 3,
+            bundlePrice: 5.0,
           },
         ],
       },

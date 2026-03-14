@@ -98,10 +98,18 @@ const OrderConfirmationPage = () => {
                 </span>
                 <span className="font-medium">1-3 days</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Delivery Method:</span>
-                <span className="font-medium">Yango Delivery</span>
-              </div>
+              {order?.paymentMethod && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Payment:</span>
+                  <span className="font-medium">{order.paymentMethod}</span>
+                </div>
+              )}
+              {order?.deliveryMethod && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Delivery Method:</span>
+                  <span className="font-medium">{order.deliveryMethod}</span>
+                </div>
+              )}
             </CardContent>
           </Card>
 

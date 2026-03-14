@@ -7,6 +7,8 @@ export interface CartItem {
   image: string;
   quantity: number;
   variant?: string;
+  /** Ghana-style bundle: e.g. 3 for 5 cedis — quantity in cart = number of bundles */
+  bundleQuantity?: number;
 }
 
 interface CartState {
@@ -16,7 +18,7 @@ interface CartState {
 }
 
 type CartAction =
-  | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> }
+  | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> & { quantity?: number } }
   | { type: "REMOVE_ITEM"; payload: string }
   | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } }
   | { type: "CLEAR_CART" }
@@ -40,6 +42,7 @@ const calculateTotals = (items: CartItem[]) => {
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case "ADD_ITEM": {
+      const addQty = Math.max(1, action.payload.quantity ?? 1);
       const existingItem = state.items.find(
         (item) =>
           item.id === action.payload.id &&
@@ -51,11 +54,12 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         newItems = state.items.map((item) =>
           item.id === action.payload.id &&
           item.variant === action.payload.variant
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + addQty }
             : item
         );
       } else {
-        newItems = [...state.items, { ...action.payload, quantity: 1 }];
+        const { quantity: _q, ...rest } = action.payload;
+        newItems = [...state.items, { ...rest, quantity: addQty }];
       }
 
       const { total, itemCount } = calculateTotals(newItems);
@@ -95,7 +99,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 };
 
 interface CartContextType extends CartState {
-  addItem: (item: Omit<CartItem, "quantity">) => void;
+  addItem: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -111,7 +115,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   // Cart is kept in memory only (no localStorage)
   // Cart data is temporary and doesn't need persistence
 
-  const addItem = (item: Omit<CartItem, "quantity">) => {
+  const addItem = (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
     dispatch({ type: "ADD_ITEM", payload: item });
   };
 

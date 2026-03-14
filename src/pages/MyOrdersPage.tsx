@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders, OrderStatus } from "@/contexts/OrderContext";
@@ -24,34 +24,47 @@ import { useToast } from "@/hooks/use-toast";
 
 const MyOrdersPage = () => {
   const { user } = useAuth();
-  const { orders, cancelOrder } = useOrders();
+  const { orders, cancelOrder, refreshOrders } = useOrders();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
 
-  // Get orders for logged-in user (excluding cancelled orders which are already removed)
+  // Refresh orders when opening My Orders so newly placed orders appear
+  useEffect(() => {
+    refreshOrders();
+  }, [refreshOrders]);
+
+  // Get orders for logged-in user (match by phone or email)
   const myOrders = orders.filter(
     (order) => order.customerPhone === user?.phone || order.customerEmail === user?.email
   );
 
-  const handleCancelOrder = (orderId: string, orderNumber: string) => {
+  const handleCancelOrder = async (orderId: string, orderNumber: string) => {
     setCancellingOrderId(orderId);
-    const success = cancelOrder(orderId);
-    
-    if (success) {
+    try {
+      const success = await cancelOrder(orderId);
+      if (success) {
+        toast({
+          title: "Order Cancelled",
+          description: `Order #${orderNumber} has been cancelled and removed.`,
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "Cannot Cancel Order",
+          description: "This order cannot be cancelled. Only pending orders can be cancelled.",
+          variant: "destructive",
+        });
+      }
+    } catch {
       toast({
-        title: "Order Cancelled",
-        description: `Order #${orderNumber} has been cancelled and removed.`,
-        variant: "default",
-      });
-    } else {
-      toast({
-        title: "Cannot Cancel Order",
-        description: "This order cannot be cancelled. Only pending orders can be cancelled.",
+        title: "Error",
+        description: "Failed to cancel order. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setCancellingOrderId(null);
     }
-    setCancellingOrderId(null);
   };
 
   const getStatusBadge = (status: OrderStatus) => {
@@ -176,7 +189,15 @@ const MyOrdersPage = () => {
                               </span>
                             </div>
                             <div>
+                              <span className="text-muted-foreground">Payment:</span>{" "}
+                              <span className="font-medium">{order.paymentMethod || "—"}</span>
+                            </div>
+                            <div>
                               <span className="text-muted-foreground">Delivery:</span>{" "}
+                              <span className="font-medium">{order.deliveryMethod || "—"}</span>
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Address:</span>{" "}
                               <span className="font-medium">{order.location}</span>
                             </div>
                           </div>

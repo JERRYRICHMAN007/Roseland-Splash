@@ -314,13 +314,45 @@ app.post('/api/auth/logout', async (req, res) => {
   }
 });
 
+const getAllowedRedirectOrigins = () => {
+  const frontend = process.env.FRONTEND_URL || 'http://localhost:8080';
+  const base = frontend.replace(/\/$/, '');
+  return [
+    base,
+    'http://localhost:8080',
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173',
+  ];
+};
+
+const isAllowedRedirectUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  try {
+    const u = new URL(url);
+    const origin = u.origin;
+    return getAllowedRedirectOrigins().some(allowed => {
+      try {
+        return new URL(allowed).origin === origin;
+      } catch {
+        return allowed === origin;
+      }
+    });
+  } catch {
+    return false;
+  }
+};
+
 /**
  * POST /api/auth/reset-password
  * Request password reset
  */
 app.post('/api/auth/reset-password', async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, redirectTo: clientRedirectTo } = req.body;
 
     if (!email) {
       return res.status(400).json({
@@ -338,8 +370,11 @@ app.post('/api/auth/reset-password', async (req, res) => {
 
     console.log('🔑 Password reset request for:', email);
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
-    const resetUrl = `${frontendUrl}/reset-password`;
+    const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:8080').replace(/\/$/, '');
+    const defaultResetUrl = `${frontendUrl}/reset-password`;
+    const resetUrl = (clientRedirectTo && isAllowedRedirectUrl(clientRedirectTo))
+      ? (clientRedirectTo.includes('/reset-password') ? clientRedirectTo : `${clientRedirectTo.replace(/\/$/, '')}/reset-password`)
+      : defaultResetUrl;
 
     const { error } = await supabase.auth.resetPasswordForEmail(
       email.toLowerCase().trim(),

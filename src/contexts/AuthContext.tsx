@@ -137,30 +137,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     phone: string;
     password: string;
   }): Promise<boolean> => {
-    try {
-      const result = await authService.signUp(userData);
-      const { user, error } = result;
+    const result = await authService.signUp(userData);
+    const { user, error } = result;
 
-      if (error) {
-        // Throw error so it can be caught and handled by the UI
-        throw new Error(error);
-      }
-
-      if (!user) {
-        return false;
-      }
-      
-      // Set user state - even if profile isn't fully loaded, we have the user
-      setState({
-        user,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-
-      return true;
-    } catch (error: any) {
-      return false;
+    if (error) {
+      // Rethrow so SignUpPage can show the exact message (e.g. "account already exists")
+      throw new Error(error);
     }
+
+    if (!user) {
+      throw new Error("Failed to create account. Please try again.");
+    }
+
+    // Set user state - even if profile isn't fully loaded, we have the user
+    setState({
+      user,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+
+    return true;
   };
 
   const logout = async (): Promise<void> => {

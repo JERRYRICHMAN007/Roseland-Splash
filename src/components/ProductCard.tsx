@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart, Plus, Heart, Star } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Heart, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
@@ -26,6 +26,8 @@ interface ProductVariant {
   unit: string;
   inStock: boolean;
   image: string;
+  bundleQuantity?: number;
+  bundlePrice?: number;
 }
 
 interface Product {
@@ -37,6 +39,8 @@ interface Product {
   description: string;
   inStock: boolean;
   variants?: ProductVariant[];
+  bundleQuantity?: number;
+  bundlePrice?: number;
 }
 
 interface ProductCardProps {
@@ -47,6 +51,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [selectedVariant, setSelectedVariant] = useState<string>(
     product.variants?.[0]?.id || "default"
   );
+  const [bundleQty, setBundleQty] = useState(1);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const { addItem } = useCart();
@@ -61,6 +66,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         unit: product.unit,
         image: product.image,
         inStock: product.inStock,
+        bundleQuantity: product.bundleQuantity,
+        bundlePrice: product.bundlePrice,
       };
     }
     return (
@@ -70,6 +77,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const currentVariant = getCurrentVariant();
+  const hasBundle =
+    (currentVariant as { bundleQuantity?: number; bundlePrice?: number })
+      .bundleQuantity != null &&
+    (currentVariant as { bundlePrice?: number }).bundlePrice != null;
+  const bundleQuantity = (currentVariant as { bundleQuantity?: number }).bundleQuantity ?? 0;
+  const bundlePrice = (currentVariant as { bundlePrice?: number }).bundlePrice ?? 0;
 
   // Check if product is in wishlist when component mounts or variant changes
   useEffect(() => {
@@ -182,21 +195,37 @@ const ProductCard = ({ product }: ProductCardProps) => {
       ? `${product.id}-${currentVariant.name}`
       : product.id.toString();
 
-    addItem({
-      id: cartItemId,
-      name: product.name,
-      price: currentVariant.price,
-      image: currentVariant.image,
-      variant: product.variants ? currentVariant.name : undefined,
-    });
-
-    toast({
-      title: "Added to Cart",
-      description: `${product.name}${
-        product.variants ? ` (${currentVariant.name})` : ""
-      } has been added to your cart`,
-      duration: 2000, // 2 seconds instead of default 5 seconds
-    });
+    if (hasBundle) {
+      addItem({
+        id: cartItemId,
+        name: product.name,
+        price: bundlePrice,
+        image: currentVariant.image,
+        variant: product.variants ? currentVariant.name : undefined,
+        quantity: bundleQty,
+        bundleQuantity,
+      });
+      toast({
+        title: "Added to Cart",
+        description: `${bundleQty} × (${bundleQuantity} for GH₵${bundlePrice.toFixed(2)}) ${product.name} added`,
+        duration: 2000,
+      });
+    } else {
+      addItem({
+        id: cartItemId,
+        name: product.name,
+        price: currentVariant.price,
+        image: currentVariant.image,
+        variant: product.variants ? currentVariant.name : undefined,
+      });
+      toast({
+        title: "Added to Cart",
+        description: `${product.name}${
+          product.variants ? ` (${currentVariant.name})` : ""
+        } has been added to your cart`,
+        duration: 2000,
+      });
+    }
   };
 
   const isOutOfStock = !currentVariant.inStock || !product.inStock;
@@ -282,21 +311,67 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
           {/* Price Section */}
           <div className="flex flex-col gap-1 mt-auto items-center text-center">
-            <span className="font-bold text-xl text-primary">
-              GH₵{currentVariant.price.toFixed(2)}
-            </span>
-            {product.variants && (
-              <span className="text-xs text-gray-500">
-                {currentVariant.name}
-              </span>
-            )}
-            {!product.variants && product.description && (
-              <p className="text-xs text-gray-500 line-clamp-2">
-                {product.description}
-              </p>
-            )}
-            {!product.variants && (
-              <p className="text-xs text-gray-500">{currentVariant.unit}</p>
+            {hasBundle ? (
+              <>
+                <span className="font-bold text-xl text-primary">
+                  {bundleQuantity} for GH₵{bundlePrice.toFixed(2)}
+                </span>
+                <p className="text-xs text-gray-500">
+                  Market-style bundle • {currentVariant.unit}
+                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setBundleQty((q) => Math.max(1, q - 1));
+                    }}
+                  >
+                    <Minus size={14} />
+                  </Button>
+                  <span className="w-8 text-center text-sm font-medium">
+                    {bundleQty}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setBundleQty((q) => q + 1);
+                    }}
+                  >
+                    <Plus size={14} />
+                  </Button>
+                  <span className="text-xs text-gray-500">bundle{bundleQty !== 1 ? "s" : ""}</span>
+                </div>
+                <p className="text-xs text-primary font-medium">
+                  GH₵{(bundlePrice * bundleQty).toFixed(2)} total
+                </p>
+              </>
+            ) : (
+              <>
+                <span className="font-bold text-xl text-primary">
+                  GH₵{currentVariant.price.toFixed(2)}
+                </span>
+                {product.variants && (
+                  <span className="text-xs text-gray-500">
+                    {currentVariant.name}
+                  </span>
+                )}
+                {!product.variants && product.description && (
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    {product.description}
+                  </p>
+                )}
+                {!product.variants && (
+                  <p className="text-xs text-gray-500">{currentVariant.unit}</p>
+                )}
+              </>
             )}
           </div>
 

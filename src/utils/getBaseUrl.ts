@@ -21,8 +21,14 @@ export const getBaseUrl = (): string => {
   if (vercelUrl) {
     return `https://${vercelUrl}`;
   }
-  
-  // Default to localhost for development
+
+  // In production, require an explicit URL; never fall back to localhost
+  if (import.meta.env.PROD) {
+    console.error('Production URL not configured: set VITE_VERCEL_URL or VITE_PRODUCTION_URL in your environment.');
+    throw new Error('Production URL not configured. Set VITE_VERCEL_URL or VITE_PRODUCTION_URL.');
+  }
+
+  // Development fallback
   return 'http://localhost:8080';
 };
 

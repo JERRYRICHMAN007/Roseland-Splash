@@ -32,7 +32,7 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Pre-fill email if coming from signup page with "already exists" message
+  // Pre-fill email and show message when redirected from signup (e.g. "already exists")
   useEffect(() => {
     const locationState = location.state as { email?: string; message?: string } | null;
     if (locationState?.email) {
@@ -45,8 +45,10 @@ const LoginPage = () => {
         description: locationState.message,
         variant: "destructive",
       });
+      // Clear state so message doesn't show again on refresh
+      navigate(location.pathname, { replace: true, state: { email: locationState.email } });
     }
-  }, [location, toast]);
+  }, [location, navigate, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

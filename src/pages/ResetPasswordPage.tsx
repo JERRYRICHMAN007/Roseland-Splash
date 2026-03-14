@@ -25,7 +25,7 @@ const ResetPasswordPage = () => {
   const [isValidSession, setIsValidSession] = useState<boolean | null>(null);
   const [passwordReset, setPasswordReset] = useState(false);
 
-  // Check if we have a valid reset session - simplified approach
+  // Check if we have a valid reset session - establish session from hash/query first to avoid otp_expired
   useEffect(() => {
     let mounted = true;
 
@@ -39,74 +39,128 @@ const ResetPasswordPage = () => {
         return;
       }
 
-      // Check URL hash for reset token (Supabase sends reset links with hash like #access_token=...&type=recovery)
       const hash = window.location.hash.substring(1);
       const hashParams = new URLSearchParams(hash);
-      const accessToken = hashParams.get("access_token");
-      const type = hashParams.get("type");
+      // Supabase can put tokens in hash or (in some setups) query - support both
+      const accessToken = hashParams.get("access_token") || searchParams.get("access_token");
+      const refreshToken = hashParams.get("refresh_token") || searchParams.get("refresh_token") || "";
+      const type = hashParams.get("type") || searchParams.get("type");
 
-      // Also check search params
-      const accessTokenFromSearch = searchParams.get("access_token");
-      const typeFromSearch = searchParams.get("type");
+      const hasAccessToken = !!accessToken;
+      const isRecoveryType = type === "recovery";
 
-      const hasToken = !!(accessToken || accessTokenFromSearch);
-      const isRecoveryType = type === "recovery" || typeFromSearch === "recovery";
-
-      console.log("Reset link validation:", {
-        hasHash: hash.length > 0,
-        hasToken,
-        isRecoveryType,
-        hashPreview: hash.length > 0 ? hash.substring(0, 50) + "..." : "empty",
-        url: window.location.href,
-      });
-
-      // Strategy: If we detect valid recovery tokens in URL, immediately allow user to proceed
-      // Supabase will establish the session automatically when processing the hash
-      if ((hasToken && isRecoveryType) || hash.includes("access_token") || hash.includes("type=recovery")) {
-        console.log("✅ Valid recovery tokens detected - allowing password reset");
+      // Supabase may redirect with error in URL (e.g. email link expired) - check first
+      const urlError = hashParams.get("error") || searchParams.get("error");
+      const urlErrorDesc = hashParams.get("error_description") || searchParams.get("error_description") || "";
+      if (urlError) {
+        const desc = decodeURIComponent(urlErrorDesc.replace(/\+/g, " "));
         if (mounted) {
-          setIsValidSession(true);
-          // Don't clear hash yet - Supabase needs it to establish session
+          setIsValidSession(false);
+          setError(
+            desc.toLowerCase().includes("expired") || desc.toLowerCase().includes("invalid")
+              ? "This password reset link has expired. Please request a new one."
+              : desc || "This reset link is invalid. Please request a new one."
+          );
         }
         return;
       }
 
-      // If no tokens in URL hash, check for existing session (might have been processed already)
-      try {
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (mounted) {
-          if (sessionData?.session) {
+      // Establish session immediately from hash/query to avoid otp_expired (Supabase token is single-use and time-sensitive)
+      if (hasAccessToken && accessToken) {
+        try {
+          const { data, error: setSessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken || "",
+          });
+          if (setSessionError) {
+            if (mounted) {
+              setIsValidSession(false);
+              const isExpired =
+                setSessionError.message?.includes("expired") ||
+                setSessionError.message?.includes("otp_expired") ||
+                setSessionError.message?.includes("invalid");
+              setError(
+                isExpired
+                  ? "This password reset link has expired. Please request a new one."
+                  : setSessionError.message || "Invalid reset link. Please request a new password reset."
+              );
+            }
+            return;
+          }
+          if (mounted && data?.session) {
             setIsValidSession(true);
-            // Clear the hash from URL for security
-            window.history.replaceState(null, '', window.location.pathname + window.location.search);
-          } else {
-            // Check if error is specifically about expired token
-            if (sessionError?.message?.includes('expired') || sessionError?.message?.includes('invalid')) {
+            window.history.replaceState(null, "", window.location.pathname + window.location.search);
+          }
+          return;
+        } catch (err: unknown) {
+          const msg = err instanceof Error ? err.message : "Invalid reset link.";
+          if (mounted) {
+            setIsValidSession(false);
+            setError(
+              msg.includes("expired") || msg.includes("otp_expired")
+                ? "This password reset link has expired. Please request a new one."
+                : msg
+            );
+          }
+          return;
+        }
+      }
+
+      // Had token in URL but not recovery type, or session not set - check existing session
+      if ((hasAccessToken && isRecoveryType) || hash.includes("access_token") || hash.includes("type=recovery")) {
+        try {
+          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+          if (mounted) {
+            if (sessionData?.session) {
+              setIsValidSession(true);
+              window.history.replaceState(null, "", window.location.pathname + window.location.search);
+            } else if (sessionError?.message?.includes("expired") || sessionError?.message?.includes("otp_expired")) {
               setIsValidSession(false);
               setError("This password reset link has expired. Please request a new one.");
             } else {
-              // No tokens and no session - invalid link
               setIsValidSession(false);
               setError("Invalid or expired reset link. Please request a new password reset.");
             }
           }
+          return;
+        } catch {
+          if (mounted) {
+            setIsValidSession(true);
+          }
+          return;
         }
-      } catch (sessionErr: any) {
-        // Handle expired token errors gracefully
+      }
+
+      // No token in URL - maybe hash was stripped by email client; check session then show helpful message
+      try {
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
         if (mounted) {
-          if (sessionErr.message?.includes('expired') || sessionErr.message?.includes('otp_expired')) {
-            setIsValidSession(false);
-            setError("This password reset link has expired. Please request a new one.");
+          if (sessionData?.session) {
+            setIsValidSession(true);
+            window.history.replaceState(null, "", window.location.pathname + window.location.search);
           } else {
             setIsValidSession(false);
-            setError("Invalid reset link. Please request a new password reset.");
+            const isExpired = sessionError?.message?.includes("expired") || sessionError?.message?.includes("invalid");
+            setError(
+              isExpired
+                ? "This password reset link has expired. Please request a new one."
+                : "No reset token was found. The link in your email may have been altered. Try clicking the link directly from your email (don't copy-paste), or request a new reset link below."
+            );
           }
+        }
+      } catch (sessionErr: unknown) {
+        const message = sessionErr instanceof Error ? sessionErr.message : "";
+        if (mounted) {
+          setIsValidSession(false);
+          setError(
+            message.includes("expired") || message.includes("otp_expired")
+              ? "This password reset link has expired. Please request a new one."
+              : "No reset token was found. Try clicking the link directly from your email (don't copy-paste), or request a new reset link below."
+          );
         }
       }
     };
 
-    // Check immediately - no delay needed
     validateSession();
 
     return () => {

@@ -34,7 +34,7 @@ const getApiBaseUrl = () => {
   }
   
   // Development default
-  return 'http://localhost:3002';
+  return 'http://localhost:3001';
 };
 
 const API_BASE_URL = getApiBaseUrl();
@@ -230,11 +230,18 @@ export async function logout(accessToken: string): Promise<ApiResponse<void>> {
 
 /**
  * Request password reset
+ * @param email - User email
+ * @param redirectTo - Optional full URL for the reset page (e.g. window.location.origin + '/reset-password'). Must match Supabase Redirect URLs.
  */
-export async function requestPasswordReset(email: string): Promise<ApiResponse<void>> {
+export async function requestPasswordReset(
+  email: string,
+  redirectTo?: string
+): Promise<ApiResponse<void>> {
   return apiRequest<void>('/api/auth/reset-password', {
     method: 'POST',
-    body: JSON.stringify({ email }),
+    body: JSON.stringify(
+      redirectTo ? { email, redirectTo } : { email }
+    ),
   });
 }
 

@@ -268,15 +268,22 @@ export const getCurrentUser = async (): Promise<User | null> => {
 
 /**
  * Send password reset email
- * Uses backend API for reliable password reset
+ * Uses backend API for reliable password reset.
+ * Sends current origin as redirectTo so the link in the email matches exactly where the user will land (avoids otp_expired).
  */
 export const sendPasswordResetEmail = async (email: string): Promise<{ error: string | null }> => {
   try {
+    const redirectTo =
+      typeof window !== "undefined"
+        ? `${window.location.origin}/reset-password`
+        : undefined;
+
     console.log("📧 Requesting password reset via backend API...", {
       email: email.toLowerCase().trim(),
+      redirectTo: redirectTo ?? "(backend default)",
     });
 
-    const response = await backendApi.requestPasswordReset(email);
+    const response = await backendApi.requestPasswordReset(email, redirectTo);
 
     if (!response.success) {
       return { error: response.error || "Failed to send password reset email" };

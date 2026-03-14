@@ -130,7 +130,9 @@ const CartPage = () => {
                               GH₵{(item.price * item.quantity).toFixed(2)}
                             </p>
                             <p className="text-sm text-gray-500">
-                              GH₵{item.price.toFixed(2)} each
+                              {item.bundleQuantity
+                                ? `${item.bundleQuantity} for GH₵${item.price.toFixed(2)} • ×${item.quantity} bundle${item.quantity !== 1 ? "s" : ""}`
+                                : `GH₵${item.price.toFixed(2)} each`}
                             </p>
                           </div>
                           <Button
