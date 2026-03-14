@@ -88,24 +88,32 @@ const CheckoutPage = () => {
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
 
       // Create order (saves to database; appears in My Orders)
-      order = await addOrder({
-        customerName: customerName,
-        customerPhone: customerInfo.phone,
-        customerEmail: customerInfo.email || undefined,
-        products: items.map((item) => ({
-          name: item.name,
-          variant: item.variant,
-          quantity: item.quantity,
-          price: item.price,
-        })),
-        location: location,
-        totalAmount: finalTotal,
-        paymentMethod:
-          paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
-        deliveryMethod:
-          deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
-        specialInstructions: deliveryInfo.instructions || undefined,
-      });
+      // Timeout so we never hang forever if Supabase/network doesn't respond
+      const ORDER_TIMEOUT_MS = 15000;
+      const addOrderWithTimeout = Promise.race([
+        addOrder({
+          customerName: customerName,
+          customerPhone: customerInfo.phone,
+          customerEmail: customerInfo.email || undefined,
+          products: items.map((item) => ({
+            name: item.name,
+            variant: item.variant,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          location: location,
+          totalAmount: finalTotal,
+          paymentMethod:
+            paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
+          deliveryMethod:
+            deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
+          specialInstructions: deliveryInfo.instructions || undefined,
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Order request timed out. Please check your connection and try again.")), ORDER_TIMEOUT_MS)
+        ),
+      ]);
+      order = await addOrderWithTimeout;
 
       // Generate tracking URL
       const baseUrl = window.location.origin;
