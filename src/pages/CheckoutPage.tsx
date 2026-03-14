@@ -69,13 +69,25 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
 
+    // MoMo selected but no payment gateway: do not create order, show message
+    if (paymentMethod === "mobile_money" && !import.meta.env.VITE_PAYSTACK_PUBLIC_KEY) {
+      setIsProcessing(false);
+      toast({
+        title: "No payment gateway connected",
+        description: "MoMo payment is not set up yet. Please choose Payment on Delivery to place your order, or contact the store to enable MoMo.",
+        variant: "destructive",
+        duration: 8000,
+      });
+      return;
+    }
+
     let order: any = null;
 
     try {
       const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
 
-      // Create order first (saves to database)
+      // Create order (saves to database; appears in My Orders)
       order = await addOrder({
         customerName: customerName,
         customerPhone: customerInfo.phone,
