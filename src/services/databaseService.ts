@@ -159,12 +159,11 @@ export const createOrder = async (
 
     console.log(`✅ Created ${insertedItems?.length || 0} order items`);
 
-    // Fetch complete order with items
-    const completeOrder = await getOrder(order.id);
-    if (!completeOrder) {
-      throw new Error("Failed to fetch created order");
-    }
-
+    // Use insert results directly instead of refetching (avoids RLS/fetch failures after insert)
+    const completeOrder = convertDbOrderToOrder(
+      order as DatabaseOrder,
+      (insertedItems || []) as DatabaseOrderItem[]
+    );
     return completeOrder;
   } catch (error) {
     console.error("Error creating order:", error);
