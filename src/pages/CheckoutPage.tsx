@@ -212,11 +212,11 @@ const CheckoutPage = () => {
         }
       }
 
-      // Payment on Delivery or no Paystack key: complete flow immediately
-      await sendProfessionalOrderEmail(orderData);
+      // Payment on Delivery: order already created. Notify owner in background so email never blocks success.
+      sendProfessionalOrderEmail(orderData).catch(() => {});
       toast({
         title: "✅ Order Placed Successfully!",
-        description: `Order #${order.orderNumber} - Status: ⏳ PENDING PROCESSING. Email sent to owner.`,
+        description: `Order #${order.orderNumber} - Status: ⏳ PENDING PROCESSING. The store will be notified.`,
         duration: 8000,
       });
       clearCart();
