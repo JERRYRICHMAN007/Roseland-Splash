@@ -42,8 +42,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     isLoading: true,
   });
 
-  // Load user from Supabase session on mount
+  // Load user from Supabase session on mount (with timeout so we never stick on "Loading...")
   useEffect(() => {
+    const AUTH_LOAD_TIMEOUT_MS = 10_000;
+
     const loadUser = async () => {
       const supabase = getSupabaseClient();
       if (!supabase) {
@@ -51,26 +53,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return;
       }
 
-      try {
-        // Get current session
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session?.user) {
-          // Get user profile
-          const user = await authService.getUserProfile(session.user.id);
-          if (user) {
-            setState({
-              user,
-              isAuthenticated: true,
-              isLoading: false,
-            });
-          } else {
-            setState((prev) => ({ ...prev, isLoading: false }));
+      const timeoutPromise = new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), AUTH_LOAD_TIMEOUT_MS);
+      });
+
+      const loadPromise = (async () => {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+
+          if (session?.user) {
+            const user = await authService.getUserProfile(session.user.id);
+            if (user) {
+              setState({
+                user,
+                isAuthenticated: true,
+                isLoading: false,
+              });
+              return;
+            }
           }
-        } else {
+          setState((prev) => ({ ...prev, isLoading: false }));
+        } catch (error) {
           setState((prev) => ({ ...prev, isLoading: false }));
         }
-      } catch (error) {
+      })();
+
+      try {
+        await Promise.race([loadPromise, timeoutPromise]);
+        // Ensure loading is cleared (e.g. if timeout won before loadUser finished)
+        setState((prev) => ({ ...prev, isLoading: false }));
+      } catch {
         setState((prev) => ({ ...prev, isLoading: false }));
       }
     };

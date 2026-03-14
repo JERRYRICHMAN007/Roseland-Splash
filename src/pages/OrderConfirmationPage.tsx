@@ -141,7 +141,7 @@ const OrderConfirmationPage = () => {
                 <div>
                   <p className="font-medium">Driver Assignment</p>
                   <p className="text-sm text-muted-foreground">
-                    A Yango driver will be assigned to your order
+                    A driver will be assigned to your order
                   </p>
                 </div>
               </div>

@@ -69,17 +69,13 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate order processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    let order: any = null;
 
-    // Create and save order
-    let order: any = null; // Declare order outside try block so it's accessible later
-    
     try {
       const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
-      
-      // Create order in the system (now async - saves to database)
+
+      // Create order first (saves to database)
       order = await addOrder({
         customerName: customerName,
         customerPhone: customerInfo.phone,
@@ -95,7 +91,7 @@ const CheckoutPage = () => {
         paymentMethod:
           paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
         deliveryMethod:
-          deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
+          deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
         specialInstructions: deliveryInfo.instructions || undefined,
       });
 
@@ -119,18 +115,14 @@ const CheckoutPage = () => {
         paymentMethod:
           paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
         deliveryMethod:
-          deliveryMethod === "yango" ? "Yango Delivery" : "Store Pickup",
+          deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
         specialInstructions: deliveryInfo.instructions || undefined,
         orderId: order.id,
         orderNumber: order.orderNumber,
         trackingUrl: trackingUrl,
       };
 
-      // Send professional branded email to owner (Rollsland & Splash)
-      // Only send one email to avoid duplicates
-      await sendProfessionalOrderEmail(orderData);
-      
-      // Integrate with Yango delivery API (mock implementation)
+      // Integrate with delivery API (mock implementation)
       if (deliveryMethod === "yango") {
         // Mock Yango API call
         const yangoOrder = {
@@ -149,28 +141,108 @@ const CheckoutPage = () => {
         console.log("Yango delivery order:", yangoOrder);
       }
 
+      // If MoMo, open Paystack for payment; on success we'll send email and redirect
+      if (paymentMethod === "mobile_money") {
+        const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+        if (paystackKey) {
+          const amountInPesewas = Math.round(finalTotal * 100); // Ghana: 1 GHS = 100 pesewas
+          const runPaystack = () => {
+            const w = window as Window & { PaystackPop?: { newTransaction: (opts: {
+              key: string;
+              email: string;
+              amount: number;
+              reference: string;
+              onSuccess: (t: { reference: string }) => void;
+              onCancel: () => void;
+            }) => void } };
+            if (!w.PaystackPop) {
+              toast({
+                title: "Payment",
+                description: "Payment script not loaded. Completing order — you can pay on delivery.",
+                variant: "destructive",
+              });
+              completeOrderFlow(order, customerName, location, orderData, trackingUrl);
+              return;
+            }
+            w.PaystackPop.newTransaction({
+              key: paystackKey,
+              email: customerInfo.email || "customer@rollslandsplash.com",
+              amount: amountInPesewas,
+              reference: order.id,
+              onSuccess: () => {
+                completeOrderFlow(order, customerName, location, orderData, trackingUrl);
+              },
+              onCancel: () => {
+                setIsProcessing(false);
+                toast({
+                  title: "Payment cancelled",
+                  description: `Order #${order.orderNumber} was created. You can pay on delivery or contact us to pay via MoMo.`,
+                  variant: "default",
+                });
+                navigate(`/order-confirmation/${order.id}`);
+              },
+            });
+          };
+          if ((window as Window & { PaystackPop?: unknown }).PaystackPop) {
+            runPaystack();
+          } else {
+            const script = document.createElement("script");
+            script.src = "https://js.paystack.co/v2/inline.js";
+            script.async = true;
+            script.onload = runPaystack;
+            script.onerror = () => {
+              toast({ title: "Payment", description: "Could not load payment. Order saved — pay on delivery.", variant: "destructive" });
+              completeOrderFlow(order, customerName, location, orderData, trackingUrl);
+            };
+            document.body.appendChild(script);
+          }
+          return; // Don't clear cart / navigate here; Paystack callbacks will
+        }
+      }
+
+      // Payment on Delivery or no Paystack key: complete flow immediately
+      await sendProfessionalOrderEmail(orderData);
       toast({
         title: "✅ Order Placed Successfully!",
         description: `Order #${order.orderNumber} - Status: ⏳ PENDING PROCESSING. Email sent to owner.`,
         duration: 8000,
       });
+      clearCart();
+      navigate(`/order-confirmation/${order.id}`);
     } catch (error) {
       console.error("Error sending order:", error);
       toast({
-        title: "Order Placed",
-        description:
-          "Your order has been received. We'll contact you for delivery arrangements.",
+        title: "Order failed",
+        description: error instanceof Error ? error.message : "Could not place order. Please try again.",
+        variant: "destructive",
       });
+      if (order) navigate(`/order-confirmation/${order.id}`);
+      else navigate("/cart");
+    } finally {
+      setIsProcessing(false);
     }
+  };
 
-    clearCart();
-    if (order) {
-      navigate(`/order-confirmation/${order.id}`);
-    } else {
-      // If order creation failed, navigate to cart or home
-      navigate("/cart");
-    }
+  const completeOrderFlow = async (
+    order: { id: string; orderNumber: string },
+    _customerName: string,
+    _location: string,
+    orderData: Parameters<typeof sendProfessionalOrderEmail>[0],
+    _trackingUrl: string
+  ) => {
     setIsProcessing(false);
+    try {
+      await sendProfessionalOrderEmail(orderData);
+      toast({
+        title: "✅ Payment & order complete",
+        description: `Order #${order.orderNumber} - Payment received. Email sent to owner.`,
+        duration: 8000,
+      });
+    } catch (e) {
+      console.error("Email send error:", e);
+    }
+    clearCart();
+    navigate(`/order-confirmation/${order.id}`);
   };
 
   // Redirect to cart if cart is empty
@@ -359,7 +431,7 @@ const CheckoutPage = () => {
                       <Label htmlFor="yango" className="flex-1">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium">Yango Delivery</p>
+                            <p className="font-medium">Delivery</p>
                             <p className="text-sm text-muted-foreground">
                               Fast and reliable delivery service
                             </p>

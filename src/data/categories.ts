@@ -423,7 +423,8 @@ import groundnutSoupBaseImage from "@/assets/Groundnut Soup Base.jpg";
 import jollofRiceBaseImage from "@/assets/Jollof Rice Base.png";
 import lightSoupBaseImage from "@/assets/Light Soup Base.jpg";
 import palmNutSoupBaseImage from "@/assets/Palm Nut Soup Base.png";
-import friedSpringRollsImage from "@/assets/Springrolls-Fried.jpg";
+import friedSpringRollsImage from "@/assets/Chicken-Spring-Rolls-Recipe.jpg";
+import friedSpringRollsSubcategoryImage from "@/assets/crispy-fried-spring-rolls-on-white-plate-isolated-on-transparent-background-png.png";
 import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
 import frozenYamImage from "@/assets/High-Quality-Frozen-French-Fries-IQF-Potatoes-French-Fries-Price.jpg";
 import frozenSamosaImage from "@/assets/Samosa-Frozen.jpeg";
@@ -1377,14 +1378,14 @@ export const categoriesData: Category[] = [
             id: "fried-spring-rolls",
             name: "Fried Spring Rolls",
             description: "Freshly fried crispy spring rolls",
-            image: friedSpringRollsImage,
+            image: friedSpringRollsSubcategoryImage,
             products: [
               {
                 id: 21,
                 name: "Fried Spring Rolls",
                 price: 2.5,
                 unit: "from",
-                image: friedSpringRollsImage,
+                image: friedSpringRollsSubcategoryImage,
                 description:
                   "Freshly fried crispy spring rolls with various fillings",
                 inStock: true,
@@ -1395,7 +1396,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: friedSpringRollsImage,
+                    image: friedSpringRollsSubcategoryImage,
                   },
                   {
                     id: "fried-spring-chicken",
@@ -1403,7 +1404,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: friedSpringRollsImage,
+                    image: friedSpringRollsSubcategoryImage,
                   },
                   {
                     id: "fried-spring-beans",
@@ -1411,7 +1412,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: friedSpringRollsImage,
+                    image: friedSpringRollsSubcategoryImage,
                   },
                   {
                     id: "fried-spring-veggies",
@@ -1419,7 +1420,7 @@ export const categoriesData: Category[] = [
                     price: 2.5,
                     unit: "per piece",
                     inStock: true,
-                    image: friedSpringRollsImage,
+                    image: friedSpringRollsSubcategoryImage,
                   },
                 ],
               },
