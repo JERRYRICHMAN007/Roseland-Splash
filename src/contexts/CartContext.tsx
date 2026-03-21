@@ -107,13 +107,57 @@ interface CartContextType extends CartState {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "rs_basket";
+
+const loadCartFromStorage = (): CartItem[] => {
+  try {
+    const raw = typeof window !== "undefined" ? localStorage.getItem(CART_STORAGE_KEY) : null;
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (item): item is CartItem =>
+        item &&
+        typeof item === "object" &&
+        typeof (item as CartItem).id === "string" &&
+        typeof (item as CartItem).name === "string" &&
+        typeof (item as CartItem).price === "number" &&
+        typeof (item as CartItem).quantity === "number" &&
+        typeof (item as CartItem).image === "string"
+    );
+  } catch {
+    return [];
+  }
+};
+
+const saveCartToStorage = (items: CartItem[]) => {
+  try {
+    if (typeof window !== "undefined") {
+      if (items.length === 0) localStorage.removeItem(CART_STORAGE_KEY);
+      else localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    }
+  } catch {
+    // ignore
+  }
+};
+
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Cart is kept in memory only (no localStorage)
-  // Cart data is temporary and doesn't need persistence
+  // Restore cart from localStorage on mount (e.g. after login redirect)
+  useEffect(() => {
+    const stored = loadCartFromStorage();
+    if (stored.length > 0) {
+      dispatch({ type: "LOAD_CART", payload: stored });
+    }
+  }, []);
+
+  // Persist cart whenever items change so it survives login redirect / refresh
+  useEffect(() => {
+    saveCartToStorage(state.items);
+  }, [state.items]);
 
   const addItem = (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
     dispatch({ type: "ADD_ITEM", payload: item });

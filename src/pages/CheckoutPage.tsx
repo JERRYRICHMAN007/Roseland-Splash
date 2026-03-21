@@ -22,6 +22,7 @@ import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { sendOrderToWhatsApp } from "@/services/whatsappService";
 import { sendProfessionalOrderEmail } from "@/services/professionalEmailService";
+import * as backendApi from "@/services/backendApi";
 
 const CheckoutPage = () => {
   const { items, total, clearCart } = useCart();
@@ -161,63 +162,26 @@ const CheckoutPage = () => {
         console.log("Yango delivery order:", yangoOrder);
       }
 
-      // If MoMo, open Paystack for payment; on success we'll send email and redirect
+      // If MoMo, initialize Paystack redirect payment on backend
       if (paymentMethod === "mobile_money") {
-        const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
-        if (paystackKey) {
-          const amountInPesewas = Math.round(finalTotal * 100); // Ghana: 1 GHS = 100 pesewas
-          const runPaystack = () => {
-            const w = window as Window & { PaystackPop?: { newTransaction: (opts: {
-              key: string;
-              email: string;
-              amount: number;
-              reference: string;
-              onSuccess: (t: { reference: string }) => void;
-              onCancel: () => void;
-            }) => void } };
-            if (!w.PaystackPop) {
-              toast({
-                title: "Payment",
-                description: "Payment script not loaded. Completing order — you can pay on delivery.",
-                variant: "destructive",
-              });
-              completeOrderFlow(order, customerName, location, orderData, trackingUrl);
-              return;
-            }
-            w.PaystackPop.newTransaction({
-              key: paystackKey,
-              email: customerInfo.email || "customer@rollslandsplash.com",
-              amount: amountInPesewas,
-              reference: order.id,
-              onSuccess: () => {
-                completeOrderFlow(order, customerName, location, orderData, trackingUrl);
-              },
-              onCancel: () => {
-                setIsProcessing(false);
-                toast({
-                  title: "Payment cancelled",
-                  description: `Order #${order.orderNumber} was created. You can pay on delivery or contact us to pay via MoMo.`,
-                  variant: "default",
-                });
-                navigate(`/order-confirmation/${order.id}`);
-              },
-            });
-          };
-          if ((window as Window & { PaystackPop?: unknown }).PaystackPop) {
-            runPaystack();
-          } else {
-            const script = document.createElement("script");
-            script.src = "https://js.paystack.co/v2/inline.js";
-            script.async = true;
-            script.onload = runPaystack;
-            script.onerror = () => {
-              toast({ title: "Payment", description: "Could not load payment. Order saved — pay on delivery.", variant: "destructive" });
-              completeOrderFlow(order, customerName, location, orderData, trackingUrl);
-            };
-            document.body.appendChild(script);
-          }
-          return; // Don't clear cart / navigate here; Paystack callbacks will
+        const initRes = await backendApi.initializePayment({
+          email: customerInfo.email || "customer@rollslandsplash.com",
+          amount: finalTotal,
+          orderId: order.id,
+          cartItems: items.map((item) => ({
+            name: item.name,
+            variant: item.variant,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+        });
+
+        if (!initRes.success || !initRes.data?.authorization_url) {
+          throw new Error(initRes.error || "Could not initialize payment.");
         }
+
+        window.location.href = initRes.data.authorization_url;
+        return;
       }
 
       // Payment on Delivery: order already created. Notify owner in background so email never blocks success.
@@ -241,28 +205,6 @@ const CheckoutPage = () => {
     } finally {
       setIsProcessing(false);
     }
-  };
-
-  const completeOrderFlow = async (
-    order: { id: string; orderNumber: string },
-    _customerName: string,
-    _location: string,
-    orderData: Parameters<typeof sendProfessionalOrderEmail>[0],
-    _trackingUrl: string
-  ) => {
-    setIsProcessing(false);
-    try {
-      await sendProfessionalOrderEmail(orderData);
-      toast({
-        title: "✅ Payment & order complete",
-        description: `Order #${order.orderNumber} - Payment received. Email sent to owner.`,
-        duration: 8000,
-      });
-    } catch (e) {
-      console.error("Email send error:", e);
-    }
-    clearCart();
-    navigate(`/order-confirmation/${order.id}`);
   };
 
   // Redirect to cart if cart is empty
@@ -584,7 +526,11 @@ const CheckoutPage = () => {
                     size="lg"
                     disabled={isProcessing}
                   >
-                    {isProcessing ? "Processing Order..." : "Place Order"}
+                    {isProcessing
+                      ? "Initializing Payment..."
+                      : paymentMethod === "mobile_money"
+                        ? "Pay Now"
+                        : "Place Order"}
                   </Button>
                 </CardContent>
               </Card>

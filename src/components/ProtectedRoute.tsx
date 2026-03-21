@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -46,7 +47,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                   <Button
                     onClick={() => {
                       const returnTo = location.pathname + location.search;
-                      window.location.href = `/login?returnTo=${encodeURIComponent(returnTo)}`;
+                      navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`);
                     }}
                     size="lg"
                   >
@@ -56,7 +57,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                     variant="outline"
                     onClick={() => {
                       const returnTo = location.pathname + location.search;
-                      window.location.href = `/signup?returnTo=${encodeURIComponent(returnTo)}`;
+                      navigate(`/signup?returnTo=${encodeURIComponent(returnTo)}`);
                     }}
                     size="lg"
                   >

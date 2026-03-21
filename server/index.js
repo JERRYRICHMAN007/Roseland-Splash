@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import createPaymentRouter from './routes/payment.js';
 
 // Load environment variables
 dotenv.config();
@@ -14,7 +15,11 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:8080',
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 
 // Initialize Supabase Admin Client (uses service role key for backend operations)
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -36,9 +41,15 @@ const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
 
 // Also create a regular client for user operations
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const paystackSecretKey = process.env.PAYSTACK_SECRET_KEY;
 
 if (!supabaseAnonKey) {
   console.error('❌ Missing SUPABASE_ANON_KEY environment variable!');
+  process.exit(1);
+}
+
+if (!paystackSecretKey) {
+  console.error('❌ Missing PAYSTACK_SECRET_KEY environment variable!');
   process.exit(1);
 }
 
@@ -48,6 +59,9 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: false
   }
 });
+
+const paymentRouter = createPaymentRouter({ supabaseAdmin });
+app.use('/api/payment', paymentRouter);
 
 console.log('✅ Backend server initialized');
 console.log('🔍 Supabase URL:', supabaseUrl.substring(0, 30) + '...');

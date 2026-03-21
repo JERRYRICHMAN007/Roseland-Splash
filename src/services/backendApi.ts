@@ -72,6 +72,17 @@ export interface SignupResponse {
   };
 }
 
+export interface PaymentInitializeResponse {
+  authorization_url: string;
+  reference: string;
+}
+
+export interface PaymentVerifyResponse {
+  orderId?: string;
+  reference: string;
+  message?: string;
+}
+
 /**
  * Make API request with error handling
  */
@@ -278,6 +289,29 @@ export async function getCurrentUser(accessToken: string): Promise<ApiResponse<S
  */
 export async function healthCheck(): Promise<ApiResponse<{ status: string; message: string }>> {
   return apiRequest<{ status: string; message: string }>('/health');
+}
+
+export async function initializePayment(data: {
+  email: string;
+  amount: number;
+  orderId: string;
+  cartItems: Array<{
+    name: string;
+    variant?: string;
+    quantity: number;
+    price: number;
+  }>;
+}): Promise<ApiResponse<PaymentInitializeResponse>> {
+  return apiRequest<PaymentInitializeResponse>('/api/payment/initialize', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export async function verifyPayment(reference: string): Promise<ApiResponse<PaymentVerifyResponse>> {
+  return apiRequest<PaymentVerifyResponse>(`/api/payment/verify/${encodeURIComponent(reference)}`, {
+    method: 'GET',
+  });
 }
 
 

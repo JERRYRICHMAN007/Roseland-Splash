@@ -26,6 +26,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
+import PaymentVerify from "./pages/PaymentVerify";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import FloatingWishlistButton from "./components/FloatingWishlistButton";
@@ -90,6 +91,7 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+                  <Route path="/payment/verify" element={<PaymentVerify />} />
                   <Route
                     path="/order-confirmation/:orderId"
                     element={<OrderConfirmationPage />}
