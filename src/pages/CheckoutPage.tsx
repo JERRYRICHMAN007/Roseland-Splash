@@ -31,10 +31,18 @@ const DELIVERY_TIME_PRESETS = [
   { value: "morning", label: "Morning (8:00 AM – 12:00 PM)" },
   { value: "afternoon", label: "Afternoon (12:00 PM – 5:00 PM)" },
   { value: "evening", label: "Evening (5:00 PM – 8:30 PM)" },
+  { value: "custom", label: "Custom time (type your own)" },
 ] as const;
 
-function getDeliveryTimeWindowLabel(preset: string): string | undefined {
+function getDeliveryTimeWindowLabel(
+  preset: string,
+  customDeliveryTime: string
+): string | undefined {
   if (preset === "any") return undefined;
+  if (preset === "custom") {
+    const typed = customDeliveryTime.trim();
+    return typed ? `Custom: ${typed}` : undefined;
+  }
   return DELIVERY_TIME_PRESETS.find((p) => p.value === preset)?.label;
 }
 
@@ -76,6 +84,7 @@ const CheckoutPage = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("yango");
   /** Preferred delivery time window when delivery is selected */
   const [deliveryTimePreset, setDeliveryTimePreset] = useState<string>("any");
+  const [customDeliveryTime, setCustomDeliveryTime] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const deliveryFee = total >= 100 ? 0 : 15;
@@ -86,17 +95,8 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // MoMo selected but no payment gateway: do not create order, show message
-    if (paymentMethod === "mobile_money" && !import.meta.env.VITE_PAYSTACK_PUBLIC_KEY) {
-      setIsProcessing(false);
-      toast({
-        title: "No payment gateway connected",
-        description: "MoMo payment is not set up yet. Please choose Payment on Delivery to place your order, or contact the store to enable MoMo.",
-        variant: "destructive",
-        duration: 8000,
-      });
-      return;
-    }
+    // MoMo uses server-side Paystack (PAYSTACK_SECRET_KEY on API). Do not require
+    // VITE_PAYSTACK_PUBLIC_KEY — that was only for old inline Paystack popup.
 
     let order: any = null;
 
@@ -104,7 +104,9 @@ const CheckoutPage = () => {
       const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
       const deliveryTimeWindow =
-        deliveryMethod === "yango" ? getDeliveryTimeWindowLabel(deliveryTimePreset) : undefined;
+        deliveryMethod === "yango"
+          ? getDeliveryTimeWindowLabel(deliveryTimePreset, customDeliveryTime)
+          : undefined;
 
       // Create order (saves to database; appears in My Orders)
       // Timeout so we never hang forever if Supabase/network doesn't respond
@@ -404,6 +406,14 @@ const CheckoutPage = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      {deliveryTimePreset === "custom" && (
+                        <Input
+                          className="mt-2"
+                          placeholder="e.g., 3:30 PM - 5:00 PM"
+                          value={customDeliveryTime}
+                          onChange={(e) => setCustomDeliveryTime(e.target.value)}
+                        />
+                      )}
                     </div>
                   )}
                   <div>
@@ -567,9 +577,10 @@ const CheckoutPage = () => {
                       <div className="flex justify-between text-sm text-muted-foreground gap-2">
                         <span className="shrink-0">Delivery window</span>
                         <span className="text-right">
-                          {DELIVERY_TIME_PRESETS.find(
-                            (p) => p.value === deliveryTimePreset
-                          )?.label ?? "—"}
+                          {getDeliveryTimeWindowLabel(
+                            deliveryTimePreset,
+                            customDeliveryTime
+                          ) ?? "—"}
                         </span>
                       </div>
                     )}
