@@ -19,6 +19,8 @@ export interface Order {
   totalAmount: number;
   paymentMethod: string;
   deliveryMethod: string;
+  /** Preferred delivery window (e.g. "8:00 AM – 12:00 PM"); merged into special_instructions in DB */
+  deliveryTimeWindow?: string;
   specialInstructions?: string;
   status: OrderStatus;
   createdAt: string;

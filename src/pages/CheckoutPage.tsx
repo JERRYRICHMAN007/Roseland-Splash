@@ -23,6 +23,20 @@ import { useToast } from "@/hooks/use-toast";
 import { sendOrderToWhatsApp } from "@/services/whatsappService";
 import { sendProfessionalOrderEmail } from "@/services/professionalEmailService";
 import * as backendApi from "@/services/backendApi";
+import { buildOrderSpecialInstructions } from "@/services/databaseService";
+
+/** Customer-requested delivery time window (shown when Delivery is selected) */
+const DELIVERY_TIME_PRESETS = [
+  { value: "any", label: "Any time (flexible)" },
+  { value: "morning", label: "Morning (8:00 AM – 12:00 PM)" },
+  { value: "afternoon", label: "Afternoon (12:00 PM – 5:00 PM)" },
+  { value: "evening", label: "Evening (5:00 PM – 8:30 PM)" },
+] as const;
+
+function getDeliveryTimeWindowLabel(preset: string): string | undefined {
+  if (preset === "any") return undefined;
+  return DELIVERY_TIME_PRESETS.find((p) => p.value === preset)?.label;
+}
 
 const CheckoutPage = () => {
   const { items, total, clearCart } = useCart();
@@ -60,6 +74,8 @@ const CheckoutPage = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("mobile_money");
   const [deliveryMethod, setDeliveryMethod] = useState("yango");
+  /** Preferred delivery time window when delivery is selected */
+  const [deliveryTimePreset, setDeliveryTimePreset] = useState<string>("any");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const deliveryFee = total >= 100 ? 0 : 15;
@@ -87,6 +103,8 @@ const CheckoutPage = () => {
     try {
       const customerName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
       const location = `${deliveryInfo.address}, ${deliveryInfo.area}, ${deliveryInfo.city}`.trim();
+      const deliveryTimeWindow =
+        deliveryMethod === "yango" ? getDeliveryTimeWindowLabel(deliveryTimePreset) : undefined;
 
       // Create order (saves to database; appears in My Orders)
       // Timeout so we never hang forever if Supabase/network doesn't respond
@@ -108,6 +126,7 @@ const CheckoutPage = () => {
             paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
           deliveryMethod:
             deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
+          deliveryTimeWindow,
           specialInstructions: deliveryInfo.instructions || undefined,
         }),
         new Promise<never>((_, reject) =>
@@ -137,7 +156,10 @@ const CheckoutPage = () => {
           paymentMethod === "mobile_money" ? "MoMo" : "Payment on Delivery",
         deliveryMethod:
           deliveryMethod === "yango" ? "Delivery" : "Store Pickup",
-        specialInstructions: deliveryInfo.instructions || undefined,
+        specialInstructions: buildOrderSpecialInstructions(
+          deliveryTimeWindow,
+          deliveryInfo.instructions || undefined
+        ),
         orderId: order.id,
         orderNumber: order.orderNumber,
         trackingUrl: trackingUrl,
@@ -156,7 +178,10 @@ const CheckoutPage = () => {
             price: item.price,
           })),
           total_amount: finalTotal,
-          special_instructions: deliveryInfo.instructions,
+          special_instructions: buildOrderSpecialInstructions(
+            deliveryTimeWindow,
+            deliveryInfo.instructions || undefined
+          ),
         };
 
         console.log("Yango delivery order:", yangoOrder);
@@ -356,6 +381,31 @@ const CheckoutPage = () => {
                       }
                     />
                   </div>
+                  {deliveryMethod === "yango" && (
+                    <div>
+                      <Label htmlFor="deliveryTime">
+                        Preferred delivery time
+                      </Label>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        When would you like your order delivered? We&apos;ll do our best to match your window.
+                      </p>
+                      <Select
+                        value={deliveryTimePreset}
+                        onValueChange={setDeliveryTimePreset}
+                      >
+                        <SelectTrigger id="deliveryTime">
+                          <SelectValue placeholder="Choose a time range" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {DELIVERY_TIME_PRESETS.map((p) => (
+                            <SelectItem key={p.value} value={p.value}>
+                              {p.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
                   <div>
                     <Label htmlFor="instructions">
                       Delivery Instructions (Optional)
@@ -513,6 +563,16 @@ const CheckoutPage = () => {
                           : `GH₵${deliveryFee.toFixed(2)}`}
                       </span>
                     </div>
+                    {deliveryMethod === "yango" && (
+                      <div className="flex justify-between text-sm text-muted-foreground gap-2">
+                        <span className="shrink-0">Delivery window</span>
+                        <span className="text-right">
+                          {DELIVERY_TIME_PRESETS.find(
+                            (p) => p.value === deliveryTimePreset
+                          )?.label ?? "—"}
+                        </span>
+                      </div>
+                    )}
                     <hr />
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>

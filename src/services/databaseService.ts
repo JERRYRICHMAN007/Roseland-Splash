@@ -71,6 +71,19 @@ const convertDbOrderToOrder = (
   };
 };
 
+/** Merge delivery window + notes into one field for `orders.special_instructions` */
+export function buildOrderSpecialInstructions(
+  deliveryTimeWindow?: string,
+  specialInstructions?: string
+): string | undefined {
+  const parts: string[] = [];
+  const dw = deliveryTimeWindow?.trim();
+  if (dw) parts.push(`Preferred delivery time: ${dw}`);
+  const si = specialInstructions?.trim();
+  if (si) parts.push(si);
+  return parts.length ? parts.join("\n\n") : undefined;
+}
+
 /**
  * Create a new order in the database
  */
@@ -107,7 +120,10 @@ export const createOrder = async (
         total_amount: orderData.totalAmount,
         payment_method: orderData.paymentMethod,
         delivery_method: orderData.deliveryMethod,
-        special_instructions: orderData.specialInstructions,
+        special_instructions: buildOrderSpecialInstructions(
+          orderData.deliveryTimeWindow,
+          orderData.specialInstructions
+        ),
         status: "processing",
       })
       .select()
@@ -164,7 +180,10 @@ export const createOrder = async (
       order as DatabaseOrder,
       (insertedItems || []) as DatabaseOrderItem[]
     );
-    return completeOrder;
+    return {
+      ...completeOrder,
+      deliveryTimeWindow: orderData.deliveryTimeWindow,
+    };
   } catch (error) {
     console.error("Error creating order:", error);
     throw error;
