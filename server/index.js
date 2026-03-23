@@ -41,16 +41,16 @@ const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
 
 // Also create a regular client for user operations
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-const paystackSecretKey = process.env.PAYSTACK_SECRET_KEY;
 
 if (!supabaseAnonKey) {
   console.error('❌ Missing SUPABASE_ANON_KEY environment variable!');
   process.exit(1);
 }
 
-if (!paystackSecretKey) {
-  console.error('❌ Missing PAYSTACK_SECRET_KEY environment variable!');
-  process.exit(1);
+// Paystack is optional at startup: add PAYSTACK_SECRET_KEY in Vercel/server .env for payments.
+// Do NOT exit if missing — that would crash the whole API (login, health, etc.) on Vercel.
+if (!process.env.PAYSTACK_SECRET_KEY) {
+  console.warn('⚠️ PAYSTACK_SECRET_KEY not set — payment routes will return errors until configured.');
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey, {
