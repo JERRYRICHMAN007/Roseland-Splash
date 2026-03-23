@@ -6,6 +6,7 @@
 import express from 'express';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
+import createPaymentRouter from '../server/routes/payment.js';
 
 const app = express();
 
@@ -14,7 +15,11 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:8080',
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 
 // Initialize Supabase Admin Client (uses service role key for backend operations)
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -47,6 +52,9 @@ console.log('✅ Backend server initialized');
 if (supabaseUrl) {
   console.log('🔍 Supabase URL:', supabaseUrl.substring(0, 30) + '...');
 }
+
+const paymentRouter = createPaymentRouter({ supabaseAdmin });
+app.use('/api/payment', paymentRouter);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
