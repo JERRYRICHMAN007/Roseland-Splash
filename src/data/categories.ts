@@ -5586,7 +5586,7 @@ export const categoriesData: Category[] = [
     subcategories: [
       {
         id: "spice-pure",
-        name: "Spice Pure",
+        name: "Spice Puree",
         description: "Fresh herb and spice purees for authentic flavoring",
         image: spicePureeImage,
         products: [

@@ -42,8 +42,8 @@ const MyOrdersPage = () => {
   const handleCancelOrder = async (orderId: string, orderNumber: string) => {
     setCancellingOrderId(orderId);
     try {
-      const success = await cancelOrder(orderId);
-      if (success) {
+      const result = await cancelOrder(orderId);
+      if (result.success) {
         toast({
           title: "Order Cancelled",
           description: `Order #${orderNumber} has been cancelled and removed.`,
@@ -52,7 +52,7 @@ const MyOrdersPage = () => {
       } else {
         toast({
           title: "Cannot Cancel Order",
-          description: "This order cannot be cancelled. Only pending orders can be cancelled.",
+          description: result.message || "This order cannot be cancelled.",
           variant: "destructive",
         });
       }

@@ -1,7 +1,14 @@
 import React, { createContext, useContext, useReducer, useEffect, useState } from "react";
 import * as db from "@/services/databaseService";
+import { getSupabaseClient } from "@/lib/supabase";
+import * as backendApi from "@/services/backendApi";
 
-export type OrderStatus = "processing" | "delivering" | "delivered" | "cancelled";
+export type OrderStatus =
+  | "processing"
+  | "paid"
+  | "delivering"
+  | "delivered"
+  | "cancelled";
 
 export interface Order {
   id: string;
@@ -97,7 +104,7 @@ interface OrderContextType extends OrderState {
   getOrdersByPhone: (phone: string) => Order[];
   getOrdersByUser: (phone?: string, email?: string) => Order[];
   clearAllOrders: () => void;
-  cancelOrder: (id: string) => Promise<boolean>;
+  cancelOrder: (id: string) => Promise<{ success: boolean; message?: string }>;
   isLoading: boolean;
   refreshOrders: () => Promise<void>;
 }
@@ -208,24 +215,29 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "CLEAR_ALL_ORDERS" });
   };
 
-  const cancelOrder = async (id: string): Promise<boolean> => {
+  const cancelOrder = async (id: string): Promise<{ success: boolean; message?: string }> => {
     console.log(`🚫 Cancelling order ${id}...`);
     try {
-      // Cancel in database
-      const success = await db.cancelOrder(id);
-      
-      if (success) {
-        console.log(`✅ Order ${id} cancelled successfully`);
-        // Update local state
-        dispatch({ type: "CANCEL_ORDER", payload: { id } });
-        return true;
-      } else {
-        console.error(`❌ Failed to cancel order ${id}`);
-        return false;
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        return { success: false, message: "App configuration error. Please try again later." };
       }
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        return { success: false, message: "Please sign in to cancel an order." };
+      }
+
+      const res = await backendApi.cancelOrderApi(id, session.access_token);
+      if (res.success) {
+        console.log(`✅ Order ${id} cancelled successfully`);
+        dispatch({ type: "CANCEL_ORDER", payload: { id } });
+        return { success: true };
+      }
+      console.error(`❌ Failed to cancel order ${id}`, res.error);
+      return { success: false, message: res.error || "Could not cancel this order." };
     } catch (error: any) {
-      console.error("❌ Error cancelling order in database:", error);
-      throw new Error(`Failed to cancel order: ${error.message || "Unknown error"}`);
+      console.error("❌ Error cancelling order:", error);
+      return { success: false, message: error.message || "Could not cancel this order." };
     }
   };
 

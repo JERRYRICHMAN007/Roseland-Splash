@@ -7,6 +7,7 @@ import express from 'express';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
 import createPaymentRouter from '../server/routes/payment.js';
+import createOrderCancelRouter from '../server/routes/orderCancel.js';
 
 const app = express();
 
@@ -55,6 +56,9 @@ if (supabaseUrl) {
 
 const paymentRouter = createPaymentRouter({ supabaseAdmin });
 app.use('/api/payment', paymentRouter);
+
+const orderCancelRouter = createOrderCancelRouter({ supabase, supabaseAdmin });
+app.use('/api/orders', orderCancelRouter);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -23,6 +23,7 @@ export interface DatabaseOrder {
   payment_method: string;
   delivery_method: string;
   special_instructions?: string;
+  /** DB may include `paid` after Paystack (see payment webhook) */
   status: OrderStatus;
   created_at: string;
   updated_at: string;

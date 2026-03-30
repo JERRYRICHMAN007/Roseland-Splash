@@ -39,6 +39,13 @@ const ManagerDashboard = () => {
             Processing
           </Badge>
         );
+      case "paid":
+        return (
+          <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200">
+            <CheckCircle className="mr-1" size={12} />
+            Paid
+          </Badge>
+        );
       case "delivering":
         return (
           <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
@@ -51,6 +58,12 @@ const ManagerDashboard = () => {
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             <CheckCircle className="mr-1" size={12} />
             Delivered
+          </Badge>
+        );
+      default:
+        return (
+          <Badge variant="outline" className="bg-muted text-muted-foreground">
+            {status}
           </Badge>
         );
     }
@@ -78,6 +91,7 @@ const ManagerDashboard = () => {
   const stats = {
     total: orders.length,
     processing: orders.filter((o) => o.status === "processing").length,
+    paid: orders.filter((o) => o.status === "paid").length,
     delivering: orders.filter((o) => o.status === "delivering").length,
     delivered: orders.filter((o) => o.status === "delivered").length,
   };
@@ -96,7 +110,7 @@ const ManagerDashboard = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -116,6 +130,18 @@ const ManagerDashboard = () => {
               <CardContent>
                 <div className="text-2xl font-bold text-yellow-600">
                   {stats.processing}
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Paid
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-emerald-600">
+                  {stats.paid}
                 </div>
               </CardContent>
             </Card>
@@ -166,6 +192,7 @@ const ManagerDashboard = () => {
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="paid">Paid</SelectItem>
                     <SelectItem value="delivering">Out for Delivery</SelectItem>
                     <SelectItem value="delivered">Delivered</SelectItem>
                   </SelectContent>
@@ -219,7 +246,7 @@ const ManagerDashboard = () => {
                           </TableCell>
                           <TableCell>
                             <div className="flex gap-2">
-                              {order.status === "processing" && (
+                              {(order.status === "processing" || order.status === "paid") && (
                                 <>
                                   <Button
                                     size="sm"

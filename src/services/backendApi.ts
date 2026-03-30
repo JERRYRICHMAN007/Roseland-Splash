@@ -314,4 +314,18 @@ export async function verifyPayment(reference: string): Promise<ApiResponse<Paym
   });
 }
 
+/** Cancel order (server uses service role; browser cannot DELETE via RLS) */
+export async function cancelOrderApi(
+  orderId: string,
+  accessToken: string
+): Promise<ApiResponse<{ ok?: boolean }>> {
+  return apiRequest<{ ok?: boolean }>('/api/orders/cancel', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ orderId }),
+  });
+}
+
 
