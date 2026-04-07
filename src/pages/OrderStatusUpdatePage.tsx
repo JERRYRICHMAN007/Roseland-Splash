@@ -27,7 +27,11 @@ const OrderStatusUpdatePage = () => {
   }, [orderId, getOrder]);
 
   useEffect(() => {
-    if (order && action === "start-processing" && order.status === "processing") {
+    if (
+      order &&
+      action === "start-processing" &&
+      (order.status === "pending" || order.status === "paid")
+    ) {
       handleStartProcessing();
     }
   }, [order, action]);

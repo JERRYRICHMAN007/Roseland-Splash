@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { getSupabaseClient } from "@/lib/supabase";
 import * as authService from "@/services/authService";
 
+export type UserRole = "customer" | "owner" | "admin";
+
 export interface User {
   id: string;
   firstName: string;
@@ -9,6 +11,8 @@ export interface User {
   email: string;
   phone: string;
   createdAt: string;
+  /** Store access: owner and admin may use the manager dashboard */
+  role: UserRole;
 }
 
 interface AuthState {
@@ -18,7 +22,7 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<User | null>;
   signup: (userData: {
     firstName: string;
     lastName: string;
@@ -119,16 +123,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<User | null> => {
     try {
       const { user, error } = await authService.signIn({ email, password });
 
-      if (error) {
-        return false;
-      }
-
-      if (!user) {
-        return false;
+      if (error || !user) {
+        return null;
       }
       setState({
         user,
@@ -136,9 +136,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading: false,
       });
 
-      return true;
+      return user;
     } catch (error: any) {
-      return false;
+      return null;
     }
   };
 
@@ -161,9 +161,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       throw new Error("Failed to create account. Please try again.");
     }
 
-    // Set user state - even if profile isn't fully loaded, we have the user
+    const userWithRole: User = {
+      ...user,
+      role: user.role ?? "customer",
+    };
+
     setState({
-      user,
+      user: userWithRole,
       isAuthenticated: true,
       isLoading: false,
     });
@@ -256,7 +260,7 @@ export const useAuth = () => {
       user: null,
       isAuthenticated: false,
       isLoading: false,
-      login: async () => false,
+      login: async () => null,
       signup: async () => false,
       logout: async () => {},
       updateUser: async () => {},

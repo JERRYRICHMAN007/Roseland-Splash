@@ -8,6 +8,23 @@ import generalSmoothiesImage from "@/assets/general-smoothies.jpg";
 import miloProductImage from "@/assets/milo-powder.jpg";
 import miloDrinkImage from "@/assets/Milo Drink.jpg";
 import miloDrinkPackImage from "@/assets/Milo Drink-pack.png";
+import householdGenMiloPackImage from "@/assets/household-gen-milo-pack.png";
+import householdGenMilo3in1Image from "@/assets/household-gen-milo-3in1.png";
+import householdGenMiloTinImage from "@/assets/household-gen-milo-tin.png";
+import householdGenMiloTinPackImage from "@/assets/household-gen-milo-tin-pack.png";
+import householdGenBrownSugarImage from "@/assets/household-gen-brown-sugar.png";
+import householdGenWhiteSugarSackImage from "@/assets/household-gen-white-sugar-sack.png";
+import householdGenMilkTinsPacksImage from "@/assets/household-gen-milk-tins-packs.png";
+import householdGenPowderMilkSachetsImage from "@/assets/household-gen-powder-milk-sachets.png";
+import householdGenFlavoredMilkPacksImage from "@/assets/household-gen-flavored-milk-packs.png";
+import householdGenGariPackImage from "@/assets/household-gen-gari-pack.png";
+import householdGenPepperPacksImage from "@/assets/household-gen-pepper-packs.png";
+import householdGenSeasoningCubesImage from "@/assets/household-gen-seasoning-cubes.png";
+import householdGenOngaSachetsImage from "@/assets/household-gen-onga-sachets.png";
+import householdGenRemieSachetsImage from "@/assets/household-gen-remie-sachets.png";
+import householdGenCurryPowderImage from "@/assets/household-gen-curry-powder.png";
+import householdGenRiceBulkImage from "@/assets/household-gen-rice-bulk.png";
+import householdGenTomatoSachetsImage from "@/assets/household-gen-tomato-sachets.png";
 import kivoGariStrawberryImage from "@/assets/53d124_121e6059d4ca445994939368d60ef45f~mv2.png";
 import kivoGariCoconutImage from "@/assets/kivo gari coconut.png";
 import kivoGariGroundnutImage from "@/assets/kivo gari groundnut.png";
@@ -2544,7 +2561,7 @@ export const categoriesData: Category[] = [
             price: 10.0,
             unit: "from",
             image: miloProductImage,
-            description: "Nutritious chocolate drink",
+            description: "Nutritious chocolate drink — packs, 3-in-1, tin, and sizes",
             inStock: true,
             variants: [
               {
@@ -2579,6 +2596,38 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: miloProductImage,
               },
+              {
+                id: "milo-pack",
+                name: "Pack",
+                price: 10.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenMiloPackImage,
+              },
+              {
+                id: "milo-3in1-pack",
+                name: "3-in-1 Pack",
+                price: 12.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenMilo3in1Image,
+              },
+              {
+                id: "milo-tin",
+                name: "Tin",
+                price: 45.0,
+                unit: "per tin",
+                inStock: true,
+                image: householdGenMiloTinImage,
+              },
+              {
+                id: "milo-tin-and-pack",
+                name: "Tin & Pack",
+                price: 52.0,
+                unit: "per set",
+                inStock: true,
+                image: householdGenMiloTinPackImage,
+              },
             ],
           },
           {
@@ -2587,7 +2636,7 @@ export const categoriesData: Category[] = [
             price: 6.0,
             unit: "from",
             image: whiteSugarProductImage,
-            description: "Brown and White sugar varieties",
+            description: "Brown and white sugar — packs and white sack pricing",
             inStock: true,
             variants: [
               {
@@ -2630,20 +2679,36 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: whiteSugar1kgImage,
               },
+              {
+                id: "brown-sugar-pack",
+                name: "Brown Sugar (Pack)",
+                price: 8.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenBrownSugarImage,
+              },
+              {
+                id: "white-sugar-sack",
+                name: "White Sugar (Sack price)",
+                price: 280.0,
+                unit: "per sack",
+                inStock: true,
+                image: householdGenWhiteSugarSackImage,
+              },
             ],
           },
           {
             id: 50,
-            name: "Milk",
+            name: "Ideal Milk",
             price: 4.5,
             unit: "from",
             image: idealMilkProductImage,
-            description: "Ideal and Carnation milk varieties",
+            description: "Evaporated milk — tin sizes or pack",
             inStock: true,
             variants: [
               {
                 id: "ideal-170g",
-                name: "Ideal Milk 170g",
+                name: "170g",
                 price: 4.5,
                 unit: "per tin",
                 inStock: true,
@@ -2651,15 +2716,34 @@ export const categoriesData: Category[] = [
               },
               {
                 id: "ideal-385g",
-                name: "Ideal Milk 385g",
+                name: "385g",
                 price: 8.0,
                 unit: "per tin",
                 inStock: true,
                 image: idealMilkProductImage,
               },
               {
+                id: "ideal-pack",
+                name: "Pack",
+                price: 25.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenMilkTinsPacksImage,
+              },
+            ],
+          },
+          {
+            id: 82,
+            name: "Carnation Milk",
+            price: 5.0,
+            unit: "from",
+            image: carnationMilkProductImage,
+            description: "Evaporated milk — tin sizes or pack",
+            inStock: true,
+            variants: [
+              {
                 id: "carnation-170g",
-                name: "Carnation Milk 170g",
+                name: "170g",
                 price: 5.0,
                 unit: "per tin",
                 inStock: true,
@@ -2667,11 +2751,19 @@ export const categoriesData: Category[] = [
               },
               {
                 id: "carnation-385g",
-                name: "Carnation Milk 385g",
+                name: "385g",
                 price: 9.0,
                 unit: "per tin",
                 inStock: true,
                 image: carnationMilkProductImage,
+              },
+              {
+                id: "carnation-pack",
+                name: "Pack",
+                price: 27.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenMilkTinsPacksImage,
               },
             ],
           },
@@ -2681,7 +2773,7 @@ export const categoriesData: Category[] = [
             price: 25.0,
             unit: "from",
             image: enapaPowderedMilkImage,
-            description: "Enapa and Non-Dairy powdered milk varieties",
+            description: "Enapa, Nido — tins, packs, and sachets",
             inStock: true,
             variants: [
               {
@@ -2716,6 +2808,81 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: nidoPowderedMilkImage,
               },
+              {
+                id: "enapa-powder-pack",
+                name: "ENAPA (Pack)",
+                price: 22.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenPowderMilkSachetsImage,
+              },
+              {
+                id: "nido-small-sachet",
+                name: "Nido Small Sachet",
+                price: 3.0,
+                unit: "per sachet",
+                inStock: true,
+                image: householdGenPowderMilkSachetsImage,
+              },
+              {
+                id: "nido-big-sachet",
+                name: "Nido Big Sachet",
+                price: 8.0,
+                unit: "per sachet",
+                inStock: true,
+                image: householdGenPowderMilkSachetsImage,
+              },
+              {
+                id: "nido-big-sachet-pack",
+                name: "Nido Big Sachet (Pack)",
+                price: 45.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenPowderMilkSachetsImage,
+              },
+            ],
+          },
+          {
+            id: 80,
+            name: "Cowbell",
+            price: 5.0,
+            unit: "from",
+            image: householdGenFlavoredMilkPacksImage,
+            description: "Cowbell milk drink — original and flavoured",
+            inStock: true,
+            variants: [
+              {
+                id: "cowbell-original",
+                name: "Cowbell",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenFlavoredMilkPacksImage,
+              },
+              {
+                id: "cowbell-strawberry",
+                name: "Strawberry",
+                price: 5.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenFlavoredMilkPacksImage,
+              },
+              {
+                id: "cowbell-mocha",
+                name: "Mocha",
+                price: 5.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenFlavoredMilkPacksImage,
+              },
+              {
+                id: "cowbell-chocomalt",
+                name: "Chocomalt",
+                price: 5.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenFlavoredMilkPacksImage,
+              },
             ],
           },
           {
@@ -2723,7 +2890,7 @@ export const categoriesData: Category[] = [
             name: "Kivo Gari",
             price: 15.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: householdGenGariPackImage,
             description: "Flavored gari varieties",
             inStock: true,
             variants: [
@@ -2751,6 +2918,14 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: kivoGariGroundnut,
               },
+              {
+                id: "kivo-gari-pack",
+                name: "Pack",
+                price: 14.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenGariPackImage,
+              },
             ],
           },
           {
@@ -2758,8 +2933,8 @@ export const categoriesData: Category[] = [
             name: "Spices & Pepper",
             price: 8.0,
             unit: "from",
-            image: householdEssentialsImage,
-            description: "Various spices and pepper varieties",
+            image: householdGenPepperPacksImage,
+            description: "Spices, pepper, Maggi & Onga tablets, curry, Onga flavours",
             inStock: true,
             variants: [
               {
@@ -2768,7 +2943,23 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: kivoPepper,
+                image: householdGenPepperPacksImage,
+              },
+              {
+                id: "kivo-pepper-pack",
+                name: "Kivo Pepper (Pack)",
+                price: 8.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenPepperPacksImage,
+              },
+              {
+                id: "powdered-pepper-kivo",
+                name: "Powdered Pepper (Kivo)",
+                price: 7.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenPepperPacksImage,
               },
               {
                 id: "maggi",
@@ -2779,6 +2970,14 @@ export const categoriesData: Category[] = [
                 image: maggiCube,
               },
               {
+                id: "maggi-tablets",
+                name: "Maggi (Tablets)",
+                price: 3.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenSeasoningCubesImage,
+              },
+              {
                 id: "onga",
                 name: "Onga",
                 price: 4.0,
@@ -2787,12 +2986,52 @@ export const categoriesData: Category[] = [
                 image: ongaSeasoning,
               },
               {
+                id: "onga-tablets",
+                name: "Onga (Tablets)",
+                price: 4.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenSeasoningCubesImage,
+              },
+              {
+                id: "onga-stew",
+                name: "Onga Stew",
+                price: 4.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenOngaSachetsImage,
+              },
+              {
+                id: "onga-goat",
+                name: "Onga Goat",
+                price: 4.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenOngaSachetsImage,
+              },
+              {
+                id: "onga-chicken",
+                name: "Onga Chicken",
+                price: 4.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenOngaSachetsImage,
+              },
+              {
+                id: "onga-soup",
+                name: "Onga Soup",
+                price: 4.5,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenOngaSachetsImage,
+              },
+              {
                 id: "onga-3mix",
                 name: "Onga 3 Mix",
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: onga3Mix,
+                image: householdGenOngaSachetsImage,
               },
               {
                 id: "curry-powder",
@@ -2800,7 +3039,15 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: curryPowder,
+                image: householdGenCurryPowderImage,
+              },
+              {
+                id: "curry-powder-pack",
+                name: "Curry Powder (Pack)",
+                price: 6.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenCurryPowderImage,
               },
               {
                 id: "garlic-ginger",
@@ -2809,6 +3056,65 @@ export const categoriesData: Category[] = [
                 unit: "per pack",
                 inStock: true,
                 image: garlicGingerMix,
+              },
+            ],
+          },
+          {
+            id: 81,
+            name: "Remie Seasoning",
+            price: 5.0,
+            unit: "from",
+            image: householdGenRemieSachetsImage,
+            description: "Remie seasoning — chicken, goat, stew, spaghetti, soup, garlic & ginger",
+            inStock: true,
+            variants: [
+              {
+                id: "remie-chicken",
+                name: "Chicken",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
+              },
+              {
+                id: "remie-goat",
+                name: "Goat",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
+              },
+              {
+                id: "remie-stew",
+                name: "Stew",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
+              },
+              {
+                id: "remie-spaghetti",
+                name: "Spaghetti",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
+              },
+              {
+                id: "remie-soup",
+                name: "Soup",
+                price: 5.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
+              },
+              {
+                id: "remie-garlic-ginger",
+                name: "Garlic & Ginger",
+                price: 10.0,
+                unit: "per pack",
+                inStock: true,
+                image: householdGenRemieSachetsImage,
               },
             ],
           },
@@ -3148,7 +3454,7 @@ export const categoriesData: Category[] = [
             price: 8.0,
             unit: "from",
             image: householdEssentialsImage,
-            description: "Quality rice varieties",
+            description: "Quality rice — by kg, 5kg bag, or sack",
             inStock: true,
             variants: [
               {
@@ -3191,6 +3497,22 @@ export const categoriesData: Category[] = [
                 inStock: true,
                 image: basmatiRiceImage,
               },
+              {
+                id: "rice-5kg",
+                name: "5kg",
+                price: 45.0,
+                unit: "per 5kg bag",
+                inStock: true,
+                image: householdGenRiceBulkImage,
+              },
+              {
+                id: "rice-sack",
+                name: "Sack",
+                price: 220.0,
+                unit: "per sack",
+                inStock: true,
+                image: householdGenRiceBulkImage,
+              },
             ],
           },
           {
@@ -3198,8 +3520,8 @@ export const categoriesData: Category[] = [
             name: "Tomato Paste",
             price: 3.0,
             unit: "from",
-            image: householdEssentialsImage,
-            description: "Tomato paste varieties",
+            image: householdGenTomatoSachetsImage,
+            description: "Tomato paste — tins and sachets (Gino, Tasty Tom)",
             inStock: true,
             variants: [
               {
@@ -3233,6 +3555,22 @@ export const categoriesData: Category[] = [
                 unit: "per tin",
                 inStock: true,
                 image: tastyPasteImage,
+              },
+              {
+                id: "tomato-paste-gino-sachet",
+                name: "Gino (Sachet)",
+                price: 1.5,
+                unit: "per sachet",
+                inStock: true,
+                image: householdGenTomatoSachetsImage,
+              },
+              {
+                id: "tomato-paste-tasty-tom-sachet",
+                name: "Tasty Tom (Sachet)",
+                price: 1.8,
+                unit: "per sachet",
+                inStock: true,
+                image: householdGenTomatoSachetsImage,
               },
             ],
           },

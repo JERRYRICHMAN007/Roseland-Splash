@@ -7,7 +7,12 @@
  */
 
 import { getSupabaseClient } from "@/lib/supabase";
-import { User } from "@/contexts/AuthContext";
+import { User, UserRole } from "@/contexts/AuthContext";
+
+function normalizeRole(raw: unknown): UserRole {
+  if (raw === "owner" || raw === "admin" || raw === "customer") return raw;
+  return "customer";
+}
 import { getResetPasswordUrl } from "@/utils/getBaseUrl";
 import * as backendApi from "./backendApi";
 
@@ -76,6 +81,7 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
       email: userData.email,
       phone: userData.phone || '',
       createdAt: userData.createdAt,
+      role: normalizeRole((userData as { role?: unknown }).role),
     };
 
     console.log("✅ Signup complete - returning user:", user.email);
@@ -139,6 +145,7 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
       email: userData.email,
       phone: userData.phone || '',
       createdAt: userData.createdAt,
+      role: normalizeRole((userData as { role?: unknown }).role),
     };
 
     console.log("✅ Login complete - user loaded:", user.email);
@@ -229,6 +236,7 @@ export const getUserProfile = async (userId: string): Promise<User | null> => {
     }
 
     console.log("✅ User profile found:", data.email);
+    const row = data as typeof data & { role?: string };
     return {
       id: data.id,
       firstName: data.first_name,
@@ -236,6 +244,7 @@ export const getUserProfile = async (userId: string): Promise<User | null> => {
       email: data.email,
       phone: data.phone,
       createdAt: data.created_at,
+      role: normalizeRole(row.role),
     };
   } catch (error) {
     console.error("❌ Exception fetching user profile:", error);

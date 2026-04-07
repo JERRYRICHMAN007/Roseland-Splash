@@ -19,7 +19,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Package, CheckCircle, Search, Filter, Truck } from "lucide-react";
+import {
+  Clock,
+  Package,
+  CheckCircle,
+  Search,
+  Filter,
+  Truck,
+  Hourglass,
+  Ban,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
@@ -32,11 +41,11 @@ const ManagerDashboard = () => {
 
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
-      case "processing":
+      case "pending":
         return (
-          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-            <Clock className="mr-1" size={12} />
-            Processing
+          <Badge variant="outline" className="bg-slate-50 text-slate-800 border-slate-200">
+            <Hourglass className="mr-1" size={12} />
+            Pending
           </Badge>
         );
       case "paid":
@@ -44,6 +53,13 @@ const ManagerDashboard = () => {
           <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200">
             <CheckCircle className="mr-1" size={12} />
             Paid
+          </Badge>
+        );
+      case "processing":
+        return (
+          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+            <Clock className="mr-1" size={12} />
+            Processing
           </Badge>
         );
       case "delivering":
@@ -58,6 +74,13 @@ const ManagerDashboard = () => {
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             <CheckCircle className="mr-1" size={12} />
             Delivered
+          </Badge>
+        );
+      case "cancelled":
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-800 border-red-200">
+            <Ban className="mr-1" size={12} />
+            Cancelled
           </Badge>
         );
       default:
@@ -90,10 +113,12 @@ const ManagerDashboard = () => {
 
   const stats = {
     total: orders.length,
-    processing: orders.filter((o) => o.status === "processing").length,
+    pending: orders.filter((o) => o.status === "pending").length,
     paid: orders.filter((o) => o.status === "paid").length,
+    processing: orders.filter((o) => o.status === "processing").length,
     delivering: orders.filter((o) => o.status === "delivering").length,
     delivered: orders.filter((o) => o.status === "delivered").length,
+    cancelled: orders.filter((o) => o.status === "cancelled").length,
   };
 
   return (
@@ -110,15 +135,35 @@ const ManagerDashboard = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Orders
+                  Total
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.total}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Pending
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-slate-600">{stats.pending}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Paid
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-emerald-600">{stats.paid}</div>
               </CardContent>
             </Card>
             <Card>
@@ -130,18 +175,6 @@ const ManagerDashboard = () => {
               <CardContent>
                 <div className="text-2xl font-bold text-yellow-600">
                   {stats.processing}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Paid
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-emerald-600">
-                  {stats.paid}
                 </div>
               </CardContent>
             </Card>
@@ -169,6 +202,16 @@ const ManagerDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Cancelled
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-red-600">{stats.cancelled}</div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Filters */}
@@ -191,10 +234,12 @@ const ManagerDashboard = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
                     <SelectItem value="paid">Paid</SelectItem>
+                    <SelectItem value="processing">Processing</SelectItem>
                     <SelectItem value="delivering">Out for Delivery</SelectItem>
                     <SelectItem value="delivered">Delivered</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -245,8 +290,17 @@ const ManagerDashboard = () => {
                             {new Date(order.createdAt).toLocaleDateString("en-GB")}
                           </TableCell>
                           <TableCell>
-                            <div className="flex gap-2">
-                              {(order.status === "processing" || order.status === "paid") && (
+                            <div className="flex flex-wrap gap-2">
+                              {(order.status === "pending" || order.status === "paid") && (
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  onClick={() => handleStatusUpdate(order.id, "processing")}
+                                >
+                                  Mark as Processing
+                                </Button>
+                              )}
+                              {order.status === "processing" && (
                                 <>
                                   <Button
                                     size="sm"
@@ -259,7 +313,6 @@ const ManagerDashboard = () => {
                                     size="sm"
                                     variant="outline"
                                     onClick={() => handleStatusUpdate(order.id, "delivered")}
-                                    className="ml-2"
                                   >
                                     Mark Delivered
                                   </Button>

@@ -162,7 +162,8 @@ app.post('/api/auth/login', async (req, res) => {
       firstName: profile?.first_name || data.user.user_metadata?.first_name || '',
       lastName: profile?.last_name || data.user.user_metadata?.last_name || '',
       phone: profile?.phone || data.user.user_metadata?.phone || '',
-      createdAt: data.user.created_at
+      createdAt: data.user.created_at,
+      role: profile?.role || 'customer'
     };
 
     res.json({
@@ -249,6 +250,25 @@ app.post('/api/auth/signup', async (req, res) => {
     }
 
     console.log('✅ Signup successful for:', email);
+
+    if (supabaseAdmin && data.user) {
+      const { error: profileErr } = await supabaseAdmin
+        .from('user_profiles')
+        .upsert(
+          {
+            id: data.user.id,
+            first_name: firstName.trim(),
+            last_name: lastName.trim(),
+            email: email.toLowerCase().trim(),
+            phone: (phone || '').trim(),
+            role: 'customer'
+          },
+          { onConflict: 'id' }
+        );
+      if (profileErr) {
+        console.error('⚠️ user_profiles upsert after signup:', profileErr.message);
+      }
+    }
     
     // Auto-confirm email if not already confirmed (using admin client)
     if (!data.user.email_confirmed_at && supabaseAdmin) {
@@ -270,7 +290,8 @@ app.post('/api/auth/signup', async (req, res) => {
       firstName: data.user.user_metadata?.first_name || firstName,
       lastName: data.user.user_metadata?.last_name || lastName,
       phone: data.user.user_metadata?.phone || phone || '',
-      createdAt: data.user.created_at
+      createdAt: data.user.created_at,
+      role: 'customer'
     };
 
     res.json({
@@ -537,7 +558,8 @@ app.get('/api/auth/user', async (req, res) => {
       firstName: profile?.first_name || user.user_metadata?.first_name || '',
       lastName: profile?.last_name || user.user_metadata?.last_name || '',
       phone: profile?.phone || user.user_metadata?.phone || '',
-      createdAt: user.created_at
+      createdAt: user.created_at,
+      role: profile?.role || 'customer'
     };
 
     res.json({
@@ -546,6 +568,110 @@ app.get('/api/auth/user', async (req, res) => {
     });
   } catch (error) {
     console.error('❌ Get user exception:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Internal server error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/bootstrap-owner
+ * One-time: create first store owner when MANAGER_BOOTSTRAP_SECRET matches.
+ * Passwords are stored by Supabase Auth (hashed). Requires role column on user_profiles.
+ */
+app.post('/api/admin/bootstrap-owner', async (req, res) => {
+  try {
+    const { bootstrapSecret, email, password, firstName, lastName, phone } = req.body || {};
+    const expected = process.env.MANAGER_BOOTSTRAP_SECRET;
+
+    if (!expected) {
+      return res.status(503).json({
+        success: false,
+        error: 'Bootstrap is not configured (MANAGER_BOOTSTRAP_SECRET).'
+      });
+    }
+    if (bootstrapSecret !== expected) {
+      return res.status(403).json({
+        success: false,
+        error: 'Invalid bootstrap secret.'
+      });
+    }
+    if (!supabaseAdmin) {
+      return res.status(500).json({ success: false, error: 'Server configuration error.' });
+    }
+    if (!email || !password || !firstName || !lastName) {
+      return res.status(400).json({
+        success: false,
+        error: 'Email, password, first name, and last name are required.'
+      });
+    }
+
+    const { count, error: countErr } = await supabaseAdmin
+      .from('user_profiles')
+      .select('*', { count: 'exact', head: true })
+      .in('role', ['owner', 'admin']);
+
+    if (countErr) {
+      console.error('bootstrap count:', countErr);
+      return res.status(500).json({
+        success: false,
+        error: 'Database error. Ensure sql/manager_roles.sql has been applied.'
+      });
+    }
+    if (count !== null && count > 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'A store owner already exists. Sign in at the manager login page.'
+      });
+    }
+
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+      email: email.toLowerCase().trim(),
+      password,
+      email_confirm: true,
+      user_metadata: {
+        first_name: firstName,
+        last_name: lastName,
+        phone: phone || ''
+      }
+    });
+
+    if (createErr || !created?.user) {
+      return res.status(400).json({
+        success: false,
+        error: createErr?.message || 'Could not create owner account.'
+      });
+    }
+
+    const { error: profErr } = await supabaseAdmin
+      .from('user_profiles')
+      .upsert(
+        {
+          id: created.user.id,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.toLowerCase().trim(),
+          phone: (phone || '').trim(),
+          role: 'owner'
+        },
+        { onConflict: 'id' }
+      );
+
+    if (profErr) {
+      console.error('bootstrap profile:', profErr);
+      return res.status(500).json({
+        success: false,
+        error: 'Auth user created but profile failed. Check user_profiles.role column exists.'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Store owner account created. Sign in at /manager/login.'
+    });
+  } catch (error) {
+    console.error('❌ Bootstrap exception:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Internal server error'

@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useOrders, OrderStatus } from "@/contexts/OrderContext";
+import { useOrders, type OrderStatus } from "@/contexts/OrderContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, Package, Truck, XCircle, Truck as DeliveringIcon } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  Package,
+  Truck,
+  XCircle,
+  Hourglass,
+  Ban,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
 
 const OrderTrackingPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const { getOrder, updateOrderStatus } = useOrders();
+  const { getOrder } = useOrders();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [order, setOrder] = useState(useOrders().getOrder(orderId || ""));
 
   useEffect(() => {
@@ -44,20 +50,22 @@ const OrderTrackingPage = () => {
     );
   }
 
-  const handleStatusUpdate = async (newStatus: OrderStatus) => {
-    if (!orderId) return;
-
-    await updateOrderStatus(orderId, newStatus);
-    setOrder({ ...order, status: newStatus });
-
-    toast({
-      title: "Status Updated",
-      description: `Order status updated to ${newStatus}`,
-    });
-  };
-
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
+      case "pending":
+        return (
+          <Badge variant="outline" className="bg-slate-50 text-slate-800 border-slate-200">
+            <Hourglass className="mr-1" size={14} />
+            Pending
+          </Badge>
+        );
+      case "paid":
+        return (
+          <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200">
+            <CheckCircle className="mr-1" size={14} />
+            Paid
+          </Badge>
+        );
       case "processing":
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
@@ -79,31 +87,73 @@ const OrderTrackingPage = () => {
             Delivered
           </Badge>
         );
+      case "cancelled":
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-800 border-red-200">
+            <Ban className="mr-1" size={14} />
+            Cancelled
+          </Badge>
+        );
+      default:
+        return (
+          <Badge variant="outline" className="bg-muted text-muted-foreground">
+            {status}
+          </Badge>
+        );
     }
   };
 
   const getStatusSteps = () => {
+    const s = order.status;
+    const pm = (order.paymentMethod || "").toLowerCase();
+    const likelyOnlinePayment =
+      /momo|paystack|card|mobile|online/.test(pm) &&
+      !/cash|cod|delivery\s*only/.test(pm);
+
     const steps = [
+      {
+        status: "pending" as OrderStatus,
+        label: "Order placed",
+        description: "We’ve received your order",
+        icon: Hourglass,
+        completed: s !== "pending" && s !== "cancelled",
+        isCurrent: s === "pending",
+      },
+      {
+        status: "paid" as OrderStatus,
+        label: "Payment confirmed",
+        description: "Your payment has been received",
+        icon: CheckCircle,
+        completed:
+          s === "paid" ||
+          s === "delivering" ||
+          s === "delivered" ||
+          (s === "processing" && likelyOnlinePayment),
+        isCurrent: s === "paid",
+      },
       {
         status: "processing" as OrderStatus,
         label: "Processing",
-        description: "Your order is being prepared",
+        description: "The store is preparing your order",
         icon: Clock,
-        completed: true, // Always completed (starting state)
+        completed: s === "delivering" || s === "delivered",
+        isCurrent: s === "processing",
       },
       {
         status: "delivering" as OrderStatus,
-        label: "Out for Delivery",
-        description: "Your order is on its way",
+        label: "Out for delivery",
+        description: "Your order is on the way",
         icon: Truck,
-        completed: order.status === "delivering" || order.status === "delivered",
+        completed: s === "delivered",
+        isCurrent: s === "delivering",
       },
       {
         status: "delivered" as OrderStatus,
         label: "Delivered",
-        description: "Order successfully delivered",
+        description: "Order completed",
         icon: CheckCircle,
-        completed: order.status === "delivered",
+        completed: s === "delivered",
+        isCurrent: s === "delivered",
       },
     ];
     return steps;
@@ -131,56 +181,58 @@ const OrderTrackingPage = () => {
               <CardTitle>Order Status</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
-                {getStatusSteps().map((step, index) => {
-                  const Icon = step.icon;
-                  const isActive = step.completed;
-                  const isCurrent = 
-                    (step.status === "processing" && order.status === "processing") ||
-                    (step.status === "delivering" && order.status === "delivering") ||
-                    (step.status === "delivered" && order.status === "delivered");
+              {order.status === "cancelled" ? (
+                <p className="text-sm text-muted-foreground">
+                  This order was cancelled. If you were charged, please contact support for a refund.
+                </p>
+              ) : (
+                <div className="space-y-6">
+                  {getStatusSteps().map((step) => {
+                    const Icon = step.icon;
+                    const highlight = step.completed || step.isCurrent;
 
-                  return (
-                    <div key={step.status} className="flex items-start gap-4">
-                      <div
-                        className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
-                          isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted text-muted-foreground"
-                        }`}
-                      >
-                        <Icon size={24} />
-                      </div>
-                      <div className="flex-1 pt-2">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p
-                              className={`font-medium ${
-                                isActive ? "text-foreground" : "text-muted-foreground"
-                              }`}
-                            >
-                              {step.label}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {step.description}
-                            </p>
+                    return (
+                      <div key={step.status} className="flex items-start gap-4">
+                        <div
+                          className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
+                            highlight
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          <Icon size={24} />
+                        </div>
+                        <div className="flex-1 pt-2">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p
+                                className={`font-medium ${
+                                  highlight ? "text-foreground" : "text-muted-foreground"
+                                }`}
+                              >
+                                {step.label}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {step.description}
+                              </p>
+                            </div>
+                            {step.isCurrent && (
+                              <Badge variant="secondary">Current</Badge>
+                            )}
                           </div>
-                          {isCurrent && (
-                            <Badge variant="secondary">Current</Badge>
+                          {step.status === "delivered" && order.status === "delivered" && (
+                            <div className="mt-3">
+                              <p className="text-sm text-green-700 font-medium">
+                                Order successfully delivered!
+                              </p>
+                            </div>
                           )}
                         </div>
-                        {step.status === "delivered" && order.status === "delivered" && (
-                          <div className="mt-3">
-                            <p className="text-sm text-green-700 font-medium">
-                              ✅ Order successfully delivered!
-                            </p>
-                          </div>
-                        )}
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </CardContent>
           </Card>
 

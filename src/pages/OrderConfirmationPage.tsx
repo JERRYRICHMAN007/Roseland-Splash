@@ -2,9 +2,28 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Truck, Clock, Phone } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useOrders } from "@/contexts/OrderContext";
+import { useOrders, type OrderStatus } from "@/contexts/OrderContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+function statusConfirmationLabel(status: OrderStatus): string {
+  switch (status) {
+    case "pending":
+      return "Pending — awaiting payment";
+    case "paid":
+      return "Paid — we’ll prepare your order soon";
+    case "processing":
+      return "Processing";
+    case "delivering":
+      return "Out for delivery";
+    case "delivered":
+      return "Delivered";
+    case "cancelled":
+      return "Cancelled";
+    default:
+      return status.toUpperCase();
+  }
+}
 
 const OrderConfirmationPage = () => {
   const navigate = useNavigate();
@@ -85,10 +104,8 @@ const OrderConfirmationPage = () => {
               {order && (
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Status:</span>
-                  <span className="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full text-sm uppercase">
-                    {order.status === "processing"
-                      ? "⏳ PENDING PROCESSING"
-                      : order.status.toUpperCase()}
+                  <span className="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full text-sm">
+                    {statusConfirmationLabel(order.status)}
                   </span>
                 </div>
               )}

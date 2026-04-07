@@ -32,6 +32,13 @@ interface SearchContextType {
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
+/** Skip variant rows that only repeat the product name (avoids "Cowbell" + "Cowbell - Cowbell"). */
+function isRedundantVariantLabel(product: Product, variant: ProductVariant): boolean {
+  return (
+    variant.name.toLowerCase().trim() === product.name.toLowerCase().trim()
+  );
+}
+
 export const useSearch = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
@@ -129,20 +136,20 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 
             // Search variants in nested subcategories
             product.variants?.forEach((variant) => {
-              if (variant.name.toLowerCase().includes(lowercaseQuery)) {
-                results.push({
-                  type: "variant",
-                  id: variant.id,
-                  name: `${product.name} - ${variant.name}`,
-                  description: product.description,
-                  price: variant.price,
-                  unit: variant.unit,
-                  image: variant.image,
-                  categoryId: category.id,
-                  subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
-                  productId: product.id,
-                });
-              }
+              if (!variant.name.toLowerCase().includes(lowercaseQuery)) return;
+              if (isRedundantVariantLabel(product, variant)) return;
+              results.push({
+                type: "variant",
+                id: variant.id,
+                name: `${product.name} - ${variant.name}`,
+                description: product.description,
+                price: variant.price,
+                unit: variant.unit,
+                image: variant.image,
+                categoryId: category.id,
+                subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
+                productId: product.id,
+              });
             });
           });
         });
@@ -169,20 +176,20 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 
           // Search variants in direct subcategories
           product.variants?.forEach((variant) => {
-            if (variant.name.toLowerCase().includes(lowercaseQuery)) {
-              results.push({
-                type: "variant",
-                id: variant.id,
-                name: `${product.name} - ${variant.name}`,
-                description: product.description,
-                price: variant.price,
-                unit: variant.unit,
-                image: variant.image,
-                categoryId: category.id,
-                subcategoryId: subcategory.id,
-                productId: product.id,
-              });
-            }
+            if (!variant.name.toLowerCase().includes(lowercaseQuery)) return;
+            if (isRedundantVariantLabel(product, variant)) return;
+            results.push({
+              type: "variant",
+              id: variant.id,
+              name: `${product.name} - ${variant.name}`,
+              description: product.description,
+              price: variant.price,
+              unit: variant.unit,
+              image: variant.image,
+              categoryId: category.id,
+              subcategoryId: subcategory.id,
+              productId: product.id,
+            });
           });
         });
       });

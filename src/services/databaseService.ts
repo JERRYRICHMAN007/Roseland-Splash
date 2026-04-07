@@ -29,6 +29,8 @@ export interface DatabaseOrder {
   updated_at: string;
   received_at?: string | null;
   delivered_at?: string | null;
+  processing_started_at?: string | null;
+  processing_started_by?: string | null;
 }
 
 export interface DatabaseOrderItem {
@@ -69,6 +71,8 @@ const convertDbOrderToOrder = (
     createdAt: dbOrder.created_at,
     receivedAt: dbOrder.received_at || undefined,
     deliveredAt: dbOrder.delivered_at || undefined,
+    processingStartedAt: dbOrder.processing_started_at || undefined,
+    processingStartedBy: dbOrder.processing_started_by || undefined,
   };
 };
 
@@ -125,7 +129,7 @@ export const createOrder = async (
           orderData.deliveryTimeWindow,
           orderData.specialInstructions
         ),
-        status: "processing",
+        status: "pending",
       })
       .select()
       .single();
@@ -453,12 +457,26 @@ export const updateOrderStatus = async (
   if (!supabase) return null;
   
   try {
-    const updateData: any = {
+    const updateData: {
+      status: OrderStatus;
+      updated_at: string;
+      processing_started_at?: string;
+      processing_started_by?: string;
+      received_at?: string;
+      delivered_at?: string;
+    } = {
       status,
       updated_at: new Date().toISOString(),
     };
 
-    // Set timestamps based on status
+    if (status === "processing") {
+      updateData.processing_started_at = new Date().toISOString();
+      const { data: authData } = await supabase.auth.getUser();
+      if (authData?.user?.id) {
+        updateData.processing_started_by = authData.user.id;
+      }
+    }
+
     if (status === "delivering") {
       updateData.received_at = new Date().toISOString();
     }
@@ -501,14 +519,14 @@ export const updateOrderStatus = async (
 };
 
 /**
- * Cancel an order (only if status is "processing")
+ * Client-side cancel (prefer POST /api/orders/cancel with service role).
+ * Soft-cancel: only while status is pending (matches server rules).
  */
 export const cancelOrder = async (orderId: string): Promise<boolean> => {
   const supabase = getSupabaseClient();
   if (!supabase) return false;
-  
+
   try {
-    // First check if order exists and is in "processing" status
     const { data: order, error: fetchError } = await supabase
       .from("orders")
       .eq("id", orderId)
@@ -520,19 +538,19 @@ export const cancelOrder = async (orderId: string): Promise<boolean> => {
       return false;
     }
 
-    if (order.status !== "processing") {
-      console.log("Order cannot be cancelled - not in processing status");
+    if (order.status !== "pending") {
+      console.log("Order cannot be cancelled - not pending");
       return false;
     }
 
-    // Delete the order (cascades to order_items)
-    const { error: deleteError } = await supabase
+    const { error: updateError } = await supabase
       .from("orders")
-      .delete()
-      .eq("id", orderId);
+      .update({ status: "cancelled", updated_at: new Date().toISOString() })
+      .eq("id", orderId)
+      .eq("status", "pending");
 
-    if (deleteError) {
-      console.error("Error cancelling order:", deleteError);
+    if (updateError) {
+      console.error("Error cancelling order:", updateError);
       return false;
     }
 

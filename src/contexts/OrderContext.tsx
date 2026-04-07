@@ -4,8 +4,9 @@ import { getSupabaseClient } from "@/lib/supabase";
 import * as backendApi from "@/services/backendApi";
 
 export type OrderStatus =
-  | "processing"
+  | "pending"
   | "paid"
+  | "processing"
   | "delivering"
   | "delivered"
   | "cancelled";
@@ -33,6 +34,9 @@ export interface Order {
   createdAt: string;
   receivedAt?: string;
   deliveredAt?: string;
+  /** Set when the store marks the order as processing (locks customer cancellation) */
+  processingStartedAt?: string;
+  processingStartedBy?: string;
 }
 
 interface OrderState {
@@ -41,10 +45,17 @@ interface OrderState {
 
 type OrderAction =
   | { type: "ADD_ORDER"; payload: Order }
-  | { type: "UPDATE_ORDER_STATUS"; payload: { id: string; status: OrderStatus } }
+  | {
+      type: "UPDATE_ORDER_STATUS";
+      payload: {
+        id: string;
+        status: OrderStatus;
+        /** Fields returned from DB after update (timestamps, audit) */
+        patch?: Partial<Pick<Order, "receivedAt" | "deliveredAt" | "processingStartedAt" | "processingStartedBy">>;
+      };
+    }
   | { type: "LOAD_ORDERS"; payload: Order[] }
-  | { type: "CLEAR_ALL_ORDERS" }
-  | { type: "CANCEL_ORDER"; payload: { id: string } };
+  | { type: "CLEAR_ALL_ORDERS" };
 
 const initialState: OrderState = {
   orders: [],
@@ -58,14 +69,17 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
       };
     }
     case "UPDATE_ORDER_STATUS": {
-      const { id, status } = action.payload;
+      const { id, status, patch } = action.payload;
       const updatedOrders = state.orders.map((order) => {
         if (order.id === id) {
-          const update: Partial<Order> = { status };
-          if (status === "delivering" && !order.receivedAt) {
+          const update: Partial<Order> = { status, ...patch };
+          if (status === "processing" && !update.processingStartedAt && !order.processingStartedAt) {
+            update.processingStartedAt = new Date().toISOString();
+          }
+          if (status === "delivering" && !update.receivedAt && !order.receivedAt) {
             update.receivedAt = new Date().toISOString();
           }
-          if (status === "delivered" && !order.deliveredAt) {
+          if (status === "delivered" && !update.deliveredAt && !order.deliveredAt) {
             update.deliveredAt = new Date().toISOString();
           }
           return { ...order, ...update };
@@ -79,18 +93,6 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
     }
     case "CLEAR_ALL_ORDERS": {
       return { orders: [] };
-    }
-    case "CANCEL_ORDER": {
-      // Only cancel orders that are in "processing" status
-      // Remove cancelled orders from the list (cleared)
-      return {
-        orders: state.orders.filter((order) => {
-          if (order.id === action.payload.id && order.status === "processing") {
-            return false; // Remove this order (cancelled and cleared)
-          }
-          return true; // Keep all other orders
-        }),
-      };
     }
     default:
       return state;
@@ -180,8 +182,19 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
       
       if (updatedOrder) {
         console.log(`✅ Order ${id} status updated successfully`);
-        // Update local state
-        dispatch({ type: "UPDATE_ORDER_STATUS", payload: { id, status } });
+        dispatch({
+          type: "UPDATE_ORDER_STATUS",
+          payload: {
+            id,
+            status,
+            patch: {
+              receivedAt: updatedOrder.receivedAt,
+              deliveredAt: updatedOrder.deliveredAt,
+              processingStartedAt: updatedOrder.processingStartedAt,
+              processingStartedBy: updatedOrder.processingStartedBy,
+            },
+          },
+        });
       } else {
         console.error(`❌ Failed to update order ${id} status`);
         throw new Error("Failed to update order status in database");
@@ -230,7 +243,11 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
       const res = await backendApi.cancelOrderApi(id, session.access_token);
       if (res.success) {
         console.log(`✅ Order ${id} cancelled successfully`);
-        dispatch({ type: "CANCEL_ORDER", payload: { id } });
+        dispatch({
+          type: "UPDATE_ORDER_STATUS",
+          payload: { id, status: "cancelled" },
+        });
+        await refreshOrders();
         return { success: true };
       }
       console.error(`❌ Failed to cancel order ${id}`, res.error);

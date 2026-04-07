@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders, OrderStatus } from "@/contexts/OrderContext";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +16,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Clock, Package, CheckCircle, Truck, ArrowRight, X } from "lucide-react";
+import {
+  Clock,
+  Package,
+  CheckCircle,
+  Truck,
+  ArrowRight,
+  X,
+  Hourglass,
+  Ban,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -29,9 +38,16 @@ const MyOrdersPage = () => {
   const { toast } = useToast();
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
 
-  // Refresh orders when opening My Orders so newly placed orders appear
   useEffect(() => {
     refreshOrders();
+  }, [refreshOrders]);
+
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === "visible") void refreshOrders();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
   }, [refreshOrders]);
 
   // Get orders for logged-in user (match by phone or email)
@@ -46,7 +62,7 @@ const MyOrdersPage = () => {
       if (result.success) {
         toast({
           title: "Order Cancelled",
-          description: `Order #${orderNumber} has been cancelled and removed.`,
+          description: `Order #${orderNumber} has been cancelled.`,
           variant: "default",
         });
       } else {
@@ -69,6 +85,20 @@ const MyOrdersPage = () => {
 
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
+      case "pending":
+        return (
+          <Badge variant="outline" className="bg-slate-50 text-slate-800 border-slate-200">
+            <Hourglass className="mr-1" size={12} />
+            Pending
+          </Badge>
+        );
+      case "paid":
+        return (
+          <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200">
+            <CheckCircle className="mr-1" size={12} />
+            Paid
+          </Badge>
+        );
       case "processing":
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
@@ -90,28 +120,57 @@ const MyOrdersPage = () => {
             Delivered
           </Badge>
         );
+      case "cancelled":
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-800 border-red-200">
+            <Ban className="mr-1" size={12} />
+            Cancelled
+          </Badge>
+        );
+      default:
+        return (
+          <Badge variant="outline" className="bg-muted text-muted-foreground">
+            {status}
+          </Badge>
+        );
     }
   };
 
   const getStatusIcon = (status: OrderStatus) => {
     switch (status) {
+      case "pending":
+        return <Hourglass className="text-slate-600" size={20} />;
+      case "paid":
+        return <CheckCircle className="text-emerald-600" size={20} />;
       case "processing":
         return <Clock className="text-yellow-600" size={20} />;
       case "delivering":
         return <Truck className="text-blue-600" size={20} />;
       case "delivered":
         return <CheckCircle className="text-green-600" size={20} />;
+      case "cancelled":
+        return <Ban className="text-red-600" size={20} />;
+      default:
+        return <Package className="text-muted-foreground" size={20} />;
     }
   };
 
   const getStatusMessage = (status: OrderStatus) => {
     switch (status) {
+      case "pending":
+        return "Awaiting payment confirmation — you can cancel while pending";
+      case "paid":
+        return "Payment received — the store will start preparing your order soon";
       case "processing":
         return "We're preparing your order";
       case "delivering":
         return "Your order is on its way";
       case "delivered":
         return "Order successfully delivered";
+      case "cancelled":
+        return "This order was cancelled";
+      default:
+        return "";
     }
   };
 
@@ -232,7 +291,7 @@ const MyOrdersPage = () => {
                             View Details
                             <ArrowRight className="ml-2" size={16} />
                           </Button>
-                          {order.status === "processing" && (
+                          {order.status === "pending" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <Button
@@ -248,8 +307,8 @@ const MyOrdersPage = () => {
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Cancel Order?</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to cancel order #{order.orderNumber}? 
-                                    This action cannot be undone. The order will be removed from your orders list.
+                                    Are you sure you want to cancel order #{order.orderNumber}? This only works
+                                    while the order is still pending (before the store starts processing it).
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
