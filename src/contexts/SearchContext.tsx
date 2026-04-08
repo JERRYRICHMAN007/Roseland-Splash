@@ -39,6 +39,30 @@ function isRedundantVariantLabel(product: Product, variant: ProductVariant): boo
   );
 }
 
+function productOrDescriptionMatches(product: Product, q: string): boolean {
+  const qq = q.toLowerCase();
+  return (
+    product.name.toLowerCase().includes(qq) ||
+    product.description.toLowerCase().includes(qq)
+  );
+}
+
+/** Any variant label matches the query (excluding redundant same-as-product-name labels). */
+function anyVariantMatches(product: Product, q: string): boolean {
+  const qq = q.toLowerCase();
+  return (
+    product.variants?.some(
+      (v) =>
+        v.name.toLowerCase().includes(qq) &&
+        !isRedundantVariantLabel(product, v)
+    ) ?? false
+  );
+}
+
+function productMatchesSearch(product: Product, q: string): boolean {
+  return productOrDescriptionMatches(product, q) || anyVariantMatches(product, q);
+}
+
 export const useSearch = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
@@ -65,6 +89,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
     const lowercaseQuery = query.toLowerCase().trim();
 
     const results: SearchResult[] = [];
+    const seenProductKeys = new Set<string>();
 
     // Search categories
     categoriesData.forEach((category) => {
@@ -114,52 +139,12 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
             });
           }
 
-          // Search products in nested subcategories
+          // Search products in nested subcategories (one row per product; variants use dropdown)
           nestedSub.products?.forEach((product) => {
-            if (
-              product.name.toLowerCase().includes(lowercaseQuery) ||
-              product.description.toLowerCase().includes(lowercaseQuery)
-            ) {
-              results.push({
-                type: "product",
-                id: product.id.toString(),
-                name: product.name,
-                description: product.description,
-                price: product.price,
-                unit: product.unit,
-                image: product.image,
-                categoryId: category.id,
-                subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
-                productId: product.id,
-              });
-            }
-
-            // Search variants in nested subcategories
-            product.variants?.forEach((variant) => {
-              if (!variant.name.toLowerCase().includes(lowercaseQuery)) return;
-              if (isRedundantVariantLabel(product, variant)) return;
-              results.push({
-                type: "variant",
-                id: variant.id,
-                name: `${product.name} - ${variant.name}`,
-                description: product.description,
-                price: variant.price,
-                unit: variant.unit,
-                image: variant.image,
-                categoryId: category.id,
-                subcategoryId: nestedSub.id, // Use nested subcategory ID for navigation
-                productId: product.id,
-              });
-            });
-          });
-        });
-
-        // Search products in direct subcategories
-        subcategory.products?.forEach((product) => {
-          if (
-            product.name.toLowerCase().includes(lowercaseQuery) ||
-            product.description.toLowerCase().includes(lowercaseQuery)
-          ) {
+            if (!productMatchesSearch(product, lowercaseQuery)) return;
+            const dedupeKey = `${category.id}:${nestedSub.id}:${product.id}`;
+            if (seenProductKeys.has(dedupeKey)) return;
+            seenProductKeys.add(dedupeKey);
             results.push({
               type: "product",
               id: product.id.toString(),
@@ -169,27 +154,29 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
               unit: product.unit,
               image: product.image,
               categoryId: category.id,
-              subcategoryId: subcategory.id,
+              subcategoryId: nestedSub.id,
               productId: product.id,
             });
-          }
+          });
+        });
 
-          // Search variants in direct subcategories
-          product.variants?.forEach((variant) => {
-            if (!variant.name.toLowerCase().includes(lowercaseQuery)) return;
-            if (isRedundantVariantLabel(product, variant)) return;
-            results.push({
-              type: "variant",
-              id: variant.id,
-              name: `${product.name} - ${variant.name}`,
-              description: product.description,
-              price: variant.price,
-              unit: variant.unit,
-              image: variant.image,
-              categoryId: category.id,
-              subcategoryId: subcategory.id,
-              productId: product.id,
-            });
+        // Search products in direct subcategories (one row per product; variants use dropdown)
+        subcategory.products?.forEach((product) => {
+          if (!productMatchesSearch(product, lowercaseQuery)) return;
+          const dedupeKey = `${category.id}:${subcategory.id}:${product.id}`;
+          if (seenProductKeys.has(dedupeKey)) return;
+          seenProductKeys.add(dedupeKey);
+          results.push({
+            type: "product",
+            id: product.id.toString(),
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            unit: product.unit,
+            image: product.image,
+            categoryId: category.id,
+            subcategoryId: subcategory.id,
+            productId: product.id,
           });
         });
       });

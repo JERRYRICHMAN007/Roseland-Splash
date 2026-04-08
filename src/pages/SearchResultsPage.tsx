@@ -31,7 +31,30 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { categoriesData } from "@/data/categories";
+import ProductCard from "@/components/ProductCard";
+import { categoriesData, type Product } from "@/data/categories";
+
+function findProductByLocation(
+  categoryId: string,
+  subcategoryId: string,
+  productId: number
+): Product | null {
+  const category = categoriesData.find((c) => c.id === categoryId);
+  if (!category?.subcategories) return null;
+  for (const sub of category.subcategories) {
+    if (sub.id === subcategoryId && sub.products) {
+      const hit = sub.products.find((p) => p.id === productId);
+      if (hit) return hit;
+    }
+    for (const nested of sub.subcategories ?? []) {
+      if (nested.id === subcategoryId && nested.products) {
+        const hit = nested.products.find((p) => p.id === productId);
+        if (hit) return hit;
+      }
+    }
+  }
+  return null;
+}
 
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
@@ -85,19 +108,12 @@ const SearchResultsPage = () => {
   const handleAddToCart = (e: React.MouseEvent, result: any) => {
     e.stopPropagation();
 
-    if (result.type === "product" || result.type === "variant") {
-      const cartItemId =
-        result.type === "variant"
-          ? `${result.productId}-${result.name.split(" - ")[1] || "variant"}`
-          : `${result.productId}`;
-
+    if (result.type === "product" && result.productId != null) {
       addItem({
-        id: cartItemId,
+        id: `${result.productId}`,
         name: result.name,
-        price: result.price,
+        price: result.price ?? 0,
         image: result.image,
-        variant:
-          result.type === "variant" ? result.name.split(" - ")[1] : undefined,
       });
 
       toast({
@@ -108,9 +124,13 @@ const SearchResultsPage = () => {
     }
   };
 
-  // Filter to show only products and variants
+  // One card per catalog product (variants are chosen in ProductCard dropdown)
   const productResults = searchResults.filter(
-    (result) => result.type === "product" || result.type === "variant"
+    (result) =>
+      result.type === "product" &&
+      result.productId != null &&
+      result.categoryId &&
+      result.subcategoryId
   );
 
   // Sort results
@@ -318,153 +338,142 @@ const SearchResultsPage = () => {
             {/* Product Results - Grid View */}
             {!isSearching && sortedResults.length > 0 && viewMode === "grid" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {sortedResults.map((result, index) => (
-                  <Card
-                    key={`${result.type}-${result.id}-${index}`}
-                    className="group cursor-pointer bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all duration-300 flex flex-col h-full"
-                    onClick={(e) => handleResultClick(result, e)}
-                  >
-                    <CardContent className="p-0 flex flex-col h-full">
-                      {/* Product Image */}
-                      <div className="relative aspect-square bg-gray-50 overflow-hidden flex items-center justify-center p-6 sm:p-8">
-                        {result.image ? (
-                          <img
-                            src={result.image}
-                            alt={result.name}
-                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Search size={48} className="text-gray-300" />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Product Info */}
-                      <div className="p-5 flex flex-col flex-1">
-                        {/* Product Title */}
-                        <h3 className="font-medium text-base text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors min-h-[3rem] leading-snug">
-                          {result.name}
-                        </h3>
-
-                        {/* Rating */}
-                        <div className="flex items-center gap-1.5 mb-4">
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                size={14}
-                                className="text-yellow-400 fill-yellow-400"
-                              />
-                            ))}
-                          </div>
-                          <span className="text-xs text-gray-500 font-medium">
-                            (4.8)
-                          </span>
+                {sortedResults.map((result) => {
+                  const full =
+                    result.categoryId && result.subcategoryId && result.productId != null
+                      ? findProductByLocation(
+                          result.categoryId,
+                          result.subcategoryId,
+                          result.productId
+                        )
+                      : null;
+                  const stableKey = `search-${result.categoryId}-${result.subcategoryId}-${result.productId}`;
+                  if (full) {
+                    return <ProductCard key={stableKey} product={full} />;
+                  }
+                  return (
+                    <Card
+                      key={stableKey}
+                      className="group cursor-pointer bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all duration-300 flex flex-col h-full"
+                      onClick={(e) => handleResultClick(result, e)}
+                    >
+                      <CardContent className="p-0 flex flex-col h-full">
+                        <div className="relative aspect-square bg-gray-50 overflow-hidden flex items-center justify-center p-6 sm:p-8">
+                          {result.image ? (
+                            <img
+                              src={result.image}
+                              alt={result.name}
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Search size={48} className="text-gray-300" />
+                            </div>
+                          )}
                         </div>
-
-                        {/* Price */}
-                        {result.price && (
-                          <div className="mb-4">
-                            <p className="text-xl font-bold text-primary">
-                              GH₵{result.price.toFixed(2)}
-                            </p>
+                        <div className="p-5 flex flex-col flex-1">
+                          <h3 className="font-medium text-base text-gray-900 mb-3 line-clamp-2 min-h-[3rem] leading-snug">
+                            {result.name}
+                          </h3>
+                          <div className="flex items-center gap-1.5 mb-4">
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  size={14}
+                                  className="text-yellow-400 fill-yellow-400"
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs text-gray-500 font-medium">
+                              (4.8)
+                            </span>
                           </div>
-                        )}
-
-                        {/* Add to Cart Button */}
-                        <Button
-                          onClick={(e) => handleAddToCart(e, result)}
-                          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg py-2.5 shadow-sm hover:shadow-md transition-all duration-200 mt-auto"
-                        >
-                          <ShoppingCart size={16} className="mr-2" />
-                          ADD TO CART
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                          {result.price != null && (
+                            <div className="mb-4">
+                              <p className="text-xl font-bold text-primary">
+                                GH₵{result.price.toFixed(2)}
+                              </p>
+                            </div>
+                          )}
+                          <Button
+                            onClick={(e) => handleAddToCart(e, result)}
+                            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg py-2.5 shadow-sm hover:shadow-md transition-all duration-200 mt-auto"
+                          >
+                            <ShoppingCart size={16} className="mr-2" />
+                            ADD TO CART
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
 
             {/* Product Results - List View */}
             {!isSearching && sortedResults.length > 0 && viewMode === "list" && (
-              <div className="space-y-0 bg-white border border-gray-200 rounded-xl overflow-hidden">
-                {sortedResults.map((result, index) => (
-                  <div
-                    key={`${result.type}-${result.id}-${index}`}
-                    className="group cursor-pointer bg-white hover:bg-gray-50 transition-colors duration-200 border-b border-gray-200 last:border-b-0"
-                    onClick={(e) => handleResultClick(result, e)}
-                  >
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-5">
-                      {/* Product Image */}
-                      <div className="w-full sm:w-32 h-32 sm:h-32 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center">
-                        {result.image ? (
-                          <img
-                            src={result.image}
-                            alt={result.name}
-                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <Search size={32} className="text-gray-300" />
-                        )}
-                      </div>
-
-                      {/* Product Details - Middle Section */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-base sm:text-lg text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                          {result.name}
-                        </h3>
-                        
-                        {/* Rating */}
-                        <div className="flex items-center gap-1.5 mb-2">
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                size={14}
-                                className="text-yellow-400 fill-yellow-400"
-                              />
-                            ))}
-                          </div>
-                          <span className="text-xs text-gray-500 font-medium">
-                            (4.8)
-                          </span>
+              <div className="space-y-6 max-w-4xl mx-auto">
+                {sortedResults.map((result) => {
+                  const full =
+                    result.categoryId && result.subcategoryId && result.productId != null
+                      ? findProductByLocation(
+                          result.categoryId,
+                          result.subcategoryId,
+                          result.productId
+                        )
+                      : null;
+                  const stableKey = `search-list-${result.categoryId}-${result.subcategoryId}-${result.productId}`;
+                  if (full) {
+                    return <ProductCard key={stableKey} product={full} />;
+                  }
+                  return (
+                    <Card
+                      key={stableKey}
+                      className="border border-gray-200 rounded-xl overflow-hidden"
+                    >
+                      <CardContent className="p-5 flex flex-col sm:flex-row gap-4 sm:gap-6">
+                        <div className="w-full sm:w-32 h-32 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center">
+                          {result.image ? (
+                            <img
+                              src={result.image}
+                              alt={result.name}
+                              className="w-full h-full object-contain"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <Search size={32} className="text-gray-300" />
+                          )}
                         </div>
-
-                        {/* Description if available */}
-                        {result.description && (
-                          <p className="text-sm text-gray-600 line-clamp-2 hidden sm:block">
-                            {result.description}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Price and CTA - Right Section */}
-                      <div className="w-full sm:w-auto flex flex-col sm:items-end gap-3 sm:gap-4">
-                        {/* Price */}
-                        {result.price && (
-                          <div className="text-right">
-                            <p className="text-xl sm:text-2xl font-bold text-primary">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-base sm:text-lg text-gray-900 mb-2 line-clamp-2">
+                            {result.name}
+                          </h3>
+                          {result.description && (
+                            <p className="text-sm text-gray-600 line-clamp-2">
+                              {result.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex flex-col gap-3 sm:items-end">
+                          {result.price != null && (
+                            <p className="text-xl font-bold text-primary">
                               GH₵{result.price.toFixed(2)}
                             </p>
-                          </div>
-                        )}
-
-                        {/* Add to Cart Button */}
-                        <Button
-                          onClick={(e) => handleAddToCart(e, result)}
-                          className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg px-6 py-2.5 shadow-sm hover:shadow-md transition-all duration-200 whitespace-nowrap"
-                        >
-                          <ShoppingCart size={16} className="mr-2" />
-                          ADD TO CART
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                          )}
+                          <Button
+                            onClick={(e) => handleAddToCart(e, result)}
+                            className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg px-6 py-2.5"
+                          >
+                            <ShoppingCart size={16} className="mr-2" />
+                            ADD TO CART
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </div>
