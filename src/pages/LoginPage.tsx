@@ -22,6 +22,7 @@ const LoginPage = () => {
   });
 
   const [error, setError] = useState("");
+  const [infoMessage, setInfoMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,27 +33,58 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Pre-fill email and show message when redirected from signup (e.g. "already exists")
+  // Pre-fill email and flash message from signup (success or "already exists")
   useEffect(() => {
-    const locationState = location.state as { email?: string; message?: string } | null;
+    const locationState = location.state as {
+      email?: string;
+      message?: string;
+      loginFlash?: { tone: "success" | "error"; text: string };
+    } | null;
     if (locationState?.email) {
-      setFormData(prev => ({ ...prev, email: locationState.email! }));
+      setFormData((prev) => ({ ...prev, email: locationState.email! }));
     }
-    if (locationState?.message) {
-      setError(locationState.message);
+    const flash = locationState?.loginFlash;
+    const legacyMessage = locationState?.message;
+    if (flash) {
+      if (flash.tone === "error") {
+        setError(flash.text);
+        setInfoMessage("");
+        toast({
+          title: "Account already exists",
+          description: flash.text,
+          variant: "destructive",
+        });
+      } else {
+        setError("");
+        setInfoMessage(flash.text);
+        toast({
+          title: "Account created",
+          description: flash.text,
+        });
+      }
+      navigate(location.pathname + location.search, {
+        replace: true,
+        state: { email: locationState?.email },
+      });
+    } else if (legacyMessage) {
+      setError(legacyMessage);
+      setInfoMessage("");
       toast({
-        title: "Account Already Exists",
-        description: locationState.message,
+        title: "Notice",
+        description: legacyMessage,
         variant: "destructive",
       });
-      // Clear state so message doesn't show again on refresh
-      navigate(location.pathname, { replace: true, state: { email: locationState.email } });
+      navigate(location.pathname + location.search, {
+        replace: true,
+        state: { email: locationState?.email },
+      });
     }
   }, [location, navigate, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setInfoMessage("");
 
     if (!formData.email || !formData.password) {
       setError("Please fill in all fields");
@@ -136,6 +168,11 @@ const LoginPage = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
+                {infoMessage && (
+                  <div className="bg-primary/10 text-foreground text-sm p-3 rounded-md border border-primary/20">
+                    {infoMessage}
+                  </div>
+                )}
                 {error && (
                   <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md border border-destructive/20">
                     {error}

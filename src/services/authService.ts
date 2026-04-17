@@ -13,7 +13,6 @@ function normalizeRole(raw: unknown): UserRole {
   if (raw === "owner" || raw === "admin" || raw === "customer") return raw;
   return "customer";
 }
-import { getResetPasswordUrl } from "@/utils/getBaseUrl";
 import * as backendApi from "./backendApi";
 
 export interface SignupData {
@@ -74,15 +73,35 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
       };
     }
 
-    const user: User = {
+    const sessionData = response.data?.session || response.session;
+
+    const supabase = getSupabaseClient();
+    if (supabase && sessionData?.access_token) {
+      const { error: sessionError } = await supabase.auth.setSession({
+        access_token: sessionData.access_token,
+        refresh_token: sessionData.refresh_token ?? "",
+      });
+      if (sessionError) {
+        console.warn("⚠️ Failed to set session after signup:", sessionError);
+      }
+    }
+
+    let user: User = {
       id: userData.id,
       firstName: userData.firstName,
       lastName: userData.lastName,
       email: userData.email,
-      phone: userData.phone || '',
+      phone: userData.phone || "",
       createdAt: userData.createdAt,
       role: normalizeRole((userData as { role?: unknown }).role),
     };
+
+    if (supabase && sessionData?.access_token) {
+      const profile = await getUserProfile(userData.id);
+      if (profile) {
+        user = profile;
+      }
+    }
 
     console.log("✅ Signup complete - returning user:", user.email);
     return { user, error: null };
@@ -122,20 +141,15 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
       };
     }
 
-    // Set session in Supabase client for compatibility with other parts of the app
-    // Do this in the background to avoid blocking login
     const supabase = getSupabaseClient();
-    if (supabase && sessionData) {
-      // Set session in background - don't wait for it
-      supabase.auth.setSession({
+    if (supabase && sessionData?.access_token) {
+      const { error: sessionError } = await supabase.auth.setSession({
         access_token: sessionData.access_token,
-        refresh_token: sessionData.refresh_token,
-      }).then(() => {
-        console.log("✅ Session set in Supabase client");
-      }).catch((sessionError) => {
-        console.warn("⚠️ Failed to set session in Supabase client (non-blocking):", sessionError);
-        // This is non-blocking - login is still successful
+        refresh_token: sessionData.refresh_token ?? "",
       });
+      if (sessionError) {
+        console.warn("⚠️ Failed to set session in Supabase client:", sessionError);
+      }
     }
 
     const user: User = {
@@ -221,31 +235,46 @@ export const getUserProfile = async (userId: string): Promise<User | null> => {
       .single();
 
     if (error) {
-      // 404 (not found) is expected if profile doesn't exist yet
-      if (error.code === 'PGRST116') {
+      if (error.code === "PGRST116") {
         console.log("ℹ️ User profile not found in database (may not exist yet)");
       } else {
         console.error("❌ Error fetching user profile:", error);
       }
-      return null;
+    } else if (data) {
+      console.log("✅ User profile found:", data.email);
+      const row = data as typeof data & { role?: string };
+      return {
+        id: data.id,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        phone: data.phone,
+        createdAt: data.created_at,
+        role: normalizeRole(row.role),
+      };
     }
 
-    if (!data) {
-      console.log("ℹ️ No user profile data returned");
-      return null;
+    const { data: authData } = await supabase.auth.getUser();
+    const authUser = authData?.user;
+    if (authUser?.id === userId) {
+      const md = (authUser.user_metadata || {}) as {
+        first_name?: string;
+        last_name?: string;
+        phone?: string;
+        role?: string;
+      };
+      return {
+        id: authUser.id,
+        firstName: md.first_name || "",
+        lastName: md.last_name || "",
+        email: authUser.email || "",
+        phone: md.phone || "",
+        createdAt: authUser.created_at || new Date().toISOString(),
+        role: normalizeRole(md.role),
+      };
     }
 
-    console.log("✅ User profile found:", data.email);
-    const row = data as typeof data & { role?: string };
-    return {
-      id: data.id,
-      firstName: data.first_name,
-      lastName: data.last_name,
-      email: data.email,
-      phone: data.phone,
-      createdAt: data.created_at,
-      role: normalizeRole(row.role),
-    };
+    return null;
   } catch (error) {
     console.error("❌ Exception fetching user profile:", error);
     return null;
@@ -302,43 +331,6 @@ export const sendPasswordResetEmail = async (email: string): Promise<{ error: st
   } catch (error: any) {
     console.error("Password reset error:", error);
     return { error: error.message || "Failed to send password reset email" };
-  }
-};
-
-/**
- * Update user password
- * Uses backend API for reliable password update
- */
-export const updatePassword = async (newPassword: string): Promise<{ error: string | null }> => {
-  try {
-    // Get current session token
-    const supabase = getSupabaseClient();
-    let accessToken: string | null = null;
-
-    if (supabase) {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        accessToken = session?.access_token || null;
-      } catch (err) {
-        console.warn("⚠️ Could not get session token:", err);
-      }
-    }
-
-    if (!accessToken) {
-      return { error: "No active session. Please click the reset link from your email again or request a new password reset." };
-    }
-
-    console.log("🔑 Updating password via backend API...");
-    const response = await backendApi.updatePassword(newPassword, accessToken);
-
-    if (!response.success) {
-      return { error: response.error || "Failed to update password. Please try again." };
-    }
-
-    return { error: null };
-  } catch (error: any) {
-    console.error("Update password error:", error);
-    return { error: error.message || "Failed to update password. Please try again." };
   }
 };
 

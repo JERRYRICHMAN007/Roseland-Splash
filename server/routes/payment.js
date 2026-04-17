@@ -6,7 +6,12 @@ const PAYSTACK_BASE_URL = 'https://api.paystack.co';
 const toPesewas = (amount) => Math.round(Number(amount) * 100);
 
 const updateOrderAsPaid = async (supabaseAdmin, orderId, reference) => {
-  if (!orderId) return;
+  if (!supabaseAdmin) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured; cannot update order status');
+  }
+  if (!orderId) {
+    throw new Error('Missing orderId in payment metadata');
+  }
 
   const { error } = await supabaseAdmin
     .from('orders')
@@ -100,6 +105,7 @@ export default function createPaymentRouter({ supabaseAdmin }) {
       if (!secretKey) {
         return res.status(500).json({
           success: false,
+          code: 'PAYSTACK_NOT_CONFIGURED',
           message: 'PAYSTACK_SECRET_KEY is not configured',
         });
       }
@@ -107,6 +113,7 @@ export default function createPaymentRouter({ supabaseAdmin }) {
       if (!reference) {
         return res.status(400).json({
           success: false,
+          code: 'REFERENCE_REQUIRED',
           message: 'Payment reference is required',
         });
       }
@@ -122,6 +129,7 @@ export default function createPaymentRouter({ supabaseAdmin }) {
       if (!paystackResponse.ok || !paystackData?.status || !paystackData?.data) {
         return res.status(400).json({
           success: false,
+          code: 'PAYSTACK_VERIFY_FAILED',
           message: paystackData?.message || 'Could not verify payment',
         });
       }
@@ -130,10 +138,33 @@ export default function createPaymentRouter({ supabaseAdmin }) {
       const orderId = transactionData?.metadata?.orderId;
 
       if (transactionData.status === 'success') {
+        if (!orderId) {
+          return res.status(409).json({
+            success: false,
+            code: 'ORDER_METADATA_MISSING',
+            message:
+              'Payment succeeded but your order could not be linked. Contact support with this reference.',
+            reference,
+            paystack_success: true,
+          });
+        }
+
         try {
           await updateOrderAsPaid(supabaseAdmin, orderId, reference);
         } catch (updateError) {
           console.error('❌ Order update after verify failed:', updateError);
+          const msg =
+            updateError instanceof Error ? updateError.message : 'Failed to update order';
+          const status = msg.includes('SUPABASE_SERVICE_ROLE_KEY') ? 503 : 500;
+          return res.status(status).json({
+            success: false,
+            code: 'PAYMENT_RECORDING_FAILED',
+            message:
+              'Payment was received but we could not confirm your order in our system. Contact support with your reference.',
+            reference,
+            orderId,
+            paystack_success: true,
+          });
         }
 
         return res.json({
@@ -145,12 +176,14 @@ export default function createPaymentRouter({ supabaseAdmin }) {
 
       return res.status(400).json({
         success: false,
+        code: 'PAYMENT_NOT_SUCCESSFUL',
         message: transactionData.gateway_response || 'Payment not successful',
       });
     } catch (error) {
       console.error('❌ Payment verify error:', error);
       return res.status(500).json({
         success: false,
+        code: 'VERIFY_EXCEPTION',
         message: 'Could not verify payment',
       });
     }
@@ -180,10 +213,16 @@ export default function createPaymentRouter({ supabaseAdmin }) {
       if (event?.event === 'charge.success') {
         const orderId = event?.data?.metadata?.orderId;
         const reference = event?.data?.reference;
-        try {
-          await updateOrderAsPaid(supabaseAdmin, orderId, reference);
-        } catch (updateError) {
-          console.error('❌ Webhook order update failed:', updateError);
+        if (!supabaseAdmin) {
+          console.error('❌ Webhook: supabaseAdmin missing; cannot mark order paid');
+        } else if (!orderId) {
+          console.error('❌ Webhook: charge.success missing metadata.orderId', { reference });
+        } else {
+          try {
+            await updateOrderAsPaid(supabaseAdmin, orderId, reference);
+          } catch (updateError) {
+            console.error('❌ Webhook order update failed:', updateError);
+          }
         }
       }
 

@@ -19,22 +19,21 @@ const isProduction = import.meta.env.PROD ||
 // Get API URL from environment or use defaults
 const getApiBaseUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL;
-  
-  // If explicitly set, use it
+
   if (envUrl) {
     return envUrl;
   }
-  
-  // In production on Vercel, ALWAYS use relative paths (same domain)
-  // Backend and frontend are served from the same domain
-  if (isProduction) {
-    // Return empty string to use relative paths
-    // This means API calls will go to /api/... on the same domain
-    return '';
+
+  // Vite dev: same-origin /api → proxy to dev:api (see vite.config.ts)
+  if (import.meta.env.DEV) {
+    return "";
   }
-  
-  // Development default
-  return 'http://localhost:3001';
+
+  if (isProduction) {
+    return "";
+  }
+
+  return "http://127.0.0.1:3001";
 };
 
 const API_BASE_URL = getApiBaseUrl();
@@ -44,6 +43,8 @@ export interface ApiResponse<T> {
   data?: T;
   error?: string;
   message?: string;
+  /** Stable machine code from the API when success is false (e.g. payment verify) */
+  code?: string;
 }
 
 export interface LoginResponse {
@@ -54,6 +55,7 @@ export interface LoginResponse {
     lastName: string;
     phone: string;
     createdAt: string;
+    role?: string;
   };
   session: {
     access_token: string;
@@ -69,6 +71,11 @@ export interface SignupResponse {
     lastName: string;
     phone: string;
     createdAt: string;
+    role?: string;
+  };
+  session?: {
+    access_token: string;
+    refresh_token: string;
   };
 }
 
@@ -77,10 +84,11 @@ export interface PaymentInitializeResponse {
   reference: string;
 }
 
-export interface PaymentVerifyResponse {
-  orderId?: string;
+/** Successful Paystack verify (HTTP 200) */
+export interface PaymentVerifySuccessBody {
+  success: true;
+  orderId: string;
   reference: string;
-  message?: string;
 }
 
 /**
@@ -90,10 +98,9 @@ async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
-  // Check if API_BASE_URL is configured (only error in development)
-  // In production, empty string means use relative paths (same domain)
-  if (!API_BASE_URL && !isProduction) {
-    const errorMsg = 'Backend API URL is not configured. Please set VITE_API_URL in your .env file';
+  if (!API_BASE_URL && !isProduction && !import.meta.env.DEV) {
+    const errorMsg =
+      "Backend API URL is not configured. Set VITE_API_URL in your .env file, or use `npm run dev` with `npm run dev:api`.";
     return {
       success: false,
       error: errorMsg,
@@ -146,10 +153,25 @@ async function apiRequest<T>(
     }
 
     if (!response.ok) {
-      const errorMessage = data.error || data.message || `Request failed with status ${response.status}`;
+      const fromBody =
+        (typeof data?.error === "string" && data.error) ||
+        (typeof data?.message === "string" && data.message) ||
+        (data?.details != null && String(data.details));
+      let errorMessage =
+        fromBody || `Request failed with status ${response.status}`;
+      if (
+        import.meta.env.DEV &&
+        !fromBody &&
+        (response.status === 500 || response.status === 502 || response.status === 503)
+      ) {
+        errorMessage +=
+          " — Start the local API: open a second terminal and run `npm run dev:api`. Ensure `server/.env` exists (copy from `server/.env.example`) with `SUPABASE_URL` and `SUPABASE_ANON_KEY`.";
+      }
       return {
         success: false,
         error: errorMessage,
+        code: typeof data?.code === "string" ? data.code : undefined,
+        data: data as T,
       };
     }
     
@@ -182,8 +204,13 @@ async function apiRequest<T>(
           '1. Your backend is deployed and running\n' +
           '2. VITE_API_URL is set in Vercel environment variables to your production backend URL\n' +
           '3. Your backend CORS is configured to allow requests from https://roseland-splash.vercel.app';
+      } else if (import.meta.env.DEV) {
+        errorMessage =
+          'Cannot reach the API. In a second terminal run: npm run dev:api (listens on http://127.0.0.1:3001). ' +
+          'Vite proxies /api to that server.';
       } else {
-        errorMessage = 'Cannot connect to backend server. Make sure it\'s running on http://localhost:3002';
+        errorMessage =
+          "Cannot connect to backend server. Run `npm run dev:api` or set VITE_API_URL (e.g. http://127.0.0.1:3001).";
       }
     } else if (error.message?.includes('CORS')) {
       errorMessage = 'CORS error: Your backend server needs to allow requests from this origin. ' +
@@ -257,22 +284,6 @@ export async function requestPasswordReset(
 }
 
 /**
- * Update password
- */
-export async function updatePassword(
-  newPassword: string,
-  accessToken: string
-): Promise<ApiResponse<void>> {
-  return apiRequest<void>('/api/auth/update-password', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({ newPassword }),
-  });
-}
-
-/**
  * Get current user
  */
 export async function getCurrentUser(accessToken: string): Promise<ApiResponse<SignupResponse>> {
@@ -308,10 +319,15 @@ export async function initializePayment(data: {
   });
 }
 
-export async function verifyPayment(reference: string): Promise<ApiResponse<PaymentVerifyResponse>> {
-  return apiRequest<PaymentVerifyResponse>(`/api/payment/verify/${encodeURIComponent(reference)}`, {
-    method: 'GET',
-  });
+export async function verifyPayment(
+  reference: string
+): Promise<ApiResponse<PaymentVerifySuccessBody>> {
+  return apiRequest<PaymentVerifySuccessBody>(
+    `/api/payment/verify/${encodeURIComponent(reference)}`,
+    {
+      method: "GET",
+    }
+  );
 }
 
 /** Cancel order (server uses service role; browser cannot DELETE via RLS) */

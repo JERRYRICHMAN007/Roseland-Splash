@@ -84,44 +84,49 @@ const SignUpPage = () => {
     setIsSubmitting(true);
 
     try {
-      const success = await signup({
+      const createdEmail = formData.email.trim().toLowerCase();
+      const outcome = await signup({
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
-        email: formData.email.trim().toLowerCase(),
+        email: createdEmail,
         phone: formData.phone.trim(),
         password: formData.password,
       });
 
-      if (success) {
-        console.log("✅ Signup successful, showing toast and redirecting...");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      });
+
+      if (outcome.authenticated) {
+        toast({
+          title: "Welcome!",
+          description: "Your account is ready and you're signed in.",
+        });
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 600);
+      } else {
         toast({
           title: "Account Created!",
-          description: "Welcome! You've successfully signed up. Redirecting to login...",
+          description: "Sign in with your email and password to continue.",
         });
-        // Clear form
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          password: "",
-          confirmPassword: "",
-        });
-        // Small delay to show toast, then navigate
         setTimeout(() => {
-          console.log("🔄 Navigating to login page...");
-          navigate("/login", { replace: true });
-        }, 1500);
-      } else {
-        console.error("❌ Signup returned false");
-        setErrors({
-          email: "We couldn't create your account. This email may already be registered—try logging in or use a different email.",
-        });
-        toast({
-          title: "Sign Up Failed",
-          description: "This email may already be registered. Try logging in or use a different email.",
-          variant: "destructive",
-        });
+          navigate("/login", {
+            replace: true,
+            state: {
+              email: createdEmail,
+              loginFlash: {
+                tone: "success" as const,
+                text: "Your account was created. Sign in with your email and password to continue.",
+              },
+            },
+          });
+        }, 1200);
       }
     } catch (error: any) {
       console.error("Signup error:", error);
@@ -160,8 +165,11 @@ const SignUpPage = () => {
         setTimeout(() => {
           navigate("/login", {
             state: {
-              email: formData.email,
-              message: "This email is already registered. Please log in.",
+              email: formData.email.trim().toLowerCase(),
+              loginFlash: {
+                tone: "error" as const,
+                text: "This email is already registered. Please log in.",
+              },
             },
           });
         }, 2500);
@@ -204,7 +212,8 @@ const SignUpPage = () => {
               </div>
               <CardTitle className="text-2xl">Create Account</CardTitle>
               <CardDescription>
-                Sign up to place orders and track your purchases
+                Sign up to place orders and track your purchases. You&apos;ll usually be signed in
+                right away; otherwise use the login page with your new password.
               </CardDescription>
             </CardHeader>
             <CardContent>

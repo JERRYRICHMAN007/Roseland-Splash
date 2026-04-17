@@ -11,11 +11,65 @@ import createOrderCancelRouter from '../server/routes/orderCancel.js';
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
-  credentials: true
-}));
+function normalizeOriginOrUrl(value) {
+  if (!value || typeof value !== 'string') return null;
+  const trimmed = value.trim().replace(/\/$/, '');
+  if (!trimmed) return null;
+  try {
+    return new URL(trimmed).origin;
+  } catch {
+    return null;
+  }
+}
+
+function buildCorsAllowedOrigins() {
+  const set = new Set();
+  const add = (v) => {
+    const o = normalizeOriginOrUrl(v);
+    if (o) set.add(o);
+  };
+  add(process.env.FRONTEND_URL || 'http://localhost:8080');
+  const extra = (process.env.ADDITIONAL_CORS_ORIGINS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  extra.forEach(add);
+  [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+  ].forEach(add);
+  return set;
+}
+
+const corsAllowedOrigins = buildCorsAllowedOrigins();
+
+// Middleware — allow FRONTEND_URL, optional ADDITIONAL_CORS_ORIGINS, and local dev origins
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      try {
+        const reqOrigin = new URL(origin).origin;
+        if (corsAllowedOrigins.has(reqOrigin)) {
+          callback(null, origin);
+          return;
+        }
+      } catch {
+        /* ignore */
+      }
+      callback(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({
   verify: (req, res, buf) => {
     req.rawBody = buf;
@@ -63,16 +117,6 @@ app.use('/api/orders', orderCancelRouter);
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
-});
-
-// Import routes from server/index.js
-// We'll need to copy the route handlers here or import them
-// For now, let's import the app from server/index.js but handle it properly
-import('../server/index.js').then((serverModule) => {
-  // The server module exports the app as default
-  // We'll use the routes from it
-}).catch((err) => {
-  console.error('Failed to load server module:', err);
 });
 
 // ==================== AUTHENTICATION ENDPOINTS ====================
@@ -198,6 +242,13 @@ app.post('/api/auth/signup', async (req, res) => {
       });
     }
 
+    if (!phone || !String(phone).trim()) {
+      return res.status(400).json({
+        success: false,
+        error: 'Phone number is required'
+      });
+    }
+
     if (!supabase) {
       return res.status(500).json({
         success: false,
@@ -215,7 +266,7 @@ app.post('/api/auth/signup', async (req, res) => {
         data: {
           first_name: firstName,
           last_name: lastName,
-          phone: phone || ''
+          phone: String(phone).trim()
         },
         emailRedirectTo: `${frontendUrl}/login`
       }
@@ -260,7 +311,7 @@ app.post('/api/auth/signup', async (req, res) => {
             first_name: firstName.trim(),
             last_name: lastName.trim(),
             email: email.toLowerCase().trim(),
-            phone: (phone || '').trim(),
+            phone: String(phone).trim(),
             role: 'customer'
           },
           { onConflict: 'id' }
@@ -289,15 +340,32 @@ app.post('/api/auth/signup', async (req, res) => {
       email: data.user.email,
       firstName: data.user.user_metadata?.first_name || firstName,
       lastName: data.user.user_metadata?.last_name || lastName,
-      phone: data.user.user_metadata?.phone || phone || '',
+      phone: data.user.user_metadata?.phone || String(phone).trim(),
       createdAt: data.user.created_at,
       role: 'customer'
     };
 
+    let sessionPayload = null;
+    const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
+      email: email.toLowerCase().trim(),
+      password
+    });
+    if (!signInErr && signInData?.session) {
+      sessionPayload = {
+        access_token: signInData.session.access_token,
+        refresh_token: signInData.session.refresh_token
+      };
+    } else if (signInErr) {
+      console.warn('⚠️ Post-signup sign-in failed:', signInErr.message);
+    }
+
     res.json({
       success: true,
       user: userData,
-      message: 'Account created successfully. You can now log in.'
+      session: sessionPayload,
+      message: sessionPayload
+        ? 'Account created. You are signed in.'
+        : 'Account created successfully. Please sign in.'
     });
   } catch (error) {
     console.error('❌ Signup exception:', error);
@@ -350,8 +418,13 @@ app.post('/api/auth/logout', async (req, res) => {
 const getAllowedRedirectOrigins = () => {
   const frontend = process.env.FRONTEND_URL || 'http://localhost:8080';
   const base = frontend.replace(/\/$/, '');
+  const extras = (process.env.ADDITIONAL_REDIRECT_ORIGINS || '')
+    .split(',')
+    .map((s) => s.trim().replace(/\/$/, ''))
+    .filter(Boolean);
   return [
     base,
+    ...extras,
     'http://localhost:8080',
     'http://localhost:3000',
     'http://localhost:5173',
@@ -439,74 +512,9 @@ app.post('/api/auth/reset-password', async (req, res) => {
 });
 
 /**
- * POST /api/auth/update-password
- * Update password after reset
+ * Password changes after email reset use the Supabase browser client on /reset-password
+ * (supabase.auth.updateUser). No separate HTTP route — avoids duplicate flows.
  */
-app.post('/api/auth/update-password', async (req, res) => {
-  try {
-    const { newPassword } = req.body;
-    const authHeader = req.headers.authorization;
-
-    if (!newPassword) {
-      return res.status(400).json({
-        success: false,
-        error: 'New password is required'
-      });
-    }
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        success: false,
-        error: 'Authorization token required'
-      });
-    }
-
-    if (!supabase) {
-      return res.status(500).json({
-        success: false,
-        error: 'Backend configuration error: Supabase client not initialized'
-      });
-    }
-
-    const token = authHeader.substring(7);
-    
-    const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
-      access_token: token,
-      refresh_token: ''
-    });
-
-    if (sessionError || !sessionData.user) {
-      return res.status(401).json({
-        success: false,
-        error: 'Invalid or expired reset token'
-      });
-    }
-
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
-    });
-
-    if (error) {
-      console.error('❌ Password update error:', error.message);
-      return res.status(400).json({
-        success: false,
-        error: error.message
-      });
-    }
-
-    console.log('✅ Password updated successfully');
-    res.json({
-      success: true,
-      message: 'Password updated successfully'
-    });
-  } catch (error) {
-    console.error('❌ Password update exception:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message || 'Internal server error'
-    });
-  }
-});
 
 /**
  * GET /api/auth/user

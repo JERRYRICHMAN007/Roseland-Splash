@@ -205,6 +205,7 @@ export const getOrder = async (orderId: string): Promise<Order | null> => {
   try {
     const { data: order, error: orderError } = await supabase
       .from("orders")
+      .select("*")
       .eq("id", orderId)
       .single();
 

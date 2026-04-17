@@ -5,12 +5,19 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import * as backendApi from "@/services/backendApi";
+import { useCart } from "@/contexts/CartContext";
+import { getOrder } from "@/services/databaseService";
+import {
+  sendProfessionalCustomerEmail,
+  sendProfessionalOrderEmail,
+} from "@/services/professionalEmailService";
 
 type VerifyState = "loading" | "success" | "failed";
 
 const PaymentVerify = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { clearCart } = useCart();
   const [state, setState] = useState<VerifyState>("loading");
   const [message, setMessage] = useState("Verifying your payment...");
   const [orderId, setOrderId] = useState<string>("");
@@ -28,18 +35,53 @@ const PaymentVerify = () => {
       setReference(ref);
       const verifyRes = await backendApi.verifyPayment(ref);
 
-      if (verifyRes.success) {
-        setOrderId(verifyRes.data?.orderId || "");
+      if (verifyRes.success && verifyRes.data?.orderId) {
+        const oid = verifyRes.data.orderId;
+        setOrderId(oid);
         setState("success");
         setMessage("Payment successful. Your order has been confirmed.");
+        clearCart();
+
+        const order = await getOrder(oid);
+        if (order && order.status === "paid") {
+          const baseUrl = window.location.origin;
+          const trackingUrl = `${baseUrl}/track-order/${order.id}`;
+          const orderData = {
+            customerName: order.customerName,
+            customerPhone: order.customerPhone,
+            email: order.customerEmail,
+            products: order.products,
+            location: order.location,
+            totalAmount: order.totalAmount,
+            paymentMethod: order.paymentMethod,
+            deliveryMethod: order.deliveryMethod,
+            specialInstructions: order.specialInstructions,
+            orderId: order.id,
+            orderNumber: order.orderNumber,
+            trackingUrl,
+            paymentStatus: `Paid (Paystack) — ref ${ref}`,
+          };
+          sendProfessionalOrderEmail(orderData).catch(() => {});
+          if (order.customerEmail) {
+            sendProfessionalCustomerEmail(orderData, "Paid").catch(() => {});
+          }
+        }
         return;
       }
 
       setState("failed");
-      setMessage(verifyRes.error || verifyRes.data?.message || "Payment verification failed.");
+      const fallback =
+        verifyRes.error ||
+        (verifyRes.data && typeof verifyRes.data === "object" && "message" in verifyRes.data
+          ? String((verifyRes.data as { message?: string }).message)
+          : "") ||
+        "Payment verification failed.";
+      setMessage(fallback);
     };
 
     runVerification();
+    // clearCart is stable enough for UX; omit from deps to avoid re-running verify when context re-renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- searchParams drives verification once per return URL
   }, [searchParams]);
 
   return (

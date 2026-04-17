@@ -9,7 +9,6 @@ import { Lock, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
-import * as authService from "@/services/authService";
 
 const ResetPasswordPage = () => {
   const navigate = useNavigate();

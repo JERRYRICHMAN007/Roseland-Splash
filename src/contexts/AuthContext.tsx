@@ -21,7 +21,9 @@ interface AuthState {
   isLoading: boolean;
 }
 
-interface AuthContextType extends AuthState {
+export type SignupResult = { ok: true; authenticated: boolean };
+
+export interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<User | null>;
   signup: (userData: {
     firstName: string;
@@ -29,7 +31,7 @@ interface AuthContextType extends AuthState {
     email: string;
     phone: string;
     password: string;
-  }) => Promise<boolean>;
+  }) => Promise<SignupResult>;
   logout: () => Promise<void>;
   updateUser: (userData: Partial<User>) => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
@@ -148,12 +150,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string;
     phone: string;
     password: string;
-  }): Promise<boolean> => {
+  }): Promise<SignupResult> => {
     const result = await authService.signUp(userData);
     const { user, error } = result;
 
     if (error) {
-      // Rethrow so SignUpPage can show the exact message (e.g. "account already exists")
       throw new Error(error);
     }
 
@@ -161,18 +162,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       throw new Error("Failed to create account. Please try again.");
     }
 
-    const userWithRole: User = {
-      ...user,
-      role: user.role ?? "customer",
-    };
+    const supabase = getSupabaseClient();
+    const { data: sessionData } = supabase
+      ? await supabase.auth.getSession()
+      : { data: { session: null } };
 
-    setState({
-      user: userWithRole,
-      isAuthenticated: true,
-      isLoading: false,
-    });
+    if (sessionData?.session?.user) {
+      const profile = await authService.getUserProfile(sessionData.session.user.id);
+      const displayUser = profile ?? user;
+      setState({
+        user: displayUser,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      return { ok: true, authenticated: true };
+    }
 
-    return true;
+    return { ok: true, authenticated: false };
   };
 
   const logout = async (): Promise<void> => {
@@ -252,20 +258,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    // Return a default context instead of throwing to handle hot reload gracefully
-    return {
-      user: null,
-      isAuthenticated: false,
-      isLoading: false,
-      login: async () => null,
-      signup: async () => false,
-      logout: async () => {},
-      updateUser: async () => {},
-      resetPassword: async () => ({ error: "Not available" }),
-    };
+    if (import.meta.env.DEV) {
+      console.warn(
+        "[Auth] useAuth() used outside AuthProvider — returning a no-op stub (dev only)."
+      );
+      return {
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        login: async () => null,
+        signup: async () => ({ ok: true, authenticated: false }),
+        logout: async () => {},
+        updateUser: async () => {},
+        resetPassword: async () => ({ error: "Not available" }),
+      };
+    }
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

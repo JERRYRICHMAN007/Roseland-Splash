@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js",
+    "dev:api": "node server/dev-api.mjs",
     "build": "node node_modules/vite/bin/vite.js build",
     "build:dev": "node node_modules/vite/bin/vite.js build --mode development",
     "lint": "eslint .",
