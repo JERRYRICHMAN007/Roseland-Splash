@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import dotenv from "dotenv";
-import { componentTagger } from "lovable-tagger";
 
 const rootDir = __dirname;
 
@@ -50,9 +49,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), mode === "development" && componentTagger()].filter(
-      Boolean
-    ),
+    plugins: [react()],
     resolve: {
       alias: {
         "@": path.resolve(rootDir, "./src"),
