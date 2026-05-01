@@ -259,18 +259,36 @@ app.post('/api/auth/signup', async (req, res) => {
     console.log('📝 Signup attempt for:', email);
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
-    const { data, error } = await supabase.auth.signUp({
-      email: email.toLowerCase().trim(),
-      password: password,
-      options: {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          phone: String(phone).trim()
-        },
-        emailRedirectTo: `${frontendUrl}/login`
-      }
-    });
+    let data;
+    let error;
+    try {
+      const result = await supabase.auth.signUp({
+        email: email.toLowerCase().trim(),
+        password: password,
+        options: {
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+            phone: String(phone).trim()
+          },
+          emailRedirectTo: `${frontendUrl}/login`
+        }
+      });
+      data = result.data;
+      error = result.error;
+    } catch (supabaseError) {
+      console.error('❌ Supabase signup exception:', supabaseError);
+      const msg =
+        supabaseError?.message ||
+        String(supabaseError) ||
+        'Unknown error talking to Supabase';
+      return res.status(502).json({
+        success: false,
+        error:
+          `Sign up service error: ${msg}. Check server/.env has correct SUPABASE_URL and SUPABASE_ANON_KEY, ` +
+          'run `npm run dev:api` in a second terminal, and confirm your Supabase project is active (not paused).'
+      });
+    }
 
     if (error) {
       console.error('❌ Signup error:', error.message);
@@ -346,17 +364,21 @@ app.post('/api/auth/signup', async (req, res) => {
     };
 
     let sessionPayload = null;
-    const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
-      email: email.toLowerCase().trim(),
-      password
-    });
-    if (!signInErr && signInData?.session) {
-      sessionPayload = {
-        access_token: signInData.session.access_token,
-        refresh_token: signInData.session.refresh_token
-      };
-    } else if (signInErr) {
-      console.warn('⚠️ Post-signup sign-in failed:', signInErr.message);
+    try {
+      const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase().trim(),
+        password
+      });
+      if (!signInErr && signInData?.session) {
+        sessionPayload = {
+          access_token: signInData.session.access_token,
+          refresh_token: signInData.session.refresh_token
+        };
+      } else if (signInErr) {
+        console.warn('⚠️ Post-signup sign-in failed:', signInErr.message);
+      }
+    } catch (signInException) {
+      console.error('❌ Post-signup sign-in exception:', signInException);
     }
 
     res.json({
@@ -369,9 +391,11 @@ app.post('/api/auth/signup', async (req, res) => {
     });
   } catch (error) {
     console.error('❌ Signup exception:', error);
+    const msg = error?.message || String(error) || 'Internal server error';
     res.status(500).json({
       success: false,
-      error: error.message || 'Internal server error'
+      error: msg,
+      code: 'SIGNUP_UNHANDLED'
     });
   }
 });

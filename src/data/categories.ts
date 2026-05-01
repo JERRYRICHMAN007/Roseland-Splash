@@ -1542,6 +1542,14 @@ export const categoriesData: Category[] = [
                     inStock: true,
                     image: frozenSpringRollsImage,
                   },
+                  {
+                    id: "frozen-spring-pack-50",
+                    name: "Pack of 50 pieces",
+                    price: 95.0,
+                    unit: "per pack",
+                    inStock: true,
+                    image: frozenSpringRollsImage,
+                  },
                 ],
               },
             ],
@@ -1582,6 +1590,14 @@ export const categoriesData: Category[] = [
                     name: "Veggies",
                     price: 2.0,
                     unit: "per piece",
+                    inStock: true,
+                    image: frozenSamosaImage,
+                  },
+                  {
+                    id: "frozen-samosa-pack-50",
+                    name: "Pack of 50 pieces",
+                    price: 95.0,
+                    unit: "per pack",
                     inStock: true,
                     image: frozenSamosaImage,
                   },
@@ -1800,7 +1816,7 @@ export const categoriesData: Category[] = [
               {
                 id: 32,
                 name: "Orange Juice",
-                price: 8.0,
+                price: 12.0,
                 unit: "per bottle",
                 image: orangeJuiceImage,
                 description: "Fresh and refreshing orange juice",
@@ -1817,7 +1833,7 @@ export const categoriesData: Category[] = [
               {
                 id: 33,
                 name: "Pineapple Juice",
-                price: 8.0,
+                price: 12.0,
                 unit: "per bottle",
                 image: pineappleJuiceImage,
                 description: "Fresh and refreshing pineapple juice",
@@ -1834,7 +1850,7 @@ export const categoriesData: Category[] = [
               {
                 id: 34,
                 name: "Pineapple + Ginger Juice",
-                price: 9.0,
+                price: 15.0,
                 unit: "per bottle",
                 image: pineappleGingerJuiceImage,
                 description:
@@ -1852,10 +1868,45 @@ export const categoriesData: Category[] = [
               {
                 id: 35,
                 name: "Mixed Fruit Juice",
-                price: 10.0,
+                price: 15.0,
                 unit: "per bottle",
                 image: mixedFruitJuiceImage,
                 description: "Fresh mixed fruit juice with various fruits",
+                inStock: true,
+              },
+            ],
+          },
+          {
+            id: "watermelon-juice",
+            name: "Watermelon",
+            description: "Fresh watermelon juice",
+            image: mixedFruitJuiceImage,
+            products: [
+              {
+                id: 316,
+                name: "Watermelon Juice",
+                price: 12.0,
+                unit: "per bottle",
+                image: mixedFruitJuiceImage,
+                description: "Fresh and refreshing watermelon juice",
+                inStock: true,
+              },
+            ],
+          },
+          {
+            id: "watermelon-pineapple-juice",
+            name: "Watermelon + Pineapple",
+            description: "Fresh watermelon and pineapple juice blend",
+            image: pineappleJuiceImage,
+            products: [
+              {
+                id: 317,
+                name: "Watermelon + Pineapple Juice",
+                price: 15.0,
+                unit: "per bottle",
+                image: pineappleJuiceImage,
+                description:
+                  "Refreshing blend of watermelon and pineapple juice",
                 inStock: true,
               },
             ],

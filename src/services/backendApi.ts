@@ -153,15 +153,22 @@ async function apiRequest<T>(
     }
 
     if (!response.ok) {
+      const errorsArray =
+        Array.isArray((data as { errors?: unknown })?.errors) &&
+        (data as { errors: unknown[] }).errors.length
+          ? (data as { errors: unknown[] }).errors.map(String).join("; ")
+          : "";
       const fromBody =
         (typeof data?.error === "string" && data.error) ||
         (typeof data?.message === "string" && data.message) ||
-        (data?.details != null && String(data.details));
+        (data?.details != null && String(data.details)) ||
+        errorsArray;
       let errorMessage =
         fromBody || `Request failed with status ${response.status}`;
       if (
         import.meta.env.DEV &&
-        !fromBody &&
+        (!fromBody ||
+          errorMessage === `Request failed with status ${response.status}`) &&
         (response.status === 500 || response.status === 502 || response.status === 503)
       ) {
         errorMessage +=
