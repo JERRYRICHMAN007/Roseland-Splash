@@ -320,7 +320,7 @@ export async function initializePayment(data: {
     price: number;
   }>;
 }): Promise<ApiResponse<PaymentInitializeResponse>> {
-  return apiRequest<PaymentInitializeResponse>('/api/payment/initialize', {
+  return apiRequest<PaymentInitializeResponse>('/api/pay', {
     method: 'POST',
     body: JSON.stringify(data),
   });

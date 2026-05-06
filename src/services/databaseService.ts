@@ -23,6 +23,8 @@ export interface DatabaseOrder {
   payment_method: string;
   delivery_method: string;
   special_instructions?: string;
+  /** Owning shopper; matches Supabase auth.uid() for RLS */
+  user_id?: string | null;
   /** DB may include `paid` after Paystack (see payment webhook) */
   status: OrderStatus;
   created_at: string;
@@ -56,6 +58,10 @@ const convertDbOrderToOrder = (
     customerName: dbOrder.customer_name,
     customerPhone: dbOrder.customer_phone,
     customerEmail: dbOrder.customer_email,
+    userId:
+      dbOrder.user_id === undefined
+        ? undefined
+        : dbOrder.user_id,
     products: items.map((item) => ({
       name: item.product_name,
       variant: item.product_variant || undefined,
@@ -93,14 +99,18 @@ export function buildOrderSpecialInstructions(
  * Create a new order in the database
  */
 export const createOrder = async (
-  orderData: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">
+  orderData: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">,
+  explicitUserId?: string | null
 ): Promise<Order> => {
   const supabase = getSupabaseClient();
-  
+
   if (!supabase) {
     throw new Error("Database not configured");
   }
-  
+
+  const resolvedUserId =
+    explicitUserId !== undefined ? explicitUserId : orderData.userId ?? null;
+
   try {
     // Generate order number
     const orderNumber = `RS${Date.now().toString().slice(-8)}`;
@@ -130,6 +140,7 @@ export const createOrder = async (
           orderData.specialInstructions
         ),
         status: "pending",
+        user_id: resolvedUserId,
       })
       .select()
       .single();
@@ -196,6 +207,43 @@ export const createOrder = async (
 };
 
 /**
+ * Orders for a single shopper (`orders.user_id`). Prefer with matching JWT + RLS.
+ * Admin-only dashboards should keep using {@link getAllOrders} / {@link listOrdersVisibleToSession}.
+ */
+export const getUserOrders = async (userId: string): Promise<Order[]> => {
+  const supabase = getSupabaseClient();
+  if (!supabase || !userId) {
+    return [];
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*, order_items(*)")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching user orders:", error);
+      return [];
+    }
+
+    if (!data?.length) {
+      return [];
+    }
+
+    return data.map((row: DatabaseOrder & { order_items?: DatabaseOrderItem[] }) => {
+      const items = row.order_items ?? [];
+      const { order_items: _omit, ...orderRow } = row;
+      return convertDbOrderToOrder(orderRow as DatabaseOrder, items);
+    });
+  } catch (e) {
+    console.error("Error fetching user orders:", e);
+    return [];
+  }
+};
+
+/**
  * Get a single order by ID
  */
 export const getOrder = async (orderId: string): Promise<Order | null> => {
@@ -237,9 +285,11 @@ export const getOrder = async (orderId: string): Promise<Order | null> => {
 };
 
 /**
- * Get all orders
+ * List orders visible to the current JWT session (RLS-enforced).
+ * Customers see only rows where orders.user_id = auth.uid().
+ * Owner/admin see all orders per sql/database_setup.sql policies.
  */
-export const getAllOrders = async (): Promise<Order[]> => {
+export const listOrdersVisibleToSession = async (): Promise<Order[]> => {
   const supabase = getSupabaseClient();
   if (!supabase) {
     console.warn("⚠️ Supabase client not available - cannot fetch orders");
@@ -247,7 +297,7 @@ export const getAllOrders = async (): Promise<Order[]> => {
   }
   
   try {
-    console.log("📦 Fetching all orders from database...");
+    console.log("📦 Fetching orders visible to session (RLS)...");
     const { data: orders, error: orderError } = await supabase
       .from("orders")
       .select("*")
@@ -310,6 +360,9 @@ export const getAllOrders = async (): Promise<Order[]> => {
     return [];
   }
 };
+
+/** @deprecated Use listOrdersVisibleToSession — same behavior under RLS */
+export const getAllOrders = listOrdersVisibleToSession;
 
 /**
  * Get orders by phone number

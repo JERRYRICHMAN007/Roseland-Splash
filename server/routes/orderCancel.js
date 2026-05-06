@@ -54,7 +54,7 @@ export default function createOrderCancelRouter({ supabase, supabaseAdmin }) {
 
       const { data: order, error: fetchErr } = await supabaseAdmin
         .from('orders')
-        .select('id, customer_email, customer_phone, status')
+        .select('id, customer_email, customer_phone, status, user_id')
         .eq('id', orderId)
         .single();
 
@@ -64,6 +64,9 @@ export default function createOrderCancelRouter({ supabase, supabaseAdmin }) {
           error: 'Order not found.',
         });
       }
+
+      const userIdMatch =
+        Boolean(order.user_id) && order.user_id === user.id;
 
       const orderEmail = (order.customer_email || '').toLowerCase();
       const emailMatch =
@@ -75,7 +78,7 @@ export default function createOrderCancelRouter({ supabase, supabaseAdmin }) {
       const phoneMatch =
         Boolean(uPhone) && Boolean(oPhone) && uPhone === oPhone;
 
-      if (!emailMatch && !phoneMatch) {
+      if (!userIdMatch && !emailMatch && !phoneMatch) {
         return res.status(403).json({
           success: false,
           error: 'You are not allowed to cancel this order.',

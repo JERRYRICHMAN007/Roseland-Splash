@@ -42,15 +42,15 @@ const CartPage = () => {
     );
   }
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
+  const handleQuantityChange = (id: string, variant: string | undefined, newQuantity: number) => {
     if (newQuantity < 1) {
-      removeItem(id);
+      removeItem(id, variant);
       toast({
         title: "Item Removed",
         description: "Item has been removed from your cart",
       });
     } else {
-      updateQuantity(id, newQuantity);
+      updateQuantity(id, newQuantity, variant);
     }
   };
 
@@ -103,7 +103,7 @@ const CartPage = () => {
                             size="icon"
                             className="h-9 w-9 border-gray-300 hover:bg-gray-50"
                             onClick={() =>
-                              handleQuantityChange(item.id, item.quantity - 1)
+                              handleQuantityChange(item.id, item.variant, item.quantity - 1)
                             }
                           >
                             <Minus size={16} />
@@ -116,7 +116,7 @@ const CartPage = () => {
                             size="icon"
                             className="h-9 w-9 border-gray-300 hover:bg-gray-50"
                             onClick={() =>
-                              handleQuantityChange(item.id, item.quantity + 1)
+                              handleQuantityChange(item.id, item.variant, item.quantity + 1)
                             }
                           >
                             <Plus size={16} />
@@ -140,7 +140,7 @@ const CartPage = () => {
                             size="icon"
                             className="text-red-600 hover:text-red-700 hover:bg-red-50 h-9 w-9"
                             onClick={() => {
-                              removeItem(item.id);
+                              removeItem(item.id, item.variant);
                               toast({
                                 title: "Item Removed",
                                 description: `${item.name} has been removed from your cart`,

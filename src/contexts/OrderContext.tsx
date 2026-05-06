@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useReducer, useEffect, useState } from "react";
+import React, { createContext, useContext, useReducer, useEffect, useState, useCallback } from "react";
 import * as db from "@/services/databaseService";
 import { getSupabaseClient } from "@/lib/supabase";
 import * as backendApi from "@/services/backendApi";
+import { useAuth } from "@/contexts/AuthContext";
 
 export type OrderStatus =
   | "pending"
@@ -17,6 +18,8 @@ export interface Order {
   customerName: string;
   customerPhone: string;
   customerEmail?: string;
+  /** Owning auth user; null/undefined for guest orders under RLS */
+  userId?: string | null;
   products: Array<{
     name: string;
     variant?: string;
@@ -103,6 +106,8 @@ interface OrderContextType extends OrderState {
   addOrder: (order: Omit<Order, "id" | "orderNumber" | "status" | "createdAt">) => Promise<Order>;
   updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
   getOrder: (id: string) => Order | undefined;
+  /** Scoped list for the signed-in shopper (RLS also enforces isolation). */
+  getUserOrders: (userId: string) => Promise<Order[]>;
   getOrdersByPhone: (phone: string) => Order[];
   getOrdersByUser: (phone?: string, email?: string) => Order[];
   clearAllOrders: () => void;
@@ -118,18 +123,29 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [state, dispatch] = useReducer(orderReducer, initialState);
   const [isLoading, setIsLoading] = useState(true);
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
-  // Load orders from database on mount
-  useEffect(() => {
-    loadOrders();
+  const getUserOrders = useCallback(async (userId: string) => {
+    return db.getUserOrders(userId);
   }, []);
 
-  // Function to load orders from database
-  const loadOrders = async () => {
+  // Load orders from database once auth is ready (staff: full list; customers: by user_id)
+  const loadOrders = useCallback(async () => {
     setIsLoading(true);
     try {
-      console.log("📦 Loading orders from database...");
-      const orders = await db.getAllOrders();
+      if (!isAuthenticated || !user) {
+        dispatch({ type: "LOAD_ORDERS", payload: [] });
+        return;
+      }
+      const isStaff = user.role === "owner" || user.role === "admin";
+      console.log(
+        isStaff
+          ? "📦 Loading orders (staff — RLS-scoped list)..."
+          : "📦 Loading orders for user (user_id)..."
+      );
+      const orders = isStaff
+        ? await db.listOrdersVisibleToSession()
+        : await db.getUserOrders(user.id);
       if (orders && orders.length > 0) {
         console.log(`✅ Loaded ${orders.length} orders from database`);
         dispatch({ type: "LOAD_ORDERS", payload: orders });
@@ -139,12 +155,16 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } catch (error) {
       console.error("❌ Error loading orders from database:", error);
-      // Don't fallback to localStorage - show empty state
       dispatch({ type: "LOAD_ORDERS", payload: [] });
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    if (authLoading) return;
+    void loadOrders();
+  }, [authLoading, isAuthenticated, loadOrders]);
 
   // Refresh orders from database
   const refreshOrders = async () => {
@@ -161,7 +181,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
     console.log("💾 Saving order to database...", orderData);
     try {
       // Save to database
-      const newOrder = await db.createOrder(orderData);
+      const newOrder = await db.createOrder(orderData, orderData.userId ?? null);
       console.log("✅ Order saved to database successfully:", newOrder.id);
       
       // Update local state
@@ -265,6 +285,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({
         addOrder,
         updateOrderStatus,
         getOrder,
+        getUserOrders,
         getOrdersByPhone,
         getOrdersByUser,
         clearAllOrders,

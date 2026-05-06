@@ -10,6 +10,7 @@ import { UserPlus, Mail, Phone, Lock, User, AlertCircle, Eye, EyeOff } from "luc
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { sendWelcomeEmail } from "@/services/professionalEmailService";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -85,12 +86,18 @@ const SignUpPage = () => {
 
     try {
       const createdEmail = formData.email.trim().toLowerCase();
+      const firstNameForWelcome = formData.firstName.trim();
       const outcome = await signup({
-        firstName: formData.firstName.trim(),
+        firstName: firstNameForWelcome,
         lastName: formData.lastName.trim(),
         email: createdEmail,
         phone: formData.phone.trim(),
         password: formData.password,
+      });
+
+      void sendWelcomeEmail({
+        email: createdEmail,
+        firstName: firstNameForWelcome,
       });
 
       setFormData({

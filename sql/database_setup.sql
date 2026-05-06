@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS orders (
   delivery_method TEXT NOT NULL,
   special_instructions TEXT,
   status TEXT NOT NULL DEFAULT 'processing',
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   received_at TIMESTAMP WITH TIME ZONE,
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS order_items (
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at);
 CREATE INDEX IF NOT EXISTS idx_orders_customer_phone ON orders(customer_phone);
+CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
 CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items(order_id);
 
 -- Enable Row Level Security
@@ -52,26 +54,112 @@ DROP POLICY IF EXISTS "Allow public update access to orders" ON orders;
 DROP POLICY IF EXISTS "Allow public read access to order_items" ON order_items;
 DROP POLICY IF EXISTS "Allow public insert access to order_items" ON order_items;
 
--- Create policies (allow public access for orders)
-CREATE POLICY "Allow public read access to orders"
+DROP POLICY IF EXISTS orders_customer_select ON orders;
+DROP POLICY IF EXISTS orders_customer_insert ON orders;
+DROP POLICY IF EXISTS orders_staff_select ON orders;
+DROP POLICY IF EXISTS orders_staff_update ON orders;
+DROP POLICY IF EXISTS order_items_customer_select ON order_items;
+DROP POLICY IF EXISTS order_items_customer_insert ON order_items;
+DROP POLICY IF EXISTS order_items_staff_select ON order_items;
+DROP POLICY IF EXISTS order_items_staff_insert ON order_items;
+DROP POLICY IF EXISTS order_items_staff_update ON order_items;
+
+-- RLS: customers own orders via user_id; staff (owner/admin) see/update all.
+-- Requires sql/manager_roles.sql on user_profiles.role for staff policies.
+
+CREATE POLICY orders_customer_select
   ON orders FOR SELECT
-  USING (true);
+  USING (user_id IS NOT NULL AND user_id = auth.uid());
 
-CREATE POLICY "Allow public insert access to orders"
+CREATE POLICY orders_customer_insert
   ON orders FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (user_id IS NOT NULL AND user_id = auth.uid());
 
-CREATE POLICY "Allow public update access to orders"
+CREATE POLICY orders_staff_select
+  ON orders FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  );
+
+CREATE POLICY orders_staff_update
   ON orders FOR UPDATE
-  USING (true);
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  )
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  );
 
-CREATE POLICY "Allow public read access to order_items"
+CREATE POLICY order_items_customer_select
   ON order_items FOR SELECT
-  USING (true);
+  USING (
+    EXISTS (
+      SELECT 1 FROM orders o
+      WHERE o.id = order_items.order_id
+        AND o.user_id IS NOT NULL
+        AND o.user_id = auth.uid()
+    )
+  );
 
-CREATE POLICY "Allow public insert access to order_items"
+CREATE POLICY order_items_customer_insert
   ON order_items FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM orders o
+      WHERE o.id = order_items.order_id
+        AND o.user_id IS NOT NULL
+        AND o.user_id = auth.uid()
+    )
+  );
+
+CREATE POLICY order_items_staff_select
+  ON order_items FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  );
+
+CREATE POLICY order_items_staff_insert
+  ON order_items FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  );
+
+CREATE POLICY order_items_staff_update
+  ON order_items FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  )
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM public.user_profiles up
+      WHERE up.id = auth.uid()
+        AND up.role IN ('owner', 'admin')
+    )
+  );
 
 -- Verify tables were created
 SELECT 

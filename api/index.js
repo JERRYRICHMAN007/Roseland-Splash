@@ -110,6 +110,8 @@ if (supabaseUrl) {
 
 const paymentRouter = createPaymentRouter({ supabaseAdmin });
 app.use('/api/payment', paymentRouter);
+/** POST /api/pay — same body/handler as POST /api/payment/initialize */
+app.use('/api/pay', paymentRouter);
 
 const orderCancelRouter = createOrderCancelRouter({ supabase, supabaseAdmin });
 app.use('/api/orders', orderCancelRouter);

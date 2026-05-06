@@ -5,11 +5,27 @@
 
 import emailjs from "@emailjs/browser";
 
-// Email addresses to receive order notifications
-const ORDER_EMAILS = [
-  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
-  "sussanbrown644@gmail.com"
-];
+/** Primary inbox plus optional comma-separated CC list from `VITE_ORDER_EMAIL_CC` */
+function getOrderRecipientEmails(): string[] {
+  const primary = (
+    import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com"
+  ).trim();
+  const ccRaw = import.meta.env.VITE_ORDER_EMAIL_CC || "";
+  const extras = ccRaw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const addr of [primary, ...extras]) {
+    const key = addr.toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(addr);
+    }
+  }
+  return out;
+}
 
 interface OrderDetails {
   customerName: string;
@@ -437,7 +453,7 @@ export const sendProfessionalOrderEmail = async (
   recipientEmail?: string
 ): Promise<boolean> => {
   try {
-    const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
+    const emailsToSend = recipientEmail ? [recipientEmail] : getOrderRecipientEmails();
     const htmlContent = createOwnerEmailHTML(orderDetails);
     const plainText = createPlainTextEmail(orderDetails);
 
@@ -515,6 +531,38 @@ export const sendProfessionalOrderEmail = async (
 /**
  * Sends professional branded email to customer
  */
+/**
+ * Optional welcome email after signup (configure `VITE_EMAILJS_TEMPLATE_ID_WELCOME`).
+ */
+export const sendWelcomeEmail = async (input: {
+  email: string;
+  firstName: string;
+}): Promise<boolean> => {
+  const email = input.email?.trim();
+  if (!email) return false;
+
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "";
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_WELCOME || "";
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "";
+
+  if (!serviceId || !templateId || !publicKey) {
+    return false;
+  }
+
+  try {
+    emailjs.init(publicKey);
+    await emailjs.send(serviceId, templateId, {
+      to_email: email,
+      customer_name: input.firstName.trim(),
+      reply_to: email,
+    });
+    return true;
+  } catch (error) {
+    console.error("Welcome email error:", error);
+    return false;
+  }
+};
+
 export const sendProfessionalCustomerEmail = async (
   orderDetails: OrderDetails,
   status: string = "Processing"

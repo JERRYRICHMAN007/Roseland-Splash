@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useOrders, OrderStatus } from "@/contexts/OrderContext";
+import { useOrders, OrderStatus, type Order } from "@/contexts/OrderContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,32 +28,43 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import { useToast } from "@/hooks/use-toast";
 
 const MyOrdersPage = () => {
   const { user } = useAuth();
-  const { orders, cancelOrder, refreshOrders } = useOrders();
+  const { getUserOrders, cancelOrder } = useOrders();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [myOrders, setMyOrders] = useState<Order[]>([]);
+  const [listLoading, setListLoading] = useState(true);
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
 
+  const loadMyOrders = useCallback(async () => {
+    if (!user?.id) {
+      setMyOrders([]);
+      setListLoading(false);
+      return;
+    }
+    setListLoading(true);
+    try {
+      const rows = await getUserOrders(user.id);
+      setMyOrders(rows);
+    } finally {
+      setListLoading(false);
+    }
+  }, [user?.id, getUserOrders]);
+
   useEffect(() => {
-    refreshOrders();
-  }, [refreshOrders]);
+    void loadMyOrders();
+  }, [loadMyOrders]);
 
   useEffect(() => {
     const onVis = () => {
-      if (document.visibilityState === "visible") void refreshOrders();
+      if (document.visibilityState === "visible") void loadMyOrders();
     };
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
-  }, [refreshOrders]);
-
-  // Get orders for logged-in user (match by phone or email)
-  const myOrders = orders.filter(
-    (order) => order.customerPhone === user?.phone || order.customerEmail === user?.email
-  );
+  }, [loadMyOrders]);
 
   const handleCancelOrder = async (orderId: string, orderNumber: string) => {
     setCancellingOrderId(orderId);
@@ -65,6 +76,7 @@ const MyOrdersPage = () => {
           description: `Order #${orderNumber} has been cancelled.`,
           variant: "default",
         });
+        await loadMyOrders();
       } else {
         toast({
           title: "Cannot Cancel Order",
@@ -174,169 +186,191 @@ const MyOrdersPage = () => {
     }
   };
 
-  return (
-    <ProtectedRoute>
+  if (!user) {
+    return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto space-y-6">
-            {/* Header */}
-            <div>
-              <h1 className="text-3xl font-bold">My Orders</h1>
-              <p className="text-muted-foreground mt-1">
-                Track and manage your orders
+        <main className="container mx-auto px-4 py-16">
+          <Card className="max-w-lg mx-auto">
+            <CardContent className="pt-8 pb-8 text-center space-y-4">
+              <h1 className="text-2xl font-bold">Sign in to view your orders</h1>
+              <p className="text-muted-foreground">
+                Your order history is available after you log in.
               </p>
-            </div>
-
-            {/* Orders List */}
-            {myOrders.length === 0 ? (
-              <Card>
-                <CardContent className="pt-6 text-center py-16">
-                  <Package className="mx-auto text-muted-foreground mb-4" size={48} />
-                  <h2 className="text-2xl font-bold mb-2">No Orders Yet</h2>
-                  <p className="text-muted-foreground mb-6">
-                    You haven't placed any orders yet. Start shopping to see your orders here.
-                  </p>
-                  <Button onClick={() => navigate("/")} size="lg">
-                    Start Shopping
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-4">
-                {myOrders.map((order) => (
-                  <Card key={order.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="pt-6">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full">
-                              {getStatusIcon(order.status)}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-bold text-lg">
-                                  Order #{order.orderNumber}
-                                </h3>
-                                {getStatusBadge(order.status)}
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                {getStatusMessage(order.status)}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-sm">
-                            <div>
-                              <span className="text-muted-foreground">Placed:</span>{" "}
-                              <span className="font-medium">
-                                {new Date(order.createdAt).toLocaleDateString("en-GB", {
-                                  dateStyle: "medium",
-                                })}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Items:</span>{" "}
-                              <span className="font-medium">
-                                {order.products.length} item(s)
-                              </span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Total:</span>{" "}
-                              <span className="font-bold text-lg">
-                                GH₵{order.totalAmount.toFixed(2)}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Payment:</span>{" "}
-                              <span className="font-medium">{order.paymentMethod || "—"}</span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Delivery:</span>{" "}
-                              <span className="font-medium">{order.deliveryMethod || "—"}</span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Address:</span>{" "}
-                              <span className="font-medium">{order.location}</span>
-                            </div>
-                          </div>
-
-                          {/* Products Preview */}
-                          <div className="mt-4 pt-4 border-t">
-                            <p className="text-sm font-medium mb-2">Products:</p>
-                            <div className="flex flex-wrap gap-2">
-                              {order.products.slice(0, 3).map((product, idx) => (
-                                <span
-                                  key={idx}
-                                  className="text-xs bg-accent px-2 py-1 rounded"
-                                >
-                                  {product.name} x{product.quantity}
-                                </span>
-                              ))}
-                              {order.products.length > 3 && (
-                                <span className="text-xs text-muted-foreground">
-                                  +{order.products.length - 3} more
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-2 md:min-w-[150px]">
-                          <Button
-                            onClick={() => navigate(`/track-order/${order.id}`)}
-                            className="w-full"
-                            variant="outline"
-                          >
-                            View Details
-                            <ArrowRight className="ml-2" size={16} />
-                          </Button>
-                          {order.status === "pending" && (
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button
-                                  variant="destructive"
-                                  className="w-full"
-                                  disabled={cancellingOrderId === order.id}
-                                >
-                                  <X className="mr-2" size={16} />
-                                  Cancel Order
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Cancel Order?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Are you sure you want to cancel order #{order.orderNumber}? This only works
-                                    while the order is still pending (before the store starts processing it).
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Keep Order</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => handleCancelOrder(order.id, order.orderNumber)}
-                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                  >
-                                    Yes, Cancel Order
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
+              <Button asChild>
+                <Link to="/login">Go to login</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </main>
         <Footer />
       </div>
-    </ProtectedRoute>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold">My Orders</h1>
+            <p className="text-muted-foreground mt-1">
+              Track and manage your orders
+            </p>
+          </div>
+
+          {listLoading ? (
+            <Card>
+              <CardContent className="pt-8 pb-8 text-center text-muted-foreground">
+                Loading your orders…
+              </CardContent>
+            </Card>
+          ) : myOrders.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6 text-center py-16">
+                <Package className="mx-auto text-muted-foreground mb-4" size={48} />
+                <h2 className="text-2xl font-bold mb-2">No Orders Yet</h2>
+                <p className="text-muted-foreground mb-6">
+                  You haven't placed any orders yet. Start shopping to see your orders here.
+                </p>
+                <Button onClick={() => navigate("/")} size="lg">
+                  Start Shopping
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {myOrders.map((order) => (
+                <Card key={order.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full">
+                            {getStatusIcon(order.status)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-bold text-lg">
+                                Order #{order.orderNumber}
+                              </h3>
+                              {getStatusBadge(order.status)}
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              {getStatusMessage(order.status)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-sm">
+                          <div>
+                            <span className="text-muted-foreground">Placed:</span>{" "}
+                            <span className="font-medium">
+                              {new Date(order.createdAt).toLocaleDateString("en-GB", {
+                                dateStyle: "medium",
+                              })}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Items:</span>{" "}
+                            <span className="font-medium">
+                              {order.products.length} item(s)
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Total:</span>{" "}
+                            <span className="font-bold text-lg">
+                              GH₵{order.totalAmount.toFixed(2)}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Payment:</span>{" "}
+                            <span className="font-medium">{order.paymentMethod || "—"}</span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Delivery:</span>{" "}
+                            <span className="font-medium">{order.deliveryMethod || "—"}</span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Address:</span>{" "}
+                            <span className="font-medium">{order.location}</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-4 pt-4 border-t">
+                          <p className="text-sm font-medium mb-2">Products:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {order.products.slice(0, 3).map((product, idx) => (
+                              <span
+                                key={idx}
+                                className="text-xs bg-accent px-2 py-1 rounded"
+                              >
+                                {product.name} x{product.quantity}
+                              </span>
+                            ))}
+                            {order.products.length > 3 && (
+                              <span className="text-xs text-muted-foreground">
+                                +{order.products.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2 md:min-w-[150px]">
+                        <Button
+                          onClick={() => navigate(`/track-order/${order.id}`)}
+                          className="w-full"
+                          variant="outline"
+                        >
+                          View Details
+                          <ArrowRight className="ml-2" size={16} />
+                        </Button>
+                        {order.status === "pending" && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                className="w-full"
+                                disabled={cancellingOrderId === order.id}
+                              >
+                                <X className="mr-2" size={16} />
+                                Cancel Order
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Cancel Order?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to cancel order #{order.orderNumber}? This only works
+                                  while the order is still pending (before the store starts processing it).
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Keep Order</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleCancelOrder(order.id, order.orderNumber)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Yes, Cancel Order
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
 export default MyOrdersPage;
-

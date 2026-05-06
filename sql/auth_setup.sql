@@ -30,7 +30,7 @@ DROP POLICY IF EXISTS "Users can update their own profile" ON user_profiles;
 DROP POLICY IF EXISTS "Users can insert their own profile" ON user_profiles;
 DROP POLICY IF EXISTS "Public can view profiles" ON user_profiles;
 
--- Create policies
+-- Create policies (no public read — keep profiles private)
 -- Users can view their own profile
 CREATE POLICY "Users can view their own profile"
   ON user_profiles FOR SELECT
@@ -45,11 +45,6 @@ CREATE POLICY "Users can update their own profile"
 CREATE POLICY "Users can insert their own profile"
   ON user_profiles FOR INSERT
   WITH CHECK (auth.uid() = id);
-
--- Public can view profiles (for order matching by email/phone)
-CREATE POLICY "Public can view profiles"
-  ON user_profiles FOR SELECT
-  USING (true);
 
 -- ========================================
 -- Function to automatically create user profile on signup

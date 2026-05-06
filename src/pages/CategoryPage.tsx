@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, LayoutGrid } from "lucide-react";
+import { ArrowLeft, ChevronRight, LayoutGrid } from "lucide-react";
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -101,29 +101,82 @@ const CategoryPage = () => {
 
         {/* Subcategories Grid */}
         <div className="space-y-6 sm:space-y-8">
-          <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.07] via-background to-accent/30 px-4 py-6 sm:px-8 sm:py-8 shadow-sm">
+          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-background to-emerald-50/40 shadow-md ring-1 ring-black/[0.03] dark:ring-white/[0.06]">
             <div
-              className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/10 blur-2xl"
+              className="pointer-events-none absolute -left-12 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl"
               aria-hidden
             />
-            <div className="relative mx-auto max-w-2xl text-center">
-              <div className="mb-3 inline-flex items-center justify-center rounded-full bg-primary/15 p-2.5 text-primary ring-4 ring-primary/5">
-                <LayoutGrid className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
+            <div
+              className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-400/15 blur-2xl"
+              aria-hidden
+            />
+            <div className="relative flex flex-col gap-6 p-5 sm:p-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+              <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 ring-4 ring-primary/15">
+                  <LayoutGrid className="h-7 w-7" strokeWidth={2} aria-hidden />
+                </div>
+                <div className="min-w-0 text-left">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
+                    Shop by area
+                  </p>
+                  <h2 className="mt-1.5 text-xl font-bold tracking-tight text-foreground sm:text-2xl lg:text-3xl">
+                    Browse subcategories
+                  </h2>
+                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    Explore collections inside{" "}
+                    <span className="font-semibold text-foreground">
+                      {category.name}
+                    </span>
+                    —each section groups related products so you can go straight to
+                    what you need.
+                  </p>
+                </div>
               </div>
-              <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl md:text-3xl">
-                Browse subcategories
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Explore specialized collections inside{" "}
-                <span className="font-medium text-foreground">{category.name}</span>
-                . Each area groups related products so you can jump straight to what
-                you need.
+              <div className="flex shrink-0 flex-wrap gap-3 sm:justify-end lg:flex-col lg:items-stretch">
+                <div className="flex min-w-[7.5rem] flex-1 flex-col rounded-xl border border-primary/15 bg-card/90 px-4 py-3 text-center shadow-sm backdrop-blur-sm sm:flex-none">
+                  <span className="text-2xl font-bold tabular-nums text-foreground sm:text-3xl">
+                    {category.subcategories.length}
+                  </span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {category.subcategories.length === 1 ? "Section" : "Sections"}
+                  </span>
+                </div>
+                <div className="flex min-w-[7.5rem] flex-1 flex-col rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center shadow-sm backdrop-blur-sm sm:flex-none">
+                  <span className="text-2xl font-bold tabular-nums text-primary sm:text-3xl">
+                    {totalProducts}
+                  </span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    Products
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="relative border-t border-primary/10 bg-muted/30 px-4 py-4 sm:px-7 sm:py-4">
+              <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                Jump to
               </p>
-              <p className="mt-3 text-xs text-muted-foreground/90 sm:text-sm">
-                {category.subcategories.length}{" "}
-                {category.subcategories.length === 1 ? "section" : "sections"} ·{" "}
-                {totalProducts} products total
-              </p>
+              <div className="flex flex-wrap gap-2">
+                {category.subcategories.map((sub) => (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() =>
+                      navigate(
+                        `/category/${categoryId}/subcategory/${sub.id}`
+                      )
+                    }
+                    className="group inline-flex items-center gap-1 rounded-full border border-primary/20 bg-background px-3 py-1.5 text-left text-xs font-medium text-foreground shadow-sm transition-all hover:border-primary/40 hover:bg-primary hover:text-primary-foreground hover:shadow-md sm:text-sm"
+                  >
+                    <span className="max-w-[10rem] truncate sm:max-w-[14rem]">
+                      {sub.name}
+                    </span>
+                    <ChevronRight
+                      className="h-3.5 w-3.5 shrink-0 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:opacity-100"
+                      aria-hidden
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">

@@ -84,6 +84,14 @@ const App = () => (
                     }
                   />
                   <Route
+                    path="/orders"
+                    element={
+                      <ProtectedRoute>
+                        <MyOrdersPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
                     path="/checkout"
                     element={
                       <ProtectedRoute>

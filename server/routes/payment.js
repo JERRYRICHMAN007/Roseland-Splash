@@ -29,7 +29,7 @@ const updateOrderAsPaid = async (supabaseAdmin, orderId, reference) => {
 export default function createPaymentRouter({ supabaseAdmin }) {
   const router = express.Router();
 
-  router.post('/initialize', async (req, res) => {
+  const initializePaymentHandler = async (req, res) => {
     try {
       const { email, amount, orderId, cartItems } = req.body;
       const secretKey = process.env.PAYSTACK_SECRET_KEY;
@@ -95,7 +95,11 @@ export default function createPaymentRouter({ supabaseAdmin }) {
         message: 'Could not initialize payment',
       });
     }
-  });
+  };
+
+  router.post('/initialize', initializePaymentHandler);
+  /** Alias for docs/clients that POST to `/api/pay` (mounted separately in api/index.js) */
+  router.post('/', initializePaymentHandler);
 
   router.get('/verify/:reference', async (req, res) => {
     try {
