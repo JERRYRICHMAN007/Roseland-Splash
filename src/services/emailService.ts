@@ -25,11 +25,11 @@ interface OrderDetails {
   trackingUrl?: string;
 }
 
-// Email addresses to receive order notifications
-const ORDER_EMAILS = [
-  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
-  "sussanbrown644@gmail.com"
-];
+/** Owner inbox from env; skip sends when unset (no hardcoded fallback addresses). */
+function getOrderNotificationRecipients(): string[] {
+  const primary = (import.meta.env.VITE_ORDER_EMAIL ?? "").trim();
+  return primary ? [primary] : [];
+}
 
 /**
  * Sends order notification via EmailJS
@@ -41,7 +41,15 @@ export const sendOrderViaEmail = async (
   orderDetails: OrderDetails,
   recipientEmail?: string
 ): Promise<boolean> => {
-  const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
+  const emailsToSend = recipientEmail
+    ? [recipientEmail]
+    : getOrderNotificationRecipients();
+  if (emailsToSend.length === 0) {
+    console.warn(
+      "[emailService] Skipping owner notification: VITE_ORDER_EMAIL is empty."
+    );
+    return false;
+  }
   try {
     // Format products list for email
     const productsList = orderDetails.products

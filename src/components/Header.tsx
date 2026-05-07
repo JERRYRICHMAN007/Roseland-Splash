@@ -1,4 +1,14 @@
-import { Search, ShoppingCart, MapPin, Menu, User, LogOut, Package, Heart } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  MapPin,
+  Menu,
+  User,
+  UserCircle,
+  LogOut,
+  Package,
+  Heart,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -178,6 +188,10 @@ const Header = () => {
                     )}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/account")}>
+                    <UserCircle className="mr-2" size={16} />
+                    My Account
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/my-orders")}>
                     <Package className="mr-2" size={16} />
                     My Orders
@@ -341,6 +355,18 @@ const Header = () => {
                                 )}
                               </div>
                               <span>Wishlist ({wishlistCount})</span>
+                            </div>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            onClick={() => navigate("/account")}
+                            className="w-full justify-start text-foreground hover:text-primary hover:bg-accent h-12 text-base font-medium"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <UserCircle size={16} className="text-primary" />
+                              </div>
+                              <span>My Account</span>
                             </div>
                           </Button>
                           <Button

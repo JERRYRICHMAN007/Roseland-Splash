@@ -188,13 +188,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const supabase = getSupabaseClient();
       // Set browser session first so user_profiles RLS (auth.uid() = id) sees a JWT on the anon client.
       if (supabase && sessionData?.access_token) {
-        const { error: sessionError } = await supabase.auth.setSession({
+        await supabase.auth.setSession({
           access_token: sessionData.access_token,
           refresh_token: sessionData.refresh_token ?? "",
         });
-        if (sessionError) {
-          console.warn("⚠️ setSession after login failed:", sessionError);
-        }
       }
 
       const baseUser: User = {

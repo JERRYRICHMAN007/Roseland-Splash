@@ -25,6 +25,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
+import AccountPage from "./pages/AccountPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import PaymentVerify from "./pages/PaymentVerify";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -75,6 +77,7 @@ const App = () => (
                     path="/reset-password"
                     element={<ResetPasswordPage />}
                   />
+                  <Route path="/auth/callback" element={<AuthCallbackPage />} />
                   <Route
                     path="/my-orders"
                     element={
@@ -88,6 +91,14 @@ const App = () => (
                     element={
                       <ProtectedRoute>
                         <MyOrdersPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/account"
+                    element={
+                      <ProtectedRoute>
+                        <AccountPage />
                       </ProtectedRoute>
                     }
                   />

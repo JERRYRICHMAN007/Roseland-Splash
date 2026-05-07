@@ -3,11 +3,11 @@
  * This actually sends emails without needing EmailJS setup
  */
 
-// Email addresses to receive order notifications
-const ORDER_EMAILS = [
-  import.meta.env.VITE_ORDER_EMAIL || "jerryrichman07@gmail.com",
-  "sussanbrown644@gmail.com"
-];
+/** Owner inbox from env; skip sends when unset (no hardcoded fallback addresses). */
+function getOrderNotificationRecipients(): string[] {
+  const primary = (import.meta.env.VITE_ORDER_EMAIL ?? "").trim();
+  return primary ? [primary] : [];
+}
 
 interface OrderDetails {
   customerName: string;
@@ -37,7 +37,15 @@ export const sendEmailSimple = async (
   orderDetails: OrderDetails,
   recipientEmail?: string
 ): Promise<boolean> => {
-  const emailsToSend = recipientEmail ? [recipientEmail] : ORDER_EMAILS;
+  const emailsToSend = recipientEmail
+    ? [recipientEmail]
+    : getOrderNotificationRecipients();
+  if (emailsToSend.length === 0) {
+    console.warn(
+      "[simpleEmailService] Skipping owner notification: VITE_ORDER_EMAIL is empty."
+    );
+    return false;
+  }
   try {
     // Format products list
     const productsList = orderDetails.products

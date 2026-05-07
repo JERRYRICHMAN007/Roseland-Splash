@@ -239,6 +239,13 @@ import sesamePowderImage from "@/assets/Sesame .png";
 import sesameSeedImage from "@/assets/SS S.jpg";
 import nutmegPowderImage from "@/assets/Nutmeg.jpg";
 import nutmegSeedImage from "@/assets/He94db293471746ba9047be1e575ea174M.png";
+import gizzardImage from "@/assets/gizzard.jpg";
+import beefStripeImage from "@/assets/beef-stripe.jpg";
+import watermelonJuiceImage from "@/assets/watermelon-juice.jpg";
+import watermelonPineappleJuiceImage from "@/assets/watermelon-pineapple-juice.jpg";
+import sausageImage from "@/assets/sausage.jpg";
+import ripePlantainImage from "@/assets/plantain-ripe.jpg";
+import bellPepperColoredImage from "@/assets/bell-pepper-colored.jpg";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -443,7 +450,6 @@ import palmNutSoupBaseImage from "@/assets/Palm Nut Soup Base.png";
 import friedSpringRollsImage from "@/assets/Chicken-Spring-Rolls-Recipe.jpg";
 import friedSpringRollsSubcategoryImage from "@/assets/crispy-fried-spring-rolls-on-white-plate-isolated-on-transparent-background-png.png";
 import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
-import frozenYamImage from "@/assets/High-Quality-Frozen-French-Fries-IQF-Potatoes-French-Fries-Price.jpg";
 import frozenSamosaImage from "@/assets/Samosa-Frozen.jpeg";
 import frozenSpringRollsImage from "@/assets/srpringrolls-frozen-removebg-preview.png";
 import vanillaVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 01_53_55 PM.png";
@@ -510,6 +516,8 @@ export interface ProductVariant {
   unit: string;
   inStock: boolean;
   image: string;
+  /** Optional line copy (e.g. ripe vs green plantain) */
+  description?: string;
   cut?: string;
   size?: string;
   crateType?: string;
@@ -637,6 +645,18 @@ export const categoriesData: Category[] = [
             inStock: true,
             bundleQuantity: 3,
             bundlePrice: 8.0,
+            variants: [
+              {
+                id: "plantain-ripe",
+                name: "Ripe Plantain",
+                price: 5.0,
+                unit: "per finger",
+                inStock: true,
+                image: ripePlantainImage,
+                description:
+                  "Sweet ripe plantain, perfect for frying or eating fresh",
+              },
+            ],
           },
           {
             id: 7,
@@ -659,6 +679,24 @@ export const categoriesData: Category[] = [
             inStock: true,
             bundleQuantity: 4,
             bundlePrice: 6.0,
+            variants: [
+              {
+                id: "carrot-local",
+                name: "Local Carrot",
+                price: 5.0,
+                unit: "per bunch",
+                inStock: true,
+                image: carrotImage,
+              },
+              {
+                id: "carrot-foreign",
+                name: "Foreign Carrot",
+                price: 8.0,
+                unit: "per piece",
+                inStock: true,
+                image: carrotImage,
+              },
+            ],
           },
           {
             id: 9,
@@ -681,6 +719,32 @@ export const categoriesData: Category[] = [
             inStock: true,
             bundleQuantity: 3,
             bundlePrice: 5.0,
+            variants: [
+              {
+                id: "bell-pepper-red",
+                name: "Red Bell Pepper",
+                price: 8.0,
+                unit: "per piece",
+                inStock: true,
+                image: bellPepperColoredImage,
+              },
+              {
+                id: "bell-pepper-yellow",
+                name: "Yellow Bell Pepper",
+                price: 8.0,
+                unit: "per piece",
+                inStock: true,
+                image: bellPepperColoredImage,
+              },
+              {
+                id: "bell-pepper-green",
+                name: "Green Bell Pepper",
+                price: 6.0,
+                unit: "per piece",
+                inStock: true,
+                image: bellPepperColoredImage,
+              },
+            ],
           },
         ],
       },
@@ -1349,6 +1413,94 @@ export const categoriesData: Category[] = [
             ],
           },
           {
+            id: 339,
+            name: "Stripe (Towel)",
+            price: 15.0,
+            unit: "per piece",
+            image: beefStripeImage,
+            description: "Fresh beef stripe/towel cut",
+            inStock: true,
+            cuts: ["Small", "Medium", "Large"],
+          },
+          {
+            id: 340,
+            name: "Gizzard",
+            price: 20.0,
+            unit: "per pack",
+            image: gizzardImage,
+            description: "Fresh chicken gizzard, cleaned and ready to cook",
+            inStock: true,
+            variants: [
+              {
+                id: "gizzard-small-pack",
+                name: "Small Pack",
+                price: 20.0,
+                unit: "per pack",
+                inStock: true,
+                image: gizzardImage,
+              },
+              {
+                id: "gizzard-large-pack",
+                name: "Large Pack",
+                price: 35.0,
+                unit: "per pack",
+                inStock: true,
+                image: gizzardImage,
+              },
+            ],
+          },
+          {
+            id: 341,
+            name: "Sausage",
+            price: 15.0,
+            unit: "from",
+            image: chickenImage,
+            description: "Premium sausages — choose your brand and size",
+            inStock: true,
+            variants: [
+              {
+                id: "sausage-fanzzy",
+                name: "Fanzzy Sausage (Small)",
+                price: 15.0,
+                unit: "per pack",
+                inStock: true,
+                image: chickenImage,
+              },
+              {
+                id: "sausage-fanzzy-big",
+                name: "Fanzzy Sausage (Big)",
+                price: 25.0,
+                unit: "per pack",
+                inStock: true,
+                image: chickenImage,
+              },
+              {
+                id: "sausage-farm-fresh",
+                name: "Farm Fresh Sausage",
+                price: 18.0,
+                unit: "per pack",
+                inStock: true,
+                image: chickenImage,
+              },
+              {
+                id: "sausage-superb",
+                name: "Superb Sausage",
+                price: 16.0,
+                unit: "per pack",
+                inStock: true,
+                image: chickenImage,
+              },
+              {
+                id: "sausage-big",
+                name: "Big Sausage (Jumbo)",
+                price: 35.0,
+                unit: "per piece",
+                inStock: true,
+                image: chickenImage,
+              },
+            ],
+          },
+          {
             id: 18,
             name: "Smoked Fish",
             price: 65.0,
@@ -1543,8 +1695,8 @@ export const categoriesData: Category[] = [
                     image: frozenSpringRollsImage,
                   },
                   {
-                    id: "frozen-spring-pack-50",
-                    name: "Pack of 50 pieces",
+                    id: "frozen-spring-rolls-50",
+                    name: "Pack of 50",
                     price: 95.0,
                     unit: "per pack",
                     inStock: true,
@@ -1594,8 +1746,8 @@ export const categoriesData: Category[] = [
                     image: frozenSamosaImage,
                   },
                   {
-                    id: "frozen-samosa-pack-50",
-                    name: "Pack of 50 pieces",
+                    id: "frozen-samosas-50",
+                    name: "Pack of 50",
                     price: 95.0,
                     unit: "per pack",
                     inStock: true,
@@ -1609,14 +1761,14 @@ export const categoriesData: Category[] = [
             id: "frozen-yam",
             name: "Frozen Yam",
             description: "Fresh frozen yam in various sizes",
-            image: frozenYamImage,
+            image: yamImage,
             products: [
               {
                 id: 25,
                 name: "Frozen Yam",
                 price: 25.0,
                 unit: "from",
-                image: frozenYamImage,
+                image: yamImage,
                 description: "Fresh frozen yam",
                 inStock: true,
                 variants: [
@@ -1626,7 +1778,7 @@ export const categoriesData: Category[] = [
                     price: 70.0,
                     unit: "per piece",
                     inStock: true,
-                    image: frozenYamImage,
+                    image: yamImage,
                   },
                   {
                     id: "frozen-yam-medium",
@@ -1634,7 +1786,7 @@ export const categoriesData: Category[] = [
                     price: 50.0,
                     unit: "per piece",
                     inStock: true,
-                    image: frozenYamImage,
+                    image: yamImage,
                   },
                   {
                     id: "frozen-yam-small",
@@ -1642,7 +1794,7 @@ export const categoriesData: Category[] = [
                     price: 25.0,
                     unit: "per piece",
                     inStock: true,
-                    image: frozenYamImage,
+                    image: yamImage,
                   },
                 ],
               },
@@ -1771,7 +1923,7 @@ export const categoriesData: Category[] = [
             image: vanillaStrawberryCakeImage,
             products: [
               {
-                id: 28,
+                id: 318,
                 name: "Vanilla-Strawberry Cake in Cup",
                 price: 12.0,
                 unit: "per cup",
@@ -1789,7 +1941,7 @@ export const categoriesData: Category[] = [
             image: loadedMiniCupcakesImage,
             products: [
               {
-                id: 29,
+                id: 319,
                 name: "Loaded Mini Cup Cakes",
                 price: 15.0,
                 unit: "per pack",
@@ -1880,15 +2032,15 @@ export const categoriesData: Category[] = [
             id: "watermelon-juice",
             name: "Watermelon",
             description: "Fresh watermelon juice",
-            image: mixedFruitJuiceImage,
+            image: watermelonJuiceImage,
             products: [
               {
                 id: 316,
                 name: "Watermelon Juice",
                 price: 12.0,
                 unit: "per bottle",
-                image: mixedFruitJuiceImage,
-                description: "Fresh and refreshing watermelon juice",
+                image: watermelonJuiceImage,
+                description: "Fresh cold-pressed watermelon juice",
                 inStock: true,
               },
             ],
@@ -1897,16 +2049,16 @@ export const categoriesData: Category[] = [
             id: "watermelon-pineapple-juice",
             name: "Watermelon + Pineapple",
             description: "Fresh watermelon and pineapple juice blend",
-            image: pineappleJuiceImage,
+            image: watermelonPineappleJuiceImage,
             products: [
               {
                 id: 317,
                 name: "Watermelon + Pineapple Juice",
                 price: 15.0,
                 unit: "per bottle",
-                image: pineappleJuiceImage,
+                image: watermelonPineappleJuiceImage,
                 description:
-                  "Refreshing blend of watermelon and pineapple juice",
+                  "Fresh watermelon blended with pineapple juice",
                 inStock: true,
               },
             ],
@@ -1950,6 +2102,43 @@ export const categoriesData: Category[] = [
                 image: mangoSmoothieImage,
                 description: "Tropical and refreshing mango smoothie",
                 inStock: true,
+                variants: [
+                  {
+                    id: "smoothie-mango",
+                    name: "Mango Smoothie",
+                    price: 15.0,
+                    unit: "per cup",
+                    inStock: true,
+                    image: mangoSmoothieImage,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "coconut-smoothie",
+            name: "Coconut Smoothie",
+            description: "Creamy coconut smoothie",
+            image: coconutHoneyCashewImage,
+            products: [
+              {
+                id: 344,
+                name: "Coconut Smoothie",
+                price: 15.0,
+                unit: "per cup",
+                image: coconutHoneyCashewImage,
+                description: "Creamy coconut smoothie",
+                inStock: true,
+                variants: [
+                  {
+                    id: "smoothie-coconut",
+                    name: "Coconut Smoothie",
+                    price: 15.0,
+                    unit: "per cup",
+                    inStock: true,
+                    image: coconutHoneyCashewImage,
+                  },
+                ],
               },
             ],
           },
@@ -2279,7 +2468,8 @@ export const categoriesData: Category[] = [
             price: 19.0,
             unit: "from",
             image: kenkeyMilkSugarImage,
-            description: "Classic kenkey blended with milk and sugar - our original mashedke flavour",
+            description:
+              "Kenkey + milk + sugar — classic blended mashedke flavour",
             inStock: true,
             variants: [
               {
@@ -2315,7 +2505,7 @@ export const categoriesData: Category[] = [
             unit: "from",
             image: coconutHoneyCashewNewImage,
             description:
-              "Tropical coconut with honey and cashew - a crowd favorite",
+              "Kenkey + coconut, honey, and cashew — tropical crowd favorite",
             inStock: true,
             variants: [
               {
@@ -2350,7 +2540,8 @@ export const categoriesData: Category[] = [
             price: 24.0,
             unit: "from",
             image: chocolateBananaGroundnutNewImage,
-            description: "Indulgent chocolate banana smoothie with groundnuts",
+            description:
+              "Kenkey + chocolate, banana, and groundnut — indulgent blend",
             inStock: true,
             variants: [
               {
@@ -2385,7 +2576,7 @@ export const categoriesData: Category[] = [
             price: 22.0,
             unit: "from",
             image: coconutMashedkeImage,
-            description: "Refreshing coconut flavored mashedke",
+            description: "Kenkey + coconut flavour — refreshing mashedke",
             inStock: true,
             variants: [
               {
@@ -2420,7 +2611,7 @@ export const categoriesData: Category[] = [
             price: 22.0,
             unit: "from",
             image: tigernutMashedkeImage,
-            description: "Nutritious tigernut flavored mashedke",
+            description: "Kenkey + tigernut flavour — nutritious mashedke",
             inStock: true,
             variants: [
               {
@@ -2455,7 +2646,7 @@ export const categoriesData: Category[] = [
             price: 24.0,
             unit: "from",
             image: peanutMashedkeImage,
-            description: "Rich and creamy peanut flavored mashedke",
+            description: "Kenkey + peanut flavour — rich and creamy mashedke",
             inStock: true,
             variants: [
               {
@@ -2490,7 +2681,7 @@ export const categoriesData: Category[] = [
             price: 22.0,
             unit: "from",
             image: strawberryMashedkeImage,
-            description: "Sweet and fruity strawberry flavored mashedke",
+            description: "Kenkey + strawberry flavour — sweet and fruity mashedke",
             inStock: true,
             variants: [
               {
@@ -2525,7 +2716,7 @@ export const categoriesData: Category[] = [
             price: 22.0,
             unit: "from",
             image: bananaMashedkeImage,
-            description: "Creamy and delicious banana flavored mashedke",
+            description: "Kenkey + banana flavour — creamy and delicious mashedke",
             inStock: true,
             variants: [
               {
@@ -2561,7 +2752,7 @@ export const categoriesData: Category[] = [
             unit: "from",
             image: coconutBananaMashedkeImage,
             description:
-              "Tropical blend of coconut and banana flavored mashedke",
+              "Kenkey + coconut and banana flavour — tropical blend mashedke",
             inStock: true,
             variants: [
               {
@@ -2773,7 +2964,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 50,
+            id: 320,
             name: "Ideal Milk",
             price: 4.5,
             unit: "from",
@@ -2843,7 +3034,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 51,
+            id: 321,
             name: "Powdered Milk",
             price: 25.0,
             unit: "from",
@@ -3009,7 +3200,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 52,
+            id: 322,
             name: "Kivo Gari",
             price: 15.0,
             unit: "from",
@@ -3052,7 +3243,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 53,
+            id: 323,
             name: "Spices & Pepper",
             price: 8.0,
             unit: "from",
@@ -3242,7 +3433,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 54,
+            id: 324,
             name: "Annapurna Salt",
             price: 5.0,
             unit: "from",
@@ -3269,7 +3460,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 55,
+            id: 325,
             name: "Oil",
             price: 5.0,
             unit: "from",
@@ -3724,7 +3915,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 60,
+            id: 326,
             name: "Tomato Paste",
             price: 3.0,
             unit: "from",
@@ -4494,7 +4685,7 @@ export const categoriesData: Category[] = [
         image: bottleCategoryImage,
         products: [
           {
-            id: 62,
+            id: 327,
             name: "Awake",
             price: 2.5,
             unit: "from",
@@ -4537,7 +4728,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 63,
+            id: 328,
             name: "Voltic",
             price: 2.0,
             unit: "from",
@@ -4580,7 +4771,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 64,
+            id: 329,
             name: "Mont",
             price: 2.5,
             unit: "from",
@@ -4623,7 +4814,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 65,
+            id: 330,
             name: "Verna",
             price: 2.0,
             unit: "from",
@@ -4666,7 +4857,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 66,
+            id: 331,
             name: "Bel Aqua",
             price: 2.0,
             unit: "from",
@@ -4717,7 +4908,7 @@ export const categoriesData: Category[] = [
         image: softDrinksCategoryImage,
         products: [
           {
-            id: 66,
+            id: 332,
             name: "Bel Drinks",
             price: 3.0,
             unit: "from",
@@ -4776,7 +4967,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 67,
+            id: 333,
             name: "Special Drinks",
             price: 4.0,
             unit: "from",
@@ -4819,7 +5010,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 68,
+            id: 334,
             name: "Coca-Cola",
             price: 3.5,
             unit: "from",
@@ -5032,7 +5223,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 73,
+            id: 335,
             name: "Milo Drink",
             price: 5.0,
             unit: "from",
@@ -5069,7 +5260,7 @@ export const categoriesData: Category[] = [
         image: juicesCategoryImage,
         products: [
           {
-            id: 100,
+            id: 336,
             name: "Kalypo",
             price: 7.0,
             unit: "from",
@@ -5183,6 +5374,15 @@ export const categoriesData: Category[] = [
                 item: "Don Simon Pack",
               },
             ],
+          },
+          {
+            id: 342,
+            name: "Watermelon Juice",
+            price: 12.0,
+            unit: "per bottle",
+            image: watermelonJuiceImage,
+            description: "Fresh cold-pressed watermelon juice",
+            inStock: true,
           },
         ],
       },
@@ -5744,7 +5944,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 56,
+            id: 337,
             name: "Soaps",
             price: 3.5,
             unit: "from",
@@ -6075,7 +6275,7 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: 205,
+            id: 338,
             name: "Antiseptic",
             price: 5.0,
             unit: "from",
