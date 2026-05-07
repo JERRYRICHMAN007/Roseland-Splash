@@ -246,6 +246,8 @@ import watermelonPineappleJuiceImage from "@/assets/watermelon-pineapple-juice.j
 import sausageImage from "@/assets/sausage.jpg";
 import ripePlantainImage from "@/assets/plantain-ripe.jpg";
 import bellPepperColoredImage from "@/assets/bell-pepper-colored.jpg";
+import redBellPepperImage from "@/assets/red bell pepper.jpg";
+import greenBellPepperImage from "@/assets/green peppers.jpg";
 
 // Product variant images - Descriptive names matching actual products
 import milo100g from "@/assets/variants/milo-100g.jpg";
@@ -726,7 +728,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per piece",
                 inStock: true,
-                image: bellPepperColoredImage,
+                image: redBellPepperImage,
               },
               {
                 id: "bell-pepper-yellow",
@@ -742,7 +744,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per piece",
                 inStock: true,
-                image: bellPepperColoredImage,
+                image: greenBellPepperImage,
               },
             ],
           },
@@ -1912,24 +1914,6 @@ export const categoriesData: Category[] = [
                 image: chocolateStrawberryCakeImage,
                 description:
                   "Rich chocolate cake with strawberry flavor in convenient cup",
-                inStock: true,
-              },
-            ],
-          },
-          {
-            id: "vanilla-strawberry",
-            name: "Vanilla-Strawberry",
-            description: "Delicious vanilla cake with strawberry flavor",
-            image: vanillaStrawberryCakeImage,
-            products: [
-              {
-                id: 318,
-                name: "Vanilla-Strawberry Cake in Cup",
-                price: 12.0,
-                unit: "per cup",
-                image: vanillaStrawberryCakeImage,
-                description:
-                  "Delicious vanilla cake with strawberry flavor in convenient cup",
                 inStock: true,
               },
             ],
@@ -5375,15 +5359,6 @@ export const categoriesData: Category[] = [
               },
             ],
           },
-          {
-            id: 342,
-            name: "Watermelon Juice",
-            price: 12.0,
-            unit: "per bottle",
-            image: watermelonJuiceImage,
-            description: "Fresh cold-pressed watermelon juice",
-            inStock: true,
-          },
         ],
       },
       {
@@ -6473,7 +6448,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 115,
-            name: "Onion",
+            name: "Onion Puree",
             price: 10.0,
             unit: "from",
             image: onionPuree,
