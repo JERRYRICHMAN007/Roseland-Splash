@@ -34,10 +34,6 @@ export interface LoginData {
  */
 export const signUp = async (data: SignupData): Promise<{ user: User | null; error: string | null }> => {
   try {
-    console.log("📝 Calling backend API for signup...", {
-      email: data.email.toLowerCase().trim(),
-    });
-
     const response = await backendApi.signup({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -103,7 +99,6 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
       }
     }
 
-    console.log("✅ Signup complete - returning user:", user.email);
     return { user, error: null };
   } catch (error: any) {
     console.error("Signup error:", error);
@@ -117,10 +112,6 @@ export const signUp = async (data: SignupData): Promise<{ user: User | null; err
  */
 export const signIn = async (data: LoginData): Promise<{ user: User | null; error: string | null }> => {
   try {
-    console.log("🔐 Calling backend API for login...", {
-      email: data.email.toLowerCase().trim(),
-    });
-
     const response = await backendApi.login(data.email, data.password);
 
     if (!response.success) {
@@ -162,7 +153,6 @@ export const signIn = async (data: LoginData): Promise<{ user: User | null; erro
       role: normalizeRole((userData as { role?: unknown }).role),
     };
 
-    console.log("✅ Login complete - user loaded:", user.email);
     return { user, error: null };
   } catch (error: any) {
     console.error("Login error:", error);
@@ -315,11 +305,6 @@ export const sendPasswordResetEmail = async (email: string): Promise<{ error: st
       typeof window !== "undefined"
         ? `${window.location.origin}/reset-password`
         : undefined;
-
-    console.log("📧 Requesting password reset via backend API...", {
-      email: email.toLowerCase().trim(),
-      redirectTo: redirectTo ?? "(backend default)",
-    });
 
     const response = await backendApi.requestPasswordReset(email, redirectTo);
 

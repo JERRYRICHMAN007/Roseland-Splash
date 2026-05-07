@@ -1,8 +1,52 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getSupabaseClient } from "@/lib/supabase";
 import * as authService from "@/services/authService";
+import * as backendApi from "@/services/backendApi";
 
 export type UserRole = "customer" | "owner" | "admin";
+
+function normalizeRole(raw: unknown): UserRole {
+  if (raw === "owner" || raw === "admin" || raw === "customer") return raw;
+  return "customer";
+}
+
+const PROFILE_FETCH_TIMEOUT_MS = 8_000;
+
+function userFromSessionMetadata(sessionUser: {
+  id: string;
+  email?: string | null;
+  created_at?: string;
+  user_metadata?: Record<string, unknown>;
+}): User {
+  const md = (sessionUser.user_metadata || {}) as {
+    first_name?: string;
+    last_name?: string;
+    phone?: string;
+    role?: string;
+  };
+  return {
+    id: sessionUser.id,
+    firstName: md.first_name || "",
+    lastName: md.last_name || "",
+    email: sessionUser.email || "",
+    phone: md.phone || "",
+    createdAt: sessionUser.created_at || new Date().toISOString(),
+    role: normalizeRole(md.role),
+  };
+}
+
+async function getUserProfileWithTimeout(userId: string): Promise<User | null> {
+  try {
+    return await Promise.race([
+      authService.getUserProfile(userId),
+      new Promise<null>((resolve) =>
+        setTimeout(() => resolve(null), PROFILE_FETCH_TIMEOUT_MS)
+      ),
+    ]);
+  } catch {
+    return null;
+  }
+}
 
 export interface User {
   id: string;
@@ -68,15 +112,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           const { data: { session } } = await supabase.auth.getSession();
 
           if (session?.user) {
-            const user = await authService.getUserProfile(session.user.id);
-            if (user) {
-              setState({
-                user,
-                isAuthenticated: true,
-                isLoading: false,
-              });
-              return;
-            }
+            const profile = await getUserProfileWithTimeout(session.user.id);
+            const user = profile ?? userFromSessionMetadata(session.user);
+            setState({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            });
+            return;
           }
           setState((prev) => ({ ...prev, isLoading: false }));
         } catch (error) {
@@ -101,14 +144,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const { data: { subscription } } = supabase.auth.onAuthStateChange(
         async (event, session) => {
           if (event === "SIGNED_IN" && session?.user) {
-            const user = await authService.getUserProfile(session.user.id);
-            if (user) {
-              setState({
-                user,
-                isAuthenticated: true,
-                isLoading: false,
-              });
-            }
+            const profile = await getUserProfileWithTimeout(session.user.id);
+            const user = profile ?? userFromSessionMetadata(session.user);
+            setState({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            });
           } else if (event === "SIGNED_OUT") {
             setState({
               user: null,
@@ -127,19 +169,57 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string): Promise<User | null> => {
     try {
-      const { user, error } = await authService.signIn({ email, password });
-
-      if (error || !user) {
+      const response = await backendApi.login(email, password);
+      if (!response.success) {
         return null;
       }
+
+      const userData =
+        response.data?.user ?? (response as { user?: User }).user;
+      const sessionData =
+        response.data?.session ??
+        (response as { session?: { access_token: string; refresh_token?: string } })
+          .session;
+
+      if (!userData) {
+        return null;
+      }
+
+      const supabase = getSupabaseClient();
+      // Set browser session first so user_profiles RLS (auth.uid() = id) sees a JWT on the anon client.
+      if (supabase && sessionData?.access_token) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: sessionData.access_token,
+          refresh_token: sessionData.refresh_token ?? "",
+        });
+        if (sessionError) {
+          console.warn("⚠️ setSession after login failed:", sessionError);
+        }
+      }
+
+      const baseUser: User = {
+        id: userData.id,
+        firstName: userData.firstName || "",
+        lastName: userData.lastName || "",
+        email: userData.email,
+        phone: userData.phone || "",
+        createdAt: userData.createdAt,
+        role: normalizeRole((userData as { role?: unknown }).role),
+      };
+
+      let profile: User | null = null;
+      if (supabase) {
+        profile = await getUserProfileWithTimeout(userData.id);
+      }
+
+      const displayUser = profile ?? baseUser;
       setState({
-        user,
+        user: displayUser,
         isAuthenticated: true,
         isLoading: false,
       });
-
-      return user;
-    } catch (error: any) {
+      return displayUser;
+    } catch {
       return null;
     }
   };
@@ -168,7 +248,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       : { data: { session: null } };
 
     if (sessionData?.session?.user) {
-      const profile = await authService.getUserProfile(sessionData.session.user.id);
+      // Profile row may not exist yet (e.g. user_profiles upsert lag); never block signup UX on this.
+      const profile = await getUserProfileWithTimeout(sessionData.session.user.id);
       const displayUser = profile ?? user;
       setState({
         user: displayUser,

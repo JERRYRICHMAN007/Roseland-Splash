@@ -322,26 +322,8 @@ app.post('/api/auth/signup', async (req, res) => {
 
     console.log('✅ Signup successful for:', email);
 
-    if (supabaseAdmin && data.user) {
-      const { error: profileErr } = await supabaseAdmin
-        .from('user_profiles')
-        .upsert(
-          {
-            id: data.user.id,
-            first_name: firstName.trim(),
-            last_name: lastName.trim(),
-            email: email.toLowerCase().trim(),
-            phone: String(phone).trim(),
-            role: 'customer'
-          },
-          { onConflict: 'id' }
-        );
-      if (profileErr) {
-        console.error('⚠️ user_profiles upsert after signup:', profileErr.message);
-      }
-    }
-    
-    // Auto-confirm email if not already confirmed (using admin client)
+    // Ensure auth.users row is finalized before user_profiles (FK: user_profiles.id → auth.users.id).
+    // Auto-confirm first, then a short pause — avoids transient FK violations right after signUp.
     if (!data.user.email_confirmed_at && supabaseAdmin) {
       try {
         console.log('📧 Auto-confirming email for new user...');
@@ -351,7 +333,38 @@ app.post('/api/auth/signup', async (req, res) => {
         );
         console.log('✅ Email auto-confirmed successfully');
       } catch (confirmErr) {
-        console.error('⚠️ Exception auto-confirming email:', confirmErr.message);
+        console.warn('⚠️ Exception auto-confirming email:', confirmErr.message);
+      }
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    if (supabaseAdmin && data.user) {
+      try {
+        const { error: profileErr } = await supabaseAdmin
+          .from('user_profiles')
+          .upsert(
+            {
+              id: data.user.id,
+              first_name: firstName.trim(),
+              last_name: lastName.trim(),
+              email: email.toLowerCase().trim(),
+              phone: String(phone).trim(),
+              role: 'customer'
+            },
+            { onConflict: 'id' }
+          );
+        if (profileErr) {
+          console.warn(
+            '⚠️ user_profiles upsert after signup (non-fatal; auth user exists):',
+            profileErr.message
+          );
+        }
+      } catch (profileException) {
+        console.warn(
+          '⚠️ user_profiles upsert threw (non-fatal; auth user exists):',
+          profileException?.message || String(profileException)
+        );
       }
     }
 
