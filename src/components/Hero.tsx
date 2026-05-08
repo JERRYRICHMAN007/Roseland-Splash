@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Truck, Clock, ShieldCheck } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import heroImage from "@/assets/hero-banner.jpg";
 
 const Hero = () => {
@@ -12,138 +12,119 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[90vh] bg-gradient-to-br from-slate-900/95 via-green-dark to-slate-800/95 overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Fresh organic produce and groceries"
-          className="w-full h-full object-cover opacity-30"
+    <section className="relative min-h-[85vh] lg:min-h-[88vh] overflow-hidden bg-gradient-to-br from-[#0a2e1a] via-[#0f4d2a] to-[#1a3d0f]">
+      {/* Decorative blurred circles */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-primary/25 blur-3xl" />
+        <div className="absolute top-1/3 -right-24 h-[28rem] w-[28rem] rounded-full bg-emerald-400/20 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-secondary/15 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+            backgroundSize: "32px 32px",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-green-dark/80 to-slate-800/85"></div>
-        <div className="absolute inset-0 bg-[var(--hero-gradient-dark)]"></div>
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-green-medium/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-12 sm:py-16 lg:py-24">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
-          {/* Hero Content */}
-          <div className="space-y-8 lg:space-y-10 text-center lg:text-left animate-fade-in-up">
-            <div className="space-y-6 lg:space-y-8">
-              <div className="inline-flex items-center px-4 py-2 bg-green-medium/20 backdrop-blur-sm rounded-full text-sm font-medium text-green-light border border-green-medium/30 mb-6">
-                <span className="w-2 h-2 bg-green-medium rounded-full mr-2 animate-pulse"></span>
-                Fresh • Local • Trusted
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
-                <span className="bg-gradient-to-r from-green-light via-green-medium to-primary bg-clip-text text-transparent drop-shadow-lg">
-                  Rollsland & Splash
-                </span>
-                <br />
-                <span className="text-white drop-shadow-[var(--hero-text-glow)]">
-                  — Freshness Delivered
-                </span>
-              </h1>
-              <p className="text-xl sm:text-2xl text-slate-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium drop-shadow-sm">
-                Premium groceries from farm to your doorstep. Fresh foods,
-                international snacks, Mashedke delights, and daily essentials.
-              </p>
+      <div className="container relative z-10 mx-auto px-4 py-16 sm:py-20 lg:py-24">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          {/* Left: Headline + CTAs + Trust pills */}
+          <div className="space-y-8 text-center lg:text-left">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 rounded-full glass-dark px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Fresh • Local • Trusted
             </div>
 
-            {/* Enhanced CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            {/* Headline */}
+            <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-balance sm:text-6xl lg:text-7xl">
+              <span className="gradient-text-gold block">Rollsland &amp; Splash</span>
+              <span className="mt-2 block text-white">Freshness Delivered</span>
+            </h1>
+
+            {/* Subhead */}
+            <p className="mx-auto max-w-xl text-lg text-white/80 sm:text-xl lg:mx-0">
+              Premium groceries from farm to your doorstep.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4 lg:items-start lg:justify-start">
               <Button
                 size="lg"
                 onClick={scrollToCategories}
-                className="group bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white text-lg px-10 py-5 h-auto font-bold rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.4)] transition-all duration-300 hover:scale-105 border border-primary/50 hover:border-primary"
+                className="group h-14 rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-[0_10px_40px_-10px_hsl(142_76%_36%/0.6)] transition-all duration-300 hover:bg-primary/90 hover:shadow-[0_14px_48px_-10px_hsl(142_76%_36%/0.8)]"
               >
-                <span className="flex items-center gap-3">
-                  <span>Shop Categories</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">
-                    →
-                  </span>
-                </span>
+                Shop Now
+                <ArrowRight
+                  className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+                />
               </Button>
               <Button
-                variant="outline"
                 size="lg"
                 onClick={() => navigate("/categories")}
-                className="group bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white hover:text-gray-900 hover:border-white text-lg px-10 py-5 h-auto font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="glass h-14 rounded-full px-8 text-base font-semibold text-white hover:text-white border-white/40 hover:bg-white/15"
               >
-                <span className="flex items-center gap-3">
-                  <span>Browse All</span>
-                  <span className="group-hover:rotate-12 transition-transform duration-300">
-                    🔍
-                  </span>
-                </span>
+                Browse All
               </Button>
             </div>
 
-            {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8">
-              <div className="flex items-center gap-4 justify-center sm:justify-start bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="w-14 h-14 bg-primary/90 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <Truck className="text-white" size={24} />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="font-bold text-white text-base">
-                    Free Delivery
-                  </h3>
-                  <p className="text-sm text-slate-200">Orders over GH₵100</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 justify-center sm:justify-start bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="w-14 h-14 bg-secondary/90 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <Clock className="text-white" size={24} />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="font-bold text-white text-base">Same Day</h3>
-                  <p className="text-sm text-slate-200">Quick delivery</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 justify-center sm:justify-start bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="w-14 h-14 bg-green-medium/90 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <ShieldCheck className="text-white" size={24} />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="font-bold text-white text-base">
-                    Fresh Quality
-                  </h3>
-                  <p className="text-sm text-slate-200">100% guaranteed</p>
-                </div>
-              </div>
+            {/* Trust pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2 sm:gap-3 lg:justify-start">
+              <span className="glass-dark inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-white sm:text-sm">
+                <span aria-hidden>🚚</span>
+                Free Delivery over GH₵100
+              </span>
+              <span className="glass-dark inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-white sm:text-sm">
+                <span aria-hidden>⚡</span>
+                Same Day
+              </span>
+              <span className="glass-dark inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-white sm:text-sm">
+                <span aria-hidden>✓</span>
+                Fresh Daily
+              </span>
             </div>
           </div>
 
-          {/* Hero Image - Hidden on small mobile, shown on larger screens */}
-          <div className="relative hidden lg:block animate-scale-in">
-            <div className="relative z-10">
-              <div className="relative overflow-hidden rounded-3xl shadow-[var(--premium-shadow)] hover:shadow-[var(--elevated-shadow)] transition-all duration-500 hover:scale-105 border border-white/20">
+          {/* Right: Floating product image card (desktop only) */}
+          <div className="relative hidden lg:block">
+            <div className="relative">
+              <div className="glass glass-shadow overflow-hidden rounded-3xl">
                 <img
                   src={heroImage}
                   alt="Fresh organic vegetables, fruits and spices"
-                  className="w-full h-[400px] xl:h-[500px] object-cover"
+                  className="h-[460px] w-full object-cover xl:h-[520px]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20">
-                  <p className="text-sm font-bold text-primary">Fresh Today</p>
-                  <p className="text-xs text-muted-foreground">
-                    From local farms
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              </div>
+
+              {/* Floating badge: Fresh Today */}
+              <div className="glass glass-shadow absolute -left-6 top-10 rounded-2xl px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                  Fresh Today
+                </p>
+                <p className="text-sm font-semibold text-foreground">
+                  From local farms
+                </p>
+              </div>
+
+              {/* Floating badge: 4.9 Rated */}
+              <div className="glass glass-shadow absolute -right-6 bottom-10 flex items-center gap-2 rounded-2xl px-4 py-3">
+                <Star className="h-4 w-4 fill-secondary text-secondary" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground leading-none">
+                    4.9
                   </p>
-                </div>
-                <div className="absolute bottom-6 left-6 bg-primary/95 backdrop-blur-sm rounded-2xl px-4 py-3 text-white">
-                  <p className="text-sm font-bold">Premium Quality</p>
-                  <p className="text-xs opacity-90">Guaranteed Fresh</p>
+                  <p className="text-[11px] font-medium text-muted-foreground">
+                    Rated by customers
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Enhanced Background decorations */}
-            <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-green-medium/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div className="absolute top-1/2 right-1/2 w-32 h-32 bg-secondary/30 rounded-full blur-2xl animate-glow"></div>
+            {/* Soft halo behind card */}
+            <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/30 via-emerald-400/20 to-transparent blur-2xl" />
           </div>
         </div>
       </div>

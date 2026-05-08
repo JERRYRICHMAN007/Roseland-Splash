@@ -231,77 +231,69 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const isOutOfStock = !currentVariant.inStock || !product.inStock;
 
   return (
-    <Card className="group transition-all duration-300 hover:shadow-lg hover:border-primary/30 bg-white border border-gray-200 overflow-hidden touch-manipulation active:scale-[0.98] h-full flex flex-col">
-      <CardContent className="p-0 flex flex-col h-full">
-        {/* Product Image Container */}
-        <div className="relative aspect-square bg-gray-50 overflow-hidden">
-          <div className="w-full h-full bg-white flex items-center justify-center relative">
-            <img
-              src={currentVariant.image}
-              alt={product.name}
-              className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
+    <Card className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] touch-manipulation">
+      <CardContent className="flex h-full flex-1 flex-col p-0">
+        {/* Image area */}
+        <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+          <img
+            src={currentVariant.image}
+            alt={product.name}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+
+          {/* Wishlist Button - glass */}
+          <button
+            type="button"
+            onClick={handleToggleWishlist}
+            disabled={isWishlistLoading}
+            aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+            className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/60 bg-white/80 shadow-sm backdrop-blur-sm transition-all hover:scale-110 hover:bg-white hover:shadow-md disabled:opacity-60"
+          >
+            <Heart
+              className={`h-4 w-4 ${
+                isInWishlist ? "fill-red-500 text-red-500" : "text-gray-600"
+              }`}
             />
+          </button>
 
-            {/* Stock Badge */}
-            {isOutOfStock && (
-              <div className="absolute top-2 left-2 z-10">
-                <Badge variant="destructive" className="text-xs font-semibold">
-                  Out of Stock
-                </Badge>
-              </div>
-            )}
-
-            {/* Wishlist Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleToggleWishlist}
-              disabled={isWishlistLoading}
-              className="absolute top-2 right-2 h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md hover:shadow-lg transition-all z-10 border border-gray-200"
-              aria-label={
-                isInWishlist ? "Remove from wishlist" : "Add to wishlist"
-              }
-            >
-              <Heart
-                className={`h-4 w-4 ${
-                  isInWishlist ? "text-red-500 fill-red-500" : "text-gray-600"
-                }`}
-              />
-            </Button>
-          </div>
+          {/* Out-of-stock overlay */}
+          {isOutOfStock && (
+            <div className="absolute inset-0 z-[5] flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+              <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-800 shadow-sm">
+                Out of Stock
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Product Info */}
-        <div className="p-4 flex flex-col flex-1 space-y-3">
-          {/* Product Name */}
-          <h3 className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] text-gray-900">
+        {/* Content area */}
+        <div className="flex flex-1 flex-col gap-2 p-3.5">
+          {/* Name */}
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
             {product.name}
           </h3>
 
-          {/* Rating Stars (Placeholder - can be replaced with real ratings later) */}
-          <div className="flex items-center gap-1">
-            <div className="flex items-center">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={12}
-                  className="text-yellow-400 fill-yellow-400"
-                />
-              ))}
-            </div>
-            <span className="text-xs text-gray-500 ml-1">(4.8)</span>
-          </div>
+          {/* Description (only when product has no variants and has description) */}
+          {!product.variants && product.description && (
+            <p className="line-clamp-2 min-h-[2rem] text-xs leading-relaxed text-muted-foreground">
+              {product.description}
+            </p>
+          )}
 
-          {/* Variant Selector */}
+          {/* Variant selector */}
           {product.variants && product.variants.length > 1 && (
             <Select value={selectedVariant} onValueChange={setSelectedVariant}>
-              <SelectTrigger className="h-9 text-xs bg-gray-50 border-gray-200">
+              <SelectTrigger className="h-8 w-full rounded-lg border-border/60 bg-muted/50 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {product.variants.map((variant) => (
-                  <SelectItem key={variant.id} value={variant.id}>
+                  <SelectItem
+                    key={variant.id}
+                    value={variant.id}
+                    className="text-xs"
+                  >
                     {variant.name} - GH₵{variant.price.toFixed(2)}
                   </SelectItem>
                 ))}
@@ -309,80 +301,80 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </Select>
           )}
 
-          {/* Price Section */}
-          <div className="flex flex-col gap-1 mt-auto items-center text-center">
+          {/* Price row */}
+          <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/40 pt-2">
             {hasBundle ? (
               <>
-                <span className="font-bold text-xl text-primary">
+                <span className="inline-flex items-center rounded-full border border-secondary/20 bg-secondary/15 px-2 py-0.5 text-xs font-semibold text-secondary-foreground">
                   {bundleQuantity} for GH₵{bundlePrice.toFixed(2)}
                 </span>
-                <p className="text-xs text-gray-500">
-                  Market-style bundle • {currentVariant.unit}
-                </p>
-                <div className="flex items-center gap-2 mt-1">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setBundleQty((q) => Math.max(1, q - 1));
-                    }}
-                  >
-                    <Minus size={14} />
-                  </Button>
-                  <span className="w-8 text-center text-sm font-medium">
-                    {bundleQty}
-                  </span>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setBundleQty((q) => q + 1);
-                    }}
-                  >
-                    <Plus size={14} />
-                  </Button>
-                  <span className="text-xs text-gray-500">bundle{bundleQty !== 1 ? "s" : ""}</span>
-                </div>
-                <p className="text-xs text-primary font-medium">
-                  GH₵{(bundlePrice * bundleQty).toFixed(2)} total
-                </p>
+                <span className="text-xs text-muted-foreground">
+                  {currentVariant.unit}
+                </span>
               </>
             ) : (
               <>
-                <span className="font-bold text-xl text-primary">
+                <span className="text-lg font-bold text-primary">
                   GH₵{currentVariant.price.toFixed(2)}
                 </span>
-                {product.variants && (
-                  <span className="text-xs text-gray-500">
-                    {currentVariant.name}
-                  </span>
-                )}
-                {!product.variants && product.description && (
-                  <p className="text-xs text-gray-500 line-clamp-2">
-                    {product.description}
-                  </p>
-                )}
-                {!product.variants && (
-                  <p className="text-xs text-gray-500">{currentVariant.unit}</p>
-                )}
+                <span className="truncate text-xs text-muted-foreground">
+                  {product.variants ? currentVariant.name : currentVariant.unit}
+                </span>
               </>
             )}
           </div>
 
-          {/* Add to Cart Button */}
+          {/* Bundle quantity stepper */}
+          {hasBundle && (
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs text-muted-foreground">
+                Bundle{bundleQty !== 1 ? "s" : ""}
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setBundleQty((q) => Math.max(1, q - 1));
+                  }}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-border/60 bg-white text-foreground transition hover:bg-muted"
+                  aria-label="Decrease bundles"
+                >
+                  <Minus size={12} />
+                </button>
+                <span className="w-6 text-center text-sm font-semibold tabular-nums">
+                  {bundleQty}
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setBundleQty((q) => q + 1);
+                  }}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-border/60 bg-white text-foreground transition hover:bg-muted"
+                  aria-label="Increase bundles"
+                >
+                  <Plus size={12} />
+                </button>
+                <span className="ml-1 text-xs font-semibold text-primary tabular-nums">
+                  GH₵{(bundlePrice * bundleQty).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Add to Cart */}
           <Button
+            type="button"
             onClick={handleAddToCart}
             disabled={isOutOfStock}
-            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-md shadow-sm hover:shadow-md transition-all duration-200 h-10 mt-2"
-            size="sm"
+            className={
+              isOutOfStock
+                ? "mt-2 flex h-9 w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-muted text-sm font-semibold text-muted-foreground shadow-none hover:bg-muted hover:shadow-none"
+                : "mt-2 flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-green-medium text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:from-primary-hover hover:to-primary hover:shadow-md"
+            }
           >
-            <ShoppingCart size={16} className="mr-2" />
+            <ShoppingCart size={15} />
             {isOutOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
         </div>

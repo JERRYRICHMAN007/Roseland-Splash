@@ -454,13 +454,13 @@ import friedSpringRollsSubcategoryImage from "@/assets/crispy-fried-spring-rolls
 import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
 import frozenSamosaImage from "@/assets/Samosa-Frozen.jpeg";
 import frozenSpringRollsImage from "@/assets/srpringrolls-frozen-removebg-preview.png";
-import vanillaVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 01_53_55 PM.png";
-import loadedMiniCupcakesImage from "@/assets/WhatsApp Image 2025-11-07 at 9.05.52 AM.jpeg";
-import vanillaChocolateCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 01_53_59 PM.png";
-import vanillaStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_20_56 PM.png";
-import chocolateVelvetCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_07_52 PM.png";
-import chocolateVanillaCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_18_25 PM.png";
-import chocolateStrawberryCakeImage from "@/assets/ChatGPT Image Nov 7, 2025, 02_19_33 PM.png";
+import vanillaVelvetCakeImage from "@/assets/Vanilla-Velvet Cake in Cup.png";
+import loadedMiniCupcakesImage from "@/assets/Loaded Mini Cup Cakes.png";
+import vanillaChocolateCakeImage from "@/assets/Vanilla-Chocolate Cake in Cup.png";
+import vanillaStrawberryCakeImage from "@/assets/Vanilla-Strawberry Cake in Cup.png";
+import chocolateVelvetCakeImage from "@/assets/Chocolate-Velvet Cake in Cup.png";
+import chocolateVanillaCakeImage from "@/assets/Chocolate-Vanilla Cake in Cup.png";
+import chocolateStrawberryCakeImage from "@/assets/Chocolate-Strawberry Cake in Cup.png";
 import orangeJuiceImage from "@/assets/fresh-orange-juice-in-a-glass-jar-over-white-woode-2024-10-18-08-42-12-utc.jpg";
 import pineappleJuiceImage from "@/assets/fresh-summer-pineapple-juice-2024-10-11-07-45-36-utc.jpg";
 import pineappleGingerJuiceImage from "@/assets/pineapple-juice-and-slice-placed-on-a-wooden-table-2024-10-18-00-23-05-utc.jpg";
@@ -1819,7 +1819,7 @@ export const categoriesData: Category[] = [
               {
                 id: 26,
                 name: "Vanilla-Velvet Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: vanillaVelvetCakeImage,
                 description:
@@ -1837,7 +1837,7 @@ export const categoriesData: Category[] = [
               {
                 id: 27,
                 name: "Vanilla-Chocolate Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: vanillaChocolateCakeImage,
                 description:
@@ -1855,7 +1855,7 @@ export const categoriesData: Category[] = [
               {
                 id: 28,
                 name: "Vanilla-Strawberry Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: vanillaStrawberryCakeImage,
                 description:
@@ -1873,7 +1873,7 @@ export const categoriesData: Category[] = [
               {
                 id: 29,
                 name: "Chocolate-Velvet Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: chocolateVelvetCakeImage,
                 description:
@@ -1891,7 +1891,7 @@ export const categoriesData: Category[] = [
               {
                 id: 30,
                 name: "Chocolate-Vanilla Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: chocolateVanillaCakeImage,
                 description:
@@ -1909,7 +1909,7 @@ export const categoriesData: Category[] = [
               {
                 id: 31,
                 name: "Chocolate-Strawberry Cake in Cup",
-                price: 12.0,
+                price: 25.0,
                 unit: "per cup",
                 image: chocolateStrawberryCakeImage,
                 description:
