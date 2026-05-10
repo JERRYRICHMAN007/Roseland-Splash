@@ -32,6 +32,7 @@ import PaymentVerify from "./pages/PaymentVerify";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import FloatingWishlistButton from "./components/FloatingWishlistButton";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
                   v7_relativeSplatPath: true,
                 }}
               >
+                <ScrollToTop />
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/categories" element={<CategoriesPage />} />

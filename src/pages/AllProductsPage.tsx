@@ -6,6 +6,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { categoriesData } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const AllProductsPage = () => {
   const { categoryId } = useParams();
@@ -24,7 +25,12 @@ const AllProductsPage = () => {
           <p className="text-muted-foreground mb-8">
             The category you're looking for doesn't exist.
           </p>
-          <Button onClick={() => navigate("/categories")}>
+          <Button
+            onClick={() => {
+              navigate("/categories");
+              scrollToTopInstant();
+            }}
+          >
             Back to Categories
           </Button>
         </div>
@@ -74,7 +80,10 @@ const AllProductsPage = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => navigate(`/category/${categoryId}`)}
+            onClick={() => {
+              navigate(`/category/${categoryId}`);
+              scrollToTopInstant();
+            }}
           >
             <ArrowLeft size={20} />
           </Button>
@@ -82,7 +91,10 @@ const AllProductsPage = () => {
             <nav className="text-sm text-muted-foreground mb-2">
               <span
                 className="hover:text-primary cursor-pointer"
-                onClick={() => navigate(`/category/${categoryId}`)}
+                onClick={() => {
+                  navigate(`/category/${categoryId}`);
+                  scrollToTopInstant();
+                }}
               >
                 {category.name}
               </span>

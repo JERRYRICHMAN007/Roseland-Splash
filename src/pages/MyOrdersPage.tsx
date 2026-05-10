@@ -29,6 +29,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const MyOrdersPage = () => {
   const { user } = useAuth();
@@ -234,7 +235,13 @@ const MyOrdersPage = () => {
                 <p className="text-muted-foreground mb-6">
                   You haven't placed any orders yet. Start shopping to see your orders here.
                 </p>
-                <Button onClick={() => navigate("/")} size="lg">
+                <Button
+                  onClick={() => {
+                    navigate("/");
+                    scrollToTopInstant();
+                  }}
+                  size="lg"
+                >
                   Start Shopping
                 </Button>
               </CardContent>
@@ -320,7 +327,10 @@ const MyOrdersPage = () => {
 
                       <div className="flex flex-col gap-2 md:min-w-[150px]">
                         <Button
-                          onClick={() => navigate(`/track-order/${order.id}`)}
+                          onClick={() => {
+                            navigate(`/track-order/${order.id}`);
+                            scrollToTopInstant();
+                          }}
                           className="w-full"
                           variant="outline"
                         >

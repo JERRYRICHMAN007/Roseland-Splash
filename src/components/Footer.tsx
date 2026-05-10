@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { categoriesData } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -100,7 +101,10 @@ const Footer = () => {
             {/* Logo + Name */}
             <button
               type="button"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                scrollToTopInstant();
+              }}
               className="flex items-center gap-3 mb-4 text-left transition-opacity hover:opacity-90"
               aria-label="Go to home"
             >
@@ -178,7 +182,10 @@ const Footer = () => {
                   <li key={category.id}>
                     <button
                       type="button"
-                      onClick={() => navigate(`/category/${category.id}`)}
+                      onClick={() => {
+                        navigate(`/category/${category.id}`);
+                        scrollToTopInstant();
+                      }}
                       className="flex items-start gap-1.5 text-sm text-white/60 hover:text-white transition-all duration-200 hover:translate-x-1 text-left py-0.5"
                     >
                       <span className="text-primary/50 text-xs leading-snug pt-0.5">
@@ -201,7 +208,10 @@ const Footer = () => {
                   <li key={link.path}>
                     <button
                       type="button"
-                      onClick={() => navigate(link.path)}
+                      onClick={() => {
+                        navigate(link.path);
+                        scrollToTopInstant();
+                      }}
                       className="flex items-start gap-1.5 text-sm text-white/60 hover:text-white transition-all duration-200 hover:translate-x-1 text-left py-0.5"
                     >
                       <span className="text-primary/50 text-xs leading-snug pt-0.5">
@@ -324,7 +334,10 @@ const Footer = () => {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => navigate("/privacy")}
+                onClick={() => {
+                  navigate("/privacy");
+                  scrollToTopInstant();
+                }}
                 className="transition-colors hover:text-white/60"
               >
                 Privacy
@@ -332,7 +345,10 @@ const Footer = () => {
               <span className="text-white/20">·</span>
               <button
                 type="button"
-                onClick={() => navigate("/terms")}
+                onClick={() => {
+                  navigate("/terms");
+                  scrollToTopInstant();
+                }}
                 className="transition-colors hover:text-white/60"
               >
                 Terms

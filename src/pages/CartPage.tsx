@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const CartPage = () => {
   const { items, total, removeItem, updateQuantity } = useCart();
@@ -29,7 +30,10 @@ const CartPage = () => {
               shopping to fill it up!
             </p>
             <Button
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                scrollToTopInstant();
+              }}
               size="lg"
               className="px-8 h-12 bg-primary hover:bg-primary/90 text-white font-semibold"
             >
@@ -203,7 +207,10 @@ const CartPage = () => {
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-white font-semibold h-12 text-base shadow-md hover:shadow-lg transition-all"
                     size="lg"
-                    onClick={() => navigate("/checkout")}
+                    onClick={() => {
+                      navigate("/checkout");
+                      scrollToTopInstant();
+                    }}
                   >
                     Proceed to Checkout
                   </Button>
@@ -211,7 +218,10 @@ const CartPage = () => {
                   <Button
                     variant="outline"
                     className="w-full border-gray-300 hover:bg-gray-50 h-11"
-                    onClick={() => navigate("/")}
+                    onClick={() => {
+                      navigate("/");
+                      scrollToTopInstant();
+                    }}
                   >
                     Continue Shopping
                   </Button>

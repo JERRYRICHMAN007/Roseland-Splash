@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 import heroImage from "@/assets/hero-banner.jpg";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -63,7 +64,10 @@ const Hero = () => {
               </Button>
               <Button
                 size="lg"
-                onClick={() => navigate("/categories")}
+                onClick={() => {
+                  navigate("/categories");
+                  scrollToTopInstant();
+                }}
                 className="glass h-14 rounded-full px-8 text-base font-semibold text-white hover:text-white border-white/40 hover:bg-white/15"
               >
                 Browse All

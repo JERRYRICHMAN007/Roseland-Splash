@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    assetsInclude: ["**/*.JPG"],
     define: {
       "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(viteSupabaseUrl),
       "import.meta.env.VITE_SUPABASE_ANON_KEY": JSON.stringify(

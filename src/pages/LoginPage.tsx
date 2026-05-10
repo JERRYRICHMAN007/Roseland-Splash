@@ -9,6 +9,7 @@ import { Mail, Lock, LogIn, Eye, EyeOff } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/", { replace: true });
+      scrollToTopInstant();
     }
   }, [isAuthenticated, navigate]);
 
@@ -66,6 +68,7 @@ const LoginPage = () => {
         replace: true,
         state: { email: locationState?.email },
       });
+      scrollToTopInstant();
     } else if (legacyMessage) {
       setError(legacyMessage);
       setInfoMessage("");
@@ -78,6 +81,7 @@ const LoginPage = () => {
         replace: true,
         state: { email: locationState?.email },
       });
+      scrollToTopInstant();
     }
   }, [location, navigate, toast]);
 
@@ -115,6 +119,7 @@ const LoginPage = () => {
         // Redirect to previous page or home
         const returnTo = new URLSearchParams(window.location.search).get("returnTo") || "/";
         navigate(returnTo);
+        scrollToTopInstant();
       } else {
         setError("Invalid email or password. Please try again or sign up if you don't have an account.");
         toast({

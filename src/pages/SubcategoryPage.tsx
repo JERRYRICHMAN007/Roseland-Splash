@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { categoriesData } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 import WishlistButton from "@/components/WishlistButton";
 import WishlistModal from "@/components/WishlistModal";
 
@@ -37,7 +38,10 @@ const SubcategoryPage = () => {
             The subcategory you're looking for doesn't exist.
           </p>
           <Button
-            onClick={() => navigate("/categories")}
+            onClick={() => {
+              navigate("/categories");
+              scrollToTopInstant();
+            }}
             className="bg-secondary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             Back to Categories
@@ -58,7 +62,10 @@ const SubcategoryPage = () => {
           <Button
             variant="secondary"
             size="icon"
-            onClick={() => navigate(`/category/${categoryId}`)}
+            onClick={() => {
+              navigate(`/category/${categoryId}`);
+              scrollToTopInstant();
+            }}
             className="bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             <ArrowLeft size={20} />
@@ -67,7 +74,10 @@ const SubcategoryPage = () => {
             <nav className="text-xs sm:text-sm text-muted-foreground mb-2">
               <span
                 className="hover:text-primary cursor-pointer"
-                onClick={() => navigate(`/category/${categoryId}`)}
+                onClick={() => {
+                  navigate(`/category/${categoryId}`);
+                  scrollToTopInstant();
+                }}
               >
                 {category.name}
               </span>
@@ -175,7 +185,10 @@ const SubcategoryPage = () => {
               No products found in this subcategory.
             </p>
             <Button
-              onClick={() => navigate(`/category/${categoryId}`)}
+              onClick={() => {
+                navigate(`/category/${categoryId}`);
+                scrollToTopInstant();
+              }}
               className="mt-4 bg-secondary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Back to {category.name}

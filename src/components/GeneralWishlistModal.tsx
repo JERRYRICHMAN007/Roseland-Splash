@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 interface GeneralWishlistModalProps {
   isOpen: boolean;
@@ -174,6 +175,7 @@ const GeneralWishlistModal = ({
               onClick={() => {
                 onClose();
                 navigate("/login");
+                scrollToTopInstant();
               }}
               className="rounded-xl bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
             >
@@ -201,6 +203,7 @@ const GeneralWishlistModal = ({
               onClick={() => {
                 onClose();
                 navigate("/categories");
+                scrollToTopInstant();
               }}
               className="rounded-xl bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
             >

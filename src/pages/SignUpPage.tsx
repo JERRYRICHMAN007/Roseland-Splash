@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { sendWelcomeEmail } from "@/services/professionalEmailService";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const SignUpPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
+      scrollToTopInstant();
     }
   }, [isAuthenticated, navigate]);
 
@@ -116,6 +118,7 @@ const SignUpPage = () => {
         });
         setTimeout(() => {
           navigate("/", { replace: true });
+          scrollToTopInstant();
         }, 600);
       } else {
         toast({
@@ -133,6 +136,7 @@ const SignUpPage = () => {
               },
             },
           });
+          scrollToTopInstant();
         }, 1200);
       }
     } catch (error: any) {
@@ -179,6 +183,7 @@ const SignUpPage = () => {
               },
             },
           });
+          scrollToTopInstant();
         }, 2500);
       } else {
         setErrors({

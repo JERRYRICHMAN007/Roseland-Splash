@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { categoriesData } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -46,13 +47,17 @@ const Categories = () => {
             return (
               <div
                 key={category.id}
-                onClick={() => navigate(`/category/${category.id}`)}
+                onClick={() => {
+                  navigate(`/category/${category.id}`);
+                  scrollToTopInstant();
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     navigate(`/category/${category.id}`);
+                    scrollToTopInstant();
                   }
                 }}
                 className="group relative cursor-pointer overflow-hidden rounded-2xl bg-card card-shadow transition-all duration-300 hover:elevated-shadow focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2"

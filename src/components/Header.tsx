@@ -26,6 +26,7 @@ import { useOrders } from "@/contexts/OrderContext";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { getGeneralWishlistItems } from "@/services/generalWishlistService";
 import GeneralWishlistModal from "./GeneralWishlistModal";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const announcements = [
   { icon: "🚚", text: "Free delivery on orders over GH₵100" },
@@ -99,6 +100,7 @@ const Header = () => {
     if (query.trim()) {
       setSearchQuery(query.trim());
       navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+      scrollToTopInstant();
       // Clear the input after search
       if (isMobile) {
         setMobileSearchInput("");
@@ -154,7 +156,10 @@ const Header = () => {
             {/* Logo */}
             <div
               className="flex items-center gap-2.5 cursor-pointer flex-shrink-0 group"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                scrollToTopInstant();
+              }}
             >
               <div className="w-9 h-9 bg-gradient-to-br from-primary to-green-dark rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
                 <span className="text-white font-bold text-sm">R&S</span>
@@ -190,7 +195,10 @@ const Header = () => {
             <nav className="hidden lg:flex items-center gap-1">
               <Button
                 variant="ghost"
-                onClick={() => navigate("/categories")}
+                onClick={() => {
+                  navigate("/categories");
+                  scrollToTopInstant();
+                }}
                 className="h-9 px-4 text-sm font-medium text-foreground hover:text-primary hover:bg-primary/8 rounded-lg transition-all"
               >
                 Categories
@@ -198,7 +206,10 @@ const Header = () => {
               {isAuthenticated && (
                 <Button
                   variant="ghost"
-                  onClick={() => navigate("/my-orders")}
+                  onClick={() => {
+                    navigate("/my-orders");
+                    scrollToTopInstant();
+                  }}
                   className="h-9 px-4 text-sm font-medium text-foreground hover:text-primary hover:bg-primary/8 rounded-lg transition-all relative"
                 >
                   <Package size={15} className="mr-1.5" />
@@ -244,7 +255,7 @@ const Header = () => {
                 size="icon"
                 onClick={() => {
                   navigate("/cart");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  scrollToTopInstant();
                 }}
                 className="relative w-10 h-10 rounded-full hover:bg-primary/8 transition-all"
                 aria-label="Cart"
@@ -311,14 +322,20 @@ const Header = () => {
                         )}
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => navigate("/account")}
+                        onClick={() => {
+                          navigate("/account");
+                          scrollToTopInstant();
+                        }}
                         className="rounded-lg cursor-pointer"
                       >
                         <UserCircle size={15} className="mr-2.5 text-primary" />
                         My Account
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => navigate("/my-orders")}
+                        onClick={() => {
+                          navigate("/my-orders");
+                          scrollToTopInstant();
+                        }}
                         className="rounded-lg cursor-pointer"
                       >
                         <Package size={15} className="mr-2.5 text-primary" />
@@ -334,6 +351,7 @@ const Header = () => {
                         onClick={async () => {
                           await logout();
                           navigate("/", { replace: true });
+                          scrollToTopInstant();
                         }}
                         className="rounded-lg cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/8"
                       >
@@ -347,14 +365,20 @@ const Header = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => navigate("/login")}
+                      onClick={() => {
+                        navigate("/login");
+                        scrollToTopInstant();
+                      }}
                       className="h-9 px-4 rounded-full text-sm font-medium hover:bg-primary/8 hover:text-primary transition-all"
                     >
                       Log in
                     </Button>
                     <Button
                       size="sm"
-                      onClick={() => navigate("/signup")}
+                      onClick={() => {
+                        navigate("/signup");
+                        scrollToTopInstant();
+                      }}
                       className="h-9 px-4 rounded-full text-sm font-medium bg-primary hover:bg-primary-hover shadow-sm hover:shadow-md transition-all"
                     >
                       Sign up
@@ -444,7 +468,10 @@ const Header = () => {
                         </p>
 
                         <button
-                          onClick={() => navigate("/categories")}
+                          onClick={() => {
+                            navigate("/categories");
+                            scrollToTopInstant();
+                          }}
                           className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-primary/8 hover:text-primary transition-all text-left group"
                         >
                           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
@@ -478,7 +505,10 @@ const Header = () => {
                             </button>
 
                             <button
-                              onClick={() => navigate("/account")}
+                              onClick={() => {
+                                navigate("/account");
+                                scrollToTopInstant();
+                              }}
                               className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-primary/8 hover:text-primary transition-all text-left group"
                             >
                               <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
@@ -488,7 +518,10 @@ const Header = () => {
                             </button>
 
                             <button
-                              onClick={() => navigate("/my-orders")}
+                              onClick={() => {
+                                navigate("/my-orders");
+                                scrollToTopInstant();
+                              }}
                               className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-primary/8 hover:text-primary transition-all text-left group"
                             >
                               <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 relative group-hover:bg-primary/15 transition-colors">
@@ -514,7 +547,7 @@ const Header = () => {
                         <button
                           onClick={() => {
                             navigate("/cart");
-                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            scrollToTopInstant();
                           }}
                           className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-primary/8 hover:text-primary transition-all text-left group"
                         >
@@ -541,14 +574,20 @@ const Header = () => {
                       {!isAuthenticated && (
                         <div className="px-4 pb-4 space-y-2">
                           <Button
-                            onClick={() => navigate("/signup")}
+                            onClick={() => {
+                              navigate("/signup");
+                              scrollToTopInstant();
+                            }}
                             className="w-full h-11 rounded-xl font-semibold bg-primary hover:bg-primary-hover shadow-sm"
                           >
                             Create account
                           </Button>
                           <Button
                             variant="outline"
-                            onClick={() => navigate("/login")}
+                            onClick={() => {
+                              navigate("/login");
+                              scrollToTopInstant();
+                            }}
                             className="w-full h-11 rounded-xl font-medium border-border/60"
                           >
                             Log in
@@ -570,6 +609,7 @@ const Header = () => {
                           onClick={async () => {
                             await logout();
                             navigate("/", { replace: true });
+                            scrollToTopInstant();
                           }}
                           className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-destructive/8 text-destructive transition-all text-sm font-medium"
                         >

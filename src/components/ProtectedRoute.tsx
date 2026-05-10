@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -48,6 +49,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                     onClick={() => {
                       const returnTo = location.pathname + location.search;
                       navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+                      scrollToTopInstant();
                     }}
                     size="lg"
                   >
@@ -58,6 +60,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                     onClick={() => {
                       const returnTo = location.pathname + location.search;
                       navigate(`/signup?returnTo=${encodeURIComponent(returnTo)}`);
+                      scrollToTopInstant();
                     }}
                     size="lg"
                   >

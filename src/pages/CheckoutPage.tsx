@@ -34,6 +34,7 @@ import { useToast } from "@/hooks/use-toast";
 import { sendProfessionalOrderEmail } from "@/services/professionalEmailService";
 import * as backendApi from "@/services/backendApi";
 import { buildOrderSpecialInstructions } from "@/services/databaseService";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 /** Customer-requested delivery time window (shown when Delivery is selected) */
 const DELIVERY_TIME_PRESETS = [
@@ -261,6 +262,7 @@ const CheckoutPage = () => {
       });
       clearCart();
       navigate(`/order-confirmation/${order.id}`);
+      scrollToTopInstant();
     } catch (error) {
       console.error("Error sending order:", error);
       toast({
@@ -269,14 +271,20 @@ const CheckoutPage = () => {
           error instanceof Error ? error.message : "Could not place order. Please try again.",
         variant: "destructive",
       });
-      if (order) navigate(`/order-confirmation/${order.id}`);
-      else navigate("/cart");
+      if (order) {
+        navigate(`/order-confirmation/${order.id}`);
+        scrollToTopInstant();
+      } else {
+        navigate("/cart");
+        scrollToTopInstant();
+      }
     }
   };
 
   useEffect(() => {
     if (items.length === 0) {
       navigate("/cart");
+      scrollToTopInstant();
     }
   }, [items.length, navigate]);
 

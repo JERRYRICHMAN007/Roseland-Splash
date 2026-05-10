@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { categoriesData } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
@@ -27,7 +28,12 @@ const CategoryPage = () => {
           <p className="text-muted-foreground mb-8">
             The category you're looking for doesn't exist.
           </p>
-          <Button onClick={() => navigate("/categories")}>
+          <Button
+            onClick={() => {
+              navigate("/categories");
+              scrollToTopInstant();
+            }}
+          >
             Back to Categories
           </Button>
         </div>
@@ -160,11 +166,12 @@ const CategoryPage = () => {
                   <button
                     key={sub.id}
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
                       navigate(
                         `/category/${categoryId}/subcategory/${sub.id}`
-                      )
-                    }
+                      );
+                      scrollToTopInstant();
+                    }}
                     className="group inline-flex items-center gap-1 rounded-full border border-primary/20 bg-background px-3 py-1.5 text-left text-xs font-medium text-foreground shadow-sm transition-all hover:border-primary/40 hover:bg-primary hover:text-primary-foreground hover:shadow-md sm:text-sm"
                   >
                     <span className="max-w-[10rem] truncate sm:max-w-[14rem]">
@@ -194,11 +201,12 @@ const CategoryPage = () => {
                 <Card
                   key={subcategory.id}
                   className="group hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 bg-white hover:border-primary/40 h-full flex flex-col"
-                  onClick={() =>
+                  onClick={() => {
                     navigate(
                       `/category/${categoryId}/subcategory/${subcategory.id}`
-                    )
-                  }
+                    );
+                    scrollToTopInstant();
+                  }}
                 >
                   <CardContent className="p-0 flex flex-col h-full">
                     <div className="relative overflow-hidden">
@@ -239,6 +247,7 @@ const CategoryPage = () => {
                           navigate(
                             `/category/${categoryId}/subcategory/${subcategory.id}`
                           );
+                          scrollToTopInstant();
                         }}
                       >
                         Shop Now
@@ -255,7 +264,10 @@ const CategoryPage = () => {
         <div className="text-center mt-8 sm:mt-12">
           <Button
             size="lg"
-            onClick={() => navigate(`/category/${categoryId}/all-products`)}
+            onClick={() => {
+              navigate(`/category/${categoryId}/all-products`);
+              scrollToTopInstant();
+            }}
             className="px-8 h-12 bg-primary hover:bg-primary/90 text-white font-semibold shadow-md hover:shadow-lg"
           >
             View All {category.name} Products

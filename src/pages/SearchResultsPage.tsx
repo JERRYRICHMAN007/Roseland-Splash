@@ -33,6 +33,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { categoriesData, type Product } from "@/data/categories";
+import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
 function findProductByLocation(
   categoryId: string,
@@ -103,6 +104,7 @@ const SearchResultsPage = () => {
     }
 
     navigate(targetPath, { replace: false });
+    scrollToTopInstant();
   };
 
   const handleAddToCart = (e: React.MouseEvent, result: any) => {
@@ -309,7 +311,13 @@ const SearchResultsPage = () => {
                     We couldn't find any products matching "{searchQuery}". Try
                     different keywords or explore our categories.
                   </p>
-                  <Button onClick={() => navigate("/categories")} className="px-6">
+                  <Button
+                    onClick={() => {
+                      navigate("/categories");
+                      scrollToTopInstant();
+                    }}
+                    className="px-6"
+                  >
                     Browse All Categories
                   </Button>
                 </div>
@@ -328,7 +336,13 @@ const SearchResultsPage = () => {
                     Use the search bar in the header to find products,
                     categories, and more.
                   </p>
-                  <Button onClick={() => navigate("/categories")} className="px-6">
+                  <Button
+                    onClick={() => {
+                      navigate("/categories");
+                      scrollToTopInstant();
+                    }}
+                    className="px-6"
+                  >
                     Browse All Categories
                   </Button>
                 </div>
