@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Heart, Loader2 } from "lucide-react";
 import { addWishlistItem } from "@/services/wishlistService";
 import { useToast } from "@/hooks/use-toast";
@@ -8,9 +9,15 @@ import { useAuth } from "@/contexts/AuthContext";
 interface WishlistButtonProps {
   categoryId: string;
   categoryName: string;
+  /** Merged onto the “Suggest an Item” trigger button. */
+  triggerClassName?: string;
 }
 
-const WishlistButton = ({ categoryId, categoryName }: WishlistButtonProps) => {
+const WishlistButton = ({
+  categoryId,
+  categoryName,
+  triggerClassName,
+}: WishlistButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
@@ -71,7 +78,7 @@ const WishlistButton = ({ categoryId, categoryName }: WishlistButtonProps) => {
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className="gap-2"
+        className={cn("gap-2", triggerClassName)}
       >
         <Heart className="h-4 w-4" />
         Suggest an Item

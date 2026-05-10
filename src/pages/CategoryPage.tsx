@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ChevronRight, LayoutGrid } from "lucide-react";
+import { ArrowLeft, LayoutGrid } from "lucide-react";
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -63,105 +63,77 @@ const CategoryPage = () => {
       <Header />
 
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
-        {/* Header */}
-        <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
-          <Button
-            variant="secondary"
-            size="icon"
-            onClick={() => navigate("/categories")}
-            className="flex-shrink-0 bg-secondary/80 hover:bg-primary hover:text-primary-foreground hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-          <div className="flex-1">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">
-              {category.name}
-            </h1>
-            <p className="text-sm sm:text-base text-muted-foreground">
-              {category.description}
-            </p>
-            <p className="text-xs sm:text-sm text-primary font-medium">
-              {totalProducts} products across {category.subcategories.length}{" "}
-              subcategories
-            </p>
-          </div>
-        </div>
-
-        {/* Category Hero Image */}
-        <div className="relative mb-8 sm:mb-12">
-          <div className="h-40 sm:h-64 rounded-xl overflow-hidden">
+        {/* Category header — glassmorphism hero banner */}
+        <header className="mb-6 sm:mb-10">
+          <div className="relative min-h-[220px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a3a2a] via-[#2d5a3d] to-[#1a3a2a] shadow-[var(--shadow-elevated)]">
             <img
               src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover"
+              alt=""
+              className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
+              aria-hidden
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 text-white">
-              <h2 className="text-lg sm:text-2xl font-bold">{category.name}</h2>
-              <p className="text-sm text-white/90 hidden sm:block">
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/50 to-black/70"
+              aria-hidden
+            />
+            <div className="relative z-10 flex flex-col gap-3 p-6 sm:p-8">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate("/categories");
+                    scrollToTopInstant();
+                  }}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/25"
+                  aria-label="Back to all categories"
+                >
+                  <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
+                </button>
+                <span className="text-xs font-medium uppercase tracking-widest text-white/60">
+                  Category
+                </span>
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                {category.name}
+              </h1>
+              <p className="max-w-2xl text-sm leading-relaxed text-white/70 sm:text-sm">
                 {category.description}
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Subcategories Grid */}
-        <div className="space-y-6 sm:space-y-8">
-          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-background to-emerald-50/40 shadow-md ring-1 ring-black/[0.03] dark:ring-white/[0.06]">
-            <div
-              className="pointer-events-none absolute -left-12 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl"
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-400/15 blur-2xl"
-              aria-hidden
-            />
-            <div className="relative flex flex-col gap-6 p-5 sm:p-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-              <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 ring-4 ring-primary/15">
-                  <LayoutGrid className="h-7 w-7" strokeWidth={2} aria-hidden />
+              <div
+                className="flex flex-wrap gap-2 pt-1"
+                role="status"
+                aria-label={`${totalProducts} products in ${category.subcategories.length} subcategories`}
+              >
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400"
+                    aria-hidden
+                  />
+                  <span className="tabular-nums">{totalProducts}</span>
+                  <span className="text-white/80">
+                    {totalProducts === 1 ? "product" : "products"}
+                  </span>
                 </div>
-                <div className="min-w-0 text-left">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
-                    Shop by area
-                  </p>
-                  <h2 className="mt-1.5 text-xl font-bold tracking-tight text-foreground sm:text-2xl lg:text-3xl">
-                    Browse subcategories
-                  </h2>
-                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    Explore collections inside{" "}
-                    <span className="font-semibold text-foreground">
-                      {category.name}
-                    </span>
-                    —each section groups related products so you can go straight to
-                    what you need.
-                  </p>
-                </div>
-              </div>
-              <div className="flex shrink-0 flex-wrap gap-3 sm:justify-end lg:flex-col lg:items-stretch">
-                <div className="flex min-w-[7.5rem] flex-1 flex-col rounded-xl border border-primary/15 bg-card/90 px-4 py-3 text-center shadow-sm backdrop-blur-sm sm:flex-none">
-                  <span className="text-2xl font-bold tabular-nums text-foreground sm:text-3xl">
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur">
+                  <LayoutGrid
+                    className="h-3.5 w-3.5 shrink-0 text-white/80"
+                    strokeWidth={2}
+                    aria-hidden
+                  />
+                  <span className="tabular-nums">
                     {category.subcategories.length}
                   </span>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    {category.subcategories.length === 1 ? "Section" : "Sections"}
-                  </span>
-                </div>
-                <div className="flex min-w-[7.5rem] flex-1 flex-col rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center shadow-sm backdrop-blur-sm sm:flex-none">
-                  <span className="text-2xl font-bold tabular-nums text-primary sm:text-3xl">
-                    {totalProducts}
-                  </span>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    Products
+                  <span className="text-white/80">
+                    {category.subcategories.length === 1
+                      ? "subcategory"
+                      : "subcategories"}
                   </span>
                 </div>
               </div>
-            </div>
-            <div className="relative border-t border-primary/10 bg-muted/30 px-4 py-4 sm:px-7 sm:py-4">
-              <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Jump to
-              </p>
-              <div className="flex flex-wrap gap-2">
+              <nav
+                aria-label="Subcategories"
+                className="flex flex-wrap gap-2 pt-2 sm:gap-2.5"
+              >
                 {category.subcategories.map((sub) => (
                   <button
                     key={sub.id}
@@ -172,21 +144,20 @@ const CategoryPage = () => {
                       );
                       scrollToTopInstant();
                     }}
-                    className="group inline-flex items-center gap-1 rounded-full border border-primary/20 bg-background px-3 py-1.5 text-left text-xs font-medium text-foreground shadow-sm transition-all hover:border-primary/40 hover:bg-primary hover:text-primary-foreground hover:shadow-md sm:text-sm"
+                    className="rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-left text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/20"
                   >
-                    <span className="max-w-[10rem] truncate sm:max-w-[14rem]">
+                    <span className="max-w-[12rem] truncate sm:max-w-[16rem]">
                       {sub.name}
                     </span>
-                    <ChevronRight
-                      className="h-3.5 w-3.5 shrink-0 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:opacity-100"
-                      aria-hidden
-                    />
                   </button>
                 ))}
-              </div>
+              </nav>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+        </header>
+
+        {/* Subcategories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {category.subcategories.map((subcategory) => {
               const productCount =
                 subcategory.subcategories &&
@@ -257,7 +228,6 @@ const CategoryPage = () => {
                 </Card>
               );
             })}
-          </div>
         </div>
 
         {/* Quick Shop All Button */}
