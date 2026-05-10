@@ -115,28 +115,27 @@ const SubcategoryPage = () => {
     category.name
   );
 
-  const tagsPillText = `🌿 ${footerTagA} · ${footerTagB}`;
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
-        {/* Merged glass hero — image + overlay + header content */}
+        {/* Merged glass hero: image + overlay + all header content */}
         <section
-          className="relative mb-6 min-h-[220px] overflow-hidden rounded-2xl sm:mb-8"
-          aria-labelledby="subcategory-heading"
+          className="relative mb-8 min-h-[220px] overflow-hidden rounded-2xl sm:mb-10 sm:min-h-[240px]"
+          aria-labelledby="subcategory-hero-heading"
         >
           <img
             src={subcategory.image}
-            alt={subcategory.name}
+            alt=""
             className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            aria-hidden
           />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a1a0f]/90 via-[#0a1a0f]/30 to-[#0a1a0f]/40"
             aria-hidden
           />
-          <div className="relative z-10 flex min-h-[220px] flex-col justify-between p-6">
+          <div className="relative z-10 flex min-h-[220px] flex-col justify-between p-6 sm:min-h-[240px]">
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
@@ -150,7 +149,7 @@ const SubcategoryPage = () => {
                 <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
               </button>
               <nav
-                className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs"
+                className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs"
                 aria-label="Breadcrumb"
               >
                 <button
@@ -166,35 +165,37 @@ const SubcategoryPage = () => {
                 <span className="text-white/40" aria-hidden>
                   →
                 </span>
-                <span className="text-white/60">{subcategory.name}</span>
+                <span className="text-xs text-white/60">{subcategory.name}</span>
               </nav>
             </div>
 
-            <div className="mt-8 flex flex-col items-start gap-4 sm:mt-6 sm:flex-row sm:items-end sm:justify-between">
-              <div className="min-w-0 max-w-xl">
+            <div className="mt-8 flex min-h-0 flex-1 flex-col items-start gap-4 sm:mt-6 sm:flex-row sm:items-end sm:justify-between">
+              <div className="min-w-0 max-w-full sm:max-w-[65%]">
                 <h1
-                  id="subcategory-heading"
+                  id="subcategory-hero-heading"
                   className="text-2xl font-bold tracking-tight text-white"
                 >
                   {subcategory.name}
                 </h1>
-                <p className="mt-1 text-sm text-white/65">
+                <p className="mt-1 text-sm leading-relaxed text-white/65">
                   {subcategory.description}
                 </p>
               </div>
               <div className="flex w-full shrink-0 flex-col items-stretch gap-2 sm:w-auto sm:items-end">
-                <div className="inline-flex items-center gap-1.5 self-start rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold text-white backdrop-blur-md sm:self-end">
+                <div className="inline-flex w-fit max-w-full items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
                   <span
                     className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]"
                     aria-hidden
                   />
                   <span className="tabular-nums">{productTotal}</span>
-                  <span className="font-bold">
-                    {productTotal === 1 ? "product" : "products"} available
+                  <span className="font-bold text-white/90">
+                    {productTotal === 1 ? "product" : "products"}
                   </span>
                 </div>
-                <div className="max-w-full self-start rounded-full border border-white/15 bg-white/10 px-3 py-1 text-left text-[10px] leading-snug text-white/75 backdrop-blur-md sm:max-w-[20rem] sm:self-end">
-                  <span className="line-clamp-2">{tagsPillText}</span>
+                <div className="inline-flex max-w-full items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] leading-snug text-white/75 backdrop-blur-md">
+                  <span className="truncate">
+                    🌿 {footerTagA} · {footerTagB}
+                  </span>
                 </div>
               </div>
             </div>
@@ -204,7 +205,7 @@ const SubcategoryPage = () => {
         {/* Wishlist Feature Section */}
         {hasWishlistFeature && (
           <div className="mb-8 overflow-hidden rounded-2xl border border-[#e5e9e5] bg-white sm:mb-12">
-            <div className="flex items-start justify-between gap-4 p-5">
+            <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex min-w-0 flex-1 items-start gap-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-pink-200 bg-[#fdf2f8] text-lg text-pink-400">
                   <Heart className="h-5 w-5" strokeWidth={2} aria-hidden />
@@ -213,7 +214,7 @@ const SubcategoryPage = () => {
                   <h3 className="text-sm font-bold text-[#0f1a0f]">
                     Wishlist Feature
                   </h3>
-                  <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                  <p className="mt-1 text-xs leading-relaxed text-[#5c6b5c]">
                     Suggest items or flavors you&apos;d like to see in this
                     category!
                   </p>
@@ -228,13 +229,14 @@ const SubcategoryPage = () => {
                 View Wishlist
               </button>
             </div>
-            <div className="flex flex-col gap-3 border-t border-gray-100 bg-gray-50/70 px-5 py-3 sm:flex-row sm:items-center">
+
+            <div className="flex flex-col gap-3 border-t border-[#e5e9e5] bg-[#f4f6f4]/80 px-5 py-3 sm:flex-row sm:items-center">
               <WishlistButton
                 categoryId={subcategoryId!}
                 categoryName={subcategory.name}
-                triggerClassName="h-auto rounded-full border border-[#e5e9e5] bg-white px-4 py-1.5 text-xs font-medium text-[#1a3a2a] shadow-none hover:border-[#16a34a] hover:bg-white hover:text-[#1a3a2a]"
+                triggerClassName="h-auto rounded-full border border-[#e5e9e5] bg-white px-4 py-1.5 text-xs font-medium text-[#1a3a2a] shadow-none hover:border-[#16a34a] hover:bg-white"
               />
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[#7a887a]">
                 Share your ideas for new products or flavours
               </p>
             </div>

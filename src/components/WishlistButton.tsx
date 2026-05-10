@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Heart, Loader2 } from "lucide-react";
 import { addWishlistItem } from "@/services/wishlistService";
 import { useToast } from "@/hooks/use-toast";
@@ -9,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 interface WishlistButtonProps {
   categoryId: string;
   categoryName: string;
-  /** Merged onto the “Suggest an Item” trigger button. */
+  /** Optional classes for the “Suggest an Item” trigger (merged with defaults). */
   triggerClassName?: string;
 }
 
@@ -78,7 +77,7 @@ const WishlistButton = ({
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className={cn("gap-2", triggerClassName)}
+        className={["gap-2", triggerClassName].filter(Boolean).join(" ")}
       >
         <Heart className="h-4 w-4" />
         Suggest an Item
