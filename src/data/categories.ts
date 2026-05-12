@@ -84,6 +84,8 @@ import topChocoSachetImage from "@/assets/Top choco sachet.png";
 import laughingCowImage from "@/assets/The laughing Cheese.jpeg";
 import laughingCowSachetImage from "@/assets/Laughing_Cow_Rs_10_sachet.avif";
 import alaskaCondensedMilkImage from "@/assets/Alaska Condensed Milk.jpg";
+import popularMilkProductImage from "@/assets/Popular Milk.jpg";
+import popularMilkPackBulkImage from "@/assets/popular-milk-pack-bulk.png";
 import jagoCondensedMilkMediumImage from "@/assets/jago condensed milk big.jpeg";
 import jagoCondensedMilkBigImage from "@/assets/jago condensed milk big.jpg";
 import belAquaSmallImage from "@/assets/330ml-300x300.png";
@@ -467,6 +469,7 @@ import chocolateVelvetCakeImage from "@/assets/Chocolate-Velvet Cake in Cup.png"
 import chocolateVanillaCakeImage from "@/assets/Chocolate-Vanilla Cake in Cup.png";
 import chocolateStrawberryCakeImage from "@/assets/Chocolate-Strawberry Cake in Cup.png";
 import orangeJuiceImage from "@/assets/fresh-orange-juice-in-a-glass-jar-over-white-woode-2024-10-18-08-42-12-utc.jpg";
+import appleJuiceProductImage from "@/assets/apple-juice-mason-jar.png";
 import pineappleJuiceImage from "@/assets/fresh-summer-pineapple-juice-2024-10-11-07-45-36-utc.jpg";
 import pineappleGingerJuiceImage from "@/assets/pineapple-juice-and-slice-placed-on-a-wooden-table-2024-10-18-00-23-05-utc.jpg";
 import mixedFruitJuiceImage from "@/assets/plum-and-grape-fruit-juice-in-glass-bottles-2025-02-11-15-06-45-utc.jpg";
@@ -504,7 +507,14 @@ import idealMilkProductImage from "@/assets/ideal-milk-product.jpg";
 import carnationMilkProductImage from "@/assets/carnation-milk-product.jpg";
 import enapaPowderedMilkImage from "@/assets/enapa-powdered-milk.jpg";
 import nidoPowderedMilkImage from "@/assets/nido-powdered-milk.avif";
-import proteinPowderBoostImage from "@/assets/Protein Powder Boost.jpg";
+import gymBananaPeanutButterKenkeyImage from "@/assets/gym-banana-peanut-butter-kenkey.png";
+import gymBananaKenkeyImage from "@/assets/gym-banana-kenkey.png";
+import gymBananaChiaKenkeyImage from "@/assets/gym-banana-chia-kenkey.png";
+import gymProteinPowderKenkeyImage from "@/assets/gym-protein-powder-kenkey.png";
+import gymProteinPowderKenkeyBananaImage from "@/assets/gym-protein-powder-kenkey-banana.png";
+import gymMixedBerriesKenkeyImage from "@/assets/gym-mixed-berries-kenkey.png";
+import gymGranolaYoghurtKenkeyImage from "@/assets/gym-granola-yoghurt-kenkey.png";
+import smoothieBananaMilkImage from "@/assets/smoothie-banana-milk.png";
 
 /**
  * Ghana-style bundle pricing: e.g. "3 peppers for 5 cedis".
@@ -2098,14 +2108,14 @@ export const categoriesData: Category[] = [
             id: "apple-juice",
             name: "Apple",
             description: "Fresh apple juice",
-            image: orangeJuiceImage,
+            image: appleJuiceProductImage,
             products: [
               {
                 id: 356,
                 name: "Apple Juice",
                 price: 12.0,
                 unit: "per bottle",
-                image: orangeJuiceImage,
+                image: appleJuiceProductImage,
                 description: "Fresh and refreshing apple juice",
                 inStock: true,
               },
@@ -2308,14 +2318,14 @@ export const categoriesData: Category[] = [
             id: "banana-milk-smoothie",
             name: "Banana + Milk Smoothie",
             description: "Simple banana and milk smoothie",
-            image: bananaSmoothieImage,
+            image: smoothieBananaMilkImage,
             products: [
               {
                 id: 358,
                 name: "Banana + Milk Smoothie",
                 price: 12.0,
                 unit: "per cup",
-                image: bananaSmoothieImage,
+                image: smoothieBananaMilkImage,
                 description:
                   "Simple and delicious banana blended with fresh milk",
                 inStock: true,
@@ -2326,7 +2336,7 @@ export const categoriesData: Category[] = [
                     price: 12.0,
                     unit: "per cup",
                     inStock: true,
-                    image: bananaSmoothieImage,
+                    image: smoothieBananaMilkImage,
                   },
                 ],
               },
@@ -2471,7 +2481,7 @@ export const categoriesData: Category[] = [
             name: "Banana + Peanut Butter + Kenkey",
             price: 25.0,
             unit: "from",
-            image: bananaPawpawAlmondImage,
+            image: gymBananaPeanutButterKenkeyImage,
             description:
               "Kenkey blended with banana and peanut butter — choose your milk type",
             inStock: true,
@@ -2482,7 +2492,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaPeanutButterKenkeyImage,
               },
               {
                 id: "bpbk-almond",
@@ -2490,7 +2500,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaPeanutButterKenkeyImage,
               },
               {
                 id: "bpbk-coconut",
@@ -2498,7 +2508,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaPeanutButterKenkeyImage,
               },
               {
                 id: "bpbk-yoghurt",
@@ -2506,7 +2516,7 @@ export const categoriesData: Category[] = [
                 price: 26.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaPeanutButterKenkeyImage,
               },
             ],
           },
@@ -2515,7 +2525,7 @@ export const categoriesData: Category[] = [
             name: "Banana + Kenkey",
             price: 20.0,
             unit: "from",
-            image: bananaPawpawAlmondImage,
+            image: gymBananaKenkeyImage,
             description:
               "Simple and nourishing kenkey blended with banana — choose your milk type",
             inStock: true,
@@ -2526,7 +2536,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaKenkeyImage,
               },
               {
                 id: "bk-almond",
@@ -2534,7 +2544,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaKenkeyImage,
               },
               {
                 id: "bk-coconut",
@@ -2542,7 +2552,7 @@ export const categoriesData: Category[] = [
                 price: 22.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaKenkeyImage,
               },
               {
                 id: "bk-yoghurt",
@@ -2550,7 +2560,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaKenkeyImage,
               },
             ],
           },
@@ -2559,7 +2569,7 @@ export const categoriesData: Category[] = [
             name: "Banana + Chia Seeds + Kenkey",
             price: 24.0,
             unit: "from",
-            image: bananaPawpawAlmondImage,
+            image: gymBananaChiaKenkeyImage,
             description:
               "Kenkey with banana and chia seeds for extra nutrition — choose your milk type",
             inStock: true,
@@ -2570,7 +2580,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaChiaKenkeyImage,
               },
               {
                 id: "bck-almond",
@@ -2578,7 +2588,7 @@ export const categoriesData: Category[] = [
                 price: 26.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaChiaKenkeyImage,
               },
               {
                 id: "bck-coconut",
@@ -2586,7 +2596,7 @@ export const categoriesData: Category[] = [
                 price: 26.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaChiaKenkeyImage,
               },
               {
                 id: "bck-yoghurt",
@@ -2594,7 +2604,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaPawpawAlmondImage,
+                image: gymBananaChiaKenkeyImage,
               },
             ],
           },
@@ -2603,7 +2613,7 @@ export const categoriesData: Category[] = [
             name: "Protein Powder + Kenkey",
             price: 28.0,
             unit: "from",
-            image: proteinPowderBoostImage,
+            image: gymProteinPowderKenkeyImage,
             description:
               "High protein kenkey blend for gym enthusiasts — choose your milk type",
             inStock: true,
@@ -2614,7 +2624,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyImage,
               },
               {
                 id: "ppk-almond",
@@ -2622,7 +2632,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyImage,
               },
               {
                 id: "ppk-coconut",
@@ -2630,7 +2640,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyImage,
               },
               {
                 id: "ppk-yoghurt",
@@ -2638,7 +2648,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyImage,
               },
             ],
           },
@@ -2647,7 +2657,7 @@ export const categoriesData: Category[] = [
             name: "Protein Powder + Kenkey + Banana",
             price: 30.0,
             unit: "from",
-            image: proteinPowderBoostImage,
+            image: gymProteinPowderKenkeyBananaImage,
             description:
               "Power-packed kenkey with protein powder and banana — choose your milk type",
             inStock: true,
@@ -2658,7 +2668,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyBananaImage,
               },
               {
                 id: "ppkb-almond",
@@ -2666,7 +2676,7 @@ export const categoriesData: Category[] = [
                 price: 32.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyBananaImage,
               },
               {
                 id: "ppkb-coconut",
@@ -2674,7 +2684,7 @@ export const categoriesData: Category[] = [
                 price: 32.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyBananaImage,
               },
               {
                 id: "ppkb-yoghurt",
@@ -2682,7 +2692,7 @@ export const categoriesData: Category[] = [
                 price: 31.0,
                 unit: "per cup",
                 inStock: true,
-                image: proteinPowderBoostImage,
+                image: gymProteinPowderKenkeyBananaImage,
               },
             ],
           },
@@ -2691,7 +2701,7 @@ export const categoriesData: Category[] = [
             name: "Mixed Berries + Kenkey",
             price: 26.0,
             unit: "from",
-            image: mixedBerrySmoothieImage,
+            image: gymMixedBerriesKenkeyImage,
             description:
               "Antioxidant-rich mixed berries blended with kenkey — choose your milk type",
             inStock: true,
@@ -2702,7 +2712,7 @@ export const categoriesData: Category[] = [
                 price: 26.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: gymMixedBerriesKenkeyImage,
               },
               {
                 id: "mbk-almond",
@@ -2710,7 +2720,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: gymMixedBerriesKenkeyImage,
               },
               {
                 id: "mbk-coconut",
@@ -2718,7 +2728,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: gymMixedBerriesKenkeyImage,
               },
               {
                 id: "mbk-yoghurt",
@@ -2726,7 +2736,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: gymMixedBerriesKenkeyImage,
               },
             ],
           },
@@ -2735,7 +2745,7 @@ export const categoriesData: Category[] = [
             name: "Granola + Yoghurt + Kenkey",
             price: 24.0,
             unit: "from",
-            image: mangoAvocadoSesameImage,
+            image: gymGranolaYoghurtKenkeyImage,
             description:
               "Crunchy granola with creamy yoghurt and kenkey — a complete gym meal",
             inStock: true,
@@ -2746,7 +2756,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per cup",
                 inStock: true,
-                image: mangoAvocadoSesameImage,
+                image: gymGranolaYoghurtKenkeyImage,
               },
               {
                 id: "gyk-large",
@@ -2754,7 +2764,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per cup",
                 inStock: true,
-                image: mangoAvocadoSesameImage,
+                image: gymGranolaYoghurtKenkeyImage,
               },
             ],
           },
@@ -3449,7 +3459,7 @@ export const categoriesData: Category[] = [
             name: "Popular Milk",
             price: 5.0,
             unit: "from",
-            image: alaskaCondensedMilkImage,
+            image: popularMilkProductImage,
             description: "Popular evaporated milk — available in tins and packs",
             inStock: true,
             variants: [
@@ -3459,7 +3469,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per tin",
                 inStock: true,
-                image: alaskaCondensedMilkImage,
+                image: popularMilkProductImage,
               },
               {
                 id: "popular-pack",
@@ -3467,7 +3477,7 @@ export const categoriesData: Category[] = [
                 price: 55.0,
                 unit: "per pack",
                 inStock: true,
-                image: alaskaCondensedMilkImage,
+                image: popularMilkPackBulkImage,
               },
             ],
           },
