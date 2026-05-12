@@ -494,6 +494,9 @@ import bananaMashedkeImage from "@/assets/Banana Flavoured MashedKe.png";
 import strawberryMashedkeImage from "@/assets/Strawberry Flavoured MashedKe.png";
 import peanutMashedkeImage from "@/assets/Peanut Flavoured MashedKe.png";
 import tigernutMashedkeImage from "@/assets/Tigernut Flavoured MashedKe.png";
+import mashedkeBlueberriesKenkeyMilkImage from "@/assets/mashedke-blueberries-kenkey-milk.png";
+import mashedkeBananaPeanutKenkeyMilkImage from "@/assets/mashedke-banana-peanut-kenkey-milk.png";
+import mashedkeTigernutCoconutKenkeyMilkImage from "@/assets/mashedke-tigernut-coconut-kenkey-milk.png";
 import kenkeyMilkSugarImage from "@/assets/Kenkey + milk + sugar.png";
 import brownSugarProductImage from "@/assets/brown-sugar-product.jpg";
 import whiteSugarProductImage from "@/assets/white-sugar-product.jpg";
@@ -3087,7 +3090,7 @@ export const categoriesData: Category[] = [
             name: "Blueberries + Kenkey + Milk",
             price: 24.0,
             unit: "from",
-            image: mixedBerrySmoothieImage,
+            image: mashedkeBlueberriesKenkeyMilkImage,
             description:
               "Fresh blueberries blended with kenkey and your choice of milk",
             inStock: true,
@@ -3098,7 +3101,7 @@ export const categoriesData: Category[] = [
                 price: 29.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: mashedkeBlueberriesKenkeyMilkImage,
               },
               {
                 id: "blk-350",
@@ -3106,7 +3109,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: mashedkeBlueberriesKenkeyMilkImage,
               },
               {
                 id: "blk-250",
@@ -3114,7 +3117,7 @@ export const categoriesData: Category[] = [
                 price: 19.0,
                 unit: "per cup",
                 inStock: true,
-                image: mixedBerrySmoothieImage,
+                image: mashedkeBlueberriesKenkeyMilkImage,
               },
             ],
           },
@@ -3123,7 +3126,7 @@ export const categoriesData: Category[] = [
             name: "Kenkey + Banana + Peanut + Milk",
             price: 25.0,
             unit: "from",
-            image: bananaDatesPeanutButterImage,
+            image: mashedkeBananaPeanutKenkeyMilkImage,
             description: "A protein-rich blend of kenkey, banana and peanut",
             inStock: true,
             variants: [
@@ -3133,7 +3136,7 @@ export const categoriesData: Category[] = [
                 price: 30.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaDatesPeanutButterImage,
+                image: mashedkeBananaPeanutKenkeyMilkImage,
               },
               {
                 id: "kbpm-350",
@@ -3141,7 +3144,7 @@ export const categoriesData: Category[] = [
                 price: 25.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaDatesPeanutButterImage,
+                image: mashedkeBananaPeanutKenkeyMilkImage,
               },
               {
                 id: "kbpm-250",
@@ -3149,7 +3152,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per cup",
                 inStock: true,
-                image: bananaDatesPeanutButterImage,
+                image: mashedkeBananaPeanutKenkeyMilkImage,
               },
             ],
           },
@@ -3158,7 +3161,7 @@ export const categoriesData: Category[] = [
             name: "Tigernut + Coconut + Kenkey + Milk",
             price: 26.0,
             unit: "from",
-            image: coconutHoneyCashewImage,
+            image: mashedkeTigernutCoconutKenkeyMilkImage,
             description:
               "A unique blend of tigernut, coconut and kenkey — naturally sweet and creamy",
             inStock: true,
@@ -3169,7 +3172,7 @@ export const categoriesData: Category[] = [
                 price: 31.0,
                 unit: "per cup",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: mashedkeTigernutCoconutKenkeyMilkImage,
               },
               {
                 id: "tckm-350",
@@ -3177,7 +3180,7 @@ export const categoriesData: Category[] = [
                 price: 26.0,
                 unit: "per cup",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: mashedkeTigernutCoconutKenkeyMilkImage,
               },
               {
                 id: "tckm-250",
@@ -3185,7 +3188,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per cup",
                 inStock: true,
-                image: coconutHoneyCashewImage,
+                image: mashedkeTigernutCoconutKenkeyMilkImage,
               },
             ],
           },
