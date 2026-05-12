@@ -44,7 +44,7 @@ import ongaChickenImage from "@/assets/Onga Chicken.jpg";
 import ongaSoupImage from "@/assets/Onga Soup.jpg";
 import ongaTabletImage from "@/assets/onga tablet.jpg";
 import curryPowderImage from "@/assets/curry powder.jpg";
-import garlicGingerMixImage from "@/assets/Remie-Gingger-and-Garlic-Seasoning-Powder-square_jpg.jpg";
+import garlicGingerSeasoningPasteImage from "@/assets/Garlic and ginger paste.jpeg";
 import remieBeefImage from "@/assets/remie beef.png";
 import remieChickenImage from "@/assets/remie chicken.jpg";
 import remieGoatImage from "@/assets/remie goat.jpg";
@@ -160,12 +160,21 @@ import yazzPurpleSanitaryPadImage from "@/assets/yazzpurplesnaitarypad.jpg";
 import yazzBlueSanitaryPadImage from "@/assets/yazzbluesnaitarypad.jpg";
 import softcareYellowSanitaryPadImage from "@/assets/softcare yellow snaitary pad.jpg";
 import softcarePurpleSanitaryPadImage from "@/assets/softcare purple snaitary pad.jpg";
-import bathingSoapMoisturizingImage from "@/assets/1 (1).jpg";
-import bathingSoapAntibacterialImage from "@/assets/bathing soap antibacterial.jpg";
-import washingSoapDetergentImage from "@/assets/washing soap detergent.png";
-import washingSoapBleachImage from "@/assets/washing soap bleach.jpg";
-import liquidSoapMoisturizingImage from "@/assets/liquid soap moisturizing.jpg";
-import handSoapAntibacterialImage from "@/assets/handsoapantibacterial.png";
+import geishaCoconutMilkHoneyImage from "@/assets/Geisha.jpeg";
+import geishaSheaButterHoneyImage from "@/assets/Geisha Shea Butter & Honey.png";
+import luxSoftRoseImage from "@/assets/Lux Soft Rose.jpg";
+import lifebuoyTotalAntibacterialImage from "@/assets/Lifebuoy Total Antibacterial.jpg";
+import dettolOriginalAntibacterialBarImage from "@/assets/Dettol Original Antibacterial Bar.jpg";
+import keySoapMultipurposeBarImage from "@/assets/Key Soap Multipurpose Bar.jpg";
+import keyAdepaMultipurposeBarImage from "@/assets/Key Adepa Multipurpose Bar.jpg";
+import omoDetergentPowderImage from "@/assets/OMO Detergent Powder.jpg";
+import sunlightBarSoapImage from "@/assets/Sunlight Bar Soap.jpg";
+import kleesoftDetergentPowderImage from "@/assets/Kleesoft Detergent Powder.jpg";
+import carexOriginalAntibacterialImage from "@/assets/Carex Original Antibacterial.jpg";
+import carexAloeVeraImage from "@/assets/Carex Aloe Vera.jpg";
+import dettolLiquidHandWashOriginalImage from "@/assets/Dettol Liquid Hand Wash Original.jpg";
+import dettolLiquidHandWashSensitiveImage from "@/assets/Dettol Liquid Hand Wash Sensitive.jpg";
+import camelAntisepticHandWashImage from "@/assets/Camel Antiseptic Hand Wash.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import hollandiaPackImage from "@/assets/Holandia-pack.png";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
@@ -370,7 +379,6 @@ const kivoPepper = kivoPepperImage;
 const maggiCube = maggiCubeImage;
 const ongaSeasoning = ongaMaggiImage;
 const curryPowder = curryPowderImage;
-const garlicGingerMix = garlicGingerMixImage;
 const tableSalt = tableSaltImage;
 const palmOil = householdEssentialsImage;
 const cookingOil = householdEssentialsImage;
@@ -459,12 +467,12 @@ import beveragesImage from "@/assets/soft-drinks.jpg";
 import juicesBottledImage from "@/assets/soft-drinks.jpg";
 import biscuitsDisplayImage from "@/assets/biscuits-display.jpg";
 import spicePureeImage from "@/assets/stew-spices.jpg";
-import garlicGingerOnionParsleyImage from "@/assets/Garlic + Ginger + Onion + Parsley.png";
-import tomatoesRedBellPepperImage from "@/assets/Tomatoes + Red Bell Pepper.jpg";
-import onionBlendImage from "@/assets/Onion blend.jpg";
-import freshTomatoesImage from "@/assets/Fresh Tomatoes.jpg";
+import garlicGingerOnionParsleyImage from "@/assets/Garlic onion ginger.jpeg";
+import tomatoesRedBellPepperImage from "@/assets/Tomato + red bell pepper.jpeg";
+import onionBlendImage from "@/assets/Onion puree.jpeg";
+import freshTomatoesImage from "@/assets/Tomato puree.jpeg";
 import freshBonnetPepperImage from "@/assets/Fresh Bonnet Pepper.jpg";
-import bonnetPepperSpringOnionImage from "@/assets/Bonnet Pepper + Spring Onion + Bell Pepper.jpg";
+import bonnetPepperSpringOnionImage from "@/assets/Bonnet +spring onion+ green bell pepper.jpeg";
 import soupBasesImage from "@/assets/stew-base-spices.jpg";
 import groundnutSoupBaseImage from "@/assets/Groundnut Soup Base.jpg";
 import jollofRiceBaseImage from "@/assets/Jollof Rice Base.png";
@@ -3781,7 +3789,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: garlicGingerMix,
+                image: garlicGingerSeasoningPasteImage,
               },
             ],
           },
@@ -6343,7 +6351,7 @@ export const categoriesData: Category[] = [
             name: "Bathing Soap",
             price: 4.0,
             unit: "from",
-            image: bathingSoapMoisturizingImage,
+            image: geishaCoconutMilkHoneyImage,
             description:
               "Popular bathing soap brands available in Ghana — bar soaps for all skin types",
             inStock: true,
@@ -6354,7 +6362,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapMoisturizingImage,
+                image: geishaCoconutMilkHoneyImage,
               },
               {
                 id: "bathing-geisha-shea",
@@ -6362,7 +6370,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapMoisturizingImage,
+                image: geishaSheaButterHoneyImage,
               },
               {
                 id: "bathing-lux-rose",
@@ -6370,7 +6378,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapAntibacterialImage,
+                image: luxSoftRoseImage,
               },
               {
                 id: "bathing-lifebuoy-total",
@@ -6378,7 +6386,7 @@ export const categoriesData: Category[] = [
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapAntibacterialImage,
+                image: lifebuoyTotalAntibacterialImage,
               },
               {
                 id: "bathing-dettol-original",
@@ -6386,7 +6394,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per bar",
                 inStock: true,
-                image: bathingSoapAntibacterialImage,
+                image: dettolOriginalAntibacterialBarImage,
               },
             ],
           },
@@ -6395,7 +6403,7 @@ export const categoriesData: Category[] = [
             name: "Washing Soap",
             price: 10.0,
             unit: "from",
-            image: washingSoapDetergentImage,
+            image: keySoapMultipurposeBarImage,
             description:
               "Popular laundry and washing soap brands in Ghana — bar soaps and detergent powders",
             inStock: true,
@@ -6406,7 +6414,7 @@ export const categoriesData: Category[] = [
                 price: 28.0,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapDetergentImage,
+                image: keySoapMultipurposeBarImage,
               },
               {
                 id: "washing-key-adepa-250g",
@@ -6414,7 +6422,7 @@ export const categoriesData: Category[] = [
                 price: 10.0,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapDetergentImage,
+                image: keyAdepaMultipurposeBarImage,
               },
               {
                 id: "washing-omo-800g",
@@ -6422,7 +6430,7 @@ export const categoriesData: Category[] = [
                 price: 35.0,
                 unit: "per pack",
                 inStock: true,
-                image: washingSoapBleachImage,
+                image: omoDetergentPowderImage,
               },
               {
                 id: "washing-sunlight-700g",
@@ -6430,7 +6438,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapDetergentImage,
+                image: sunlightBarSoapImage,
               },
               {
                 id: "washing-kleesoft-420g",
@@ -6438,7 +6446,7 @@ export const categoriesData: Category[] = [
                 price: 16.0,
                 unit: "per pack",
                 inStock: true,
-                image: washingSoapBleachImage,
+                image: kleesoftDetergentPowderImage,
               },
             ],
           },
@@ -6447,7 +6455,7 @@ export const categoriesData: Category[] = [
             name: "Hand Washing Soap",
             price: 15.0,
             unit: "from",
-            image: handSoapAntibacterialImage,
+            image: carexOriginalAntibacterialImage,
             description:
               "Ghana's most trusted hand wash brands — antibacterial and moisturizing liquid soaps",
             inStock: true,
@@ -6458,7 +6466,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: handSoapAntibacterialImage,
+                image: carexOriginalAntibacterialImage,
               },
               {
                 id: "handwash-carex-aloe",
@@ -6466,7 +6474,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: liquidSoapMoisturizingImage,
+                image: carexAloeVeraImage,
               },
               {
                 id: "handwash-dettol-original",
@@ -6474,7 +6482,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per bottle",
                 inStock: true,
-                image: handSoapAntibacterialImage,
+                image: dettolLiquidHandWashOriginalImage,
               },
               {
                 id: "handwash-dettol-sensitive",
@@ -6482,7 +6490,7 @@ export const categoriesData: Category[] = [
                 price: 20.0,
                 unit: "per bottle",
                 inStock: true,
-                image: liquidSoapMoisturizingImage,
+                image: dettolLiquidHandWashSensitiveImage,
               },
               {
                 id: "handwash-camel-antiseptic",
@@ -6490,7 +6498,7 @@ export const categoriesData: Category[] = [
                 price: 15.0,
                 unit: "per bottle",
                 inStock: true,
-                image: handSoapAntibacterialImage,
+                image: camelAntisepticHandWashImage,
               },
             ],
           },
