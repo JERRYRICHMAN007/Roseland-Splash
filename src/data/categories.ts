@@ -248,7 +248,7 @@ import watermelonPineappleJuiceImage from "@/assets/watermelon-pineapple-juice.j
 import sausageImage from "@/assets/sausage.jpg";
 import sadiaSausageImage from "@/assets/sadia-sausage.jpg";
 import primeSausageImage from "@/assets/prime-sausage.jpg";
-import reefaSausageImage from "@/assets/reefa-sausage.jpg";
+import reefaSausageImage from "@/assets/reefa-sausage.JPG";
 import lebonSausageImage from "@/assets/lebon-sausage.jpeg";
 import searaSausageImage from "@/assets/seara-sausage.jpeg";
 import ripePlantainImage from "@/assets/plantain-ripe.jpg";
