@@ -440,7 +440,7 @@ const SearchResultsPage = () => {
                       : null;
                   const stableKey = `search-list-${result.categoryId}-${result.subcategoryId}-${result.productId}`;
                   if (full) {
-                    return <ProductCard key={stableKey} product={full} />;
+                    return <ProductCard key={stableKey} product={full} display="list" />;
                   }
                   return (
                     <Card

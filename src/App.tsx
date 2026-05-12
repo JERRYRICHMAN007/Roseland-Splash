@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
@@ -38,107 +39,109 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <CartProvider>
-          <OrderProvider>
-            <SearchProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter
-                future={{
-                  v7_startTransition: true,
-                  v7_relativeSplatPath: true,
-                }}
-              >
-                <ScrollToTop />
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/categories" element={<CategoriesPage />} />
-                  <Route
-                    path="/category/:categoryId"
-                    element={<CategoryPage />}
-                  />
-                  <Route
-                    path="/category/:categoryId/subcategory/:subcategoryId"
-                    element={<SubcategoryPage />}
-                  />
-                  <Route
-                    path="/category/:categoryId/all-products"
-                    element={<AllProductsPage />}
-                  />
-                  <Route path="/search" element={<SearchResultsPage />} />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignUpPage />} />
-                  <Route
-                    path="/forgot-password"
-                    element={<ForgotPasswordPage />}
-                  />
-                  <Route
-                    path="/reset-password"
-                    element={<ResetPasswordPage />}
-                  />
-                  <Route path="/auth/callback" element={<AuthCallbackPage />} />
-                  <Route
-                    path="/my-orders"
-                    element={
-                      <ProtectedRoute>
-                        <MyOrdersPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/orders"
-                    element={
-                      <ProtectedRoute>
-                        <MyOrdersPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/account"
-                    element={
-                      <ProtectedRoute>
-                        <AccountPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/checkout"
-                    element={
-                      <ProtectedRoute>
-                        <CheckoutPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route path="/payment/verify" element={<PaymentVerify />} />
-                  <Route
-                    path="/order-confirmation/:orderId"
-                    element={<OrderConfirmationPage />}
-                  />
-                  <Route
-                    path="/track-order/:orderId"
-                    element={<OrderTrackingPage />}
-                  />
-                  <Route
-                    path="/order/:orderId/start-processing"
-                    element={<OrderStatusUpdatePage />}
-                  />
-                  <Route
-                    path="/manager/dashboard"
-                    element={<ManagerDashboard />}
-                  />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <FloatingWishlistButton />
-              </BrowserRouter>
-            </SearchProvider>
-          </OrderProvider>
-        </CartProvider>
-      </AuthProvider>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <TooltipProvider>
+        <AuthProvider>
+          <CartProvider>
+            <OrderProvider>
+              <SearchProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter
+                  future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                  }}
+                >
+                  <ScrollToTop />
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/categories" element={<CategoriesPage />} />
+                    <Route
+                      path="/category/:categoryId"
+                      element={<CategoryPage />}
+                    />
+                    <Route
+                      path="/category/:categoryId/subcategory/:subcategoryId"
+                      element={<SubcategoryPage />}
+                    />
+                    <Route
+                      path="/category/:categoryId/all-products"
+                      element={<AllProductsPage />}
+                    />
+                    <Route path="/search" element={<SearchResultsPage />} />
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPasswordPage />}
+                    />
+                    <Route
+                      path="/reset-password"
+                      element={<ResetPasswordPage />}
+                    />
+                    <Route path="/auth/callback" element={<AuthCallbackPage />} />
+                    <Route
+                      path="/my-orders"
+                      element={
+                        <ProtectedRoute>
+                          <MyOrdersPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/orders"
+                      element={
+                        <ProtectedRoute>
+                          <MyOrdersPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/account"
+                      element={
+                        <ProtectedRoute>
+                          <AccountPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/checkout"
+                      element={
+                        <ProtectedRoute>
+                          <CheckoutPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/payment/verify" element={<PaymentVerify />} />
+                    <Route
+                      path="/order-confirmation/:orderId"
+                      element={<OrderConfirmationPage />}
+                    />
+                    <Route
+                      path="/track-order/:orderId"
+                      element={<OrderTrackingPage />}
+                    />
+                    <Route
+                      path="/order/:orderId/start-processing"
+                      element={<OrderStatusUpdatePage />}
+                    />
+                    <Route
+                      path="/manager/dashboard"
+                      element={<ManagerDashboard />}
+                    />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                  <FloatingWishlistButton />
+                </BrowserRouter>
+              </SearchProvider>
+            </OrderProvider>
+          </CartProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

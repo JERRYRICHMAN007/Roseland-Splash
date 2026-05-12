@@ -18,6 +18,7 @@ import {
   isProductInWishlist,
   removeFromGeneralWishlistByProduct,
 } from "@/services/generalWishlistService";
+import { cn } from "@/lib/utils";
 
 interface ProductVariant {
   id: string;
@@ -45,9 +46,11 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
+  /** Compact horizontal layout for search list view */
+  display?: "grid" | "list";
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
   const [selectedVariant, setSelectedVariant] = useState<string>(
     product.variants?.[0]?.id || "default"
   );
@@ -229,17 +232,39 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const isOutOfStock = !currentVariant.inStock || !product.inStock;
+  const isList = display === "list";
 
   return (
-    <Card className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] touch-manipulation">
-      <CardContent className="flex h-full flex-1 flex-col p-0">
+    <Card
+      className={cn(
+        "group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] touch-manipulation",
+        isList &&
+          "h-auto hover:translate-y-0 sm:hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)]"
+      )}
+    >
+      <CardContent
+        className={cn(
+          "flex h-full flex-1 flex-col p-0",
+          isList && "sm:flex-row sm:items-stretch"
+        )}
+      >
         {/* Image area */}
-        <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+        <div
+          className={cn(
+            "relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100",
+            isList
+              ? "mx-auto aspect-square w-full max-w-[11rem] shrink-0 sm:mx-0 sm:h-32 sm:w-32 sm:max-w-none sm:aspect-auto md:h-36 md:w-36"
+              : "aspect-square w-full"
+          )}
+        >
           <img
             src={currentVariant.image}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className={cn(
+              "h-full w-full transition-transform duration-500 group-hover:scale-105",
+              isList ? "object-contain p-2" : "object-cover"
+            )}
           />
 
           {/* Wishlist Button - glass */}
@@ -268,9 +293,19 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Content area */}
-        <div className="flex flex-1 flex-col gap-2 p-3.5">
+        <div
+          className={cn(
+            "flex flex-1 flex-col gap-2 p-3.5",
+            isList && "min-w-0 sm:justify-between sm:py-4 sm:pl-0 sm:pr-4"
+          )}
+        >
           {/* Name */}
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
+          <h3
+            className={cn(
+              "line-clamp-2 text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-primary",
+              isList ? "min-h-0" : "min-h-[2.5rem]"
+            )}
+          >
             {product.name}
           </h3>
 

@@ -17,23 +17,40 @@ import householdGenWhiteSugarSackImage from "@/assets/household-gen-white-sugar-
 import householdGenMilkTinsPacksImage from "@/assets/household-gen-milk-tins-packs.png";
 import householdGenPowderMilkSachetsImage from "@/assets/household-gen-powder-milk-sachets.png";
 import householdGenFlavoredMilkPacksImage from "@/assets/household-gen-flavored-milk-packs.png";
+import cowbellCoffeeImage from "@/assets/cowbel coffee.jpg";
+import cowbellStrawberrySachetImage from "@/assets/cowbell strawberry.jpg";
+import cowbellMochaSachetImage from "@/assets/Cowbell Mocha.jpg";
+import cowbellChocomaltSachetImage from "@/assets/Cowbell Chocomalt.jpg";
+import cowbellSweetMilkSachetImage from "@/assets/Sweet Milk.jpg";
+import cowbellFlavoredMilkBoxImage from "@/assets/cowbell coffee box.jpg";
 import householdGenGariPackImage from "@/assets/household-gen-gari-pack.png";
 import householdGenPepperPacksImage from "@/assets/household-gen-pepper-packs.png";
 import householdGenSeasoningCubesImage from "@/assets/household-gen-seasoning-cubes.png";
 import householdGenOngaSachetsImage from "@/assets/household-gen-onga-sachets.png";
 import householdGenRemieSachetsImage from "@/assets/household-gen-remie-sachets.png";
-import householdGenCurryPowderImage from "@/assets/household-gen-curry-powder.png";
 import householdGenRiceBulkImage from "@/assets/household-gen-rice-bulk.png";
 import householdGenTomatoSachetsImage from "@/assets/household-gen-tomato-sachets.png";
 import kivoGariStrawberryImage from "@/assets/53d124_121e6059d4ca445994939368d60ef45f~mv2.png";
 import kivoGariCoconutImage from "@/assets/kivo gari coconut.png";
 import kivoGariGroundnutImage from "@/assets/kivo gari groundnut.png";
+import kivoGariSoakingMixPackImage from "@/assets/Kivo gari pack.jpg";
 import kivoPepperImage from "@/assets/kivo pepper.jpg";
+import kivoPepperPackImage from "@/assets/Kivo peper Pack.jpg";
 import maggiCubeImage from "@/assets/maggi.jpeg";
 import ongaMaggiImage from "@/assets/onga maggi.jpg";
-import onga3MixImage from "@/assets/Onga 3-Mix.png";
-import curryPowderImage from "@/assets/images.jpg";
+import onga3MixImage from "@/assets/Onga 3 mix.jpg";
+import ongaStewImage from "@/assets/Onga Stew.jpg";
+import ongaChickenImage from "@/assets/Onga Chicken.jpg";
+import ongaSoupImage from "@/assets/Onga Soup.jpg";
+import ongaTabletImage from "@/assets/onga tablet.jpg";
+import curryPowderImage from "@/assets/curry powder.jpg";
 import garlicGingerMixImage from "@/assets/Remie-Gingger-and-Garlic-Seasoning-Powder-square_jpg.jpg";
+import remieBeefImage from "@/assets/remie beef.png";
+import remieChickenImage from "@/assets/remie chicken.jpg";
+import remieGoatImage from "@/assets/remie goat.jpg";
+import remieStewImage from "@/assets/remie stew.jpg";
+import remieGarlicImage from "@/assets/remie garlic.png";
+import pateBeefProductImage from "@/assets/pate beef.jpg";
 import tableSaltImage from "@/assets/salt.jpg";
 import frytolPouch900mlImage from "@/assets/900ml-frytol.jpg";
 import frytolBottleImage from "@/assets/images (1).jpg";
@@ -53,6 +70,7 @@ import ekumfiImage from "@/assets/EKUMFI JUICE BY 24 - PACK.png";
 import kalypoImage from "@/assets/Kalypo_Multifruta.jpg";
 import chocolateCookiesImage from "@/assets/Munchee-Chocolate-Chip-Cookies-100g.jpg";
 import digestiveBiscuitImage from "@/assets/mcvities.jpg";
+import shortbreadProductImage from "@/assets/short bread.jpeg";
 import funOBiscuitImage from "@/assets/images.png";
 import nutriSnackImage from "@/assets/86918a.jpg";
 import simplyGoodImage from "@/assets/Simply Good.jpg";
@@ -148,7 +166,6 @@ import washingSoapDetergentImage from "@/assets/washing soap detergent.png";
 import washingSoapBleachImage from "@/assets/washing soap bleach.jpg";
 import liquidSoapMoisturizingImage from "@/assets/liquid soap moisturizing.jpg";
 import handSoapAntibacterialImage from "@/assets/handsoapantibacterial.png";
-import sureSpray150mlImage from "@/assets/Sure Deodorant spray 150ml.jpg";
 import hollandiaImage from "@/assets/hollandia.jpg";
 import hollandiaPackImage from "@/assets/Holandia-pack.png";
 import nicheChocolateImage from "@/assets/NICHE DARK CHOCOLATE 100G-228x228.jpg";
@@ -242,7 +259,7 @@ import sesameSeedImage from "@/assets/SS S.jpg";
 import nutmegPowderImage from "@/assets/Nutmeg.jpg";
 import nutmegSeedImage from "@/assets/He94db293471746ba9047be1e575ea174M.png";
 import gizzardImage from "@/assets/gizzard.jpg";
-import beefStripeImage from "@/assets/beef-stripe.jpg";
+import stripeTowelImage from "@/assets/WhatsApp Image 2026-05-12 at 3.03.52 PM.jpeg";
 import watermelonJuiceImage from "@/assets/watermelon-juice.jpg";
 import watermelonPineappleJuiceImage from "@/assets/watermelon-pineapple-juice.jpg";
 import sausageImage from "@/assets/sausage.jpg";
@@ -284,7 +301,6 @@ import aquaWaterMedium from "@/assets/variants/aqua-water-medium.jpg";
 import aquaWaterLarge from "@/assets/variants/aqua-water-large.jpg";
 import bathingSoapSmall from "@/assets/variants/bathing-soap-small.jpg";
 import washingSoapSmall from "@/assets/variants/washing-soap-small.jpg";
-import liquidSoap250ml from "@/assets/variants/liquid-soap-250ml.jpg";
 import doveRollon50ml from "@/assets/variants/dove-rollon-50ml.jpg";
 import doveRollon100ml from "@/assets/variants/dove-rollon-100ml.jpg";
 import doveSpray100ml from "@/assets/variants/dove-spray-100ml.jpg";
@@ -353,13 +369,11 @@ const kivoGariGroundnut = kivoGariGroundnutImage;
 const kivoPepper = kivoPepperImage;
 const maggiCube = maggiCubeImage;
 const ongaSeasoning = ongaMaggiImage;
-const onga3Mix = onga3MixImage;
 const curryPowder = curryPowderImage;
 const garlicGingerMix = garlicGingerMixImage;
 const tableSalt = tableSaltImage;
 const palmOil = householdEssentialsImage;
 const cookingOil = householdEssentialsImage;
-const handSoap = liquidSoap250ml;
 const toothpasteBrush = householdEssentialsImage;
 const cerelacProduct = cerelac125gImage;
 
@@ -462,11 +476,10 @@ import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
 import frozenSamosaImage from "@/assets/Samosa-Frozen.jpeg";
 import frozenSpringRollsImage from "@/assets/srpringrolls-frozen-removebg-preview.png";
 import vanillaVelvetCakeImage from "@/assets/Vanilla-Velvet Cake in Cup.png";
-import loadedMiniCupcakesImage from "@/assets/Loaded Mini Cup Cakes.png";
+import loadedMiniCupcakesImage from "@/assets/Loaded Mini Cup Cakes.jpg";
 import vanillaChocolateCakeImage from "@/assets/Vanilla-Chocolate Cake in Cup.png";
 import vanillaStrawberryCakeImage from "@/assets/Vanilla-Strawberry Cake in Cup.png";
 import chocolateVelvetCakeImage from "@/assets/Chocolate-Velvet Cake in Cup.png";
-import chocolateVanillaCakeImage from "@/assets/Chocolate-Vanilla Cake in Cup.png";
 import chocolateStrawberryCakeImage from "@/assets/Chocolate-Strawberry Cake in Cup.png";
 import orangeJuiceImage from "@/assets/fresh-orange-juice-in-a-glass-jar-over-white-woode-2024-10-18-08-42-12-utc.jpg";
 import appleJuiceProductImage from "@/assets/apple-juice-mason-jar.png";
@@ -1435,7 +1448,7 @@ export const categoriesData: Category[] = [
             name: "Stripe (Towel)",
             price: 15.0,
             unit: "per piece",
-            image: beefStripeImage,
+            image: stripeTowelImage,
             description: "Fresh beef stripe/towel cut",
             inStock: true,
             cuts: ["Small", "Medium", "Large"],
@@ -1540,22 +1553,6 @@ export const categoriesData: Category[] = [
                 unit: "per pack",
                 inStock: true,
                 image: lebonSausageImage,
-              },
-              {
-                id: "sausage-seara-small",
-                name: "Seara Chicken Sausage — 340g",
-                price: 22.0,
-                unit: "per pack",
-                inStock: true,
-                image: searaSausageImage,
-              },
-              {
-                id: "sausage-seara-large",
-                name: "Seara Chicken Sausage — 680g",
-                price: 40.0,
-                unit: "per pack",
-                inStock: true,
-                image: searaSausageImage,
               },
             ],
           },
@@ -1992,24 +1989,6 @@ export const categoriesData: Category[] = [
             ],
           },
           {
-            id: "chocolate-vanilla",
-            name: "Chocolate-Vanilla",
-            description: "Rich chocolate and vanilla layered cake",
-            image: chocolateVanillaCakeImage,
-            products: [
-              {
-                id: 30,
-                name: "Chocolate-Vanilla Cake in Cup",
-                price: 25.0,
-                unit: "per cup",
-                image: chocolateVanillaCakeImage,
-                description:
-                  "Rich chocolate and vanilla layered cake in convenient cup",
-                inStock: true,
-              },
-            ],
-          },
-          {
             id: "chocolate-strawberry",
             name: "Chocolate-Strawberry",
             description: "Rich chocolate cake with strawberry flavor",
@@ -2361,7 +2340,7 @@ export const categoriesData: Category[] = [
         products: [
           {
             id: 40,
-            name: "Banana+Pawpaw+Almond Milk",
+            name: "Kenkey + Banana+Pawpaw+Almond Milk",
             price: 18.0,
             unit: "from",
             image: bananaPawpawAlmondImage,
@@ -2397,7 +2376,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 41,
-            name: "Apple+Carrot+Cashew",
+            name: "Kenkey + Apple+Carrot+Cashew",
             price: 20.0,
             unit: "from",
             image: appleCarrotCashewImage,
@@ -2433,7 +2412,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 42,
-            name: "Mango+Avocado+Sesame Seeds",
+            name: "Kenkey + Mango+Avocado+Sesame Seeds",
             price: 22.0,
             unit: "from",
             image: mangoAvocadoSesameImage,
@@ -3569,8 +3548,9 @@ export const categoriesData: Category[] = [
             name: "Cowbell",
             price: 4.5,
             unit: "from",
-            image: householdGenFlavoredMilkPacksImage,
-            description: "Cowbell — coffee, strawberry, mocha, chocomalt; tins",
+            image: cowbellCoffeeImage,
+            description:
+              "Cowbell — coffee, strawberry, mocha, chocomalt, sweet milk (flavored sachets)",
             inStock: true,
             variants: [
               {
@@ -3579,7 +3559,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellCoffeeImage,
               },
               {
                 id: "cowbell-coffee-box",
@@ -3587,7 +3567,7 @@ export const categoriesData: Category[] = [
                 price: 540.0,
                 unit: "per box",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellFlavoredMilkBoxImage,
               },
               {
                 id: "cowbell-strawberry",
@@ -3595,7 +3575,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellStrawberrySachetImage,
               },
               {
                 id: "cowbell-strawberry-box",
@@ -3603,7 +3583,7 @@ export const categoriesData: Category[] = [
                 price: 540.0,
                 unit: "per box",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellFlavoredMilkBoxImage,
               },
               {
                 id: "cowbell-mocha",
@@ -3611,7 +3591,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellMochaSachetImage,
               },
               {
                 id: "cowbell-mocha-box",
@@ -3619,7 +3599,7 @@ export const categoriesData: Category[] = [
                 price: 540.0,
                 unit: "per box",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellFlavoredMilkBoxImage,
               },
               {
                 id: "cowbell-chocomalt",
@@ -3627,7 +3607,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellChocomaltSachetImage,
               },
               {
                 id: "cowbell-chocomalt-box",
@@ -3635,23 +3615,23 @@ export const categoriesData: Category[] = [
                 price: 540.0,
                 unit: "per box",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellFlavoredMilkBoxImage,
               },
               {
-                id: "cowbell-tin",
-                name: "Tin",
-                price: 70.0,
-                unit: "per tin",
+                id: "cowbell-sweet-milk",
+                name: "Sweet Milk",
+                price: 4.5,
+                unit: "per pack",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellSweetMilkSachetImage,
               },
               {
-                id: "cowbell-tin-box",
-                name: "Tin (Box)",
-                price: 838.0,
+                id: "cowbell-sweet-milk-box",
+                name: "Sweet Milk (Box)",
+                price: 540.0,
                 unit: "per box",
                 inStock: true,
-                image: householdGenFlavoredMilkPacksImage,
+                image: cowbellFlavoredMilkBoxImage,
               },
             ],
           },
@@ -3694,7 +3674,7 @@ export const categoriesData: Category[] = [
                 price: 14.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenGariPackImage,
+                image: kivoGariSoakingMixPackImage,
               },
             ],
           },
@@ -3713,7 +3693,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenPepperPacksImage,
+                image: kivoPepperImage,
               },
               {
                 id: "kivo-pepper-pack",
@@ -3721,15 +3701,7 @@ export const categoriesData: Category[] = [
                 price: 8.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenPepperPacksImage,
-              },
-              {
-                id: "powdered-pepper-kivo",
-                name: "Powdered Pepper (Kivo)",
-                price: 7.0,
-                unit: "per pack",
-                inStock: true,
-                image: householdGenPepperPacksImage,
+                image: kivoPepperPackImage,
               },
               {
                 id: "maggi",
@@ -3738,14 +3710,6 @@ export const categoriesData: Category[] = [
                 unit: "per cube",
                 inStock: true,
                 image: maggiCube,
-              },
-              {
-                id: "maggi-tablets",
-                name: "Maggi (Tablets)",
-                price: 3.5,
-                unit: "per pack",
-                inStock: true,
-                image: householdGenSeasoningCubesImage,
               },
               {
                 id: "onga",
@@ -3761,7 +3725,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenSeasoningCubesImage,
+                image: ongaTabletImage,
               },
               {
                 id: "onga-stew",
@@ -3769,15 +3733,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenOngaSachetsImage,
-              },
-              {
-                id: "onga-goat",
-                name: "Onga Goat",
-                price: 4.5,
-                unit: "per pack",
-                inStock: true,
-                image: householdGenOngaSachetsImage,
+                image: ongaStewImage,
               },
               {
                 id: "onga-chicken",
@@ -3785,7 +3741,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenOngaSachetsImage,
+                image: ongaChickenImage,
               },
               {
                 id: "onga-soup",
@@ -3793,7 +3749,7 @@ export const categoriesData: Category[] = [
                 price: 4.5,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenOngaSachetsImage,
+                image: ongaSoupImage,
               },
               {
                 id: "onga-3mix",
@@ -3801,7 +3757,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenOngaSachetsImage,
+                image: onga3MixImage,
               },
               {
                 id: "curry-powder",
@@ -3809,7 +3765,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenCurryPowderImage,
+                image: curryPowder,
               },
               {
                 id: "curry-powder-pack",
@@ -3817,7 +3773,7 @@ export const categoriesData: Category[] = [
                 price: 6.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenCurryPowderImage,
+                image: curryPowder,
               },
               {
                 id: "garlic-ginger",
@@ -3835,7 +3791,7 @@ export const categoriesData: Category[] = [
             price: 5.0,
             unit: "from",
             image: householdGenRemieSachetsImage,
-            description: "Remie seasoning — chicken, goat, stew, spaghetti, soup, garlic & ginger",
+            description: "Remie seasoning — chicken, goat, stew, beef, garlic",
             inStock: true,
             variants: [
               {
@@ -3844,7 +3800,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenRemieSachetsImage,
+                image: remieChickenImage,
               },
               {
                 id: "remie-goat",
@@ -3852,7 +3808,7 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenRemieSachetsImage,
+                image: remieGoatImage,
               },
               {
                 id: "remie-stew",
@@ -3860,31 +3816,23 @@ export const categoriesData: Category[] = [
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenRemieSachetsImage,
+                image: remieStewImage,
               },
               {
-                id: "remie-spaghetti",
-                name: "Spaghetti",
+                id: "remie-beef",
+                name: "Beef",
                 price: 5.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenRemieSachetsImage,
+                image: remieBeefImage,
               },
               {
-                id: "remie-soup",
-                name: "Soup",
-                price: 5.0,
-                unit: "per pack",
-                inStock: true,
-                image: householdGenRemieSachetsImage,
-              },
-              {
-                id: "remie-garlic-ginger",
-                name: "Garlic & Ginger",
+                id: "remie-garlic",
+                name: "Garlic",
                 price: 10.0,
                 unit: "per pack",
                 inStock: true,
-                image: householdGenRemieSachetsImage,
+                image: remieGarlicImage,
               },
             ],
           },
@@ -4241,7 +4189,7 @@ export const categoriesData: Category[] = [
             name: "Paté Beef",
             price: 24.0,
             unit: "from",
-            image: leleSardineImage,
+            image: pateBeefProductImage,
             description: "Beef paté — tin or box",
             inStock: true,
             variants: [
@@ -4251,7 +4199,7 @@ export const categoriesData: Category[] = [
                 price: 24.0,
                 unit: "per tin",
                 inStock: true,
-                image: leleSardineImage,
+                image: pateBeefProductImage,
               },
               {
                 id: "pate-beef-box",
@@ -4259,7 +4207,7 @@ export const categoriesData: Category[] = [
                 price: 480.0,
                 unit: "per box",
                 inStock: true,
-                image: leleSardineImage,
+                image: pateBeefProductImage,
               },
             ],
           },
@@ -6094,7 +6042,7 @@ export const categoriesData: Category[] = [
             name: "Shortbread",
             price: 21.0,
             unit: "from",
-            image: digestiveBiscuit,
+            image: shortbreadProductImage,
             description: "Shortbread biscuits — small, medium, big",
             inStock: true,
             variants: [
@@ -6104,7 +6052,7 @@ export const categoriesData: Category[] = [
                 price: 21.0,
                 unit: "per pack",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Small",
               },
               {
@@ -6113,7 +6061,7 @@ export const categoriesData: Category[] = [
                 price: 504.0,
                 unit: "per box",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Small Box",
               },
               {
@@ -6122,7 +6070,7 @@ export const categoriesData: Category[] = [
                 price: 27.0,
                 unit: "per pack",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Medium",
               },
               {
@@ -6131,7 +6079,7 @@ export const categoriesData: Category[] = [
                 price: 756.0,
                 unit: "per box",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Medium Box",
               },
               {
@@ -6140,7 +6088,7 @@ export const categoriesData: Category[] = [
                 price: 40.0,
                 unit: "per pack",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Big",
               },
               {
@@ -6149,7 +6097,7 @@ export const categoriesData: Category[] = [
                 price: 560.0,
                 unit: "per box",
                 inStock: true,
-                image: digestiveBiscuit,
+                image: shortbreadProductImage,
                 item: "Shortbread Big Box",
               },
             ],
@@ -6252,7 +6200,7 @@ export const categoriesData: Category[] = [
                 price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: sureSpray150mlImage,
+                image: sureSpray150ml,
               },
             ],
           },
@@ -6392,103 +6340,157 @@ export const categoriesData: Category[] = [
           },
           {
             id: 337,
-            name: "Soaps",
-            price: 3.5,
+            name: "Bathing Soap",
+            price: 4.0,
             unit: "from",
-            image: householdEssentialsImage,
+            image: bathingSoapMoisturizingImage,
             description:
-              "Choose the right soap for your needs. Bathing soaps are gentle for body and skin care. Washing soaps are strong for cleaning clothes. Liquid soaps are convenient for hands and body. Hand soaps are specially made for frequent handwashing. Pick moisturizing soaps for dry or sensitive skin, and antibacterial soaps for extra protection.",
+              "Popular bathing soap brands available in Ghana — bar soaps for all skin types",
             inStock: true,
-            soapTypes: [
-              "Bathing Soap",
-              "Washing Soap",
-              "Liquid Soap",
-              "Hand Soap",
-            ],
             variants: [
-              // Bathing Soap variants
               {
-                id: "bathing-soap-moisturizing",
-                name: "Moisturizing Body Soap Bar – For Dry & Sensitive Skin",
-                price: 3.5,
+                id: "bathing-geisha-coconut",
+                name: "Geisha Coconut Milk & Honey",
+                price: 4.5,
                 unit: "per bar",
                 inStock: true,
                 image: bathingSoapMoisturizingImage,
-                soapType: "Bathing Soap",
-                item: "Moisturizing Body Soap - Gently cleanses while keeping skin soft and hydrated. Perfect for daily bathing. Suitable for dry and sensitive skin. Mild, pleasant scent. Yes, safe for daily use.",
               },
               {
-                id: "bathing-soap-antibacterial",
-                name: "Antibacterial Body Soap Bar – Extra Protection for All Skin Types",
+                id: "bathing-geisha-shea",
+                name: "Geisha Shea Butter & Honey",
+                price: 4.5,
+                unit: "per bar",
+                inStock: true,
+                image: bathingSoapMoisturizingImage,
+              },
+              {
+                id: "bathing-lux-rose",
+                name: "Lux Soft Rose",
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
                 image: bathingSoapAntibacterialImage,
-                soapType: "Bathing Soap",
-                item: "Antibacterial Body Soap - Cleans thoroughly and helps protect against germs. Suitable for all skin types. Fresh, clean scent. Yes, safe for daily use.",
               },
-              // Washing Soap variants
               {
-                id: "washing-soap-detergent",
-                name: "Detergent Washing Soap Bar – For Clothes & Fabrics",
+                id: "bathing-lifebuoy-total",
+                name: "Lifebuoy Total Antibacterial",
                 price: 4.0,
                 unit: "per bar",
                 inStock: true,
-                image: washingSoapDetergentImage,
-                soapType: "Washing Soap",
-                item: "Detergent Soap - Strong cleaning power for removing dirt and stains from clothes. Not for skin use. Fresh, clean scent. Suitable for handwashing clothes and fabrics.",
+                image: bathingSoapAntibacterialImage,
               },
               {
-                id: "washing-soap-bleach",
-                name: "Bleach Washing Soap Bar – Whitens & Brightens Clothes",
-                price: 4.5,
+                id: "bathing-dettol-original",
+                name: "Dettol Original Antibacterial Bar",
+                price: 5.0,
                 unit: "per bar",
                 inStock: true,
+                image: bathingSoapAntibacterialImage,
+              },
+            ],
+          },
+          {
+            id: 360,
+            name: "Washing Soap",
+            price: 10.0,
+            unit: "from",
+            image: washingSoapDetergentImage,
+            description:
+              "Popular laundry and washing soap brands in Ghana — bar soaps and detergent powders",
+            inStock: true,
+            variants: [
+              {
+                id: "washing-key-800g",
+                name: "Key Soap Multipurpose Bar — 800g",
+                price: 28.0,
+                unit: "per bar",
+                inStock: true,
+                image: washingSoapDetergentImage,
+              },
+              {
+                id: "washing-key-adepa-250g",
+                name: "Key Adepa Multipurpose Bar — 250g",
+                price: 10.0,
+                unit: "per bar",
+                inStock: true,
+                image: washingSoapDetergentImage,
+              },
+              {
+                id: "washing-omo-800g",
+                name: "OMO Detergent Powder — 800g",
+                price: 35.0,
+                unit: "per pack",
+                inStock: true,
                 image: washingSoapBleachImage,
-                soapType: "Washing Soap",
-                item: "Bleach Soap - Helps whiten and brighten white clothes while cleaning. Not for skin use. Strong cleaning formula. Use for white fabrics and tough stains.",
               },
-              // Liquid Soap variants
               {
-                id: "liquid-soap-antibacterial",
-                name: "Antibacterial Liquid Soap – For Hands & Body, All Skin Types",
-                price: 8.0,
-                unit: "per bottle",
+                id: "washing-sunlight-700g",
+                name: "Sunlight Bar Soap — 700g",
+                price: 18.0,
+                unit: "per bar",
                 inStock: true,
-                image: liquidSoap250ml,
-                soapType: "Liquid Soap",
-                item: "Antibacterial Liquid Soap - Convenient pump bottle for hands and body. Helps protect against germs. Suitable for all skin types. Fresh, mild scent. Yes, perfect for daily use.",
+                image: washingSoapDetergentImage,
               },
               {
-                id: "liquid-soap-moisturizing",
-                name: "Moisturizing Liquid Soap – For Dry & Sensitive Skin",
-                price: 9.0,
-                unit: "per bottle",
+                id: "washing-kleesoft-420g",
+                name: "Kleesoft Detergent Powder — 420g",
+                price: 16.0,
+                unit: "per pack",
                 inStock: true,
-                image: liquidSoapMoisturizingImage,
-                soapType: "Liquid Soap",
-                item: "Moisturizing Liquid Soap - Gentle formula that cleanses without drying. Keeps skin soft and smooth. Best for dry and sensitive skin. Mild, pleasant scent. Yes, safe for daily use.",
+                image: washingSoapBleachImage,
               },
-              // Hand Soap variants
+            ],
+          },
+          {
+            id: 361,
+            name: "Hand Washing Soap",
+            price: 15.0,
+            unit: "from",
+            image: handSoapAntibacterialImage,
+            description:
+              "Ghana's most trusted hand wash brands — antibacterial and moisturizing liquid soaps",
+            inStock: true,
+            variants: [
               {
-                id: "hand-soap-antibacterial",
-                name: "Antibacterial Hand Soap – Extra Protection for Frequent Handwashing",
-                price: 5.0,
+                id: "handwash-carex-original",
+                name: "Carex Original Antibacterial — 250ml",
+                price: 18.0,
                 unit: "per bottle",
                 inStock: true,
                 image: handSoapAntibacterialImage,
-                soapType: "Hand Soap",
-                item: "Antibacterial Hand Soap - Specially made for frequent handwashing. Helps protect against germs. Suitable for all skin types. Fresh, clean scent. Yes, perfect for daily use at home or work.",
               },
               {
-                id: "hand-soap-moisturizing",
-                name: "Moisturizing Hand Soap – Gentle for Dry Hands",
-                price: 5.5,
+                id: "handwash-carex-aloe",
+                name: "Carex Aloe Vera — 250ml",
+                price: 18.0,
                 unit: "per bottle",
                 inStock: true,
-                image: handSoap,
-                soapType: "Hand Soap",
-                item: "Moisturizing Hand Soap - Gentle formula that cleans hands without drying them out. Keeps hands soft even with frequent washing. Best for dry or sensitive hands. Mild, pleasant scent. Yes, safe for daily use.",
+                image: liquidSoapMoisturizingImage,
+              },
+              {
+                id: "handwash-dettol-original",
+                name: "Dettol Liquid Hand Wash Original — 200ml",
+                price: 20.0,
+                unit: "per bottle",
+                inStock: true,
+                image: handSoapAntibacterialImage,
+              },
+              {
+                id: "handwash-dettol-sensitive",
+                name: "Dettol Liquid Hand Wash Sensitive — 200ml",
+                price: 20.0,
+                unit: "per bottle",
+                inStock: true,
+                image: liquidSoapMoisturizingImage,
+              },
+              {
+                id: "handwash-camel-antiseptic",
+                name: "Camel Antiseptic Hand Wash — 250ml",
+                price: 15.0,
+                unit: "per bottle",
+                inStock: true,
+                image: handSoapAntibacterialImage,
               },
             ],
           },
