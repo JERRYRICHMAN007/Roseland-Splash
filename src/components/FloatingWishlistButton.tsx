@@ -1,41 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, X } from "lucide-react";
-import { getGeneralWishlistItems } from "@/services/generalWishlistService";
-import { useAuth } from "@/contexts/AuthContext";
+import { Heart } from "lucide-react";
+import { useWishlistCount } from "@/contexts/WishlistCountContext";
 import GeneralWishlistModal from "./GeneralWishlistModal";
 
 const FloatingWishlistButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // useAuth now returns defaults if context is unavailable, so we can safely use it
-  const { isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadWishlistCount();
-    } else {
-      setWishlistCount(0);
-    }
-  }, [isAuthenticated]);
-
-  const loadWishlistCount = async () => {
-    if (!isAuthenticated) return;
-    
-    setIsLoading(true);
-    try {
-      const result = await getGeneralWishlistItems();
-      if (result.success && result.data) {
-        setWishlistCount(result.data.length);
-      }
-    } catch (error) {
-      console.error("Error loading wishlist count:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { count: wishlistCount } = useWishlistCount();
 
   return (
     <>
@@ -55,15 +26,10 @@ const FloatingWishlistButton = () => {
 
       <GeneralWishlistModal
         isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-          loadWishlistCount(); // Refresh count when modal closes
-        }}
-        onItemRemoved={loadWishlistCount}
+        onClose={() => setIsOpen(false)}
       />
     </>
   );
 };
 
 export default FloatingWishlistButton;
-

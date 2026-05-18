@@ -226,7 +226,7 @@ const SubcategoryPage = () => {
                 className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#1a3a2a] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#2d5a3d]"
               >
                 <Heart className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                View Wishlist
+                My Suggestions
               </button>
             </div>
 

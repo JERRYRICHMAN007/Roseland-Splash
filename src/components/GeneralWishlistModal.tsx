@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { X, Heart, Trash2, ShoppingCart, Loader2 } from "lucide-react";
 import {
-  getGeneralWishlistItems,
   removeFromGeneralWishlist,
   type GeneralWishlistItem,
 } from "@/services/generalWishlistService";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWishlistCount } from "@/contexts/WishlistCountContext";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
@@ -18,54 +18,51 @@ interface GeneralWishlistModalProps {
   onItemRemoved?: () => void;
 }
 
+const WishlistSkeletonList = () => (
+  <ul className="max-h-[60vh] divide-y divide-border/40 overflow-y-auto">
+    {[0, 1, 2].map((key) => (
+      <li key={key} className="flex animate-pulse items-center gap-3 p-4">
+        <div className="h-16 w-16 flex-shrink-0 rounded-xl bg-muted" />
+        <div className="min-w-0 flex-1 space-y-2">
+          <div className="h-4 w-3/4 rounded bg-muted" />
+          <div className="h-3 w-1/3 rounded bg-muted" />
+          <div className="h-4 w-1/4 rounded bg-muted" />
+        </div>
+      </li>
+    ))}
+  </ul>
+);
+
 const GeneralWishlistModal = ({
   isOpen,
   onClose,
   onItemRemoved,
 }: GeneralWishlistModalProps) => {
-  const [wishlistItems, setWishlistItems] = useState<GeneralWishlistItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const { toast } = useToast();
   const { isAuthenticated } = useAuth();
+  const {
+    items: wishlistItems,
+    hasCache,
+    isInitialLoading,
+    addItemToCache,
+    removeItemFromCache,
+    refreshItems,
+  } = useWishlistCount();
   const { addItem } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen && isAuthenticated) {
-      loadWishlistItems();
-    } else if (isOpen && !isAuthenticated) {
-      setWishlistItems([]);
-      setIsLoading(false);
+      void refreshItems({ silent: hasCache });
     }
-  }, [isOpen, isAuthenticated]);
-
-  const loadWishlistItems = async () => {
-    setIsLoading(true);
-    try {
-      const result = await getGeneralWishlistItems();
-      if (result.success) {
-        setWishlistItems(result.data || []);
-      } else {
-        toast({
-          title: "Error loading wishlist",
-          description: result.error || "Failed to load wishlist items.",
-          variant: "destructive",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to load wishlist items.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [isOpen, isAuthenticated]); // eslint-disable-line react-hooks/exhaustive-deps -- refresh on open only
 
   const handleDelete = async (itemId: string) => {
+    const removedItem = wishlistItems.find((item) => item.id === itemId);
+    removeItemFromCache(itemId);
     setIsDeleting(itemId);
+
     try {
       const result = await removeFromGeneralWishlist(itemId);
       if (result.success) {
@@ -73,9 +70,12 @@ const GeneralWishlistModal = ({
           title: "Item removed",
           description: "The item has been removed from your wishlist.",
         });
-        setWishlistItems((prev) => prev.filter((item) => item.id !== itemId));
+        void refreshItems({ silent: true });
         onItemRemoved?.();
       } else {
+        if (removedItem) {
+          addItemToCache(removedItem);
+        }
         toast({
           title: "Error",
           description: result.error || "Failed to delete item.",
@@ -83,6 +83,9 @@ const GeneralWishlistModal = ({
         });
       }
     } catch (error: any) {
+      if (removedItem) {
+        addItemToCache(removedItem);
+      }
       toast({
         title: "Error",
         description: error.message || "Failed to delete item.",
@@ -118,6 +121,7 @@ const GeneralWishlistModal = ({
   if (!isOpen) return null;
 
   const itemCount = wishlistItems.length;
+  const showInitialSkeleton = isAuthenticated && !hasCache && isInitialLoading;
 
   return (
     <div
@@ -142,7 +146,9 @@ const GeneralWishlistModal = ({
                 My Wishlist
               </h3>
               <p className="text-sm text-white/60">
-                {itemCount} {itemCount === 1 ? "item" : "items"} saved
+                {hasCache
+                  ? `${itemCount} ${itemCount === 1 ? "item" : "items"} saved`
+                  : "Loading..."}
               </p>
             </div>
           </div>
@@ -182,10 +188,8 @@ const GeneralWishlistModal = ({
               Log In
             </Button>
           </div>
-        ) : isLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
+        ) : showInitialSkeleton ? (
+          <WishlistSkeletonList />
         ) : itemCount === 0 ? (
           <div className="flex flex-col items-center gap-4 px-6 py-16 text-center">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary/10 to-secondary/10">

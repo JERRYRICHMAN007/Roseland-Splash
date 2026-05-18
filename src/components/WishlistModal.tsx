@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, Heart, Trash2, Loader2 } from "lucide-react";
-import { getWishlistItems, deleteWishlistItem, getUserWishlistItems } from "@/services/wishlistService";
+import { getWishlistItems, deleteWishlistItem } from "@/services/wishlistService";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import type { WishlistItem } from "@/services/wishlistService";
@@ -30,10 +30,7 @@ const WishlistModal = ({ isOpen, onClose, categoryId, categoryName }: WishlistMo
   const loadWishlistItems = async () => {
     setIsLoading(true);
     try {
-      // If user is authenticated, show their items; otherwise show all items
-      const result = isAuthenticated
-        ? await getUserWishlistItems(categoryId)
-        : await getWishlistItems(categoryId);
+      const result = await getWishlistItems(categoryId);
 
       if (result.success) {
         setWishlistItems(result.data || []);
@@ -102,7 +99,7 @@ const WishlistModal = ({ isOpen, onClose, categoryId, categoryName }: WishlistMo
         <div className="flex items-center justify-between p-6 border-b">
           <div>
             <h3 className="text-lg font-semibold">
-              Wishlist for {categoryName}
+              My Suggested Items for {categoryName}
             </h3>
             <p className="text-sm text-muted-foreground">
               {isAuthenticated

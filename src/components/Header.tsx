@@ -23,8 +23,8 @@ import { useCart } from "@/contexts/CartContext";
 import { useSearch } from "@/contexts/SearchContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders } from "@/contexts/OrderContext";
-import { useState, useMemo, useEffect, useCallback } from "react";
-import { getGeneralWishlistItems } from "@/services/generalWishlistService";
+import { useState, useMemo, useEffect } from "react";
+import { useWishlistCount } from "@/contexts/WishlistCountContext";
 import GeneralWishlistModal from "./GeneralWishlistModal";
 import { scrollToTopInstant } from "@/utils/scrollToTopInstant";
 
@@ -45,7 +45,7 @@ const Header = () => {
   const { getOrdersByUser, orders } = useOrders();
   const [searchInput, setSearchInput] = useState("");
   const [mobileSearchInput, setMobileSearchInput] = useState("");
-  const [wishlistCount, setWishlistCount] = useState(0);
+  const { count: wishlistCount } = useWishlistCount();
   const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
   const [announcementIndex, setAnnouncementIndex] = useState(0);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
@@ -74,27 +74,6 @@ const Header = () => {
     const userOrders = getOrdersByUser(user.phone, user.email);
     return userOrders.length;
   }, [isAuthenticated, user, getOrdersByUser, orders]);
-
-  // Load wishlist count - use useCallback to prevent hooks order issues
-  const loadWishlistCount = useCallback(async () => {
-    if (!isAuthenticated) return;
-    try {
-      const result = await getGeneralWishlistItems();
-      if (result.success && result.data) {
-        setWishlistCount(result.data.length);
-      }
-    } catch (error) {
-      console.error("Error loading wishlist count:", error);
-    }
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadWishlistCount();
-    } else {
-      setWishlistCount(0);
-    }
-  }, [isAuthenticated, loadWishlistCount]);
 
   const handleSearch = (query: string, isMobile = false) => {
     if (query.trim()) {
@@ -629,11 +608,7 @@ const Header = () => {
       {/* Wishlist Modal */}
       <GeneralWishlistModal
         isOpen={wishlistModalOpen}
-        onClose={() => {
-          setWishlistModalOpen(false);
-          loadWishlistCount();
-        }}
-        onItemRemoved={loadWishlistCount}
+        onClose={() => setWishlistModalOpen(false)}
       />
     </>
   );

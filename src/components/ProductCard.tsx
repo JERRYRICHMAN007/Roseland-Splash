@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWishlistCount } from "@/contexts/WishlistCountContext";
 import {
   addToGeneralWishlist,
   isProductInWishlist,
@@ -60,6 +61,8 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
   const { addItem } = useCart();
   const { toast } = useToast();
   const { isAuthenticated } = useAuth();
+  const { addItemToCache, removeItemFromCacheByProduct, refreshItems } =
+    useWishlistCount();
 
   const getCurrentVariant = () => {
     if (!product.variants || selectedVariant === "default") {
@@ -129,12 +132,13 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
     }
 
     setIsWishlistLoading(true);
+    const variantName = product.variants ? currentVariant.name : undefined;
+    const variant = variantName !== "Standard" ? variantName : undefined;
+
     try {
-      const variantName = product.variants ? currentVariant.name : undefined;
-      const variant = variantName !== "Standard" ? variantName : undefined;
 
       if (isInWishlist) {
-        // Remove from wishlist
+        removeItemFromCacheByProduct(product.id, variant);
         const result = await removeFromGeneralWishlistByProduct(
           product.id,
           variant
@@ -149,6 +153,7 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
             duration: 2000,
           });
         } else {
+          void refreshItems({ silent: true });
           toast({
             title: "Error",
             description: result.error || "Failed to remove from wishlist",
@@ -156,7 +161,19 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
           });
         }
       } else {
-        // Add to wishlist
+        const pendingId = `pending-${product.id}-${variant ?? "default"}`;
+        addItemToCache({
+          id: pendingId,
+          user_id: null,
+          product_id: product.id,
+          product_name: product.name,
+          product_price: currentVariant.price,
+          product_image: currentVariant.image,
+          product_variant: variant ?? null,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+
         const result = await addToGeneralWishlist(
           product.id,
           product.name,
@@ -167,6 +184,12 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
 
         if (result.success) {
           setIsInWishlist(true);
+          removeItemFromCacheByProduct(product.id, variant);
+          if (result.data) {
+            addItemToCache(result.data);
+          } else {
+            void refreshItems({ silent: true });
+          }
           toast({
             title: "Added to Wishlist",
             description: `${product.name}${
@@ -175,6 +198,7 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
             duration: 2000,
           });
         } else {
+          removeItemFromCacheByProduct(product.id, variant);
           toast({
             title: "Error",
             description: result.error || "Failed to add to wishlist",
@@ -183,6 +207,7 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
         }
       }
     } catch (error: any) {
+      void refreshItems({ silent: true });
       toast({
         title: "Error",
         description: error.message || "Failed to update wishlist",

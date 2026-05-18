@@ -8,6 +8,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import { SearchProvider } from "@/contexts/SearchContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { WishlistCountProvider } from "@/contexts/WishlistCountContext";
 // Clear any old localStorage data on app start (one-time migration)
 import "@/utils/clearLocalStorage";
 import Index from "./pages/Index";
@@ -42,6 +43,7 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <TooltipProvider>
         <AuthProvider>
+          <WishlistCountProvider>
           <CartProvider>
             <OrderProvider>
               <SearchProvider>
@@ -139,6 +141,7 @@ const App = () => (
               </SearchProvider>
             </OrderProvider>
           </CartProvider>
+          </WishlistCountProvider>
         </AuthProvider>
       </TooltipProvider>
     </ThemeProvider>
