@@ -385,20 +385,6 @@ const cookingOil = householdEssentialsImage;
 const toothpasteBrush = householdEssentialsImage;
 const cerelacProduct = cerelac125gImage;
 
-// Spice Purees - Using existing images as placeholders
-const garlicGingerOnionParsley = garlicGingerOnionParsleyImage;
-const bonnetPepperSpringOnion = bonnetPepperSpringOnionImage;
-const tomatoesRedBellPepper = tomatoesRedBellPepperImage;
-const onionPuree = onionBlendImage;
-const freshTomatoes = freshTomatoesImage;
-const freshBonnetPepper = freshBonnetPepperImage;
-
-// Stew Bases - Using existing images as placeholders
-const jollofRiceBase = jollofRiceBaseImage;
-const palmNutSoupBase = palmNutSoupBaseImage;
-const lightSoupBase = lightSoupBaseImage;
-const groundnutSoupBase = groundnutSoupBaseImage;
-
 // Subcategory images
 import farmProduceImage from "@/assets/fresh-produce.jpg";
 import meatFishEggsImage from "@/assets/meat-fish-display.jpg";
@@ -467,17 +453,10 @@ import beveragesImage from "@/assets/soft-drinks.jpg";
 import juicesBottledImage from "@/assets/soft-drinks.jpg";
 import biscuitsDisplayImage from "@/assets/biscuits-display.jpg";
 import spicePureeImage from "@/assets/stew-spices.jpg";
-import garlicGingerOnionParsleyImage from "@/assets/Garlic onion ginger.jpeg";
-import tomatoesRedBellPepperImage from "@/assets/Tomato + red bell pepper.jpeg";
-import onionBlendImage from "@/assets/Onion puree.jpeg";
-import freshTomatoesImage from "@/assets/Tomato puree.jpeg";
-import freshBonnetPepperImage from "@/assets/Fresh Bonnet Pepper.jpg";
-import bonnetPepperSpringOnionImage from "@/assets/Bonnet +spring onion+ green bell pepper.jpeg";
+import friedStewBaseImage from "@/assets/fried_stew_base.jpeg";
+import ovenBakedStewBaseImage from "@/assets/Oven_baked_stew_base.png";
+import freshBonnetPepperPureeImage from "@/assets/Fresh_bonnet_pepper_puree.jpeg";
 import soupBasesImage from "@/assets/stew-base-spices.jpg";
-import groundnutSoupBaseImage from "@/assets/Groundnut Soup Base.jpg";
-import jollofRiceBaseImage from "@/assets/Jollof Rice Base.png";
-import lightSoupBaseImage from "@/assets/Light Soup Base.jpg";
-import palmNutSoupBaseImage from "@/assets/Palm Nut Soup Base.png";
 import friedSpringRollsImage from "@/assets/Chicken-Spring-Rolls-Recipe.jpg";
 import friedSpringRollsSubcategoryImage from "@/assets/crispy-fried-spring-rolls-on-white-plate-isolated-on-transparent-background-png.png";
 import friedSamosaImage from "@/assets/Samosa-Fried.jpg";
@@ -576,6 +555,7 @@ export interface Product {
   unit: string;
   image: string;
   description: string;
+  ingredients?: string;
   inStock: boolean;
   weight?: string;
   variants?: ProductVariant[];
@@ -6853,224 +6833,6 @@ export const categoriesData: Category[] = [
     image: stewBaseSpicesImage,
     subcategories: [
       {
-        id: "spice-pure",
-        name: "Spice Puree",
-        description: "Fresh herb and spice purees for authentic flavoring",
-        image: spicePureeImage,
-        products: [
-          {
-            id: 112,
-            name: "Garlic + Ginger + Onion + Parsley",
-            price: 15.0,
-            unit: "from",
-            image: garlicGingerOnionParsley,
-            description: "Mixed herb puree for rich flavor base",
-            inStock: true,
-            variants: [
-              {
-                id: "garlic-ginger-large",
-                name: "Large",
-                price: 20.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: garlicGingerOnionParsley,
-              },
-              {
-                id: "garlic-ginger-medium",
-                name: "Medium",
-                price: 15.0,
-                unit: "per 250ml",
-                inStock: true,
-                image: garlicGingerOnionParsley,
-              },
-              {
-                id: "garlic-ginger-small",
-                name: "Small",
-                price: 10.0,
-                unit: "per 150ml",
-                inStock: true,
-                image: garlicGingerOnionParsley,
-              },
-            ],
-          },
-          {
-            id: 114,
-            name: "Tomatoes + Red Bell Pepper",
-            price: 12.0,
-            unit: "from",
-            image: tomatoesRedBellPepper,
-            description: "Rich tomato base for stews and sauces",
-            inStock: true,
-            variants: [
-              {
-                id: "tomato-red-large",
-                name: "Large",
-                price: 18.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: tomatoesRedBellPepper,
-              },
-              {
-                id: "tomato-red-medium",
-                name: "Medium",
-                price: 12.0,
-                unit: "per 300ml",
-                inStock: true,
-                image: tomatoesRedBellPepper,
-              },
-              {
-                id: "tomato-red-small",
-                name: "Small",
-                price: 8.0,
-                unit: "per 200ml",
-                inStock: true,
-                image: tomatoesRedBellPepper,
-              },
-            ],
-          },
-          {
-            id: 115,
-            name: "Onion Puree",
-            price: 10.0,
-            unit: "from",
-            image: onionPuree,
-            description: "Smooth onion puree for cooking base",
-            inStock: true,
-            variants: [
-              {
-                id: "onion-large",
-                name: "Large",
-                price: 15.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: onionPuree,
-              },
-              {
-                id: "onion-medium",
-                name: "Medium",
-                price: 10.0,
-                unit: "per 250ml",
-                inStock: true,
-                image: onionPuree,
-              },
-              {
-                id: "onion-small",
-                name: "Small",
-                price: 7.0,
-                unit: "per 150ml",
-                inStock: true,
-                image: onionPuree,
-              },
-            ],
-          },
-          {
-            id: 116,
-            name: "Fresh Tomatoes",
-            price: 8.0,
-            unit: "from",
-            image: freshTomatoes,
-            description: "Fresh tomato puree",
-            inStock: true,
-            variants: [
-              {
-                id: "fresh-tomato-large",
-                name: "Large",
-                price: 12.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: freshTomatoes,
-              },
-              {
-                id: "fresh-tomato-medium",
-                name: "Medium",
-                price: 8.0,
-                unit: "per 250ml",
-                inStock: true,
-                image: freshTomatoes,
-              },
-              {
-                id: "fresh-tomato-small",
-                name: "Small",
-                price: 5.0,
-                unit: "per 150ml",
-                inStock: true,
-                image: freshTomatoes,
-              },
-            ],
-          },
-          {
-            id: 117,
-            name: "Fresh Bonnet Pepper",
-            price: 10.0,
-            unit: "from",
-            image: freshBonnetPepper,
-            description: "Fresh bonnet pepper puree",
-            inStock: true,
-            variants: [
-              {
-                id: "fresh-bonnet-large",
-                name: "Large",
-                price: 15.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: freshBonnetPepper,
-              },
-              {
-                id: "fresh-bonnet-medium",
-                name: "Medium",
-                price: 10.0,
-                unit: "per 250ml",
-                inStock: true,
-                image: freshBonnetPepper,
-              },
-              {
-                id: "fresh-bonnet-small",
-                name: "Small",
-                price: 7.0,
-                unit: "per 150ml",
-                inStock: true,
-                image: freshBonnetPepper,
-              },
-            ],
-          },
-          {
-            id: 113,
-            name: "Bonnet Pepper + Spring Onion + Bell Pepper",
-            price: 18.0,
-            unit: "from",
-            image: bonnetPepperSpringOnion,
-            description: "Spicy pepper blend for heat and flavor",
-            inStock: true,
-            variants: [
-              {
-                id: "bonnet-pepper-large",
-                name: "Large",
-                price: 25.0,
-                unit: "per 400ml",
-                inStock: true,
-                image: bonnetPepperSpringOnion,
-              },
-              {
-                id: "bonnet-pepper-medium",
-                name: "Medium",
-                price: 18.0,
-                unit: "per 250ml",
-                inStock: true,
-                image: bonnetPepperSpringOnion,
-              },
-              {
-                id: "bonnet-pepper-small",
-                name: "Small",
-                price: 12.0,
-                unit: "per 150ml",
-                inStock: true,
-                image: bonnetPepperSpringOnion,
-              },
-            ],
-          },
-        ],
-      },
-      {
         id: "stew-bases",
         name: "Stew Bases",
         description: "Ready-to-use stew bases for quick cooking",
@@ -7078,38 +6840,45 @@ export const categoriesData: Category[] = [
         products: [
           {
             id: 118,
-            name: "Jollof Rice Base",
+            name: "Fried Stew Base",
             price: 20.0,
             unit: "per 400ml",
-            image: jollofRiceBase,
-            description: "Authentic jollof rice seasoning base",
+            image: friedStewBaseImage,
+            description:
+              "Ready-made fried stew base for authentic African stews",
+            ingredients:
+              "Onions, Bell Pepper, Tomatoes, Carrot, Garlic, Bonnet Pepper, Thyme, Bay Leaf, Rosemary",
             inStock: true,
           },
           {
             id: 119,
-            name: "Palm Nut Soup Base",
+            name: "Oven Baked Stew Base",
             price: 25.0,
             unit: "per 500ml",
-            image: palmNutSoupBase,
-            description: "Traditional palm nut soup concentrate",
+            image: ovenBakedStewBaseImage,
+            description:
+              "Slow oven-baked stew base for rich authentic African flavour",
+            ingredients:
+              "Butter, Onions, Pepper, Carrot, Garlic, Bonnet Pepper, Thyme, Rosemary, Bay Leaf, Tomatoes",
             inStock: true,
           },
+        ],
+      },
+      {
+        id: "spice-pure",
+        name: "Spice Puree",
+        description: "Fresh herb and spice purees for authentic flavoring",
+        image: spicePureeImage,
+        products: [
           {
             id: 120,
-            name: "Light Soup Base",
+            name: "Fresh Bonnet Pepper Puree",
             price: 18.0,
             unit: "per 400ml",
-            image: lightSoupBase,
-            description: "Classic Ghanaian light soup base",
-            inStock: true,
-          },
-          {
-            id: 121,
-            name: "Groundnut Soup Base",
-            price: 22.0,
-            unit: "per 450ml",
-            image: groundnutSoupBase,
-            description: "Rich groundnut soup concentrate",
+            image: freshBonnetPepperPureeImage,
+            description:
+              "Pure blended fresh bonnet pepper, perfect for soups and stews",
+            ingredients: "Fresh Bonnet Pepper",
             inStock: true,
           },
         ],

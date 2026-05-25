@@ -175,6 +175,16 @@ const AllProductsPage = () => {
                   <p className="text-xs text-muted-foreground">
                     {product.description}
                   </p>
+                  {product.ingredients && (
+                    <div className="rounded-md border border-primary/15 bg-primary/5 px-2 py-1.5">
+                      <p className="text-xs font-semibold text-primary">
+                        Ingredients:
+                      </p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-foreground/80">
+                        {product.ingredients}
+                      </p>
+                    </div>
+                  )}
                   <p className="text-primary font-bold">
                     GH₵{product.price.toFixed(2)}{" "}
                     <span className="text-xs text-muted-foreground">

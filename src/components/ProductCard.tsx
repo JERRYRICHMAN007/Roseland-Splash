@@ -39,6 +39,7 @@ interface Product {
   unit: string;
   image: string;
   description: string;
+  ingredients?: string;
   inStock: boolean;
   variants?: ProductVariant[];
   bundleQuantity?: number;
@@ -339,6 +340,16 @@ const ProductCard = ({ product, display = "grid" }: ProductCardProps) => {
             <p className="line-clamp-2 min-h-[2rem] text-xs leading-relaxed text-muted-foreground">
               {product.description}
             </p>
+          )}
+
+          {/* Ingredients (distinct from description) */}
+          {!product.variants && product.ingredients && (
+            <div className="rounded-md border border-primary/15 bg-primary/5 px-2 py-1.5">
+              <p className="text-xs font-semibold text-primary">Ingredients:</p>
+              <p className="mt-0.5 line-clamp-3 text-xs leading-relaxed text-foreground/80">
+                {product.ingredients}
+              </p>
+            </div>
           )}
 
           {/* Variant selector */}
