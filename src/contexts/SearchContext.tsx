@@ -43,7 +43,8 @@ function productOrDescriptionMatches(product: Product, q: string): boolean {
   const qq = q.toLowerCase();
   return (
     product.name.toLowerCase().includes(qq) ||
-    product.description.toLowerCase().includes(qq)
+    (product.description?.toLowerCase().includes(qq) ?? false) ||
+    (product.ingredients?.toLowerCase().includes(qq) ?? false)
   );
 }
 

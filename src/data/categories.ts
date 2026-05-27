@@ -2741,7 +2741,7 @@ export const categoriesData: Category[] = [
         id: "mashedke-lovers",
         name: "MashedKe Lovers (General Audience)",
         description: "Fun, refreshing, indulgent flavors for everyone to enjoy",
-        image: generalSmoothiesImage,
+        image: strawberryMashedkeImage,
         products: [
           {
             id: 56,
@@ -2817,7 +2817,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 47,
-            name: "Chocolate Pops + Kenkey + Milk",
+            name: "Chocolate Flavoured MashedKe",
             price: 24.0,
             unit: "from",
             image: chocolateBananaGroundnutNewImage,
@@ -2888,7 +2888,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 51,
-            name: "Kenkey + Tiger Nut + Milk",
+            name: "Tigernut Flavoured MashedKe",
             price: 22.0,
             unit: "from",
             image: tigernutMashedkeImage,
@@ -2923,7 +2923,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 52,
-            name: "Kenkey + Peanut + Milk",
+            name: "Peanut Flavoured MashedKe",
             price: 24.0,
             unit: "from",
             image: peanutMashedkeImage,
@@ -2958,7 +2958,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 53,
-            name: "Strawberry + Kenkey + Milk",
+            name: "Strawberry Flavoured MashedKe",
             price: 22.0,
             unit: "from",
             image: strawberryMashedkeImage,
@@ -3028,7 +3028,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 55,
-            name: "Kenkey + Coconut + Banana + Milk",
+            name: "Coconut Flavoured MashedKe",
             price: 24.0,
             unit: "from",
             image: coconutBananaMashedkeImage,
@@ -3100,7 +3100,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 354,
-            name: "Kenkey + Banana + Peanut + Milk",
+            name: "Peanut and Banana Flavoured MashedKe",
             price: 25.0,
             unit: "from",
             image: mashedkeBananaPeanutKenkeyMilkImage,
