@@ -6840,7 +6840,7 @@ export const categoriesData: Category[] = [
         products: [
           {
             id: 118,
-            name: "Fried Stew Base",
+            name: "Tomato Puree",
             price: 20.0,
             unit: "per 400ml",
             image: friedStewBaseImage,
@@ -6852,7 +6852,7 @@ export const categoriesData: Category[] = [
           },
           {
             id: 119,
-            name: "Oven Baked Stew Base",
+            name: "Onion Puree",
             price: 25.0,
             unit: "per 500ml",
             image: ovenBakedStewBaseImage,
